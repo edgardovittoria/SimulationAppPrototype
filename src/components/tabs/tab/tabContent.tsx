@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MenuBar} from "./components/menuBar";
 
 interface TabContentProps {
@@ -6,12 +6,16 @@ interface TabContentProps {
 }
 
 export const TabContent: React.FC<TabContentProps> = ({name}) => {
+    const menuItems = factoryMenuItems(name)
+    const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
 
-    const [menuItemSelected, setMenuItemSelected] = useState("Overview");
+    useEffect(() => {
+        setMenuItemSelected(menuItems[0])
+    }, [name])
 
     return(
         <>
-            <MenuBar setMenuItem={setMenuItemSelected} menuItem={menuItemSelected} children={factoryMenuItems(name)}/>
+            <MenuBar setMenuItem={setMenuItemSelected} menuItem={menuItemSelected} children={menuItems}/>
             <div>
                 <FactoryContent menuItem={menuItemSelected}/>
             </div>
