@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {MenuBar} from "./components/menuBar";
+import './style/tabContent.css'
 
 interface TabContentProps {
     name: string
@@ -61,7 +62,7 @@ export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem}) => {
     }
 
     return(
-        <div className="card" style={{width: '18rem', margin: 'auto'}}>
+        <div className="card">
             <div className="card-body">
                 <h5 className="card-title">{factoryContent(menuItem)}</h5>
                 <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>

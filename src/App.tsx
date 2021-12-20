@@ -12,7 +12,7 @@ function App() {
 
     return (
       <>
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <nav className="navbar navbar-expand-lg navbar-light">
               <div className="container-fluid">
                   <a className="navbar-brand" href="#">SimulationApp</a>
                   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -22,9 +22,9 @@ function App() {
                   <div className="collapse navbar-collapse" id="navbarNav">
                       <TabsContainer selectTab={setTabSelected} selectedTab={tabSelected}/>
                   </div>
-                  <div className="mr-auto">
-                    <FaBell/>
-                    <FaUser/>
+                  <div className="mr-auto notificationContainer">
+                    <FaBell className="notificationIcon"/>
+                    <FaUser className="userIcon"/>
                   </div>
               </div>
           </nav>

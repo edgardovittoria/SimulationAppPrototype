@@ -1,39 +1,35 @@
-.App {
-  text-align: center;
+body{
+  background-color: #ececec !important;
+}
+.notificationIcon, .userIcon{
+  width: 20px;
+  height: 20px;
+  margin-right: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navbar{
+  padding: 10px 10px 0 !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
+.navbar-brand{
+  padding-bottom: 7px;
+  margin-left: 20px;
 }
 
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.nav-link{
+  color: #a3a3a3 !important;
+  border: none !important;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+.nav-tabs{
+  border: none !important;
 }
 
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+.active{
+  color: black !important;
+  border: none !important;
+}
+
+.notificationContainer{
+  padding-bottom: 7px;
 }

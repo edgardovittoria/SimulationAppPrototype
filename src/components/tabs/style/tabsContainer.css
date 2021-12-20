@@ -1,0 +1,21 @@
+.projectTab{
+    display: flex;
+}
+
+.closeIconContainer{
+    margin-left: 30px;
+}
+
+.closeIcon, .addNewProjectIcon{
+    width: 12px;
+    height: 12px;
+    color: #afafaf;
+}
+
+.addNewProject{
+    margin: auto auto auto 25px;
+}
+
+.nav-item{
+    border-radius: 10px !important;
+}

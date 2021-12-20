@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {FaPlus, FaTimes} from "react-icons/fa";
+import './style/tabsContainer.css'
 
 interface TabsContainerProps {
     selectTab: Function,
@@ -11,7 +12,7 @@ export const TabsContainer: React.FC<TabsContainerProps> = ({selectTab, selected
     const [projectsTab, setProjectsTab] = useState<string[]>([]);
 
     const addNewProjectTab = () => {
-        let projectLabel = 'PROJECT_'+(projectsTab.length + 1).toString()
+        let projectLabel = 'Project_' + (projectsTab.length + 1).toString()
         setProjectsTab(projectsTab.concat(projectLabel))
     }
 
@@ -19,22 +20,25 @@ export const TabsContainer: React.FC<TabsContainerProps> = ({selectTab, selected
         setProjectsTab(projectsTab.filter(projectTab => projectTab !== projectLabel))
     }
 
-    return(
+    return (
         <>
             <ul className="nav nav-tabs">
                 <li className="nav-item" onClick={() => selectTab("DASHBOARD")}>
-                    <a className={(selectedTab === 'DASHBOARD') ? 'nav-link active' : 'nav-link'} aria-current="page" href="#">Dashboard</a>
+                    <a className={(selectedTab === 'DASHBOARD') ? 'nav-link active' : 'nav-link'} aria-current="page"
+                       href="#">Dashboard</a>
                 </li>
                 {projectsTab.map(projectTab => {
                     return <li className="nav-item" onClick={() => selectTab(projectTab)}>
-                        <a className={(selectedTab === projectTab) ? 'nav-link active' : 'nav-link'} aria-current="page" href="#">{projectTab}</a>
-                        <div className="mr-auto">
-                            <FaTimes onClick={() => closeProjectTab(projectTab)}/>
-                        </div>
+                            <a className={(selectedTab === projectTab) ? 'nav-link active projectTab' : 'nav-link projectTab'}
+                               aria-current="page" href="#">{projectTab}
+                                <div className="closeIconContainer">
+                                    <FaTimes onClick={() => closeProjectTab(projectTab)} className="closeIcon"/>
+                                </div>
+                            </a>
                     </li>
                 })}
-                <li className="nav-item">
-                    <FaPlus onClick={addNewProjectTab}/>
+                <li className="nav-item addNewProject">
+                    <FaPlus onClick={addNewProjectTab} className="addNewProjectIcon"/>
                 </li>
 
 
