@@ -1,0 +1,27 @@
+.modelContainer{
+    position: absolute;
+    left: 60px;
+    top: 150px;
+    width: 300px;
+    height: 500px;
+    text-align: center;
+}
+
+.outliner{
+    display: flex;
+}
+
+.outlinerGroupIcon{
+    width: 30px;
+    height: 30px;
+}
+
+.outlinerGroupTitle{
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.outlinerParts{
+    padding-left: 10px;
+    display: flex;
+}

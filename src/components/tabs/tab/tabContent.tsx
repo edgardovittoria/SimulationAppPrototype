@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {MenuBar} from "./components/menuBar";
 import './style/tabContent.css'
 import {Overview} from "./components/overview";
+import {Modeler} from "./components/modeler";
 
 interface TabContentProps {
     name: string,
@@ -58,7 +59,7 @@ export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem, setShow
             case 'Simulations' :
                 return <></>
             case 'Modeler' :
-                return <></>
+                return <Modeler/>
             case 'Physics' :
                 return <></>
             case 'Simulator' :
