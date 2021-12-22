@@ -1,47 +1,48 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FaPlus, FaTimes} from "react-icons/fa";
 import './style/tabsContainer.css'
+import {Project} from "../../store/projectSlice";
 
 interface TabsContainerProps {
     selectTab: Function,
-    selectedTab: string
+    selectedTab: string,
+    projectsTab: Project[]
+    setProjectsTab: Function,
+    setShowModal: Function
 }
 
-export const TabsContainer: React.FC<TabsContainerProps> = ({selectTab, selectedTab}) => {
-
-    const [projectsTab, setProjectsTab] = useState<string[]>([]);
-
-    const addNewProjectTab = () => {
-        let projectLabel = 'Project_' + (projectsTab.length + 1).toString()
-        setProjectsTab(projectsTab.concat(projectLabel))
-    }
+export const TabsContainer: React.FC<TabsContainerProps> = (
+    {selectTab, selectedTab, projectsTab, setProjectsTab, setShowModal}
+) => {
 
     const closeProjectTab = (projectLabel: string) => {
-        setProjectsTab(projectsTab.filter(projectTab => projectTab !== projectLabel))
+        setProjectsTab(projectsTab.filter(projectTab => projectTab.name !== projectLabel))
+        selectTab("DASHBOARD")
     }
 
     return (
         <>
             <ul className="nav nav-tabs">
-                <li className="nav-item" onClick={() => selectTab("DASHBOARD")}>
-                    <a className={(selectedTab === 'DASHBOARD') ? 'nav-link active' : 'nav-link'} aria-current="page"
-                       href="#">Dashboard</a>
+                <li className="nav-item navItemTabs" onClick={() => selectTab("DASHBOARD")}>
+                    <div className={(selectedTab === 'DASHBOARD') ? 'nav-link active projectTab' : 'nav-link projectTabNotActive'} aria-current="page"
+                      >Dashboard</div>
                 </li>
                 {projectsTab.map(projectTab => {
-                    return <li className="nav-item" onClick={() => selectTab(projectTab)}>
-                            <a className={(selectedTab === projectTab) ? 'nav-link active projectTab' : 'nav-link projectTab'}
-                               aria-current="page" href="#">{projectTab}
-                                <div className="closeIconContainer">
-                                    <FaTimes onClick={() => closeProjectTab(projectTab)} className="closeIcon"/>
-                                </div>
-                            </a>
+                    return <li key={projectTab.name} className="nav-item navItemTabs">
+                        <div className={(selectedTab === projectTab.name) ? 'nav-link active' : 'nav-link'}>
+                            <div className={(selectedTab === projectTab.name)? 'projectTab' : 'projectTabNotActive'}
+                               aria-current="page" onClick={() => selectTab(projectTab.name)}>{projectTab.name}
+                            </div>
+                            <div className="closeIconContainer" onClick={() => closeProjectTab(projectTab.name)}>
+                                <FaTimes className="closeIcon"/>
+                            </div>
+                        </div>
+
                     </li>
                 })}
                 <li className="nav-item addNewProject">
-                    <FaPlus onClick={addNewProjectTab} className="addNewProjectIcon"/>
+                    <FaPlus onClick={() => setShowModal(true)} className="addNewProjectIcon"/>
                 </li>
-
-
             </ul>
         </>
 

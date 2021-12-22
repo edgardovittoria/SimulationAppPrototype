@@ -1,0 +1,105 @@
+
+.container{
+    display: flex;
+    flex-direction: row;
+}
+
+.rowOverview{
+    width: 80% !important;
+    margin-right: 30px;
+}
+
+.boxProjects, .boxYourPlan{
+    height: 316px;
+    width: 48.5% !important;
+}
+
+.boxSimulation{
+    height: 336px;
+}
+
+.boxCoreHours{
+    height: 720px;
+    width: 22%;
+}
+
+.btn:hover{
+    color: var(--secondaryColor);
+    opacity: 0.9;
+}
+
+.titleContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.newProjectLink{
+    text-decoration: none;
+    color: var(--primaryColor);
+}
+
+.noProjectsIcon{
+    width: 150px;
+    height: 150px;
+}
+
+.noProjectsContainer{
+    text-align: center;
+    padding: 20px;
+}
+
+.projectsContainer{
+    padding: 15px;
+    height: 265px;
+    overflow: scroll;
+}
+
+.card{
+    width: 100% !important;
+    border-radius: 5px;
+    border: 1px solid var(--notActiveColor);
+    margin: 15px auto auto auto;
+}
+
+.boxYourPlan{
+    border-radius: 5px;
+    background: linear-gradient(to bottom right, var(--primaryColor), var(--secondaryColor));
+    color: var(--boxBackgroundColor);
+    padding: 10px;
+}
+
+.li-yourPlan{
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.yourPlanContent{
+    padding-left: 20px;
+}
+
+.yourPlanTitle{
+    margin-top: 10px;
+    font-weight: 400;
+}
+
+.btn-seeMore{
+    background-color: var(--boxBackgroundColor);
+    color: var(--primaryColor);
+    text-transform: uppercase;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.proAccountImage{
+    width: 120px;
+    height: 180px;
+}
+
+.simulations{
+    margin-top: 50px;
+}
+
+.simulationContent{
+    text-align: center;
+}

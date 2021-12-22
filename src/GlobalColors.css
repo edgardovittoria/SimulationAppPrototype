@@ -1,0 +1,9 @@
+:root{
+    --activeColor: black;
+    --backgroundColor: #ececec;
+    --boxBackgroundColor: white;
+    --notActiveColor: #a3a3a3;
+    --primaryColor: blueviolet;
+    --secondaryColor: violet;
+    --shadowColor: #c8c8c8;
+}

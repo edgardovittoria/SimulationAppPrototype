@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {MenuBar} from "./components/menuBar";
 import './style/tabContent.css'
+import {Overview} from "./components/overview";
 
 interface TabContentProps {
-    name: string
+    name: string,
+    setShowModal: Function
 }
 
-export const TabContent: React.FC<TabContentProps> = ({name}) => {
+export const TabContent: React.FC<TabContentProps> = ({name, setShowModal}) => {
     const menuItems = factoryMenuItems(name)
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
 
@@ -14,11 +16,14 @@ export const TabContent: React.FC<TabContentProps> = ({name}) => {
         setMenuItemSelected(menuItems[0])
     }, [name])
 
-    return(
+    return (
         <>
             <MenuBar setMenuItem={setMenuItemSelected} menuItem={menuItemSelected} children={menuItems}/>
             <div>
-                <FactoryContent menuItem={menuItemSelected}/>
+                <FactoryContent
+                    menuItem={menuItemSelected}
+                    setShowModal={setShowModal}
+                />
             </div>
         </>
     )
@@ -35,45 +40,39 @@ const factoryMenuItems = (tabType: string) => {
 }
 
 
-
 interface FactoryContentProps {
-    menuItem: string
+    menuItem: string,
+    setShowModal: Function
 }
 
-export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem}) => {
+export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem, setShowModal}) => {
 
-    const factoryContent = (menuItem: string) => {
+    const factoryContent = (menuItem: string): JSX.Element => {
         switch (menuItem) {
             case 'Overview' :
-                return 'Overview'
+                return <Overview
+                    setShowModal={setShowModal}
+                />
             case 'Projects' :
-                return 'Projects'
+                return <></>
             case 'Simulations' :
-                return 'Simulations'
+                return <></>
             case 'Modeler' :
-                return 'Modeler'
+                return <></>
             case 'Physics' :
-                return 'Physics'
+                return <></>
             case 'Simulator' :
-                return 'Simulator'
+                return <></>
             case 'Results' :
-                return 'Results'
+                return <></>
+            default :
+                return <></>
         }
     }
 
-    return(
-        <div className="card">
-            <div className="card-body">
-                <h5 className="card-title">{factoryContent(menuItem)}</h5>
-                <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <a href="#" className="card-link">Card link</a>
-                <a href="#" className="card-link">Another link</a>
-            </div>
-        </div>
+    return (
+        factoryContent(menuItem)
     )
-
 
 
 }

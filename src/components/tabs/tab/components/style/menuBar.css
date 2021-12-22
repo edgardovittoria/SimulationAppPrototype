@@ -4,7 +4,7 @@
 }
 
 .menuBar{
-    background-color: white !important;
+    background-color: var(--boxBackgroundColor) !important;
     padding: 10px;
     width: 96%;
     border-radius: 10px;

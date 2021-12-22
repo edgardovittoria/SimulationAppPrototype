@@ -1,0 +1,12 @@
+.modalInput{
+    padding: 10px;
+}
+
+.modal-footer, .modal-header {
+    border: none;
+}
+
+.form-control:focus{
+    border-color: var(--primaryColor) !important;
+    box-shadow: 2px 2px 10px var(--primaryColor);
+}

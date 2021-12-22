@@ -1,10 +1,15 @@
 body{
-  background-color: #ececec !important;
+  background-color: var(--backgroundColor) !important;
 }
 .notificationIcon, .userIcon{
   width: 20px;
   height: 20px;
   margin-right: 20px;
+  color: var(--primaryColor);
+}
+
+.notificationIcon:hover, .userIcon:hover{
+  color: var(--secondaryColor);
 }
 
 .navbar{
@@ -17,7 +22,7 @@ body{
 }
 
 .nav-link{
-  color: #a3a3a3 !important;
+  color: var(--notActiveColor) !important;
   border: none !important;
 }
 
@@ -26,10 +31,32 @@ body{
 }
 
 .active{
-  color: black !important;
+  color: var(--activeColor) !important;
   border: none !important;
 }
 
 .notificationContainer{
   padding-bottom: 7px;
 }
+
+.box{
+  border-radius: 5px;
+  background-color: var(--boxBackgroundColor);
+  padding: 10px;
+  box-shadow: 2px 2px 10px var(--shadowColor);
+}
+
+.container{
+  margin-top: 30px;
+  max-width: 85.375rem !important;
+}
+
+.button-primary{
+  background-color: var(--primaryColor) !important;
+  color: var(--boxBackgroundColor) !important;
+}
+
+.button-primary:hover{
+  opacity: 0.9;
+}
+

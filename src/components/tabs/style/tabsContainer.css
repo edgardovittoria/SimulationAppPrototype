@@ -1,5 +1,15 @@
 .projectTab{
-    display: flex;
+    text-decoration: none;
+    color: var(--activeColor);
+}
+
+.projectTabNotActive:hover{
+    cursor: pointer;
+}
+
+.projectTabNotActive{
+    text-decoration: none;
+    color: var(--notActiveColor);
 }
 
 .closeIconContainer{
@@ -9,7 +19,7 @@
 .closeIcon, .addNewProjectIcon{
     width: 12px;
     height: 12px;
-    color: #afafaf;
+    color: var(--notActiveColor);
 }
 
 .addNewProject{
@@ -18,4 +28,15 @@
 
 .nav-item{
     border-radius: 10px !important;
+}
+
+.navItemTabs{
+    background-color: #dadada;
+    border-radius: 5px 5px 0 0 !important;
+    box-shadow: -2px 0 0 #cfcfcf;
+    border-bottom: none;
+}
+
+.nav-link{
+    display: flex;
 }
