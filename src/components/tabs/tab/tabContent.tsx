@@ -3,13 +3,19 @@ import {MenuBar} from "./components/menuBar";
 import './style/tabContent.css'
 import {Overview} from "./components/overview";
 import {Modeler} from "./components/modeler";
+import "./components/style/overview.css"
+import {Projects} from "./components/projects";
+import {Project} from "../../../store/projectSlice";
 
 interface TabContentProps {
     name: string,
-    setShowModal: Function
+    setShowModal: Function,
+    projectsTab: Project[],
+    setProjectsTab: Function,
+    selectTab: Function
 }
 
-export const TabContent: React.FC<TabContentProps> = ({name, setShowModal}) => {
+export const TabContent: React.FC<TabContentProps> = ({name, setShowModal, projectsTab, setProjectsTab, selectTab}) => {
     const menuItems = factoryMenuItems(name)
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
 
@@ -24,6 +30,9 @@ export const TabContent: React.FC<TabContentProps> = ({name, setShowModal}) => {
                 <FactoryContent
                     menuItem={menuItemSelected}
                     setShowModal={setShowModal}
+                    projectsTab={projectsTab}
+                    setProjectsTab={setProjectsTab}
+                    selectTab={selectTab}
                 />
             </div>
         </>
@@ -43,21 +52,36 @@ const factoryMenuItems = (tabType: string) => {
 
 interface FactoryContentProps {
     menuItem: string,
-    setShowModal: Function
+    setShowModal: Function,
+    projectsTab: Project[],
+    setProjectsTab: Function,
+    selectTab: Function
 }
 
-export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem, setShowModal}) => {
+export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem, setShowModal, projectsTab, setProjectsTab, selectTab}) => {
 
     const factoryContent = (menuItem: string): JSX.Element => {
         switch (menuItem) {
             case 'Overview' :
-                return <Overview
-                    setShowModal={setShowModal}
-                />
+                return (
+                    <DashBoard>
+                        <Overview setShowModal={setShowModal}/>
+                    </DashBoard>
+                )
+
             case 'Projects' :
-                return <></>
+                return <DashBoard>
+                    <Projects
+                        setShowModal={setShowModal}
+                        projectsTab={projectsTab}
+                        setProjectsTab={setProjectsTab}
+                        selectTab={selectTab}
+                    />
+                </DashBoard>
             case 'Simulations' :
-                return <></>
+                return <DashBoard>
+
+                </DashBoard>
             case 'Modeler' :
                 return <Modeler/>
             case 'Physics' :
@@ -75,5 +99,23 @@ export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem, setShow
         factoryContent(menuItem)
     )
 
+
+}
+
+
+interface DashBoardProps {
+}
+
+export const DashBoard: React.FC<DashBoardProps> = ({children}) => {
+    return (
+        <div className="container">
+            <div className="row rowOverview justify-content-between">
+                {children}
+            </div>
+            <div className="box boxCoreHours">
+                <h5>Core Hours</h5>
+            </div>
+        </div>
+    )
 
 }

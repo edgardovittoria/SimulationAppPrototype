@@ -17,10 +17,6 @@ function App() {
     const [projectsTab, setProjectsTab] = useState<Project[]>(projects);
     const [showCreateNewProjectModal, setShowCreateNewProjectModal] = useState(false);
 
-    useEffect(() => {
-        console.log(tabSelected)
-    }, [tabSelected]);
-
 
     return (
       <>
@@ -49,6 +45,9 @@ function App() {
           <TabContent
               name={tabSelected}
               setShowModal={setShowCreateNewProjectModal}
+              projectsTab={projectsTab}
+              setProjectsTab={setProjectsTab}
+              selectTab={setTabSelected}
           />
           <CreateNewProjectModal
               show={showCreateNewProjectModal}
