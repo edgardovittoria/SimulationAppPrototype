@@ -3,8 +3,9 @@
     width: 100%;
     text-align: left;
 }
- .projectsContainer{
-
+ .projectsProjectsContainer{
+    overflow: scroll;
+     display: block ruby;
  }
 
 .projectsNoProjectsContainer{
@@ -18,9 +19,9 @@
 }
 
 .projectsCard {
-    width: 25% !important;
+    width: 20% !important;
     padding: 15px;
-    margin: 15px;
+    margin: 30px 20px 20px;
 }
 
 .projectsCard:hover{
@@ -39,3 +40,30 @@
     color: var(--dangerColor);
 }
 
+.projectsNewProject{
+    color: var(--primaryColor);
+}
+
+.projectsNewProject:hover{
+    color: var(--secondaryColor);
+    cursor: pointer;
+}
+
+.projectsCardMenuButton{
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+}
+
+.projectsCardMenuButton:hover{
+    background-color: rgba(255, 218, 255, 0.73);
+}
+
+.projectsDeleteContainer:hover{
+    cursor: pointer;
+}
+
+.projectsDeleteText{
+    color: var(--dangerColor);
+    font-size: 16px;
+}

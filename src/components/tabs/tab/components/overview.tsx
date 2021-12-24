@@ -1,14 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './style/overview.css'
-import {useSelector} from "react-redux";
-import {projectsSelector} from "../../../../store/projectSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {Project, projectsSelector} from "../../../../store/projectSlice";
+import {OverlayTrigger} from "react-bootstrap";
+import {BsThreeDotsVertical} from "react-icons/bs";
+import {popoverRight} from "./projects";
 
 interface OverviewProps {
-    setShowModal: Function
+    setShowModal: Function,
+    projectsTab: Project[],
+    setProjectsTab: Function,
+    selectTab: Function
 }
 
-export const Overview: React.FC<OverviewProps> = ({setShowModal}) => {
+export const Overview: React.FC<OverviewProps> = ({setShowModal, projectsTab, setProjectsTab, selectTab}) => {
     const projects = useSelector(projectsSelector)
+    const dispatch = useDispatch()
+    const [cardMenuHovered, setCardMenuHovered] = useState(false);
+
+    const handleCardClick = (project: Project) => {
+        if(!cardMenuHovered){
+            if(!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)){
+                setProjectsTab(projectsTab.concat(project))
+            }
+            selectTab(project.name)
+        }
+
+    }
 
     return (
         <>
@@ -36,11 +54,21 @@ export const Overview: React.FC<OverviewProps> = ({setShowModal}) => {
                     <div className="projectsContainer">
                         {projects.map(project => {
                             return (
-                                <div key={project.name} className="card">
+                                <div key={project.name} className="card" onClick={() => handleCardClick(project)}>
                                     <div className="card-body">
-                                        {/*TODO: insert click events for open project and delete project*/}
-                                        <h5 className="card-title">{project.name}</h5>
-                                        <h6 className="card-subtitle mb-2 text-muted">{project.description}</h6>
+                                        <div className="row">
+                                            <div className="col-10 overviewProjectName">
+                                                {project.name}
+                                            </div>
+                                            <div className="col-2" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
+                                                <OverlayTrigger trigger="click" placement="right" overlay={popoverRight(project, dispatch, projectsTab, setProjectsTab)}>
+                                                    <button className="overviewCardMenuButton">
+                                                        <BsThreeDotsVertical/>
+                                                    </button>
+                                                </OverlayTrigger>
+                                            </div>
+                                        </div>
+                                        <h6 className="card-subtitle mb-2 text-muted">{project.description.substr(0,50)}</h6>
                                     </div>
                                 </div>
                             )

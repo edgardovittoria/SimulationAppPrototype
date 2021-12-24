@@ -62,6 +62,10 @@
     margin: 15px auto auto auto;
 }
 
+.card:hover{
+    cursor: pointer;
+}
+
 .boxYourPlan{
     border-radius: 5px;
     background: linear-gradient(to bottom right, var(--primaryColor), var(--secondaryColor));
@@ -102,4 +106,19 @@
 
 .simulationContent{
     text-align: center;
+}
+
+.overviewProjectName{
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.overviewCardMenuButton{
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+}
+
+.overviewCardMenuButton:hover{
+    background-color: rgba(255, 218, 255, 0.73);
 }

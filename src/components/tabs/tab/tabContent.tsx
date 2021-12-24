@@ -65,7 +65,12 @@ export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem, setShow
             case 'Overview' :
                 return (
                     <DashBoard>
-                        <Overview setShowModal={setShowModal}/>
+                        <Overview
+                            setShowModal={setShowModal}
+                            projectsTab={projectsTab}
+                            setProjectsTab={setProjectsTab}
+                            selectTab={selectTab}
+                        />
                     </DashBoard>
                 )
 
