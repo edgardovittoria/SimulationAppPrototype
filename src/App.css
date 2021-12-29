@@ -52,7 +52,7 @@ body{
 }
 
 .button-primary{
-  background-color: var(--primaryColor) !important;
+  background-color: var(--secondaryColor) !important;
   color: var(--boxBackgroundColor) !important;
 }
 

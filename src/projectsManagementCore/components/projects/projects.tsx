@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Project, projectsSelector, removeProject} from "../../../../store/projectSlice";
-import './style/projects.css'
+import {Project, projectsSelector, removeProject, selectProject} from "../../../store/projectSlice";
+import './projects.css'
 import {FaTrash} from "react-icons/fa";
 import {Popover, OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
@@ -44,6 +44,7 @@ export const Projects: React.FC<ProjectsProps> = ({setShowModal, projectsTab, se
         if (!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)) {
             setProjectsTab(projectsTab.concat(project))
         }
+        dispatch(selectProject(project.name))
         selectTab(project.name)
     }
 
@@ -99,7 +100,7 @@ export const Projects: React.FC<ProjectsProps> = ({setShowModal, projectsTab, se
                 <>
                     <h5>Projects</h5>
                     <div className="projectsNoProjectsContainer">
-                        <img src="/noProjectsIcon.png" className="projectsNoProjectsIcon" alt="No Projects Icon"/>
+                        <img src="/noProjectsIcon2.png" className="projectsNoProjectsIcon" alt="No Projects Icon"/>
                         <p>No projects for now.</p>
                         <button className="btn button-primary" data-toggle="modal" data-target="#createNewProjectModal"
                                 onClick={() => {

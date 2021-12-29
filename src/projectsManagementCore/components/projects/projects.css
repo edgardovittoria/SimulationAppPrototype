@@ -14,8 +14,8 @@
 }
 
 .projectsNoProjectsIcon{
-    width: 250px;
-    height: 250px;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .projectsCard {
@@ -56,7 +56,7 @@
 }
 
 .projectsCardMenuButton:hover{
-    background-color: rgba(255, 218, 255, 0.73);
+    background-color: rgba(98, 165, 135, 0.66);
 }
 
 .projectsDeleteContainer:hover{

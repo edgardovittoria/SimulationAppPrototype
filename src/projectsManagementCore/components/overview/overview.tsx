@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import './style/overview.css'
+import './overview.css'
 import {useDispatch, useSelector} from "react-redux";
-import {Project, projectsSelector} from "../../../../store/projectSlice";
+import {Project, projectsSelector, selectProject} from "../../../store/projectSlice";
 import {OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
-import {popoverRight} from "./projects";
+import {popoverRight} from "../projects/projects";
 
 interface OverviewProps {
     setShowModal: Function,
@@ -23,6 +23,7 @@ export const Overview: React.FC<OverviewProps> = ({setShowModal, projectsTab, se
             if(!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)){
                 setProjectsTab(projectsTab.concat(project))
             }
+            dispatch(selectProject(project.name))
             selectTab(project.name)
         }
 
@@ -42,7 +43,7 @@ export const Overview: React.FC<OverviewProps> = ({setShowModal, projectsTab, se
 
                 {projects.length === 0 ?
                     <div className="noProjectsContainer">
-                        <img src="/noProjectsIcon.png" className="noProjectsIcon" alt="No Projects Icon"/>
+                        <img src="/noProjectsIcon2.png" className="noProjectsIcon" alt="No Projects Icon"/>
                         <p>No projects for now.</p>
                         <button className="btn button-primary" data-toggle="modal" data-target="#createNewProjectModal"
                                 onClick={() => {
@@ -92,9 +93,9 @@ export const Overview: React.FC<OverviewProps> = ({setShowModal, projectsTab, se
                             </ul>
                             <button className="btn btn-seeMore">See More</button>
                         </div>
-                        <div className="col-5">
+                        {/*<div className="col-5">
                             <img className="proAccountImage" src="/proAccount.png" alt="Pro Account"/>
-                        </div>
+                        </div>*/}
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import './style/menuBar.css'
+import './menuBar.css'
 
 interface MenuBarProps {
     setMenuItem: Function,

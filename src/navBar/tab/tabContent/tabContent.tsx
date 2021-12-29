@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {MenuBar} from "./components/menuBar";
-import './style/tabContent.css'
-import {Overview} from "./components/overview";
-import {Modeler} from "./components/modeler";
-import "./components/style/overview.css"
-import {Projects} from "./components/projects";
+import {MenuBar} from "./menuBar/menuBar";
+import './tabContent.css'
+import {Overview} from "../../../projectsManagementCore/components/overview/overview";
+import {Modeler} from "../../../simulationCore/components/modeler/modeler";
+import "../../../projectsManagementCore/components/overview/overview.css"
+import {Projects} from "../../../projectsManagementCore/components/projects/projects";
+import {LeftPanel} from "../../../simulationCore/components/dashBoard/leftPanel";
+import {RightPanel} from "../../../projectsManagementCore/components/rightPanel/rightPanel";
 import {Project} from "../../../store/projectSlice";
+
 
 interface TabContentProps {
     name: string,
@@ -26,15 +29,13 @@ export const TabContent: React.FC<TabContentProps> = ({name, setShowModal, proje
     return (
         <>
             <MenuBar setMenuItem={setMenuItemSelected} menuItem={menuItemSelected} children={menuItems}/>
-            <div>
-                <FactoryContent
-                    menuItem={menuItemSelected}
-                    setShowModal={setShowModal}
-                    projectsTab={projectsTab}
-                    setProjectsTab={setProjectsTab}
-                    selectTab={selectTab}
-                />
-            </div>
+            <FactoryContent
+                menuItem={menuItemSelected}
+                setShowModal={setShowModal}
+                projectsTab={projectsTab}
+                setProjectsTab={setProjectsTab}
+                selectTab={selectTab}
+            />
         </>
     )
 
@@ -58,43 +59,61 @@ interface FactoryContentProps {
     selectTab: Function
 }
 
-export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem, setShowModal, projectsTab, setProjectsTab, selectTab}) => {
+export const FactoryContent: React.FC<FactoryContentProps> = ({
+                                                                  menuItem,
+                                                                  setShowModal,
+                                                                  projectsTab,
+                                                                  setProjectsTab,
+                                                                  selectTab
+                                                              }) => {
 
     const factoryContent = (menuItem: string): JSX.Element => {
         switch (menuItem) {
             case 'Overview' :
                 return (
-                    <DashBoard>
+                    <RightPanel>
                         <Overview
                             setShowModal={setShowModal}
                             projectsTab={projectsTab}
                             setProjectsTab={setProjectsTab}
                             selectTab={selectTab}
                         />
-                    </DashBoard>
+                    </RightPanel>
                 )
 
             case 'Projects' :
-                return <DashBoard>
+                return <RightPanel>
                     <Projects
                         setShowModal={setShowModal}
                         projectsTab={projectsTab}
                         setProjectsTab={setProjectsTab}
                         selectTab={selectTab}
                     />
-                </DashBoard>
+                </RightPanel>
             case 'Simulations' :
-                return <DashBoard>
+                return <RightPanel>
 
-                </DashBoard>
+                </RightPanel>
             case 'Modeler' :
-                return <Modeler/>
+                return <>
+                    <Modeler/>
+                    <LeftPanel secondTab="Materials"/>
+                </>
+
             case 'Physics' :
-                return <></>
+                return <>
+                    <Modeler/>
+                    <LeftPanel secondTab="Physics"/>
+                </>
             case 'Simulator' :
-                return <></>
+                return <>
+                    <Modeler/>
+                    <LeftPanel secondTab="Simulator"/>
+                </>
             case 'Results' :
-                return <></>
+                return <>
+                    <LeftPanel secondTab="Results"/>
+                </>
             default :
                 return <></>
         }
@@ -104,23 +123,5 @@ export const FactoryContent: React.FC<FactoryContentProps> = ({menuItem, setShow
         factoryContent(menuItem)
     )
 
-
-}
-
-
-interface DashBoardProps {
-}
-
-export const DashBoard: React.FC<DashBoardProps> = ({children}) => {
-    return (
-        <div className="container">
-            <div className="row rowOverview justify-content-between">
-                {children}
-            </div>
-            <div className="box boxCoreHours">
-                <h5>Core Hours</h5>
-            </div>
-        </div>
-    )
 
 }

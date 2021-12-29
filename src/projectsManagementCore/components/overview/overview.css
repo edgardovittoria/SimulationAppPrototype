@@ -40,8 +40,7 @@
 }
 
 .noProjectsIcon{
-    width: 150px;
-    height: 150px;
+
 }
 
 .noProjectsContainer{
@@ -106,6 +105,7 @@
 
 .simulationContent{
     text-align: center;
+    margin-top: 70px;
 }
 
 .overviewProjectName{
@@ -120,5 +120,5 @@
 }
 
 .overviewCardMenuButton:hover{
-    background-color: rgba(255, 218, 255, 0.73);
+    background-color: rgba(98, 165, 135, 0.66);
 }

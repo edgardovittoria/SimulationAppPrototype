@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
-import {addProject, Project} from "../../../store/projectSlice";
+import {addProject, Project, selectProject} from "../../../store/projectSlice";
 import {useDispatch} from "react-redux";
-import "./style/createNewProjectModal.css"
+import "./createNewProjectModal.css"
 
 interface CreateNewProjectModalProps {
     show: boolean,
@@ -22,8 +22,9 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = ({sho
     const handleClose = () => setShow(false);
     const handleCreate = () => {
         if(projectName.length > 0){
-            let newProject: Project = {name: projectName, description: projectDescription}
+            let newProject: Project = {name: projectName, description: projectDescription, model: "", materials: "", physics: "", simulations: ""}
             dispatch(addProject(newProject))
+            dispatch(selectProject(newProject.name))
             setProjectsTab(projectsTab.concat(newProject))
             selectTab(newProject.name)
             setShow(false)

@@ -1,7 +1,8 @@
 import React from 'react';
 import {FaPlus, FaTimes} from "react-icons/fa";
-import './style/tabsContainer.css'
-import {Project} from "../../store/projectSlice";
+import './tabsContainer.css'
+import {Project, selectProject} from "../../store/projectSlice";
+import {useDispatch} from "react-redux";
 
 interface TabsContainerProps {
     selectTab: Function,
@@ -20,10 +21,15 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
         selectTab("DASHBOARD")
     }
 
+    const dispatch = useDispatch()
+
     return (
         <>
             <ul className="nav nav-tabs">
-                <li className="nav-item navItemTabs" onClick={() => selectTab("DASHBOARD")}>
+                <li className="nav-item navItemTabs" onClick={() => {
+                    selectTab("DASHBOARD")
+                    dispatch(selectProject(undefined))
+                }}>
                     <div className={(selectedTab === 'DASHBOARD') ? 'nav-link active projectTab' : 'nav-link projectTabNotActive'} aria-current="page"
                       >Dashboard</div>
                 </li>
@@ -31,9 +37,15 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                     return <li key={projectTab.name} className="nav-item navItemTabs">
                         <div className={(selectedTab === projectTab.name) ? 'nav-link active' : 'nav-link'}>
                             <div className={(selectedTab === projectTab.name)? 'projectTab' : 'projectTabNotActive'}
-                               aria-current="page" onClick={() => selectTab(projectTab.name)}>{projectTab.name}
+                               aria-current="page" onClick={() => {
+                                   selectTab(projectTab.name)
+                                dispatch(selectProject(projectTab.name))
+                            }}>{projectTab.name}
                             </div>
-                            <div className="closeIconContainer" onClick={() => closeProjectTab(projectTab.name)}>
+                            <div className="closeIconContainer" onClick={() => {
+                                closeProjectTab(projectTab.name)
+                                dispatch(selectProject(undefined))
+                            }}>
                                 <FaTimes className="closeIcon"/>
                             </div>
                         </div>

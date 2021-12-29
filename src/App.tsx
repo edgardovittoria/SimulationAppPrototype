@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import './GlobalColors.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {TabsContainer} from "./components/tabs/tabsContainer";
-import {TabContent} from "./components/tabs/tab/tabContent";
+import {TabsContainer} from "./navBar/tabsContainer/tabsContainer";
+import {TabContent} from "./navBar/tab/tabContent/tabContent";
 import {FaBell, FaUser} from "react-icons/fa";
 import {Project, projectsSelector} from "./store/projectSlice";
 import {useSelector} from "react-redux";
-import {CreateNewProjectModal} from "./components/modals/createNewProjectModal/createNewProjectModal";
+import {CreateNewProjectModal} from "./projectsManagementCore/modals/createNewProjectModal/createNewProjectModal";
 
 
 function App() {
@@ -23,10 +23,6 @@ function App() {
           <nav className="navbar navbar-expand-lg navbar-light">
               <div className="container-fluid">
                   <a className="navbar-brand" href="/">SimulationApp</a>
-                  <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                      <span className="navbar-toggler-icon"/>
-                  </button>
                   <div className="collapse navbar-collapse" id="navbarNav">
                       <TabsContainer
                           selectTab={setTabSelected}

@@ -2,17 +2,23 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export type Project = {
     name: string,
-    description: string
+    description: string,
+    model: string, //TODO: replace string with the correct type of the model
+    materials: string, //TODO: replace string with the correct type of the materials
+    physics: string, //TODO: replace string with the correct type of the physics (ports)
+    simulations: string, //TODO: replace string with the correct type of the simulation
 }
 
 export type ProjectState = {
-    projects: Project[]
+    projects: Project[],
+    selectedProject: Project | undefined
 }
 
 export const ProjectSlice = createSlice({
     name: 'projects',
     initialState: {
-        projects: []
+        projects: [],
+        selectedProject: undefined
     } as ProjectState,
     reducers: {
         addProject(state: ProjectState, action: PayloadAction<Project>){
@@ -20,6 +26,19 @@ export const ProjectSlice = createSlice({
         },
         removeProject(state: ProjectState, action: PayloadAction<string>){
             state.projects = state.projects.filter(project => project.name !== action.payload)
+        },
+        selectProject(state: ProjectState, action: PayloadAction<string | undefined>){
+            (action.payload !== undefined) ? state.selectedProject = findProjectByName(state.projects, action.payload)
+                : state.selectedProject = undefined
+
+        },
+        importModel(state: ProjectState, action: PayloadAction<{name: string, model: string}>){
+            state.projects.map(project => {
+                if(project.name === action.payload.name){
+                    project.model = action.payload.model
+                }
+                return 'project updated'
+            })
         }
     },
     extraReducers: {
@@ -30,10 +49,11 @@ export const ProjectSlice = createSlice({
 
 export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
-    addProject, removeProject
+    addProject, removeProject, importModel, selectProject
 } = ProjectSlice.actions
 
 export const projectsSelector = (state: { projects: ProjectState }) => state.projects.projects;
+export const selectedProjectSelector = (state: { projects: ProjectState }) => state.projects.selectedProject;
 export const findProjectByName = (projects: Project[], name: string) => {
     return projects.filter(project => project.name === name)[0]
 }
