@@ -1,5 +1,5 @@
-import {Project} from "../../store/projectSlice";
 import React from "react";
+import {Project} from "../../model/Project";
 import {ModelOutliner} from "../components/modeler/modeler";
 
 interface FactorySimulationDashboardContentProps {
@@ -64,9 +64,9 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
             return (
                 <>
                     {/*TODO: check has to be done on the materials attribute and not on model*/}
-                    {(selectedProject && selectedProject.simulations !== "")
+                    {(selectedProject && selectedProject.simulations.length > 0)
                         ? <div className="leftPanel modelContainer">
-                            Simulator
+                            Results
                         </div>
                         : <div className="leftPanel modelContainer">
                             <img src="/noResultsIcon.png" style={{marginTop: "100px"}}/>

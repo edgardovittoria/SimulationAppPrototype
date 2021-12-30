@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import './overview.css'
+import {Project} from "../../../model/Project";
 import {useDispatch, useSelector} from "react-redux";
-import {Project, projectsSelector, selectProject} from "../../../store/projectSlice";
+import {projectsSelector, selectProject} from "../../../store/projectSlice";
 import {OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
-import {popoverRight} from "../projects/projects";
+import {popoverRight} from "../../shared/popover/popover";
 
 interface OverviewProps {
     setShowModal: Function,

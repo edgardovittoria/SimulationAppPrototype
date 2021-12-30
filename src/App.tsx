@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import './GlobalColors.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {TabsContainer} from "./navBar/tabsContainer/tabsContainer";
 import {TabContent} from "./navBar/tab/tabContent/tabContent";
 import {FaBell, FaUser} from "react-icons/fa";
-import {Project, projectsSelector} from "./store/projectSlice";
+import {projectsSelector} from "./store/projectSlice";
+import {Project} from "./model/Project";
 import {useSelector} from "react-redux";
 import {CreateNewProjectModal} from "./projectsManagementCore/modals/createNewProjectModal/createNewProjectModal";
 

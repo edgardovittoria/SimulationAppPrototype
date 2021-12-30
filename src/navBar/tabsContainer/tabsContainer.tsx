@@ -1,7 +1,8 @@
 import React from 'react';
 import {FaPlus, FaTimes} from "react-icons/fa";
 import './tabsContainer.css'
-import {Project, selectProject} from "../../store/projectSlice";
+import {selectProject} from "../../store/projectSlice";
+import {Project} from "../../model/Project";
 import {useDispatch} from "react-redux";
 
 interface TabsContainerProps {

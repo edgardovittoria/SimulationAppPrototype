@@ -1,13 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Project} from "../model/Project";
 
-export type Project = {
-    name: string,
-    description: string,
-    model: string, //TODO: replace string with the correct type of the model
-    materials: string, //TODO: replace string with the correct type of the materials
-    physics: string, //TODO: replace string with the correct type of the physics (ports)
-    simulations: string, //TODO: replace string with the correct type of the simulation
-}
+
 
 export type ProjectState = {
     projects: Project[],

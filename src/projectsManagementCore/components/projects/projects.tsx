@@ -1,38 +1,17 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Project, projectsSelector, removeProject, selectProject} from "../../../store/projectSlice";
+import {Project} from "../../../model/Project";
+import {projectsSelector, selectProject} from "../../../store/projectSlice";
 import './projects.css'
-import {FaTrash} from "react-icons/fa";
-import {Popover, OverlayTrigger} from "react-bootstrap";
+import {OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
-import {Dispatch} from "@reduxjs/toolkit";
+import {popoverRight} from "../../shared/popover/popover";
 
 interface ProjectsProps {
     setShowModal: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
-}
-
-export const popoverRight = (project: Project, dispatch: Dispatch, projectsTab: Project[], setProjectsTab: Function) => {
-    return (
-        <Popover id="popover-positioned-right" title="Popover right">
-            <div className="box">
-                <div className="row p-2 projectsDeleteContainer">
-                    <div className="col-8 projectsDeleteText" onClick={(e) => {
-                        dispatch(removeProject(project.name))
-                        setProjectsTab(projectsTab.filter(projectTab => projectTab.name !== project.name))
-                        e.stopPropagation()
-                    }}>
-                        Delete
-                    </div>
-                    <div className="col-2">
-                        <FaTrash className="projectsDeleteIcon"/>
-                    </div>
-                </div>
-            </div>
-        </Popover>
-    )
 }
 
 export const Projects: React.FC<ProjectsProps> = ({setShowModal, projectsTab, setProjectsTab, selectTab}) => {

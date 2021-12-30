@@ -7,7 +7,8 @@ import "../../../projectsManagementCore/components/overview/overview.css"
 import {Projects} from "../../../projectsManagementCore/components/projects/projects";
 import {LeftPanel} from "../../../simulationCore/components/dashBoard/leftPanel";
 import {RightPanel} from "../../../projectsManagementCore/components/rightPanel/rightPanel";
-import {Project} from "../../../store/projectSlice";
+import {Project} from "../../../model/Project";
+import {Simulations} from "../../../projectsManagementCore/components/simulations/simulations";
 
 
 interface TabContentProps {
@@ -59,14 +60,9 @@ interface FactoryContentProps {
     selectTab: Function
 }
 
-export const FactoryContent: React.FC<FactoryContentProps> = ({
-                                                                  menuItem,
-                                                                  setShowModal,
-                                                                  projectsTab,
-                                                                  setProjectsTab,
-                                                                  selectTab
-                                                              }) => {
-
+export const FactoryContent: React.FC<FactoryContentProps> = (
+    {menuItem, setShowModal, projectsTab, setProjectsTab, selectTab}
+) => {
     const factoryContent = (menuItem: string): JSX.Element => {
         switch (menuItem) {
             case 'Overview' :
@@ -92,7 +88,7 @@ export const FactoryContent: React.FC<FactoryContentProps> = ({
                 </RightPanel>
             case 'Simulations' :
                 return <RightPanel>
-
+                    <Simulations/>
                 </RightPanel>
             case 'Modeler' :
                 return <>
