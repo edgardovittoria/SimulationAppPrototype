@@ -79,7 +79,7 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
         default :
             return (
                 <>
-                    {(selectedProject && selectedProject.model !== "")
+                    {(selectedProject && selectedProject.model.components !== undefined)
                         ? <div className="leftPanel modelContainer">
                             <ModelOutliner/>
                         </div>

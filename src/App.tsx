@@ -15,6 +15,7 @@ import {
 import {Project} from "./model/Project";
 import {useDispatch, useSelector} from "react-redux";
 import {CreateNewProjectModal} from "./projectsManagementCore/modals/createNewProjectModal/createNewProjectModal";
+import { importActionParamsObject } from '@Draco112358/cad-library';
 
 
 function App() {
@@ -58,7 +59,7 @@ function App() {
               selectedProject={selectedProject}
               selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
               removeProject={(projectName: string) => dispatch(removeProject(projectName))}
-              importModel={(projectToImport: {name: string, model: string}) => dispatch(importModel(projectToImport))}
+              importModel={importModel}
           />
           <CreateNewProjectModal
               show={showCreateNewProjectModal}

@@ -1,3 +1,4 @@
+import { importActionParamsObject } from '@Draco112358/cad-library';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Project} from "../model/Project";
 
@@ -26,10 +27,10 @@ export const ProjectSlice = createSlice({
                 : state.selectedProject = undefined
 
         },
-        importModel(state: ProjectState, action: PayloadAction<{name: string, model: string}>){
+        importModel(state: ProjectState, action: PayloadAction<importActionParamsObject>){
             state.projects.map(project => {
-                if(project.name === action.payload.name){
-                    project.model = action.payload.model
+                if(project.name === action.payload.id){
+                    project.model = action.payload.canvas
                 }
                 return 'project updated'
             })
