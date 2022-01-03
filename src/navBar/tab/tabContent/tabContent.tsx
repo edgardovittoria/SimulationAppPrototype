@@ -16,10 +16,17 @@ interface TabContentProps {
     setShowModal: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
-    selectTab: Function
+    selectTab: Function,
+    projects: Project[],
+    selectedProject: Project | undefined,
+    selectProject: Function,
+    removeProject: Function,
+    importModel: Function
 }
 
-export const TabContent: React.FC<TabContentProps> = ({name, setShowModal, projectsTab, setProjectsTab, selectTab}) => {
+export const TabContent: React.FC<TabContentProps> = (
+    {name, setShowModal, projectsTab, setProjectsTab, selectTab, projects, selectedProject, selectProject, removeProject, importModel}
+) => {
     const menuItems = factoryMenuItems(name)
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
 
@@ -36,6 +43,11 @@ export const TabContent: React.FC<TabContentProps> = ({name, setShowModal, proje
                 projectsTab={projectsTab}
                 setProjectsTab={setProjectsTab}
                 selectTab={selectTab}
+                projects={projects}
+                selectedProject={selectedProject}
+                removeProject={removeProject}
+                selectProject={selectProject}
+                importModel={importModel}
             />
         </>
     )
@@ -57,11 +69,16 @@ interface FactoryContentProps {
     setShowModal: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
-    selectTab: Function
+    selectTab: Function,
+    projects: Project[],
+    selectedProject: Project | undefined,
+    selectProject: Function,
+    removeProject: Function,
+    importModel: Function
 }
 
 export const FactoryContent: React.FC<FactoryContentProps> = (
-    {menuItem, setShowModal, projectsTab, setProjectsTab, selectTab}
+    {menuItem, setShowModal, projectsTab, setProjectsTab, selectTab, projects, selectedProject, selectProject, removeProject, importModel}
 ) => {
     const factoryContent = (menuItem: string): JSX.Element => {
         switch (menuItem) {
@@ -73,6 +90,9 @@ export const FactoryContent: React.FC<FactoryContentProps> = (
                             projectsTab={projectsTab}
                             setProjectsTab={setProjectsTab}
                             selectTab={selectTab}
+                            projects={projects}
+                            selectProject={selectProject}
+                            removeProject={removeProject}
                         />
                     </RightPanel>
                 )
@@ -84,26 +104,43 @@ export const FactoryContent: React.FC<FactoryContentProps> = (
                         projectsTab={projectsTab}
                         setProjectsTab={setProjectsTab}
                         selectTab={selectTab}
+                        projects={projects}
+                        selectProject={selectProject}
+                        removeProject={removeProject}
                     />
                 </RightPanel>
             case 'Simulations' :
                 return <RightPanel>
-                    <Simulations/>
+                    <Simulations
+                        projects={projects}
+                    />
                 </RightPanel>
             case 'Modeler' :
                 return <>
-                    <Modeler/>
+                    <Modeler
+                        selectedProject={selectedProject}
+                        selectProject={selectProject}
+                        importModel={importModel}
+                    />
                     <LeftPanel secondTab="Materials"/>
                 </>
 
             case 'Physics' :
                 return <>
-                    <Modeler/>
+                    <Modeler
+                        selectedProject={selectedProject}
+                        selectProject={selectProject}
+                        importModel={importModel}
+                    />
                     <LeftPanel secondTab="Physics"/>
                 </>
             case 'Simulator' :
                 return <>
-                    <Modeler/>
+                    <Modeler
+                        selectedProject={selectedProject}
+                        selectProject={selectProject}
+                        importModel={importModel}
+                    />
                     <LeftPanel secondTab="Simulator"/>
                 </>
             case 'Results' :

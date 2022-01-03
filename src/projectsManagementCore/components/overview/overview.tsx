@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import './overview.css'
 import {Project} from "../../../model/Project";
-import {useDispatch, useSelector} from "react-redux";
-import {projectsSelector, selectProject} from "../../../store/projectSlice";
 import {OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
 import {popoverRight} from "../../shared/popover/popover";
@@ -11,12 +9,15 @@ interface OverviewProps {
     setShowModal: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
-    selectTab: Function
+    selectTab: Function,
+    projects: Project[],
+    selectProject: Function,
+    removeProject: Function
 }
 
-export const Overview: React.FC<OverviewProps> = ({setShowModal, projectsTab, setProjectsTab, selectTab}) => {
-    const projects = useSelector(projectsSelector)
-    const dispatch = useDispatch()
+export const Overview: React.FC<OverviewProps> = (
+    {setShowModal, projectsTab, setProjectsTab, selectTab, projects, selectProject, removeProject}
+) => {
     const [cardMenuHovered, setCardMenuHovered] = useState(false);
 
     const handleCardClick = (project: Project) => {
@@ -24,7 +25,8 @@ export const Overview: React.FC<OverviewProps> = ({setShowModal, projectsTab, se
             if(!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)){
                 setProjectsTab(projectsTab.concat(project))
             }
-            dispatch(selectProject(project.name))
+            //dispatch(selectProject(project.name))
+            selectProject(project.name)
             selectTab(project.name)
         }
 
@@ -63,7 +65,7 @@ export const Overview: React.FC<OverviewProps> = ({setShowModal, projectsTab, se
                                                 {project.name}
                                             </div>
                                             <div className="col-2" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
-                                                <OverlayTrigger trigger="click" placement="right" overlay={popoverRight(project, dispatch, projectsTab, setProjectsTab)}>
+                                                <OverlayTrigger trigger="click" placement="right" overlay={popoverRight(project, removeProject, projectsTab, setProjectsTab)}>
                                                     <button className="overviewCardMenuButton">
                                                         <BsThreeDotsVertical/>
                                                     </button>

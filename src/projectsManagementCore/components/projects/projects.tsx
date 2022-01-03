@@ -1,7 +1,5 @@
 import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
 import {Project} from "../../../model/Project";
-import {projectsSelector, selectProject} from "../../../store/projectSlice";
 import './projects.css'
 import {OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
@@ -12,18 +10,21 @@ interface ProjectsProps {
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
+    projects: Project[],
+    selectProject: Function,
+    removeProject: Function
 }
 
-export const Projects: React.FC<ProjectsProps> = ({setShowModal, projectsTab, setProjectsTab, selectTab}) => {
-
-    const projects = useSelector(projectsSelector)
-    const dispatch = useDispatch()
+export const Projects: React.FC<ProjectsProps> = (
+    {setShowModal, projectsTab, setProjectsTab, selectTab, projects, removeProject, selectProject}
+) => {
 
     const handleCardClick = (project: Project) => {
         if (!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)) {
             setProjectsTab(projectsTab.concat(project))
         }
-        dispatch(selectProject(project.name))
+        //dispatch(selectProject(project.name))
+        selectProject(project.name)
         selectTab(project.name)
     }
 
@@ -54,7 +55,7 @@ export const Projects: React.FC<ProjectsProps> = ({setShowModal, projectsTab, se
                                                 </div>
                                                 <div className="col-2">
                                                     <OverlayTrigger trigger="click" placement="right"
-                                                                    overlay={popoverRight(project, dispatch, projectsTab, setProjectsTab)}>
+                                                                    overlay={popoverRight(project, removeProject, projectsTab, setProjectsTab)}>
                                                         <button className="projectsCardMenuButton">
                                                             <BsThreeDotsVertical/>
                                                         </button>

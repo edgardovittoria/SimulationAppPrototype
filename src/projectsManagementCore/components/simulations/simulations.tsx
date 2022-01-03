@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
 import {projectsSelector, selectProject} from "../../../store/projectSlice";
 import {OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
@@ -10,14 +9,14 @@ import {Simulation} from "../../../model/Simulation";
 import {TiDelete} from "react-icons/ti";
 import {MdWatchLater} from "react-icons/md";
 import {AiOutlineBarChart} from "react-icons/ai";
+import {Project} from "../../../model/Project";
 
 interface SimulationsProps {
+    projects: Project[]
 }
 
-export const Simulations: React.FC<SimulationsProps> = ({}) => {
-    const projects = useSelector(projectsSelector)
+export const Simulations: React.FC<SimulationsProps> = ({projects}) => {
     const [resultsIconVisibility, setResultsIconVisibility] = useState<'visible'| 'invisible'>('invisible');
-    //const dispatch = useDispatch()
     let simulations: Simulation[] = []
     projects.map(project => {
         project.simulations.map(simulation => simulations.push(simulation))

@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {Project} from "../../../model/Project";
 import {Modal} from "react-bootstrap";
-import {addProject, selectProject} from "../../../store/projectSlice";
-import {useDispatch} from "react-redux";
 import "./createNewProjectModal.css"
 import {Simulation} from "../../../model/Simulation";
 
@@ -11,12 +9,14 @@ interface CreateNewProjectModalProps {
     setShow: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
-    selectTab: Function
+    selectTab: Function,
+    addNewProject: Function,
+    selectProject: Function
 }
 
-export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = ({show, setShow, projectsTab, setProjectsTab, selectTab}) => {
-
-    const dispatch = useDispatch()
+export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
+    {show, setShow, projectsTab, setProjectsTab, selectTab, addNewProject, selectProject}
+) => {
 
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
@@ -26,8 +26,10 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = ({sho
         if(projectName.length > 0){
             let simulation: Simulation = {name: 'Test Simulation', started: new Date().toLocaleString(), ended: new Date().toLocaleString(), status: 'Paused'}
             let newProject: Project = {name: projectName, description: projectDescription, model: "", materials: "", physics: "", simulations: [simulation]}
-            dispatch(addProject(newProject))
-            dispatch(selectProject(newProject.name))
+            //dispatch(addProject(newProject))
+            addNewProject(newProject)
+            //dispatch(selectProject(newProject.name))
+            selectProject(newProject.name)
             setProjectsTab(projectsTab.concat(newProject))
             selectTab(newProject.name)
             setShow(false)

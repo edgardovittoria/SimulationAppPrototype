@@ -5,15 +5,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {TabsContainer} from "./navBar/tabsContainer/tabsContainer";
 import {TabContent} from "./navBar/tab/tabContent/tabContent";
 import {FaBell, FaUser} from "react-icons/fa";
-import {projectsSelector} from "./store/projectSlice";
+import {
+    addProject, importModel,
+    projectsSelector,
+    removeProject,
+    selectedProjectSelector,
+    selectProject
+} from "./store/projectSlice";
 import {Project} from "./model/Project";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {CreateNewProjectModal} from "./projectsManagementCore/modals/createNewProjectModal/createNewProjectModal";
 
 
 function App() {
 
     const projects = useSelector(projectsSelector)
+    const selectedProject = useSelector(selectedProjectSelector)
+    const dispatch = useDispatch()
     const [tabSelected, setTabSelected] = useState("DASHBOARD");
     const [projectsTab, setProjectsTab] = useState<Project[]>(projects);
     const [showCreateNewProjectModal, setShowCreateNewProjectModal] = useState(false);
@@ -31,6 +39,7 @@ function App() {
                           projectsTab={projectsTab}
                           setProjectsTab={setProjectsTab}
                           setShowModal={setShowCreateNewProjectModal}
+                          selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
                       />
                   </div>
                   <div className="mr-auto notificationContainer">
@@ -45,6 +54,11 @@ function App() {
               projectsTab={projectsTab}
               setProjectsTab={setProjectsTab}
               selectTab={setTabSelected}
+              projects={projects}
+              selectedProject={selectedProject}
+              selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
+              removeProject={(projectName: string) => dispatch(removeProject(projectName))}
+              importModel={(projectToImport: {name: string, model: string}) => dispatch(importModel(projectToImport))}
           />
           <CreateNewProjectModal
               show={showCreateNewProjectModal}
@@ -52,6 +66,8 @@ function App() {
               projectsTab={projectsTab}
               setProjectsTab={setProjectsTab}
               selectTab={setTabSelected}
+              addNewProject={(project: Project) => dispatch(addProject(project))}
+              selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
           />
       </>
 

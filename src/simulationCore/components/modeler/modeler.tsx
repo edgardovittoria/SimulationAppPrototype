@@ -4,17 +4,19 @@ import * as THREE from 'three';
 import {OrbitControls} from '@react-three/drei'
 import './modeler.css'
 import {GrCubes, GrCube} from "react-icons/gr";
-import {useDispatch, useSelector} from "react-redux";
-import {importModel, selectedProjectSelector, selectProject} from "../../../store/projectSlice";
 import {GiCubeforce} from "react-icons/gi";
+import {Project} from "../../../model/Project";
 
 interface ModelerProps {
+    selectedProject: Project | undefined,
+    importModel: Function,
+    selectProject: Function
 }
 
-export const Modeler: React.FC<ModelerProps> = () => {
+export const Modeler: React.FC<ModelerProps> = (
+    {selectedProject, importModel, selectProject}
+) => {
 
-    const selectedProject = useSelector(selectedProjectSelector)
-    const dispatch = useDispatch()
 
     return (
         <>
@@ -34,8 +36,10 @@ export const Modeler: React.FC<ModelerProps> = () => {
                     <button className="btn button-primary btn-import"
                             onClick={() => {
                                 if(selectedProject){
-                                    dispatch(importModel({name: selectedProject.name, model: 'test'}))
-                                    dispatch(selectProject(selectedProject.name))
+                                    /*dispatch(importModel({name: selectedProject.name, model: 'test'}))
+                                    dispatch(selectProject(selectedProject.name))*/
+                                    importModel({name: selectedProject.name, model: 'test'})
+                                    selectProject(selectedProject.name)
                                 }
                             }
                             }>
