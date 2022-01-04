@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Canvas } from "@react-three/fiber";
 import * as THREE from 'three';
 import { OrbitControls } from '@react-three/drei'
@@ -6,29 +6,17 @@ import './modeler.css'
 import { GrCubes, GrCube } from "react-icons/gr";
 import { GiCubeforce } from "react-icons/gi";
 import { Project } from "../../../model/Project";
-import { FactoryShapes, importActionParamsObject, importFromCadProject } from '@Draco112358/cad-library';
-import { useDispatch } from 'react-redux';
+import { FactoryShapes, ImportActionParamsObject, ImportCadProjectButton } from '@Draco112358/cad-library';
 
 interface ModelerProps {
     selectedProject: Project | undefined,
-    importModel: (params: importActionParamsObject) => any,
+    importModel: (params: ImportActionParamsObject) => any,
     selectProject: Function
 }
 
 export const Modeler: React.FC<ModelerProps> = (
     { selectedProject, importModel, selectProject }
 ) => {
-
-    const dispatch = useDispatch()
-    const inputRefProject = useRef(null)
-
-    const onImportProjectClick = () => {
-        let input = inputRefProject.current
-        if (input) {
-            (input as HTMLInputElement).click()
-        }
-
-    };
 
     return (
         <>
@@ -49,18 +37,9 @@ export const Modeler: React.FC<ModelerProps> = (
                 </Canvas>
                 :
                 <div>
-                    <button className="btn button-primary btn-import" onClick={onImportProjectClick}>
+                    <ImportCadProjectButton className='btn button-primary btn-import' importAction={importModel} actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
                         <GiCubeforce style={{ width: "25px", height: "25px", marginRight: "5px" }} /> Import CAD
-                        <input
-                            type="file"
-                            ref={inputRefProject}
-                            style={{ display: "none" }}
-                            accept="application/json"
-                            onChange={(e) => {
-                                let files = e.target.files;
-                                (files) && importFromCadProject(files[0], dispatch, importModel, {id: selectedProject?.name} as importActionParamsObject)
-                            }} />
-                    </button>
+                    </ImportCadProjectButton>
                 </div>
             }
         </>
@@ -73,7 +52,7 @@ export const Modeler: React.FC<ModelerProps> = (
 interface ModelOutlinerProps {
 }
 
-export const ModelOutliner: React.FC<ModelOutlinerProps> = ({ }) => {
+export const ModelOutliner: React.FC<ModelOutlinerProps> = () => {
     return (
         <>
             <div className='col mt-4'>

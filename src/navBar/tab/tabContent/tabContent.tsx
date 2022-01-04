@@ -9,7 +9,7 @@ import {LeftPanel} from "../../../simulationCore/components/dashBoard/leftPanel"
 import {RightPanel} from "../../../projectsManagementCore/components/rightPanel/rightPanel";
 import {Project} from "../../../model/Project";
 import {Simulations} from "../../../projectsManagementCore/components/simulations/simulations";
-import { importActionParamsObject } from '@Draco112358/cad-library';
+import { ImportActionParamsObject } from '@Draco112358/cad-library';
 
 
 interface TabContentProps {
@@ -22,7 +22,7 @@ interface TabContentProps {
     selectedProject: Project | undefined,
     selectProject: Function,
     removeProject: Function,
-    importModel: (params: importActionParamsObject) => any
+    importModel: (params: ImportActionParamsObject) => any
 }
 
 export const TabContent: React.FC<TabContentProps> = (
@@ -75,7 +75,7 @@ interface FactoryContentProps {
     selectedProject: Project | undefined,
     selectProject: Function,
     removeProject: Function,
-    importModel: (params: importActionParamsObject) => any
+    importModel: (params: ImportActionParamsObject) => any
 }
 
 export const FactoryContent: React.FC<FactoryContentProps> = (
