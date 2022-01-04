@@ -28,12 +28,9 @@ export const ProjectSlice = createSlice({
 
         },
         importModel(state: ProjectState, action: PayloadAction<importActionParamsObject>){
-            state.projects.map(project => {
-                if(project.name === action.payload.id){
-                    project.model = action.payload.canvas
-                }
-                return 'project updated'
-            })
+            if(state.selectedProject && state.selectedProject.name === action.payload.id){
+                state.selectedProject.model = action.payload.canvas
+            }
         }
     },
     extraReducers: {

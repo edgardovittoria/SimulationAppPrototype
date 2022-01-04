@@ -15,7 +15,6 @@ import {
 import {Project} from "./model/Project";
 import {useDispatch, useSelector} from "react-redux";
 import {CreateNewProjectModal} from "./projectsManagementCore/modals/createNewProjectModal/createNewProjectModal";
-import { importActionParamsObject } from '@Draco112358/cad-library';
 
 
 function App() {

@@ -33,11 +33,12 @@ export const Modeler: React.FC<ModelerProps> = (
     return (
         <>
             {(selectedProject && selectedProject.model.components !== undefined) ?
-                <Canvas style={{ width: "1836px", height: "700px" }}>
+                <Canvas style={{ width: "1836px", height: "800px" }}>
                     <pointLight position={[100, 100, 100]} intensity={0.8} />
                     <hemisphereLight color={'#ffffff'} groundColor={new THREE.Color('#b9b9b9')} position={[-7, 25, 13]}
                         intensity={0.85} />
                     {selectedProject.model.components.map(component => {
+                        console.log(component)
                         return (
                             <mesh key={component.keyComponent}>
                                 <FactoryShapes entity={component} />
@@ -67,8 +68,7 @@ export const Modeler: React.FC<ModelerProps> = (
 
 }
 
-{/*TODO: refactor: move model outliner into another component and create css file for style*/
-}
+/*TODO: refactor: move model outliner into another component and create css file for style*/
 
 interface ModelOutlinerProps {
 }
