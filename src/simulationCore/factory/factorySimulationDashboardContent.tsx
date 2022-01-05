@@ -1,6 +1,7 @@
 import React from "react";
 import {Project} from "../../model/Project";
 import {ModelOutliner} from "../components/modeler/modeler";
+import {FaCircle} from "react-icons/fa";
 
 interface FactorySimulationDashboardContentProps {
     selectedTab: string,
@@ -12,10 +13,24 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
         case 'Materials' :
             return (
                 <>
-                    {/*TODO: check has to be done on the materials attribute and not on model*/}
-                    {(selectedProject && selectedProject.materials !== "")
-                        ? <div className="leftPanel modelContainer">
-                            Materials
+                    {(selectedProject && selectedProject.materials.length > 0)
+                        ? <div className="leftPanel modelContainer py-4 h-auto">
+                            <ul className="list-unstyled mb-0">
+                            {selectedProject.materials.map((material, index) => {
+                                return(
+                                    <li key={index} className="mt-2">
+                                        <div className="row">
+                                            <div className="col-2 pe-0 ps-0">
+                                                <FaCircle color={material.color} />
+                                            </div>
+                                            <div className="col-6 text-start ps-0">
+                                                <h5 className="fw-normal mb-0">{material.name}</h5>
+                                            </div>
+                                        </div>
+                                    </li>
+                                )
+                            })}
+                            </ul>
                         </div>
                         : <div className="leftPanel modelContainer">
                             <img src="/noMaterialsIcon.png" style={{marginTop: "100px"}}/>
@@ -29,7 +44,6 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
         case 'Physics' :
             return (
                 <>
-                    {/*TODO: check has to be done on the materials attribute and not on model*/}
                     {(selectedProject && selectedProject.physics !== "")
                         ? <div className="leftPanel modelContainer">
                             Physics
@@ -46,8 +60,7 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
         case 'Simulator' :
             return (
                 <>
-                    {/*TODO: check has to be done on the materials attribute and not on model*/}
-                    {(selectedProject && selectedProject.materials !== "" && selectedProject.physics !== "")
+                    {(selectedProject && selectedProject.materials.length > 0 && selectedProject.physics !== "")
                         ? <div className="leftPanel modelContainer">
                             Simulator
                         </div>
@@ -63,7 +76,6 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
         case 'Results' :
             return (
                 <>
-                    {/*TODO: check has to be done on the materials attribute and not on model*/}
                     {(selectedProject && selectedProject.simulations.length > 0)
                         ? <div className="leftPanel modelContainer">
                             Results

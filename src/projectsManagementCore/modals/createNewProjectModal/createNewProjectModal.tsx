@@ -4,6 +4,7 @@ import {Modal} from "react-bootstrap";
 import "./createNewProjectModal.css"
 import {Simulation} from "../../../model/Simulation";
 import { CanvasState } from '@Draco112358/cad-library';
+import {allowedMaterial, Material} from "../../../model/Material";
 
 interface CreateNewProjectModalProps {
     show: boolean,
@@ -26,7 +27,17 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
     const handleCreate = () => {
         if(projectName.length > 0){
             let simulation: Simulation = {name: 'Test Simulation', started: new Date().toLocaleString(), ended: new Date().toLocaleString(), status: 'Paused'}
-            let newProject: Project = {name: projectName, description: projectDescription, model: {} as CanvasState, materials: "", physics: "", simulations: [simulation]}
+            let newProject: Project = {
+                name: projectName,
+                description: projectDescription,
+                model: {} as CanvasState,
+                materials: [
+                    allowedMaterial.get('Alumina') ?? {} as Material,
+                    allowedMaterial.get('Copper') ?? {} as Material,
+                ],
+                physics: "",
+                simulations: [simulation]
+            }
             //dispatch(addProject(newProject))
             addNewProject(newProject)
             //dispatch(selectProject(newProject.name))

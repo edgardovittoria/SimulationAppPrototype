@@ -6,7 +6,7 @@ import './modeler.css'
 import { GrCubes, GrCube } from "react-icons/gr";
 import { GiCubeforce } from "react-icons/gi";
 import { Project } from "../../../model/Project";
-import { FactoryShapes, ImportActionParamsObject, ImportCadProjectButton } from '@Draco112358/cad-library';
+import { FactoryShapes, ImportActionParamsObject, ImportCadProjectButton } from '@Draco112358/cad-library'
 
 interface ModelerProps {
     selectedProject: Project | undefined,
@@ -26,7 +26,6 @@ export const Modeler: React.FC<ModelerProps> = (
                     <hemisphereLight color={'#ffffff'} groundColor={new THREE.Color('#b9b9b9')} position={[-7, 25, 13]}
                         intensity={0.85} />
                     {selectedProject.model.components.map(component => {
-                        console.log(component)
                         return (
                             <mesh key={component.keyComponent}>
                                 <FactoryShapes entity={component} />
@@ -60,8 +59,8 @@ export const ModelOutliner: React.FC<ModelOutlinerProps> = () => {
                     <div className="col-2">
                         <GrCubes className="outlinerGroupIcon" />
                     </div>
-                    <div className="col-10 text-start">
-                        <h6 className="outlinerGroupTitle">Cube</h6>
+                    <div className="col-10 text-start ps-0">
+                        <h5 className="outlinerGroupTitle">Cube</h5>
                     </div>
                 </div>
                 <div className="row p-1 ps-5">
