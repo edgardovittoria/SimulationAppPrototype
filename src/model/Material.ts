@@ -1,10 +1,12 @@
+import {ComponentEntity} from "@Draco112358/cad-library";
+
 export type Material = {
     name: string,
-    color: string
-    //TODO: add face or part of component that is associated with the material
+    color: string,
+    associatedComponentKey: number
 }
 
 
-export const allowedMaterial: Map<string, Material> = new Map<string, Material>()
-allowedMaterial.set('Alumina', {name: 'Alumina', color: '#61d6b8'})
-allowedMaterial.set('Copper', {name: 'Copper', color: '#f18151'})
+export const allowedMaterial: Omit<Material, 'associatedComponentKey'>[] = []
+allowedMaterial.push({name: 'Alumina', color: '#61d6b8'})
+allowedMaterial.push({name: 'Copper', color: '#f18151'})
