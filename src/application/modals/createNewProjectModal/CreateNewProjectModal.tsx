@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
 import {Project} from "../../../model/Project";
 import {Modal} from "react-bootstrap";
-import "./createNewProjectModal.css"
 import {Simulation} from "../../../model/Simulation";
 import { CanvasState } from '@Draco112358/cad-library';
-import {allowedMaterial, Material} from "../../../model/Material";
 
 interface CreateNewProjectModalProps {
     show: boolean,
@@ -55,7 +53,7 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
             </Modal.Header>
             <Modal.Body>
                 <div className="d-grid">
-                    <div className="modalInput">
+                    <div className="p-2">
                         <h6>Insert Project's Name</h6>
                         <input
                             type="text"
@@ -64,7 +62,7 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
                             value={projectName}
                             onChange={(e) => setProjectName(e.target.value)}/>
                     </div>
-                    <div className="modalInput">
+                    <div className="p-2">
                         <h6>Insert Project's Description</h6>
                         <textarea
                             className="form-control"

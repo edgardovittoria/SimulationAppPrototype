@@ -1,6 +1,6 @@
 import React from "react";
 import {Project} from "../../../../../model/Project";
-import {ModelOutliner} from "../components/dashBoard/leftPanel/components/modelOutliner/modelOutliner";
+import {ModelOutliner} from "../components/dashBoard/leftPanel/components/modelOutliner/ModelOutliner";
 import {FaCircle} from "react-icons/fa";
 import {ComponentEntity} from "@Draco112358/cad-library";
 

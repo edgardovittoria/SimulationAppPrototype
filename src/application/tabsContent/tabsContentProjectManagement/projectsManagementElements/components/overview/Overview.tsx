@@ -3,7 +3,7 @@ import './overview.css'
 import {Project} from "../../../../../../model/Project";
 import {OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
-import {popoverRight} from "../../shared/popover/popover";
+import {popoverRight} from "../../shared/popover/Popover";
 
 interface OverviewProps {
     setShowModal: Function,

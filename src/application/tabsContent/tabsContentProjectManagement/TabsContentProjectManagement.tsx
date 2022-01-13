@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {TabsContentProjectManagementFactory} from "./factory/tabsContentProjectManagementFactory";
+import {TabsContentProjectManagementFactory} from "./factory/TabsContentProjectManagementFactory";
 import {Project} from "../../../model/Project";
 import {useDispatch, useSelector} from "react-redux";
 import {projectsSelector, removeProject, selectProject} from "../../../store/projectSlice";
-import {MenuBar} from "../menuBar/menuBar";
+import {MenuBar} from "../menuBar/MenuBar";
 
 interface TabsContentProjectManagementProps {
     setShowModal: Function,

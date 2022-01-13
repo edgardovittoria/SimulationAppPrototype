@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import './GlobalColors.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {TabsContainer} from "./application/tabsContainer/tabsContainer";
+import {TabsContainer} from "./application/tabsContainer/TabsContainer";
 import {
     addProject,
     projectsSelector,
@@ -10,9 +10,9 @@ import {
 } from "./store/projectSlice";
 import {Project} from "./model/Project";
 import {useDispatch, useSelector} from "react-redux";
-import {CreateNewProjectModal} from "./application/modals/createNewProjectModal/createNewProjectModal";
-import {TabsContentProjectManagement} from "./application/tabsContent/tabsContentProjectManagement/tabsContentProjectManagement";
-import {TabContentSimulation} from "./application/tabsContent/tabsContentSimulation/tabContentSimulation";
+import {CreateNewProjectModal} from "./application/modals/createNewProjectModal/CreateNewProjectModal";
+import {TabsContentProjectManagement} from "./application/tabsContent/tabsContentProjectManagement/TabsContentProjectManagement";
+import {TabContentSimulation} from "./application/tabsContent/tabsContentSimulation/TabContentSimulation";
 
 
 function App() {

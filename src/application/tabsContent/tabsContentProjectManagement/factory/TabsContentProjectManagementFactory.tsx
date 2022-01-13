@@ -1,9 +1,9 @@
 import React from 'react';
 import {Project} from "../../../../model/Project";
-import {RightPanel} from "../projectsManagementElements/components/rightPanel/rightPanel";
-import {Overview} from "../projectsManagementElements/components/overview/overview";
-import {Projects} from "../projectsManagementElements/components/projects/projects";
-import {Simulations} from "../projectsManagementElements/components/simulations/simulations";
+import {RightPanel} from "../projectsManagementElements/components/rightPanel/RightPanel";
+import {Overview} from "../projectsManagementElements/components/overview/Overview";
+import {Projects} from "../projectsManagementElements/components/projects/Projects";
+import {Simulations} from "../projectsManagementElements/components/simulations/Simulations";
 
 interface TabsContentProjectManagementFactoryProps {
     menuItem: string,

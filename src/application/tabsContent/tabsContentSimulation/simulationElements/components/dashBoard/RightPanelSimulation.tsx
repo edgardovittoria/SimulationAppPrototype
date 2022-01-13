@@ -1,7 +1,7 @@
 import React from 'react';
 import './rightPanelSimulation.css'
 import {ComponentEntity} from "@Draco112358/cad-library";
-import {FactoryRightPanelContent} from "./factory/factoryRightPanelContent";
+import {FactoryRightPanelContent} from "./factory/FactoryRightPanelContent";
 
 interface RightPanelSimulationProps {
     section: string,

@@ -1,13 +1,13 @@
 import React from 'react';
 import {Project} from "../../../../model/Project";
 import {ComponentEntity, ImportActionParamsObject} from "@Draco112358/cad-library";
-import {RightPanel} from "../../tabsContentProjectManagement/projectsManagementElements/components/rightPanel/rightPanel";
-import {Overview} from "../../tabsContentProjectManagement/projectsManagementElements/components/overview/overview";
-import {Projects} from "../../tabsContentProjectManagement/projectsManagementElements/components/projects/projects";
-import {Simulations} from "../../tabsContentProjectManagement/projectsManagementElements/components/simulations/simulations";
-import {Modeler} from "../simulationElements/components/modeler/modeler";
-import {LeftPanel} from "../simulationElements/components/dashBoard/leftPanel/leftPanel";
-import {RightPanelSimulation} from "../simulationElements/components/dashBoard/rightPanelSimulation";
+import {RightPanel} from "../../tabsContentProjectManagement/projectsManagementElements/components/rightPanel/RightPanel";
+import {Overview} from "../../tabsContentProjectManagement/projectsManagementElements/components/overview/Overview";
+import {Projects} from "../../tabsContentProjectManagement/projectsManagementElements/components/projects/Projects";
+import {Simulations} from "../../tabsContentProjectManagement/projectsManagementElements/components/simulations/Simulations";
+import {Modeler} from "../simulationElements/components/modeler/Modeler";
+import {LeftPanel} from "../simulationElements/components/dashBoard/leftPanel/LeftPanel";
+import {RightPanelSimulation} from "../simulationElements/components/dashBoard/RightPanelSimulation";
 
 interface TabsContentSimulationFactoryProps {
     menuItem: string,
@@ -103,6 +103,14 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
             </>
         case 'Results' :
             return <>
+                <Modeler
+                    selectedProject={selectedProject}
+                    importModel={importModel}
+                    selectComponent={selectComponent}
+                    unselectComponent={unselectComponent}
+                    selectedComponent={selectedComponent}
+                    updateComponentColor={updateComponentColor}
+                />
                 <LeftPanel
                     secondTab="Results"
                     selectedComponent={selectedComponent}

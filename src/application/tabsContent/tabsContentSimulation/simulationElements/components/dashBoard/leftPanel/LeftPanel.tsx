@@ -4,7 +4,7 @@ import {selectedProjectSelector} from "../../../../../../../store/projectSlice";
 import {GiAtom, GiAtomicSlashes, GiCubeforce, GiPowerButton} from "react-icons/gi";
 import {AiOutlineBarChart} from "react-icons/ai";
 import {Tab, Tabs} from "react-bootstrap";
-import {FactorySimulationDashboardContent} from "../../../factory/factorySimulationDashboardContent";
+import {FactorySimulationDashboardContent} from "../../../factory/FactorySimulationDashboardContent";
 
 import "./leftPanel.css"
 import {ComponentEntity} from "@Draco112358/cad-library";

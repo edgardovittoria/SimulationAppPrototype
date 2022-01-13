@@ -1,6 +1,6 @@
 import React from 'react';
 import {ComponentEntity} from "@Draco112358/cad-library";
-import {SelectMaterial} from "./components/selectMaterial";
+import {SelectMaterial} from "./components/SelectMaterial";
 
 interface FactoryRightPanelContentProps {
     section: string,

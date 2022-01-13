@@ -7,8 +7,8 @@ import {
     selectedComponentSelector,
     selectedProjectSelector, unselectComponent, updateColorComponent
 } from "../../../store/projectSlice";
-import {MenuBar} from "../menuBar/menuBar";
-import {TabsContentSimulationFactory} from "./factory/tabsContentSimulationFactory";
+import {MenuBar} from "../menuBar/MenuBar";
+import {TabsContentSimulationFactory} from "./factory/TabsContentSimulationFactory";
 import {ComponentEntity} from "@Draco112358/cad-library";
 import {Material} from "../../../model/Material";
 
