@@ -26,12 +26,27 @@
     height: 30px;
 }
 
+.outlinerComponentIcon{
+    width: 20px;
+    height: 20px;
+}
+
 .outlinerGroupTitle{
-    margin-left: 10px;
+    margin-left: 5px;
     font-size: 20px;
+    font-weight: 400;
 }
 
 .outlinerParts{
     padding-left: 10px;
     display: flex;
+}
+
+.rowActive{
+    background-color: #ededed;
+}
+
+.rowElements:hover{
+    background-color: #ededed;
+    cursor: pointer;
 }

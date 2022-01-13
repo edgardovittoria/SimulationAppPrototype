@@ -26,9 +26,9 @@ export const SelectMaterial: React.FC<SelectMaterialProps> = (
                         return (
                             <Dropdown.Item key={index} onClick={() => {
                                 selectedComponent.forEach(component => {
-                                    let materialToAssign: Material = {
-                                        ...material,
-                                        associatedComponentKey: component.keyComponent
+                                    let materialToAssign = {
+                                        material: material,
+                                        keyComponent: component.keyComponent
                                     }
                                     assignMaterial(materialToAssign)
                                 })

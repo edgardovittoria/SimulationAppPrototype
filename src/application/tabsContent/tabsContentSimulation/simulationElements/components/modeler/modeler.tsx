@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Canvas} from "@react-three/fiber";
+import {Canvas, useThree} from "@react-three/fiber";
 import * as THREE from 'three';
-import {Mesh, MeshPhongMaterial} from 'three';
+import {Color, Mesh, MeshPhongMaterial} from 'three';
 import {OrbitControls} from '@react-three/drei'
 import './modeler.css'
-import {GrCube, GrCubes} from "react-icons/gr";
 import {GiCubeforce} from "react-icons/gi";
 import {Project} from "../../../../../../model/Project";
 import {
@@ -14,6 +13,7 @@ import {
     ImportCadProjectButton
 } from '@Draco112358/cad-library'
 import {updateColorComponent} from "../../../../../../store/projectSlice";
+import {FaCube, FaCubes} from "react-icons/fa";
 
 
 interface ModelerProps {
@@ -21,19 +21,25 @@ interface ModelerProps {
     importModel: (params: ImportActionParamsObject) => any,
     selectedComponent: ComponentEntity[],
     selectComponent: Function,
+    unselectComponent: Function,
     updateComponentColor: Function
 }
 
 export const Modeler: React.FC<ModelerProps> = (
-    {selectedProject, importModel, selectComponent, selectedComponent, updateComponentColor}
+    {
+        selectedProject, importModel, selectComponent, unselectComponent,
+        selectedComponent, updateComponentColor
+    }
 ) => {
 
+    const [previousColor, setPreviousColor] = useState<Color>({} as Color);
+
     useEffect(() => {
-        if(selectedProject && selectedProject.model.components && selectedComponent.length === 0){
+        if (selectedProject && selectedProject.model.components && selectedComponent.length === 0) {
             selectedProject.model.components.forEach(component => {
                 updateComponentColor({keyComponent: component.keyComponent, color: component.color})
             })
-        }else{
+        } else {
             selectedComponent.forEach(component => {
                 updateComponentColor({keyComponent: component.keyComponent, color: '#1302fb'})
             })
@@ -51,9 +57,10 @@ export const Modeler: React.FC<ModelerProps> = (
                     {selectedProject.model.components.map(component => {
                         return (
                             <mesh
-                                userData={{keyComponent: component.keyComponent}}
+                                userData={{keyComponent: component.keyComponent, isSelected: false}}
                                 key={component.keyComponent}
                                 onPointerEnter={(event) => {
+                                    setPreviousColor(((event.object as Mesh).material as MeshPhongMaterial).color);
                                     (event.object as Mesh).material = new THREE.MeshPhongMaterial({
                                         color: '#0423fa',
                                         wireframe: true
@@ -61,11 +68,16 @@ export const Modeler: React.FC<ModelerProps> = (
                                 }}
                                 onPointerLeave={(event) => {
                                     (event.object as Mesh).material = new THREE.MeshPhongMaterial({
-                                        color: component.color,
+                                        color: previousColor,
                                         wireframe: false
                                     })
                                 }}
-                                onDoubleClick={() => {selectComponent(component)}}
+                                onDoubleClick={(event) => {
+                                    selectComponent(component)
+                                }}
+                                position={component.transformationParams.position}
+                                scale={component.transformationParams.scale}
+                                rotation={component.transformationParams.rotation}
                             >
                                 <FactoryShapes entity={component}/>
                             </mesh>
@@ -88,49 +100,3 @@ export const Modeler: React.FC<ModelerProps> = (
 
 /*TODO: refactor: move model outliner into another component and create css file for style*/
 
-interface ModelOutlinerProps {
-}
-
-export const ModelOutliner: React.FC<ModelOutlinerProps> = () => {
-    return (
-        <>
-            <div className='col mt-4'>
-                <div className="row ps-2">
-                    <div className="col-2">
-                        <GrCubes className="outlinerGroupIcon"/>
-                    </div>
-                    <div className="col-10 text-start ps-0">
-                        <h5 className="outlinerGroupTitle">Cube</h5>
-                    </div>
-                </div>
-                <div className="row p-1 ps-5">
-                    <div className="row">
-                        <div className="col-2">
-                            <GrCube className="outlinerGroupIcon"/>
-                        </div>
-                        <div className="col-10 text-start">
-                            <h6 className="outlinerGroupTitle">Part 1</h6>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-2">
-                            <GrCube className="outlinerGroupIcon"/>
-                        </div>
-                        <div className="col-10 text-start">
-                            <h6 className="outlinerGroupTitle">Part 2</h6>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-2">
-                            <GrCube className="outlinerGroupIcon"/>
-                        </div>
-                        <div className="col-10 text-start">
-                            <h6 className="outlinerGroupTitle">Part 3</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-
-}

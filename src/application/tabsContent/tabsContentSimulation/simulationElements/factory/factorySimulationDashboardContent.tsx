@@ -1,14 +1,24 @@
 import React from "react";
 import {Project} from "../../../../../model/Project";
-import {ModelOutliner} from "../components/modeler/modeler";
+import {ModelOutliner} from "../components/dashBoard/leftPanel/components/modelOutliner/modelOutliner";
 import {FaCircle} from "react-icons/fa";
+import {ComponentEntity} from "@Draco112358/cad-library";
 
 interface FactorySimulationDashboardContentProps {
     selectedTab: string,
-    selectedProject: Project | undefined
+    selectedProject: Project | undefined,
+    selectedComponent: ComponentEntity[],
+    selectComponent: Function,
+    unselectComponent: Function,
+    updateComponentColor: Function
 }
 
-export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashboardContentProps> = ({selectedTab, selectedProject}) => {
+export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashboardContentProps> = (
+    {
+        selectedTab, selectedProject, selectedComponent, selectComponent,
+        unselectComponent, updateComponentColor
+    }
+) => {
     switch (selectedTab) {
         case 'Materials' :
             return (
@@ -93,7 +103,13 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
                 <>
                     {(selectedProject && selectedProject.model.components !== undefined)
                         ? <div className="leftPanel modelContainer">
-                            <ModelOutliner/>
+                            <ModelOutliner
+                                selectedProject={selectedProject}
+                                selectedComponent={selectedComponent}
+                                selectComponent={selectComponent}
+                                unselectComponent={unselectComponent}
+                                updateComponentColor={updateComponentColor}
+                            />
                         </div>
                         : <div className="leftPanel modelContainer">
                             <img src="/noModelsIcon.png" style={{marginTop: "100px"}}/>

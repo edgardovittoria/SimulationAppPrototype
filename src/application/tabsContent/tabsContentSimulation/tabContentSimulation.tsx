@@ -3,9 +3,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     assignMaterial,
     importModel,
-    projectsSelector, resetSelectedComponents, selectComponent,
+    resetSelectedComponents, selectComponent,
     selectedComponentSelector,
-    selectedProjectSelector, updateColorComponent
+    selectedProjectSelector, unselectComponent, updateColorComponent
 } from "../../../store/projectSlice";
 import {MenuBar} from "../menuBar/menuBar";
 import {TabsContentSimulationFactory} from "./factory/tabsContentSimulationFactory";
@@ -33,7 +33,8 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = ({}) =>
                 importModel={importModel}
                 selectedComponent={selectedComponent}
                 selectComponent={(component: ComponentEntity) => dispatch(selectComponent(component))}
-                assignMaterial={(material: Material) => dispatch(assignMaterial(material))}
+                unselectComponent={(component: ComponentEntity) => dispatch(unselectComponent(component))}
+                assignMaterial={(material: {material: Omit<Material, 'associatedComponentKey'>, keyComponent: number}) => dispatch(assignMaterial(material))}
                 resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
                 updateComponentColor={(obj: {keyComponent: number, color:string}) => dispatch(updateColorComponent(obj))}
              />

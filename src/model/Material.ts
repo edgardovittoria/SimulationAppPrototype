@@ -1,9 +1,7 @@
-import {ComponentEntity} from "@Draco112358/cad-library";
-
 export type Material = {
     name: string,
     color: string,
-    associatedComponentKey: number
+    associatedComponentKey: number[]
 }
 
 

@@ -1,18 +1,25 @@
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {selectedProjectSelector} from "../../../../../../store/projectSlice";
+import {selectedProjectSelector} from "../../../../../../../store/projectSlice";
 import {GiAtom, GiAtomicSlashes, GiCubeforce, GiPowerButton} from "react-icons/gi";
 import {AiOutlineBarChart} from "react-icons/ai";
 import {Tab, Tabs} from "react-bootstrap";
-import {FactorySimulationDashboardContent} from "../../factory/factorySimulationDashboardContent";
+import {FactorySimulationDashboardContent} from "../../../factory/factorySimulationDashboardContent";
 
 import "./leftPanel.css"
+import {ComponentEntity} from "@Draco112358/cad-library";
 
 interface DashBoardProps {
     secondTab: string,
+    selectedComponent: ComponentEntity[]
+    selectComponent: Function,
+    unselectComponent: Function,
+    updateComponentColor: Function
 }
 
-export const LeftPanel: React.FC<DashBoardProps> = ({secondTab}) => {
+export const LeftPanel: React.FC<DashBoardProps> = (
+    {secondTab, selectedComponent, selectComponent, unselectComponent, updateComponentColor}
+) => {
 
     const [selectedTab, setSelectedTab] = useState("Modeler");
     const selectedProject = useSelector(selectedProjectSelector)
@@ -91,7 +98,14 @@ export const LeftPanel: React.FC<DashBoardProps> = ({secondTab}) => {
                          (selectedTab === "Modeler") ? tabTitles.filter(tabTitle => tabTitle.key === "Modeler")[0].object
                              : tabTitles.filter(tabTitle => tabTitle.key === "Modeler")[0].icon
                      }>
-                    <FactorySimulationDashboardContent selectedTab={selectedTab} selectedProject={selectedProject}/>
+                    <FactorySimulationDashboardContent
+                        selectedTab={selectedTab}
+                        selectedProject={selectedProject}
+                        selectedComponent={selectedComponent}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
                 </Tab>
                 <Tab eventKey={secondTab}
                      tabClassName={(selectedTab === secondTab) ? "" : "notActiveTab"}
@@ -100,7 +114,14 @@ export const LeftPanel: React.FC<DashBoardProps> = ({secondTab}) => {
                              : tabTitles.filter(tabTitle => tabTitle.key === secondTab)[0].icon
                      }
                 >
-                    <FactorySimulationDashboardContent selectedTab={selectedTab} selectedProject={selectedProject}/>
+                    <FactorySimulationDashboardContent
+                        selectedTab={selectedTab}
+                        selectedProject={selectedProject}
+                        selectedComponent={selectedComponent}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
                 </Tab>
             </Tabs>
         </>
