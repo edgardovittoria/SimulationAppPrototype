@@ -33,9 +33,7 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
                 physics: "",
                 simulations: [simulation]
             }
-            //dispatch(addProject(newProject))
             addNewProject(newProject)
-            //dispatch(selectProject(newProject.name))
             selectProject(newProject.name)
             setProjectsTab(projectsTab.concat(newProject))
             selectTab(newProject.name)

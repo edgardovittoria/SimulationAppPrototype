@@ -22,9 +22,9 @@ export const SelectMaterial: React.FC<SelectMaterialProps> = (
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    {allowedMaterial.map((material, index) => {
+                    {allowedMaterial.map((material) => {
                         return (
-                            <Dropdown.Item key={index} onClick={() => {
+                            <Dropdown.Item key={material.name} onClick={() => {
                                 selectedComponent.forEach(component => {
                                     let materialToAssign = {
                                         material: material,
@@ -34,13 +34,9 @@ export const SelectMaterial: React.FC<SelectMaterialProps> = (
                                 })
                                 resetSelectedComponentsArray();
                             }}>
-                                <div className="row">
-                                    <div className="col-2 pe-0 ps-0">
-                                        <FaCircle color={material.color} />
-                                    </div>
-                                    <div className="col-6 text-start ps-0">
-                                        <h5 className="fw-normal mb-0">{material.name}</h5>
-                                    </div>
+                                <div className="flex-column" key={material.name}>
+                                    <i className="fa fa-circle fa-xs" style={{color: material.color}}/>
+                                    <span className="fw-normal ms-2">{material.name}</span>
                                 </div>
                             </Dropdown.Item>
 

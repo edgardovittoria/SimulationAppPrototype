@@ -23,6 +23,7 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = ({}) =>
 
     const menuItems = ['Modeler', 'Physics', 'Simulator', 'Results']
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
+    const [showSimulationModel, setShowSimulationModel] = useState(false);
 
     return(
         <>
@@ -37,7 +38,9 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = ({}) =>
                 assignMaterial={(material: {material: Omit<Material, 'associatedComponentKey'>, keyComponent: number}) => dispatch(assignMaterial(material))}
                 resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
                 updateComponentColor={(obj: {keyComponent: number, color:string}) => dispatch(updateColorComponent(obj))}
-             />
+                showSimulationModel={showSimulationModel}
+                setShowSimulationModel={setShowSimulationModel}
+            />
         </>
     )
 

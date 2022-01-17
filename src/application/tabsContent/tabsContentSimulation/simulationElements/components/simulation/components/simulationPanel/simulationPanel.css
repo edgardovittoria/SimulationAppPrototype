@@ -1,0 +1,57 @@
+.simulationPanelContainer{
+    height: 100%;
+}
+
+.simulationPanelMenu, .simulationModalTitle{
+    background-color: #e1e1e1;
+}
+
+.simulationPanelContent{
+
+}
+
+.accordion-button {
+    border: none !important;
+    background-color: #e1e1e1;
+}
+
+.accordion-button:not(.collapsed) {
+    color: var(--primaryColor);
+    background-color: #e1e1e1;
+}
+
+.accordion-body {
+    padding-left: 40px;
+    background-color: #e1e1e1;
+}
+
+.accordion-button:focus {
+    z-index: 3;
+    outline: 0;
+    box-shadow: none;
+}
+
+.simulationModal > .modal-dialog{
+    max-width: 75%;
+    margin-top: 8%;
+}
+
+.simulationModal > .modal-dialog > .modal-content{
+    height: 600px;
+}
+
+.simulationModal > .modal-dialog > .modal-content > .modal-header{
+    border: none;
+    padding: 0;
+}
+
+.simulationModal > .modal-dialog > .modal-content > .modal-footer{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.simulationModal > .modal-dialog > .modal-content > .modal-body{
+    padding-left: 0;
+    padding-right: 0;
+}
+

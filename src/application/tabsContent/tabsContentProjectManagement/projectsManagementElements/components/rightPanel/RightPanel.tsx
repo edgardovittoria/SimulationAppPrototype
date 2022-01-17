@@ -10,7 +10,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({children}) => {
                 {children}
             </div>
             <div className="box boxCoreHours">
-                <h5>Core Hours</h5>
+                <h5>Right Panel</h5>
             </div>
         </div>
     )

@@ -27,6 +27,9 @@ export const LeftPanel: React.FC<DashBoardProps> = (
 
     useEffect(() => {
         setSelectedTab("Modeler")
+        if(secondTab === 'Results'){
+            setSelectedTab("Results")
+        }
     }, [secondTab]);
 
 
