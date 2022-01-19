@@ -1,10 +1,15 @@
 export type Material = {
     name: string,
     color: string,
+    permeability: number,
+    tangent_delta_permeability?: number,
+    custom_permeability?: [number, number],
+    permittivity: number,
+    tangent_delta_permittivity?: number,
+    custom_permittivity?: [number, number],
+    conductivity: number,
+    tangent_delta_conductivity?: number,
+    custom_conductivity?: [number, number]
     associatedComponentKey: number[]
 }
 
-
-export const allowedMaterial: Omit<Material, 'associatedComponentKey'>[] = []
-allowedMaterial.push({name: 'Alumina', color: '#61d6b8'})
-allowedMaterial.push({name: 'Copper', color: '#f18151'})

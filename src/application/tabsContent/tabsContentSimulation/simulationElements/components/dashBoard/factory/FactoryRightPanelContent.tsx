@@ -1,19 +1,21 @@
 import React from 'react';
 import {ComponentEntity} from "@Draco112358/cad-library";
 import {SelectMaterial} from "./components/SelectMaterial";
+import {Material} from "../../../../../../../model/Material";
 
 interface FactoryRightPanelContentProps {
     section: string,
     selectedComponent: ComponentEntity[],
     assignMaterial: Function,
     resetSelectedComponentsArray: Function,
-    setShowSimulationModel: Function
+    setShowSimulationModel: Function,
+    materials: Material[],
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
         section, selectedComponent, assignMaterial, resetSelectedComponentsArray,
-        setShowSimulationModel
+        setShowSimulationModel, materials
     }
 ) => {
     switch (section) {
@@ -22,6 +24,7 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                 selectedComponent={selectedComponent}
                 assignMaterial={assignMaterial}
                 resetSelectedComponentsArray={resetSelectedComponentsArray}
+                materials={materials}
             />
 
         case 'Physics' :

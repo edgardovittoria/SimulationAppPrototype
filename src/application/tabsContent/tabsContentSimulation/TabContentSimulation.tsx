@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
     assignMaterial,
@@ -11,6 +11,8 @@ import {MenuBar} from "../menuBar/MenuBar";
 import {TabsContentSimulationFactory} from "./factory/TabsContentSimulationFactory";
 import {ComponentEntity} from "@Draco112358/cad-library";
 import {Material} from "../../../model/Material";
+import {getMaterials} from "./api/materials_api";
+import {useMaterials} from "./hooks/useMaterials";
 
 interface TabContentSimulationProps {
 }
@@ -24,6 +26,9 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = ({}) =>
     const menuItems = ['Modeler', 'Physics', 'Simulator', 'Results']
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
     const [showSimulationModel, setShowSimulationModel] = useState(false);
+
+    let {materials} = useMaterials(); //hook to fetch materials,
+
 
     return(
         <>
@@ -40,6 +45,7 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = ({}) =>
                 updateComponentColor={(obj: {keyComponent: number, color:string}) => dispatch(updateColorComponent(obj))}
                 showSimulationModel={showSimulationModel}
                 setShowSimulationModel={setShowSimulationModel}
+                materials={materials}
             />
         </>
     )

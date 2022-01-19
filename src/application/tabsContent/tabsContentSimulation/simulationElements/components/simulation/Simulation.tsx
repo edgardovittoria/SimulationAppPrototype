@@ -5,7 +5,7 @@ import {Modeler} from "../modeler/Modeler";
 import {LeftPanel} from "../dashBoard/leftPanel/LeftPanel";
 import {RightPanelSimulation} from "../dashBoard/rightPanelSimulation/RightPanelSimulation";
 import {SimulationPanel} from "./components/simulationPanel/SimulationPanel";
-import {allowedMaterial} from "../../../../../../model/Material";
+import {Material} from "../../../../../../model/Material";
 
 interface SimulationProps {
     selectedProject: Project | undefined,
@@ -17,14 +17,15 @@ interface SimulationProps {
     resetSelectedComponentsArray: Function,
     updateComponentColor: Function,
     showSimulationModel: boolean,
-    setShowSimulationModel: Function
+    setShowSimulationModel: Function,
+    materials: Material[],
 }
 
 export const Simulation: React.FC<SimulationProps> = (
     {
         selectedProject, importModel, assignMaterial, selectComponent,
         unselectComponent, selectedComponent, resetSelectedComponentsArray, updateComponentColor,
-        showSimulationModel, setShowSimulationModel
+        showSimulationModel, setShowSimulationModel, materials
     }
 ) => {
     return (
@@ -50,9 +51,10 @@ export const Simulation: React.FC<SimulationProps> = (
                 selectedComponent={selectedComponent}
                 resetSelectedComponentsArray={resetSelectedComponentsArray}
                 setShowSimulationModel={setShowSimulationModel}
+                materials={materials}
             />
             <SimulationPanel
-                materials={[...allowedMaterial]}
+                materials={[...materials]}
                 physics={['physic1']}
                 showSimulationModel={showSimulationModel}
                 setShowSimulationModel={setShowSimulationModel}/>

@@ -9,6 +9,7 @@ import {Modeler} from "../simulationElements/components/modeler/Modeler";
 import {LeftPanel} from "../simulationElements/components/dashBoard/leftPanel/LeftPanel";
 import {RightPanelSimulation} from "../simulationElements/components/dashBoard/rightPanelSimulation/RightPanelSimulation";
 import {Simulation} from "../simulationElements/components/simulation/Simulation";
+import {Material} from "../../../../model/Material";
 
 interface TabsContentSimulationFactoryProps {
     menuItem: string,
@@ -21,16 +22,18 @@ interface TabsContentSimulationFactoryProps {
     resetSelectedComponentsArray: Function,
     updateComponentColor: Function,
     showSimulationModel: boolean,
-    setShowSimulationModel: Function
+    setShowSimulationModel: Function,
+    materials: Material[],
 }
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
     {
         menuItem, selectedProject, importModel, assignMaterial, selectComponent,
         unselectComponent, selectedComponent, resetSelectedComponentsArray, updateComponentColor,
-        showSimulationModel, setShowSimulationModel
+        showSimulationModel, setShowSimulationModel, materials
     }
 ) => {
+    console.log(materials)
     switch (menuItem) {
         case 'Modeler' :
             return <>
@@ -55,6 +58,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     selectedComponent={selectedComponent}
                     resetSelectedComponentsArray={resetSelectedComponentsArray}
                     setShowSimulationModel={setShowSimulationModel}
+                    materials={materials}
                 />
             </>
 
@@ -81,6 +85,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     selectedComponent={selectedComponent}
                     resetSelectedComponentsArray={resetSelectedComponentsArray}
                     setShowSimulationModel={setShowSimulationModel}
+                    materials={materials}
                 />
             </>
         case 'Simulator' :
@@ -89,7 +94,10 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                unselectComponent={unselectComponent} assignMaterial={assignMaterial}
                                resetSelectedComponentsArray={resetSelectedComponentsArray}
                                updateComponentColor={updateComponentColor}
-                               showSimulationModel={showSimulationModel} setShowSimulationModel={setShowSimulationModel}/>
+                               showSimulationModel={showSimulationModel} setShowSimulationModel={setShowSimulationModel}
+                               materials={materials}
+            />
+
         case 'Results' :
             return <>
                 <LeftPanel
@@ -105,6 +113,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     selectedComponent={selectedComponent}
                     resetSelectedComponentsArray={resetSelectedComponentsArray}
                     setShowSimulationModel={setShowSimulationModel}
+                    materials={materials}
                 />
             </>
         default :
