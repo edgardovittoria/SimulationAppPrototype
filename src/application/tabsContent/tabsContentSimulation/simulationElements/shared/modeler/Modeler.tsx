@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Canvas, useThree} from "@react-three/fiber";
+import {Canvas} from "@react-three/fiber";
 import * as THREE from 'three';
 import {Color, Mesh, MeshPhongMaterial} from 'three';
 import {OrbitControls} from '@react-three/drei'
@@ -12,8 +12,6 @@ import {
     ImportActionParamsObject,
     ImportCadProjectButton
 } from '@Draco112358/cad-library'
-import {updateColorComponent} from "../../../../../../store/projectSlice";
-import {FaCube, FaCubes} from "react-icons/fa";
 
 
 interface ModelerProps {
@@ -27,7 +25,7 @@ interface ModelerProps {
 
 export const Modeler: React.FC<ModelerProps> = (
     {
-        selectedProject, importModel, selectComponent, unselectComponent,
+        selectedProject, importModel, selectComponent,
         selectedComponent, updateComponentColor
     }
 ) => {
@@ -72,7 +70,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                         wireframe: false
                                     })
                                 }}
-                                onDoubleClick={(event) => {
+                                onDoubleClick={() => {
                                     selectComponent(component)
                                 }}
                                 position={component.transformationParams.position}
@@ -98,5 +96,4 @@ export const Modeler: React.FC<ModelerProps> = (
 
 }
 
-/*TODO: refactor: move model outliner into another component and create css file for style*/
 

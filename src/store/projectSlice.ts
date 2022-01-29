@@ -2,6 +2,7 @@ import {ComponentEntity, ImportActionParamsObject} from '@Draco112358/cad-librar
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Project} from "../model/Project";
 import {Material} from "../model/Material";
+import {Simulation} from "../model/Simulation";
 
 
 export type ProjectState = {
@@ -134,7 +135,26 @@ export const ProjectSlice = createSlice({
                     project.materials = state.selectedProject.materials
                 }
             })
-
+        },
+        createSimulation(state:ProjectState, action:PayloadAction<Simulation>){
+            state.selectedProject?.simulations.push(action.payload);
+            state.projects.forEach(project => {
+                if(project.name === state.selectedProject?.name){
+                    project.simulations.push(action.payload)
+                }
+            })
+        },
+        updateSimulation(state:ProjectState, action:PayloadAction<Simulation>){
+            if(state.selectedProject?.simulations){
+                state.selectedProject.simulations = state.selectedProject.simulations.filter(s => s.name !== action.payload.name)
+                state.selectedProject.simulations.push(action.payload)
+                console.log(state.selectedProject.simulations)
+            }
+            state.projects.forEach(project => {
+                if(project.name === state.selectedProject?.name){
+                    project.simulations = state.selectedProject.simulations
+                }
+            })
         }
     },
     extraReducers: {
@@ -146,12 +166,13 @@ export const ProjectSlice = createSlice({
 export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
     addProject, removeProject, importModel, selectProject, assignMaterial, selectComponent, unselectComponent,
-    resetSelectedComponents, updateColorComponent
+    resetSelectedComponents, updateColorComponent, createSimulation, updateSimulation
 } = ProjectSlice.actions
 
 export const projectsSelector = (state: { projects: ProjectState }) => state.projects.projects;
 export const selectedProjectSelector = (state: { projects: ProjectState }) => state.projects.selectedProject;
 export const selectedComponentSelector = (state: { projects: ProjectState }) => state.projects.selectedComponent;
+export const simulationSelector = (state: { projects: ProjectState }) => state.projects.selectedProject?.simulations;
 export const findProjectByName = (projects: Project[], name: string) => {
     return projects.filter(project => project.name === name)[0]
 }

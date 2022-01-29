@@ -4,7 +4,7 @@ import {selectedProjectSelector} from "../../../../../../../store/projectSlice";
 import {GiAtom, GiAtomicSlashes, GiCubeforce, GiPowerButton} from "react-icons/gi";
 import {AiOutlineBarChart} from "react-icons/ai";
 import {Tab, Tabs} from "react-bootstrap";
-import {FactorySimulationDashboardContent} from "../../../factory/FactorySimulationDashboardContent";
+import {FactorySimulationDashboardContent} from "./factory/FactorySimulationDashboardContent";
 
 import "./leftPanel.css"
 import {ComponentEntity} from "@Draco112358/cad-library";
@@ -97,6 +97,7 @@ export const LeftPanel: React.FC<DashBoardProps> = (
             >
                 <Tab eventKey="Modeler"
                      tabClassName={(selectedTab === "Modeler") ? "" : "notActiveTab"}
+                     disabled={(selectedTab === "Results")}
                      title={
                          (selectedTab === "Modeler") ? tabTitles.filter(tabTitle => tabTitle.key === "Modeler")[0].object
                              : tabTitles.filter(tabTitle => tabTitle.key === "Modeler")[0].icon

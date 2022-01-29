@@ -29,7 +29,7 @@ export const TabsContentProjectManagement: React.FC<TabsContentProjectManagement
 
     return (
         <>
-            <MenuBar setMenuItem={setMenuItemSelected} menuItem={menuItemSelected} children={menuItems}/>
+            <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/>
             <TabsContentProjectManagementFactory
                 menuItem={menuItemSelected}
                 setShowModal={setShowModal}

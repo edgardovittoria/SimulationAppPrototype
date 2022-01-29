@@ -1,18 +1,25 @@
 import React from 'react';
 import {Project} from "../../../../model/Project";
 import {ComponentEntity, ImportActionParamsObject} from "@Draco112358/cad-library";
-import {RightPanel} from "../../tabsContentProjectManagement/projectsManagementElements/components/rightPanel/RightPanel";
-import {Overview} from "../../tabsContentProjectManagement/projectsManagementElements/components/overview/Overview";
-import {Projects} from "../../tabsContentProjectManagement/projectsManagementElements/components/projects/Projects";
-import {Simulations} from "../../tabsContentProjectManagement/projectsManagementElements/components/simulations/Simulations";
-import {Modeler} from "../simulationElements/components/modeler/Modeler";
-import {LeftPanel} from "../simulationElements/components/dashBoard/leftPanel/LeftPanel";
-import {RightPanelSimulation} from "../simulationElements/components/dashBoard/rightPanelSimulation/RightPanelSimulation";
-import {Simulation} from "../simulationElements/components/simulation/Simulation";
+import {SimulationContent} from "../simulationElements/components/simulationContent/SimulationContent";
 import {Material} from "../../../../model/Material";
+import {ModelerContent} from "../simulationElements/components/modelerContent/ModelerContent";
+import {PhysicsContent} from "../simulationElements/components/physycsContent/PhysicsContent";
+import {ResultsContent} from "../simulationElements/components/resultsContent/ResultsContent";
+import {Modeler} from "../simulationElements/shared/modeler/Modeler";
+import {LeftPanel} from "../simulationElements/shared/dashBoard/leftPanel/LeftPanel";
+import {RightPanelSimulation} from "../simulationElements/shared/dashBoard/rightPanelSimulation/RightPanelSimulation";
+import {FactoryRightPanelContent} from "../simulationElements/shared/dashBoard/rightPanelSimulation/factory/FactoryRightPanelContent";
+import {SimulationPanel} from "../simulationElements/components/simulationContent/components/simulationPanel/SimulationPanel";
+import {LeftMenu} from "../simulationElements/components/simulationContent/components/simulationPanel/components/LeftMenu";
+import {PanelContent} from "../simulationElements/components/simulationContent/components/simulationPanel/components/PanelContent";
+import {PanelFooter} from "../simulationElements/components/simulationContent/components/simulationPanel/components/PanelFooter";
+import {LineChart} from "../simulationElements/components/resultsContent/components/LineChart";
+import {Simulation} from "../../../../model/Simulation";
 
 interface TabsContentSimulationFactoryProps {
     menuItem: string,
+    setMenuItem: Function
     selectedProject: Project | undefined,
     importModel: (params: ImportActionParamsObject) => any,
     selectedComponent: ComponentEntity[],
@@ -23,99 +30,145 @@ interface TabsContentSimulationFactoryProps {
     updateComponentColor: Function,
     showSimulationModel: boolean,
     setShowSimulationModel: Function,
-    materials: Material[],
+    availableMaterials: Material[],
+    meshGenerated: boolean,
+    setMeshGenerated: Function,
+    simulationStarted: "notStarted" | "started" | "Completed",
+    meshApproved: boolean,
+    setMeshApproved: Function,
+    simulation: Simulation | undefined
 }
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
     {
         menuItem, selectedProject, importModel, assignMaterial, selectComponent,
         unselectComponent, selectedComponent, resetSelectedComponentsArray, updateComponentColor,
-        showSimulationModel, setShowSimulationModel, materials
+        showSimulationModel, setShowSimulationModel, availableMaterials, setMenuItem, meshGenerated,
+        setMeshGenerated, simulationStarted, meshApproved, setMeshApproved, simulation
     }
 ) => {
-    console.log(materials)
     switch (menuItem) {
         case 'Modeler' :
-            return <>
-                <Modeler
-                    selectedProject={selectedProject}
-                    importModel={importModel}
-                    selectComponent={selectComponent}
-                    unselectComponent={unselectComponent}
-                    selectedComponent={selectedComponent}
-                    updateComponentColor={updateComponentColor}
-                />
-                <LeftPanel
-                    secondTab="Materials"
-                    selectedComponent={selectedComponent}
-                    selectComponent={selectComponent}
-                    unselectComponent={unselectComponent}
-                    updateComponentColor={updateComponentColor}
-                />
-                <RightPanelSimulation
-                    section="Modeler"
-                    assignMaterial={assignMaterial}
-                    selectedComponent={selectedComponent}
-                    resetSelectedComponentsArray={resetSelectedComponentsArray}
-                    setShowSimulationModel={setShowSimulationModel}
-                    materials={materials}
-                />
-            </>
+            return (
+                <ModelerContent>
+                    <Modeler
+                        selectedProject={selectedProject}
+                        importModel={importModel}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        selectedComponent={selectedComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
+                    <LeftPanel
+                        secondTab="Materials"
+                        selectedComponent={selectedComponent}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
+                    {selectedComponent.length > 0 &&
+                    <RightPanelSimulation>
+                        <FactoryRightPanelContent
+                            section="Modeler"
+                            selectedComponent={selectedComponent}
+                            assignMaterial={assignMaterial}
+                            resetSelectedComponentsArray={resetSelectedComponentsArray}
+                            setShowSimulationModel={setShowSimulationModel}
+                            availableMaterials={availableMaterials}
+                            assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                        />
+                    </RightPanelSimulation>}
+
+                </ModelerContent>
+            )
 
         case 'Physics' :
-            return <>
-                <Modeler
-                    selectedProject={selectedProject}
-                    importModel={importModel}
-                    selectComponent={selectComponent}
-                    unselectComponent={unselectComponent}
-                    selectedComponent={selectedComponent}
-                    updateComponentColor={updateComponentColor}
-                />
-                <LeftPanel
-                    secondTab="Physics"
-                    selectedComponent={selectedComponent}
-                    selectComponent={selectComponent}
-                    unselectComponent={unselectComponent}
-                    updateComponentColor={updateComponentColor}
-                />
-                <RightPanelSimulation
-                    section="Physics"
-                    assignMaterial={assignMaterial}
-                    selectedComponent={selectedComponent}
-                    resetSelectedComponentsArray={resetSelectedComponentsArray}
-                    setShowSimulationModel={setShowSimulationModel}
-                    materials={materials}
-                />
-            </>
+            return (
+                <PhysicsContent>
+                    <Modeler
+                        selectedProject={selectedProject}
+                        importModel={importModel}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        selectedComponent={selectedComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
+                    <LeftPanel
+                        secondTab="Physics"
+                        selectedComponent={selectedComponent}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
+                    <RightPanelSimulation>
+                        <FactoryRightPanelContent
+                            section="Physics"
+                            selectedComponent={selectedComponent}
+                            assignMaterial={assignMaterial}
+                            resetSelectedComponentsArray={resetSelectedComponentsArray}
+                            setShowSimulationModel={setShowSimulationModel}
+                            availableMaterials={availableMaterials}
+                            assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                        />
+                    </RightPanelSimulation>
+                </PhysicsContent>
+            )
         case 'Simulator' :
-            return <Simulation selectedProject={selectedProject} importModel={importModel}
-                               selectedComponent={selectedComponent} selectComponent={selectComponent}
-                               unselectComponent={unselectComponent} assignMaterial={assignMaterial}
-                               resetSelectedComponentsArray={resetSelectedComponentsArray}
-                               updateComponentColor={updateComponentColor}
-                               showSimulationModel={showSimulationModel} setShowSimulationModel={setShowSimulationModel}
-                               materials={materials}
-            />
-
+            return (
+                <SimulationContent>
+                    <Modeler
+                        selectedProject={selectedProject}
+                        importModel={importModel}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        selectedComponent={selectedComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
+                    <LeftPanel
+                        secondTab="Simulator"
+                        selectedComponent={selectedComponent}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
+                    <RightPanelSimulation>
+                        <FactoryRightPanelContent
+                            section="Simulator"
+                            selectedComponent={selectedComponent}
+                            assignMaterial={assignMaterial}
+                            resetSelectedComponentsArray={resetSelectedComponentsArray}
+                            setShowSimulationModel={setShowSimulationModel}
+                            availableMaterials={availableMaterials}
+                            assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                        />
+                    </RightPanelSimulation>
+                    <SimulationPanel
+                        showSimulationModel={showSimulationModel}
+                        setShowSimulationModel={setShowSimulationModel}
+                    >
+                        <LeftMenu assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                                  physics={['physic1']}/>
+                        <PanelContent simulationStarted={simulationStarted} meshGenerated={meshGenerated}/>
+                        <PanelFooter simulationStarted={simulationStarted} meshGenerated={meshGenerated}
+                                     meshApproved={meshApproved} setMeshGenerated={setMeshGenerated}
+                                     setMeshApproved={setMeshApproved} setMenuItem={setMenuItem}
+                                     setShowSimulationModel={setShowSimulationModel}/>
+                    </SimulationPanel>
+                </SimulationContent>
+            )
         case 'Results' :
-            return <>
-                <LeftPanel
-                    secondTab="Results"
-                    selectedComponent={selectedComponent}
-                    selectComponent={selectComponent}
-                    unselectComponent={unselectComponent}
-                    updateComponentColor={updateComponentColor}
-                />
-                <RightPanelSimulation
-                    section="Results"
-                    assignMaterial={assignMaterial}
-                    selectedComponent={selectedComponent}
-                    resetSelectedComponentsArray={resetSelectedComponentsArray}
-                    setShowSimulationModel={setShowSimulationModel}
-                    materials={materials}
-                />
-            </>
+            return (
+                <ResultsContent>
+                    <LeftPanel
+                        secondTab="Results"
+                        selectedComponent={selectedComponent}
+                        selectComponent={selectComponent}
+                        unselectComponent={unselectComponent}
+                        updateComponentColor={updateComponentColor}
+                    />
+                    {simulation && <LineChart simulation={simulation}/>}
+                </ResultsContent>
+            )
         default :
             return <></>
     }

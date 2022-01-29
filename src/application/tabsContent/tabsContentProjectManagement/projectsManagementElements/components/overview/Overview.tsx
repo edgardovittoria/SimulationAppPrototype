@@ -96,9 +96,6 @@ export const Overview: React.FC<OverviewProps> = (
                             </ul>
                             <button className="btn btn-seeMore">See More</button>
                         </div>
-                        {/*<div className="col-5">
-                            <img className="proAccountImage" src="/proAccount.png" alt="Pro Account"/>
-                        </div>*/}
                     </div>
                 </div>
 

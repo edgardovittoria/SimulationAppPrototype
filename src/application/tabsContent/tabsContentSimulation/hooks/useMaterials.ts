@@ -3,11 +3,11 @@ import {Material} from "../../../../model/Material";
 import {getMaterials} from "../api/materials_api";
 
 export const useMaterials = () => {
-    const [materials, setMaterials] = useState<Material[]>([]);
+    const [availableMaterials, setAvailableMaterials] = useState<Material[]>([]);
 
     useEffect(() => {
-        getMaterials().then(res => setMaterials(res))
+        getMaterials().then(res => setAvailableMaterials(res))
     }, []);
 
-    return {materials}
+    return {availableMaterials}
 }

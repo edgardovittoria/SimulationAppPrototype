@@ -12,7 +12,6 @@ interface SimulationsProps {
 }
 
 export const Simulations: React.FC<SimulationsProps> = ({projects}) => {
-    const [resultsIconVisibility, setResultsIconVisibility] = useState<'visible'| 'invisible'>('invisible');
     let simulations: Simulation[] = []
     projects.map(project => {
         project.simulations.map(simulation => simulations.push(simulation))
@@ -77,7 +76,7 @@ export const Simulations: React.FC<SimulationsProps> = ({projects}) => {
                                         <td className="py-4">{simulation.status}</td>
                                         <td id={index.toString()} className="py-4 simulationsResultIcon" style={{visibility: "hidden"}}>
                                             <AiOutlineBarChart color={'#00ae52'} style={{width: "30px", height: "30px"}}
-                                                onClick={() => {/*TODO: open results section*/}}
+                                                onClick={() => {/*TODO: open resultsContent section*/}}
                                             />
                                         </td>
                                     </tr>

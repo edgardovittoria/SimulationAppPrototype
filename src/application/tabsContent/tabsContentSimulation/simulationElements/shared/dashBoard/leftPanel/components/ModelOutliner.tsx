@@ -1,4 +1,4 @@
-import {Project} from "../../../../../../../../../model/Project";
+import {Project} from "../../../../../../../../model/Project";
 import {ComponentEntity} from "@Draco112358/cad-library";
 import React, {useState} from "react";
 import {FaCube, FaCubes} from "react-icons/fa";

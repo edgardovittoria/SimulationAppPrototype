@@ -37,7 +37,7 @@
 }
 
 .simulationModal > .modal-dialog > .modal-content{
-    height: 600px;
+    height: fit-content;
 }
 
 .simulationModal > .modal-dialog > .modal-content > .modal-header{

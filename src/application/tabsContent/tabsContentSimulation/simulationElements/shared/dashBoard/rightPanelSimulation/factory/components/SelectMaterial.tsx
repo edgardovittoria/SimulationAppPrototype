@@ -1,17 +1,17 @@
 import React from 'react';
 import {ComponentEntity} from "@Draco112358/cad-library";
 import {Dropdown} from "react-bootstrap";
-import {Material} from "../../../../../../../../model/Material";
+import {Material} from "../../../../../../../../../model/Material";
 
 interface SelectMaterialProps {
     selectedComponent: ComponentEntity[],
     assignMaterial: Function,
     resetSelectedComponentsArray: Function,
-    materials: Material[],
+    availableMaterials: Material[],
 }
 
 export const SelectMaterial: React.FC<SelectMaterialProps> = (
-    {selectedComponent, assignMaterial, resetSelectedComponentsArray, materials}
+    {selectedComponent, assignMaterial, resetSelectedComponentsArray, availableMaterials}
 ) => {
     return(
         <>
@@ -22,7 +22,7 @@ export const SelectMaterial: React.FC<SelectMaterialProps> = (
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    {materials.map((material) => {
+                    {availableMaterials.map((material) => {
                         return (
                             <Dropdown.Item key={material.name} onClick={() => {
                                 selectedComponent.forEach(component => {
