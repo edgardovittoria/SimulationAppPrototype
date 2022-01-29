@@ -10,10 +10,15 @@ interface TabsContentProjectManagementProps {
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
+    setSimulationCoreMenuItemSelected: Function,
+    setSelectedSimulation: Function
 }
 
 export const TabsContentProjectManagement: React.FC<TabsContentProjectManagementProps> = (
-    {setShowModal, projectsTab, setProjectsTab, selectTab,}
+    {
+        setShowModal, projectsTab, setProjectsTab, selectTab, setSimulationCoreMenuItemSelected,
+        setSelectedSimulation
+    }
 ) => {
 
     const dispatch = useDispatch()
@@ -21,10 +26,6 @@ export const TabsContentProjectManagement: React.FC<TabsContentProjectManagement
 
     const menuItems = ['Overview', 'Projects', 'Simulations']
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
-
-    /*useEffect(() => {
-        setMenuItemSelected(menuItems[0])
-    }, [name])*/
 
 
     return (
@@ -39,6 +40,8 @@ export const TabsContentProjectManagement: React.FC<TabsContentProjectManagement
                 projects={projects}
                 selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
                 removeProject={(projectName: string) => dispatch(removeProject(projectName))}
+                setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
+                setSelectedSimulation={setSelectedSimulation}
             />
         </>
     )

@@ -17,16 +17,24 @@ import {useRunSimulation} from "./hooks/useRunSimulation";
 import {Simulation} from "../../../model/Simulation";
 
 interface TabContentSimulationProps {
+    menuItems: string[],
+    menuItemSelected: string,
+    setMenuItemSelected: Function,
+    selectedSimulation: Simulation | undefined,
+    setSelectedSimulation: Function
 }
 
-export const TabContentSimulation: React.FC<TabContentSimulationProps> = ({}) => {
+export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
+    {
+        menuItems, menuItemSelected, setMenuItemSelected, selectedSimulation,
+        setSelectedSimulation
+    }
+) => {
 
     const dispatch = useDispatch()
     let selectedProject = useSelector(selectedProjectSelector)
     let selectedComponent = useSelector(selectedComponentSelector)
 
-    const menuItems = ['Modeler', 'Physics', 'Simulator', 'Results']
-    const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
     const [showSimulationModel, setShowSimulationModel] = useState(false);
 
     const createNewSimulation = (newSimulation: Simulation) => {
@@ -46,10 +54,9 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = ({}) =>
         meshApproved,
         setMeshApproved,
         newSimulation
-    } = useRunSimulation(showSimulationModel, createNewSimulation, updateTargetSimulation,simulations as Simulation[]);
+    } = useRunSimulation(showSimulationModel, createNewSimulation, updateTargetSimulation, simulations as Simulation[], selectedProject?.name as string);
 
-    let simulation = simulations?.filter(s => s.name === newSimulation.name)[0];
-
+    let simulation = simulations?.filter(s => s.name === newSimulation.name)[0]
 
     return (
         <>
@@ -73,7 +80,9 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = ({}) =>
                 simulationStarted={simulationStarted}
                 meshApproved={meshApproved}
                 setMeshApproved={setMeshApproved}
-                simulation={simulation}
+                selectedSimulation={selectedSimulation}
+                setSelectedSimulation={setSelectedSimulation}
+                simulation={simulation as Simulation}
             />
         </>
     )

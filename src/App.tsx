@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {CreateNewProjectModal} from "./application/modals/createNewProjectModal/CreateNewProjectModal";
 import {TabsContentProjectManagement} from "./application/tabsContent/tabsContentProjectManagement/TabsContentProjectManagement";
 import {TabContentSimulation} from "./application/tabsContent/tabsContentSimulation/TabContentSimulation";
+import {Simulation} from "./model/Simulation";
 
 
 function App() {
@@ -23,6 +24,12 @@ function App() {
     const [tabSelected, setTabSelected] = useState("DASHBOARD");
     const [projectsTab, setProjectsTab] = useState<Project[]>(projects);
     const [showCreateNewProjectModal, setShowCreateNewProjectModal] = useState(false);
+
+    const menuItems = ['Modeler', 'Physics', 'Simulator', 'Results']
+    const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
+
+    const [selectedSimulation, setSelectedSimulation] = useState<Simulation | undefined>(undefined);
+
 
 
     return (
@@ -43,8 +50,16 @@ function App() {
                     projectsTab={projectsTab}
                     setProjectsTab={setProjectsTab}
                     selectTab={setTabSelected}
+                    setSimulationCoreMenuItemSelected={setMenuItemSelected}
+                    setSelectedSimulation={setSelectedSimulation}
                 />
-                : <TabContentSimulation/>
+                : <TabContentSimulation
+                    menuItems={menuItems}
+                    menuItemSelected={menuItemSelected}
+                    setMenuItemSelected={setMenuItemSelected}
+                    selectedSimulation={selectedSimulation}
+                    setSelectedSimulation={setSelectedSimulation}
+                />
             }
             <CreateNewProjectModal
                 show={showCreateNewProjectModal}

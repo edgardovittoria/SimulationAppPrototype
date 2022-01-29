@@ -148,7 +148,6 @@ export const ProjectSlice = createSlice({
             if(state.selectedProject?.simulations){
                 state.selectedProject.simulations = state.selectedProject.simulations.filter(s => s.name !== action.payload.name)
                 state.selectedProject.simulations.push(action.payload)
-                console.log(state.selectedProject.simulations)
             }
             state.projects.forEach(project => {
                 if(project.name === state.selectedProject?.name){

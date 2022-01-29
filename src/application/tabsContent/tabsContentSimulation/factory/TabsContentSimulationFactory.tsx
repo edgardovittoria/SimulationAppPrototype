@@ -36,7 +36,9 @@ interface TabsContentSimulationFactoryProps {
     simulationStarted: "notStarted" | "started" | "Completed",
     meshApproved: boolean,
     setMeshApproved: Function,
-    simulation: Simulation | undefined
+    selectedSimulation: Simulation | undefined,
+    setSelectedSimulation: Function,
+    simulation: Simulation
 }
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
@@ -44,7 +46,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
         menuItem, selectedProject, importModel, assignMaterial, selectComponent,
         unselectComponent, selectedComponent, resetSelectedComponentsArray, updateComponentColor,
         showSimulationModel, setShowSimulationModel, availableMaterials, setMenuItem, meshGenerated,
-        setMeshGenerated, simulationStarted, meshApproved, setMeshApproved, simulation
+        setMeshGenerated, simulationStarted, meshApproved, setMeshApproved,
+        selectedSimulation, setSelectedSimulation, simulation
     }
 ) => {
     switch (menuItem) {
@@ -65,6 +68,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectComponent={selectComponent}
                         unselectComponent={unselectComponent}
                         updateComponentColor={updateComponentColor}
+                        setSelectedSimulation={setSelectedSimulation}
+                        selectedSimulation={selectedSimulation}
                     />
                     {selectedComponent.length > 0 &&
                     <RightPanelSimulation>
@@ -99,6 +104,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectComponent={selectComponent}
                         unselectComponent={unselectComponent}
                         updateComponentColor={updateComponentColor}
+                        setSelectedSimulation={setSelectedSimulation}
+                        selectedSimulation={selectedSimulation}
                     />
                     <RightPanelSimulation>
                         <FactoryRightPanelContent
@@ -130,6 +137,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectComponent={selectComponent}
                         unselectComponent={unselectComponent}
                         updateComponentColor={updateComponentColor}
+                        setSelectedSimulation={setSelectedSimulation}
+                        selectedSimulation={selectedSimulation}
                     />
                     <RightPanelSimulation>
                         <FactoryRightPanelContent
@@ -148,7 +157,9 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     >
                         <LeftMenu assignedMaterials={(selectedProject) ? selectedProject.materials : []}
                                   physics={['physic1']}/>
-                        <PanelContent simulationStarted={simulationStarted} meshGenerated={meshGenerated}/>
+                        <PanelContent simulationStarted={simulationStarted} meshGenerated={meshGenerated}
+                                      simulation={simulation} selectedProject={selectedProject}
+                        />
                         <PanelFooter simulationStarted={simulationStarted} meshGenerated={meshGenerated}
                                      meshApproved={meshApproved} setMeshGenerated={setMeshGenerated}
                                      setMeshApproved={setMeshApproved} setMenuItem={setMenuItem}
@@ -165,8 +176,12 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectComponent={selectComponent}
                         unselectComponent={unselectComponent}
                         updateComponentColor={updateComponentColor}
+                        setSelectedSimulation={setSelectedSimulation}
+                        selectedSimulation={selectedSimulation}
                     />
-                    {simulation && <LineChart simulation={simulation}/>}
+                    {(selectedSimulation && selectedProject && selectedProject.simulations.length > 0) &&
+                        <LineChart simulation={selectedSimulation}/>
+                    }
                 </ResultsContent>
             )
         default :

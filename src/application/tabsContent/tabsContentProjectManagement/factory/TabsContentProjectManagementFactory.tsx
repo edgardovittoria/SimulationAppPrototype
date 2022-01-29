@@ -14,12 +14,15 @@ interface TabsContentProjectManagementFactoryProps {
     projects: Project[],
     selectProject: Function,
     removeProject: Function,
+    setSimulationCoreMenuItemSelected: Function,
+    setSelectedSimulation: Function
 }
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
     {
         menuItem, setShowModal, projectsTab, setProjectsTab, selectTab,
-        projects, selectProject, removeProject,
+        projects, selectProject, removeProject, setSimulationCoreMenuItemSelected,
+        setSelectedSimulation
     }
 ) => {
     switch (menuItem) {
@@ -54,6 +57,10 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
             return <RightPanel>
                 <Simulations
                     projects={projects}
+                    selectTab={selectTab}
+                    setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
+                    selectProject={selectProject}
+                    setSelectedSimulation={setSelectedSimulation}
                 />
             </RightPanel>
         default :

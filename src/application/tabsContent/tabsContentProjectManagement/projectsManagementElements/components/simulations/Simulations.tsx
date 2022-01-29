@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import "./simulations.css"
 import {FaCheck, FaPauseCircle} from "react-icons/fa";
 import {Simulation} from "../../../../../../model/Simulation";
@@ -8,10 +8,18 @@ import {AiOutlineBarChart} from "react-icons/ai";
 import {Project} from "../../../../../../model/Project";
 
 interface SimulationsProps {
-    projects: Project[]
+    projects: Project[],
+    selectTab: Function,
+    setSimulationCoreMenuItemSelected: Function,
+    selectProject: Function,
+    setSelectedSimulation: Function
 }
 
-export const Simulations: React.FC<SimulationsProps> = ({projects}) => {
+export const Simulations: React.FC<SimulationsProps> = (
+    {
+        projects, selectTab, setSimulationCoreMenuItemSelected, selectProject, setSelectedSimulation
+    }
+) => {
     let simulations: Simulation[] = []
     projects.map(project => {
         project.simulations.map(simulation => simulations.push(simulation))
@@ -55,6 +63,7 @@ export const Simulations: React.FC<SimulationsProps> = ({projects}) => {
                                     <th scope="col">Started</th>
                                     <th scope="col">Ended</th>
                                     <th scope="col">Status</th>
+                                    <th scope="col">Project</th>
                                     <th scope="col"/>
                                 </tr>
                             </thead>
@@ -74,9 +83,15 @@ export const Simulations: React.FC<SimulationsProps> = ({projects}) => {
                                         <td className="py-4">{simulation.started}</td>
                                         <td className="py-4">{simulation.ended}</td>
                                         <td className="py-4">{simulation.status}</td>
+                                        <td className="py-4">{simulation.associatedProject}</td>
                                         <td id={index.toString()} className="py-4 simulationsResultIcon" style={{visibility: "hidden"}}>
                                             <AiOutlineBarChart color={'#00ae52'} style={{width: "30px", height: "30px"}}
-                                                onClick={() => {/*TODO: open resultsContent section*/}}
+                                                onClick={() => {
+                                                    selectTab(simulation.associatedProject)
+                                                    selectProject(simulation.associatedProject)
+                                                    setSelectedSimulation(simulation)
+                                                    setSimulationCoreMenuItemSelected('Results')
+                                                }}
                                             />
                                         </td>
                                     </tr>

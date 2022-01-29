@@ -2,14 +2,24 @@ import React from 'react';
 import {Canvas} from "@react-three/fiber";
 import * as THREE from "three";
 import {OrbitControls} from "@react-three/drei";
+import {Simulation} from "../../../../../../../../../model/Simulation";
+import {FactoryShapes} from "@Draco112358/cad-library";
+import {Project} from "../../../../../../../../../model/Project";
 
 interface PanelContentProps {
     simulationStarted: 'notStarted' | 'started' | 'Completed',
-    meshGenerated: boolean
+    meshGenerated: boolean,
+    simulation: Simulation,
+    selectedProject: Project | undefined
 }
 
-export const PanelContent: React.FC<PanelContentProps> = ({simulationStarted, meshGenerated}) => {
-    return(
+export const PanelContent: React.FC<PanelContentProps> = (
+    {
+        simulationStarted, meshGenerated, simulation, selectedProject
+    }
+) => {
+
+    return (
         <div className="col-9 simulationPanelContent p-4">
             <div className="row">
                 <div className="col-6">Name</div>
@@ -17,7 +27,7 @@ export const PanelContent: React.FC<PanelContentProps> = ({simulationStarted, me
             </div>
             <hr/>
             <div className="row">
-                <div className="col-6 fw-bold">Simulation 1</div>
+                <div className="col-6 fw-bold">{(simulation) && simulation.name}</div>
                 <div className="col-6">
                     {simulationStarted === 'started' && 'Started'}
                     {simulationStarted === 'notStarted' && 'Not Started'}
@@ -32,10 +42,23 @@ export const PanelContent: React.FC<PanelContentProps> = ({simulationStarted, me
                                      position={[-7, 25, 13]}
                                      intensity={0.85}/>
                     {/*TODO: show mesh that return the server*/}
-                    <mesh>
-                        <sphereGeometry args={[3, 30, 30]}/>
-                        <meshPhongMaterial color={'red'} wireframe={true}/>
-                    </mesh>
+                    {selectedProject && selectedProject.model.components.map(component => {
+                        return (
+                            <mesh
+                                onUpdate={(mesh) => {
+                                    mesh.material = new THREE.MeshPhongMaterial({
+                                        color: component.color,
+                                        wireframe: true
+                                    })
+                                }}
+                                position={component.transformationParams.position}
+                                scale={component.transformationParams.scale}
+                                rotation={component.transformationParams.rotation}
+                            >
+                                <FactoryShapes entity={component}/>
+                            </mesh>
+                        )
+                    })}
                     <OrbitControls/>
                 </Canvas>
                 }

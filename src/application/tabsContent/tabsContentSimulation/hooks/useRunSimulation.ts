@@ -2,28 +2,34 @@ import {useEffect, useState} from "react";
 import {Simulation} from "../../../../model/Simulation";
 import {getResults} from "../api/results_api";
 
-export const useRunSimulation = (showSimulationModel: boolean, createNewSimulation: Function, updateSimulation: Function, simulationsDone: Simulation[]) => {
+export const useRunSimulation =
+    (
+        showSimulationModel: boolean, createNewSimulation: Function, updateSimulation: Function,
+        simulationsDone: Simulation[], associatedProject: string
+    ) => {
     const [simulationStarted, setSimulationStarted] = useState<"notStarted" | "started" | "Completed">("notStarted");
     const [meshApproved, setMeshApproved] = useState(false);
-    let simulationName = 'simulation'+(simulationsDone.length + 1).toString()
-    let newSimulation: Simulation = {
-        name: simulationName,
-        started: Date.now().toLocaleString(),
-        ended: "",
-        results: [],
-        status: "Queued"
-    }
+    const [newSimulation, setNewSimulation] = useState<Simulation>({} as Simulation);
     useEffect(() => {
         if (showSimulationModel && meshApproved) {
             setSimulationStarted("started");
-            createNewSimulation(newSimulation)
+            let simulation: Simulation = {
+                name: 'simulation'+(simulationsDone.length + 1).toString(),
+                started: Date.now().toLocaleString(),
+                ended: "",
+                results: [],
+                status: "Queued",
+                associatedProject: associatedProject
+            }
+            createNewSimulation(simulation)
+            setNewSimulation(simulation)
             //TODO: add request to the server to do the simulation and manage the response
             setTimeout(() => {
                 setSimulationStarted("Completed")
 
-                getResults(newSimulation.name).then(res => {
+                getResults(simulation.name).then(res => {
                     let simulationUpdated: Simulation = {
-                        ...newSimulation,
+                        ...simulation,
                         results: [...res.results],
                         ended: Date.now().toString(),
                         status: "Completed"
@@ -32,7 +38,7 @@ export const useRunSimulation = (showSimulationModel: boolean, createNewSimulati
                 })
                     .catch(() => {
                         let simulationUpdated: Simulation = {
-                            ...newSimulation,
+                            ...simulation,
                             results: [],
                             ended: Date.now().toString(),
                             status: "Failed"

@@ -5,5 +5,6 @@ export type Simulation = {
     started: string,
     ended: string,
     status: 'Queued' | 'Paused' | 'Completed' | 'Failed'
-    results: Result[]
+    results: Result[],
+    associatedProject: string
 }

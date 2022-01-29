@@ -25,7 +25,6 @@ export const Overview: React.FC<OverviewProps> = (
             if(!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)){
                 setProjectsTab(projectsTab.concat(project))
             }
-            //dispatch(selectProject(project.name))
             selectProject(project.name)
             selectTab(project.name)
         }

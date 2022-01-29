@@ -12,6 +12,7 @@ import {
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import {Simulation} from "../../../../../../../model/Simulation";
+import {Project} from "../../../../../../../model/Project";
 
 ChartJS.register(
     CategoryScale,
@@ -32,7 +33,7 @@ export type Result = {
 }
 
 interface LineChartProps {
-    simulation: Simulation | undefined
+    simulation: Simulation,
 }
 
 interface Dataset {
@@ -47,8 +48,7 @@ export const LineChart: React.FC<LineChartProps> = ({simulation}) => {
 
     const labels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     const datasets: Dataset[] = [];
-    console.log(simulation);
-    (simulation) && simulation.results.forEach(res => {
+    simulation.results.forEach(res => {
         datasets.push(
             {
             label: res.name,

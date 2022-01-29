@@ -8,17 +8,23 @@ import {FactorySimulationDashboardContent} from "./factory/FactorySimulationDash
 
 import "./leftPanel.css"
 import {ComponentEntity} from "@Draco112358/cad-library";
+import {Simulation} from "../../../../../../../model/Simulation";
 
 interface DashBoardProps {
     secondTab: string,
     selectedComponent: ComponentEntity[]
     selectComponent: Function,
     unselectComponent: Function,
-    updateComponentColor: Function
+    updateComponentColor: Function,
+    setSelectedSimulation:Function,
+    selectedSimulation: Simulation | undefined
 }
 
 export const LeftPanel: React.FC<DashBoardProps> = (
-    {secondTab, selectedComponent, selectComponent, unselectComponent, updateComponentColor}
+    {
+        secondTab, selectedComponent, selectComponent, unselectComponent,
+        updateComponentColor, setSelectedSimulation, selectedSimulation
+    }
 ) => {
 
     const [selectedTab, setSelectedTab] = useState("Modeler");
@@ -109,6 +115,8 @@ export const LeftPanel: React.FC<DashBoardProps> = (
                         selectComponent={selectComponent}
                         unselectComponent={unselectComponent}
                         updateComponentColor={updateComponentColor}
+                        setSelectedSimulation={setSelectedSimulation}
+                        selectedSimulation={selectedSimulation}
                     />
                 </Tab>
                 <Tab eventKey={secondTab}
@@ -125,6 +133,8 @@ export const LeftPanel: React.FC<DashBoardProps> = (
                         selectComponent={selectComponent}
                         unselectComponent={unselectComponent}
                         updateComponentColor={updateComponentColor}
+                        setSelectedSimulation={setSelectedSimulation}
+                        selectedSimulation={selectedSimulation}
                     />
                 </Tab>
             </Tabs>
