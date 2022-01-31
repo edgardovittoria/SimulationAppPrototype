@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import './App.css';
 import './GlobalColors.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -30,29 +30,41 @@ function App() {
 
     const [selectedSimulation, setSelectedSimulation] = useState<Simulation | undefined>(undefined);
 
+    const memoizedTabsContainer = useMemo(() => <TabsContainer
+        selectTab={setTabSelected}
+        selectedTab={tabSelected}
+        projectsTab={projectsTab}
+        setProjectsTab={setProjectsTab}
+        setShowModal={setShowCreateNewProjectModal}
+        selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
+        resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
+    />, [tabSelected]);
 
+    const memoizedTabsContentProjectManagement = useMemo(() => <TabsContentProjectManagement
+        setShowModal={setShowCreateNewProjectModal}
+        projectsTab={projectsTab}
+        setProjectsTab={setProjectsTab}
+        selectTab={setTabSelected}
+        setSimulationCoreMenuItemSelected={setMenuItemSelected}
+        setSelectedSimulation={setSelectedSimulation}
+    />, []);
+
+    const memoizedCreateNewProjectModal = useMemo(() => <CreateNewProjectModal
+        show={showCreateNewProjectModal}
+        setShow={setShowCreateNewProjectModal}
+        projectsTab={projectsTab}
+        setProjectsTab={setProjectsTab}
+        selectTab={setTabSelected}
+        addNewProject={(project: Project) => dispatch(addProject(project))}
+        selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
+    />, [showCreateNewProjectModal]);
 
     return (
         <>
-            <TabsContainer
-                selectTab={setTabSelected}
-                selectedTab={tabSelected}
-                projectsTab={projectsTab}
-                setProjectsTab={setProjectsTab}
-                setShowModal={setShowCreateNewProjectModal}
-                selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
-                resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
-            />
+            {memoizedTabsContainer}
             {(tabSelected === 'DASHBOARD')
                 ?
-                <TabsContentProjectManagement
-                    setShowModal={setShowCreateNewProjectModal}
-                    projectsTab={projectsTab}
-                    setProjectsTab={setProjectsTab}
-                    selectTab={setTabSelected}
-                    setSimulationCoreMenuItemSelected={setMenuItemSelected}
-                    setSelectedSimulation={setSelectedSimulation}
-                />
+                memoizedTabsContentProjectManagement
                 : <TabContentSimulation
                     menuItems={menuItems}
                     menuItemSelected={menuItemSelected}
@@ -61,15 +73,7 @@ function App() {
                     setSelectedSimulation={setSelectedSimulation}
                 />
             }
-            <CreateNewProjectModal
-                show={showCreateNewProjectModal}
-                setShow={setShowCreateNewProjectModal}
-                projectsTab={projectsTab}
-                setProjectsTab={setProjectsTab}
-                selectTab={setTabSelected}
-                addNewProject={(project: Project) => dispatch(addProject(project))}
-                selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
-            />
+            {memoizedCreateNewProjectModal}
         </>
 
 

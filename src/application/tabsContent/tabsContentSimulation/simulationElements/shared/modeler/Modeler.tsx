@@ -42,13 +42,13 @@ export const Modeler: React.FC<ModelerProps> = (
                 updateComponentColor({keyComponent: component.keyComponent, color: '#1302fb'})
             })
         }
-    }, [selectedComponent]);
+    }, [selectedComponent])
 
 
     return (
-        <>
+        <div className="d-flex justify-content-center">
             {(selectedProject && selectedProject.model.components) ?
-                <Canvas style={{width: "1836px", height: "800px"}}>
+                <Canvas style={{width: "1156px", height: "800px"}}>
                     <pointLight position={[100, 100, 100]} intensity={0.8}/>
                     <hemisphereLight color={'#ffffff'} groundColor={new THREE.Color('#b9b9b9')} position={[-7, 25, 13]}
                                      intensity={0.85}/>
@@ -91,9 +91,11 @@ export const Modeler: React.FC<ModelerProps> = (
                     </ImportCadProjectButton>
                 </div>
             }
-        </>
+        </div>
     )
 
 }
+
+
 
 

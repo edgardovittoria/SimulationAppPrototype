@@ -58,6 +58,8 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
 
     let simulation = simulations?.filter(s => s.name === newSimulation.name)[0]
 
+    const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
+
     return (
         <>
             <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/>
@@ -83,6 +85,8 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
                 selectedSimulation={selectedSimulation}
                 setSelectedSimulation={setSelectedSimulation}
                 simulation={simulation as Simulation}
+                selectedTabLeftPanel={selectedTabLeftPanel}
+                setSelectedTabLeftPanel={setSelectedTabLeftPanel}
             />
         </>
     )

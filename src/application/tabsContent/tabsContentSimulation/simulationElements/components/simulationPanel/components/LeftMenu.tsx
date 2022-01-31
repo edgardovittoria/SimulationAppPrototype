@@ -1,6 +1,6 @@
 import React from 'react';
 import {Accordion} from "react-bootstrap";
-import {Material} from "../../../../../../../../../model/Material";
+import {Material} from "../../../../../../../model/Material";
 
 interface LeftMenuProps {
     assignedMaterials: Omit<Material, 'associatedComponentKey'>[],

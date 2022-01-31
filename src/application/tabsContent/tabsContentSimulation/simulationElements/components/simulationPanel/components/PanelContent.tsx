@@ -2,9 +2,9 @@ import React from 'react';
 import {Canvas} from "@react-three/fiber";
 import * as THREE from "three";
 import {OrbitControls} from "@react-three/drei";
-import {Simulation} from "../../../../../../../../../model/Simulation";
+import {Simulation} from "../../../../../../../model/Simulation";
 import {FactoryShapes} from "@Draco112358/cad-library";
-import {Project} from "../../../../../../../../../model/Project";
+import {Project} from "../../../../../../../model/Project";
 
 interface PanelContentProps {
     simulationStarted: 'notStarted' | 'started' | 'Completed',

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {TabsContentProjectManagementFactory} from "./factory/TabsContentProjectManagementFactory";
 import {Project} from "../../../model/Project";
 import {useDispatch, useSelector} from "react-redux";
@@ -27,9 +27,9 @@ export const TabsContentProjectManagement: React.FC<TabsContentProjectManagement
     const menuItems = ['Overview', 'Projects', 'Simulations']
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
 
-
     return (
         <>
+
             <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/>
             <TabsContentProjectManagementFactory
                 menuItem={menuItemSelected}

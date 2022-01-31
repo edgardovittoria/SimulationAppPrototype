@@ -24,14 +24,6 @@ ChartJS.register(
     Legend
 );
 
-
-
-export type Result = {
-    name: string,
-    values: number [],
-    color: string
-}
-
 interface LineChartProps {
     simulation: Simulation,
 }

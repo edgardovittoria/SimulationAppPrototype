@@ -1,4 +1,4 @@
-import {Result} from "../application/tabsContent/tabsContentSimulation/simulationElements/components/resultsContent/components/LineChart";
+import {Result} from "./Result";
 
 export type Simulation = {
     name: string,

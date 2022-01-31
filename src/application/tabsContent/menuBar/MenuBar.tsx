@@ -19,5 +19,5 @@ export const MenuBar: React.FC<MenuBarProps> = ({menuItems, setMenuItem, activeM
         </div>
 
     )
-
 }
+
