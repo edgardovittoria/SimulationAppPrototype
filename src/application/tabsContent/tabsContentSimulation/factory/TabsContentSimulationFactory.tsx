@@ -1,7 +1,6 @@
 import React from 'react';
 import {Project} from "../../../../model/Project";
-import {ComponentEntity, ImportActionParamsObject} from "@Draco112358/cad-library";
-import {Material} from "../../../../model/Material";
+import {ComponentEntity, ImportActionParamsObject, Material} from "@Draco112358/cad-library";
 import {ResultsContent} from "../simulationElements/components/resultsContent/ResultsContent";
 import {Modeler} from "../simulationElements/shared/modeler/Modeler";
 import {LeftPanel} from "../simulationElements/shared/dashBoard/leftPanel/LeftPanel";
@@ -23,9 +22,9 @@ interface TabsContentSimulationFactoryProps {
     selectedComponent: ComponentEntity[],
     selectComponent: Function,
     unselectComponent: Function,
-    assignMaterial: Function,
-    resetSelectedComponentsArray: Function,
-    updateComponentColor: Function,
+    // assignMaterial: Function,
+    // resetSelectedComponentsArray: Function,
+    // updateComponentColor: Function,
     showSimulationModel: boolean,
     setShowSimulationModel: Function,
     availableMaterials: Material[],
@@ -43,9 +42,8 @@ interface TabsContentSimulationFactoryProps {
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
     {
-        menuItem, selectedProject, importModel, assignMaterial, selectComponent,
-        unselectComponent, selectedComponent, resetSelectedComponentsArray, updateComponentColor,
-        showSimulationModel, setShowSimulationModel, availableMaterials, setMenuItem, meshGenerated,
+        menuItem, selectedProject, importModel, selectComponent,
+        unselectComponent, selectedComponent,        showSimulationModel, setShowSimulationModel, setMenuItem, meshGenerated,
         setMeshGenerated, simulationStarted, meshApproved, setMeshApproved,
         selectedSimulation, setSelectedSimulation, simulation, selectedTabLeftPanel,
         setSelectedTabLeftPanel
@@ -60,9 +58,9 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectedProject={selectedProject}
                         importModel={importModel}
                         selectComponent={selectComponent}
-                        unselectComponent={unselectComponent}
-                        selectedComponent={selectedComponent}
-                        updateComponentColor={updateComponentColor}
+                        // unselectComponent={unselectComponent}
+                        // selectedComponent={selectedComponent}
+                        // updateComponentColor={updateComponentColor}
                     />
                     <LeftPanel tabs={['Modeler', 'Materials']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
@@ -71,7 +69,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedComponent={selectedComponent}
                             selectComponent={selectComponent}
                             unselectComponent={unselectComponent}
-                            updateComponentColor={updateComponentColor}
+                            // updateComponentColor={updateComponentColor}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
                         />
@@ -81,11 +79,11 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <FactoryRightPanelContent
                             section="Modeler"
                             selectedComponent={selectedComponent}
-                            assignMaterial={assignMaterial}
-                            resetSelectedComponentsArray={resetSelectedComponentsArray}
+                            // assignMaterial={assignMaterial}
+                            // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
-                            availableMaterials={availableMaterials}
-                            assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                            // availableMaterials={availableMaterials}
+                            // assignedMaterials={(selectedProject) ? selectedProject.materials : []}
                         />
                     </RightPanelSimulation>}
                 </>
@@ -98,9 +96,9 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectedProject={selectedProject}
                         importModel={importModel}
                         selectComponent={selectComponent}
-                        unselectComponent={unselectComponent}
-                        selectedComponent={selectedComponent}
-                        updateComponentColor={updateComponentColor}
+                        // unselectComponent={unselectComponent}
+                        // selectedComponent={selectedComponent}
+                        // updateComponentColor={updateComponentColor}
                     />
                     <LeftPanel tabs={['Modeler', 'Physics']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
@@ -109,7 +107,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedComponent={selectedComponent}
                             selectComponent={selectComponent}
                             unselectComponent={unselectComponent}
-                            updateComponentColor={updateComponentColor}
+                            // updateComponentColor={updateComponentColor}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
                         />
@@ -118,11 +116,11 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <FactoryRightPanelContent
                             section="Physics"
                             selectedComponent={selectedComponent}
-                            assignMaterial={assignMaterial}
-                            resetSelectedComponentsArray={resetSelectedComponentsArray}
+                            // assignMaterial={assignMaterial}
+                            // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
-                            availableMaterials={availableMaterials}
-                            assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                            // availableMaterials={availableMaterials}
+                            // assignedMaterials={(selectedProject) ? selectedProject.materials : []}
                         />
                     </RightPanelSimulation>
                 </>
@@ -134,9 +132,9 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectedProject={selectedProject}
                         importModel={importModel}
                         selectComponent={selectComponent}
-                        unselectComponent={unselectComponent}
-                        selectedComponent={selectedComponent}
-                        updateComponentColor={updateComponentColor}
+                        // unselectComponent={unselectComponent}
+                        // selectedComponent={selectedComponent}
+                        // updateComponentColor={updateComponentColor}
                     />
                     <LeftPanel tabs={['Modeler', 'Simulator']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
@@ -145,7 +143,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedComponent={selectedComponent}
                             selectComponent={selectComponent}
                             unselectComponent={unselectComponent}
-                            updateComponentColor={updateComponentColor}
+                            // updateComponentColor={updateComponentColor}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
                         />
@@ -154,18 +152,18 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <FactoryRightPanelContent
                             section="Simulator"
                             selectedComponent={selectedComponent}
-                            assignMaterial={assignMaterial}
-                            resetSelectedComponentsArray={resetSelectedComponentsArray}
+                            // assignMaterial={assignMaterial}
+                            // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
-                            availableMaterials={availableMaterials}
-                            assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                            // availableMaterials={availableMaterials}
+                            // assignedMaterials={(selectedProject) ? selectedProject.materials : []}
                         />
                     </RightPanelSimulation>
                     <SimulationPanel
                         showSimulationModel={showSimulationModel}
                         setShowSimulationModel={setShowSimulationModel}
                     >
-                        <LeftMenu assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                        <LeftMenu components={selectedProject?.model.components}
                                   physics={['physic1']}/>
                         <PanelContent simulationStarted={simulationStarted} meshGenerated={meshGenerated}
                                       simulation={simulation} selectedProject={selectedProject}
@@ -187,7 +185,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedComponent={selectedComponent}
                             selectComponent={selectComponent}
                             unselectComponent={unselectComponent}
-                            updateComponentColor={updateComponentColor}
+                            // updateComponentColor={updateComponentColor}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
                         />

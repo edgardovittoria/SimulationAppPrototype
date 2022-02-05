@@ -27,7 +27,6 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
                 name: projectName,
                 description: projectDescription,
                 model: {} as CanvasState,
-                materials: [],
                 physics: "",
                 simulations: []
             }

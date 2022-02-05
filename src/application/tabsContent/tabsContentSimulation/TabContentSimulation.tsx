@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
-    assignMaterial, createSimulation,
+    createSimulation,
     importModel,
     resetSelectedComponents, selectComponent,
     selectedComponentSelector,
-    selectedProjectSelector, simulationSelector, unselectComponent, updateColorComponent, updateSimulation
+    selectedProjectSelector, simulationSelector, unselectComponent, updateSimulation
 } from "../../../store/projectSlice";
 import {MenuBar} from "../menuBar/MenuBar";
 import {TabsContentSimulationFactory} from "./factory/TabsContentSimulationFactory";
-import {ComponentEntity} from "@Draco112358/cad-library";
-import {Material} from "../../../model/Material";
+import {ComponentEntity, Material} from "@Draco112358/cad-library";
 import {useMaterials} from "./hooks/useMaterials";
 import {useGenerateMesh} from "./hooks/useGenerateMesh";
 import {useRunSimulation} from "./hooks/useRunSimulation";
@@ -71,9 +70,7 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
                 selectedComponent={selectedComponent}
                 selectComponent={(component: ComponentEntity) => dispatch(selectComponent(component))}
                 unselectComponent={(component: ComponentEntity) => dispatch(unselectComponent(component))}
-                assignMaterial={(material: { material: Omit<Material, 'associatedComponentKey'>, keyComponent: number }) => dispatch(assignMaterial(material))}
-                resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
-                updateComponentColor={(obj: { keyComponent: number, color: string }) => dispatch(updateColorComponent(obj))}
+                // resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
                 showSimulationModel={showSimulationModel}
                 setShowSimulationModel={setShowSimulationModel}
                 availableMaterials={availableMaterials}

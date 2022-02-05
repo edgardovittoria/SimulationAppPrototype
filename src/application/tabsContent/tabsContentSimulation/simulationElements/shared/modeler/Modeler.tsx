@@ -17,32 +17,31 @@ import {
 interface ModelerProps {
     selectedProject: Project | undefined,
     importModel: (params: ImportActionParamsObject) => any,
-    selectedComponent: ComponentEntity[],
+    // selectedComponent: ComponentEntity[],
     selectComponent: Function,
-    unselectComponent: Function,
-    updateComponentColor: Function
+    // unselectComponent: Function,
+    // updateComponentColor: Function
 }
 
 export const Modeler: React.FC<ModelerProps> = (
     {
-        selectedProject, importModel, selectComponent,
-        selectedComponent, updateComponentColor
+        selectedProject, importModel, selectComponent
     }
 ) => {
 
     const [previousColor, setPreviousColor] = useState<Color>({} as Color);
 
-    useEffect(() => {
-        if (selectedProject && selectedProject.model.components && selectedComponent.length === 0) {
-            selectedProject.model.components.forEach(component => {
-                updateComponentColor({keyComponent: component.keyComponent, color: component.color})
-            })
-        } else {
-            selectedComponent.forEach(component => {
-                updateComponentColor({keyComponent: component.keyComponent, color: '#1302fb'})
-            })
-        }
-    }, [selectedComponent])
+    // useEffect(() => {
+    //     if (selectedProject && selectedProject.model.components && selectedComponent.length === 0) {
+    //         selectedProject.model.components.forEach(component => {
+    //             updateComponentColor({keyComponent: component.keyComponent, color: component.color})
+    //         })
+    //     } else {
+    //         selectedComponent.forEach(component => {
+    //             updateComponentColor({keyComponent: component.keyComponent, color: '#1302fb'})
+    //         })
+    //     }
+    // }, [selectedComponent])
 
 
     return (

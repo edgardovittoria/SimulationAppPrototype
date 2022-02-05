@@ -1,7 +1,6 @@
 import React from 'react';
-import {ComponentEntity} from "@Draco112358/cad-library";
+import {ComponentEntity, Material} from "@Draco112358/cad-library";
 import {Dropdown} from "react-bootstrap";
-import {Material} from "../../../../../../../../../model/Material";
 
 interface SelectMaterialProps {
     selectedComponent: ComponentEntity[],
@@ -15,35 +14,26 @@ export const SelectMaterial: React.FC<SelectMaterialProps> = (
 ) => {
     return(
         <>
-            <h5>Select Material</h5>
+            {/* <h5>Materials</h5>
             <Dropdown>
                 <Dropdown.Toggle className="dropdownSelect"  id="dropdown-basic">
                     Select Material
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    {availableMaterials.map((material) => {
+                    {selectedComponent.map((component) => {
                         return (
-                            <Dropdown.Item key={material.name} onClick={() => {
-                                selectedComponent.forEach(component => {
-                                    let materialToAssign = {
-                                        material: material,
-                                        keyComponent: component.keyComponent
-                                    }
-                                    assignMaterial(materialToAssign)
-                                })
-                                resetSelectedComponentsArray();
-                            }}>
+                            <Dropdown.Item key={component.name}>
                                 <div className="flex-column" key={material.name}>
-                                    <i className="fa fa-circle fa-xs" style={{color: material.color}}/>
-                                    <span className="fw-normal ms-2">{material.name}</span>
+                                    <i className="fa fa-circle fa-xs" style={{color: component.material.color}}/>
+                                    <span className="fw-normal ms-2">{componentmaterial.name}</span>
                                 </div>
                             </Dropdown.Item>
 
                         )
                     })}
                 </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
         </>
     )
 

@@ -47,7 +47,7 @@ export const PanelContent: React.FC<PanelContentProps> = (
                             <mesh
                                 onUpdate={(mesh) => {
                                     mesh.material = new THREE.MeshPhongMaterial({
-                                        color: component.color,
+                                        color: component.material?.color,
                                         wireframe: true
                                     })
                                 }}

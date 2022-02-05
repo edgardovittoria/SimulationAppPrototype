@@ -1,25 +1,25 @@
+import { ComponentEntity } from '@Draco112358/cad-library';
 import React from 'react';
 import {Accordion} from "react-bootstrap";
-import {Material} from "../../../../../../../model/Material";
 
 interface LeftMenuProps {
-    assignedMaterials: Omit<Material, 'associatedComponentKey'>[],
+    components?: ComponentEntity[]
     physics: string[]
 }
 
-export const LeftMenu: React.FC<LeftMenuProps> = ({assignedMaterials, physics}) => {
+export const LeftMenu: React.FC<LeftMenuProps> = ({components, physics}) => {
     return(
         <div className="col-3 simulationPanelMenu">
             <Accordion>
                 <Accordion.Item eventKey="0" key={0}>
                     <Accordion.Header>Materials</Accordion.Header>
                     <Accordion.Body>
-                        {assignedMaterials.map(material => {
+                        { (components !== undefined) && components.map(component => {
                             return (
-                                <div className="flex-column" key={material.name}>
-                                    <i className="fa fa-circle fa-xs" style={{color: material.color}}/>
-                                    <span className="fw-normal ms-2">{material.name}</span>
-                                </div>
+                                <div className="flex-column" key={component.name}>
+                                    <i className="fa fa-circle fa-xs" style={{color: (component.material !== undefined) ? component.material.color : "gray"}}/>
+                                    <span className="fw-normal ms-2">{(component.material !== undefined) ? component.material.name : "No material"}</span>
+                                </div> 
                             )
                         })}
                     </Accordion.Body>

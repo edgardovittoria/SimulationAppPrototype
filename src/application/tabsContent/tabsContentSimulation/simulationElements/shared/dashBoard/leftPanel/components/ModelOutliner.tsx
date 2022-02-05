@@ -8,11 +8,11 @@ interface ModelOutlinerProps {
     selectedComponent: ComponentEntity[],
     selectComponent: Function,
     unselectComponent: Function,
-    updateComponentColor: Function,
+    // updateComponentColor: Function,
 }
 
 export const ModelOutliner: React.FC<ModelOutlinerProps> = (
-    {selectedProject, selectedComponent, selectComponent, unselectComponent, updateComponentColor}) => {
+    {selectedProject, selectedComponent, selectComponent, unselectComponent}) => {
 
     const [colorOfNotSelectedComponent, setColorOfNotSelectedComponent] = useState<{key: number, color: string}[]>([]);
 
@@ -36,16 +36,16 @@ export const ModelOutliner: React.FC<ModelOutlinerProps> = (
                                 onClick={() => {
                                     if (selectedComponent.filter(c => c.keyComponent === component.keyComponent).length > 0) {
                                         unselectComponent(component)
-                                        updateComponentColor({keyComponent: component.keyComponent, color: colorOfNotSelectedComponent.filter(c => c.key === component.keyComponent)[0].color})
+                                      //  updateComponentColor({keyComponent: component.keyComponent, color: colorOfNotSelectedComponent.filter(c => c.key === component.keyComponent)[0].color})
                                     } else {
-                                        setColorOfNotSelectedComponent([...colorOfNotSelectedComponent, {key: component.keyComponent, color: component.color}])
+                                      //  setColorOfNotSelectedComponent([...colorOfNotSelectedComponent, {key: component.keyComponent, color: component.color}])
                                         selectComponent(component);
-                                        updateComponentColor({keyComponent: component.keyComponent, color: '#1302fb'})
+                                       // updateComponentColor({keyComponent: component.keyComponent, color: '#1302fb'})
                                     }
                                 }}
                             >
                                 <div className="col-2">
-                                    <FaCube className="outlinerComponentIcon" color={component.color}/>
+                                    <FaCube className="outlinerComponentIcon" color={(component.material !== undefined) ? component.material.color : "gray"}/>
                                 </div>
                                 <div className="col-10 text-start ps-0">
                                     <h6 className="outlinerGroupTitle text-lowercase">{component.name}</h6>

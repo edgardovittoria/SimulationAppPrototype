@@ -1,5 +1,5 @@
+import { Material } from "@Draco112358/cad-library";
 import {useEffect, useState} from "react";
-import {Material} from "../../../../model/Material";
 import {getMaterials} from "../api/materials_api";
 
 export const useMaterials = () => {
