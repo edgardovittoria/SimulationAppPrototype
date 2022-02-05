@@ -1,10 +1,9 @@
 import React from 'react';
-import { ComponentEntity, Material } from "@Draco112358/cad-library";
-import { SelectMaterial } from "./components/SelectMaterial";
+import { ComponentEntity } from "@Draco112358/cad-library";
 
 interface FactoryRightPanelContentProps {
     section: string,
-    selectedComponent: ComponentEntity[],
+    components?: ComponentEntity[],
     // assignMaterial: Function,
     // resetSelectedComponentsArray: Function,
     setShowSimulationModel: Function,
@@ -14,7 +13,7 @@ interface FactoryRightPanelContentProps {
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
-        section, selectedComponent, setShowSimulationModel
+        section, components, setShowSimulationModel
     }
 ) => {
     switch (section) {
@@ -28,7 +27,7 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                 <>
                     <span className="py-1">Case Study</span>
                     <hr />
-                    {selectedComponent.filter(component => component.material === undefined).length === 0 ?
+                    {((components !== undefined) && (components.filter(component => component.material === undefined).length === 0)) ?
                         <button
                             className="btn button-primary flex-column"
                             onClick={() => setShowSimulationModel(true)}

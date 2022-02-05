@@ -78,7 +78,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     <RightPanelSimulation>
                         <FactoryRightPanelContent
                             section="Modeler"
-                            selectedComponent={selectedComponent}
+                            components={selectedProject?.model.components}
                             // assignMaterial={assignMaterial}
                             // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
@@ -115,7 +115,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     <RightPanelSimulation>
                         <FactoryRightPanelContent
                             section="Physics"
-                            selectedComponent={selectedComponent}
+                            components={selectedProject?.model.components}
                             // assignMaterial={assignMaterial}
                             // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
@@ -151,7 +151,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     <RightPanelSimulation>
                         <FactoryRightPanelContent
                             section="Simulator"
-                            selectedComponent={selectedComponent}
+                            components={selectedProject?.model.components}
                             // assignMaterial={assignMaterial}
                             // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
