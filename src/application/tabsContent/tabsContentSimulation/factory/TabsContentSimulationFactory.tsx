@@ -27,7 +27,6 @@ interface TabsContentSimulationFactoryProps {
     // updateComponentColor: Function,
     showSimulationModel: boolean,
     setShowSimulationModel: Function,
-    availableMaterials: Material[],
     meshGenerated: boolean,
     setMeshGenerated: Function,
     simulationStarted: "notStarted" | "started" | "Completed",

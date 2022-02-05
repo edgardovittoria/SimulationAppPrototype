@@ -3,14 +3,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     createSimulation,
     importModel,
-    resetSelectedComponents, selectComponent,
+    selectComponent,
     selectedComponentSelector,
     selectedProjectSelector, simulationSelector, unselectComponent, updateSimulation
 } from "../../../store/projectSlice";
 import {MenuBar} from "../menuBar/MenuBar";
 import {TabsContentSimulationFactory} from "./factory/TabsContentSimulationFactory";
-import {ComponentEntity, Material} from "@Draco112358/cad-library";
-import {useMaterials} from "./hooks/useMaterials";
+import {ComponentEntity} from "@Draco112358/cad-library";
 import {useGenerateMesh} from "./hooks/useGenerateMesh";
 import {useRunSimulation} from "./hooks/useRunSimulation";
 import {Simulation} from "../../../model/Simulation";
@@ -45,8 +44,6 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
     let simulations = useSelector(simulationSelector);
 
 
-    let {availableMaterials} = useMaterials(); //hook to fetch materials,
-
     const {meshGenerated, setMeshGenerated} = useGenerateMesh(showSimulationModel);
     const {
         simulationStarted,
@@ -73,7 +70,6 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
                 // resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
                 showSimulationModel={showSimulationModel}
                 setShowSimulationModel={setShowSimulationModel}
-                availableMaterials={availableMaterials}
                 meshGenerated={meshGenerated}
                 setMeshGenerated={setMeshGenerated}
                 simulationStarted={simulationStarted}

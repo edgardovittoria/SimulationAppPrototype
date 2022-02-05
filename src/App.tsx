@@ -38,7 +38,7 @@ function App() {
         setShowModal={setShowCreateNewProjectModal}
         selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
         resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
-    />, [tabSelected]);
+    />, [tabSelected, projectsTab]);
 
     const memoizedTabsContentProjectManagement = useMemo(() => <TabsContentProjectManagement
         setShowModal={setShowCreateNewProjectModal}
