@@ -6,6 +6,7 @@ import {projectsSelector, removeProject, selectProject} from "../../../store/pro
 import {MenuBar} from "../menuBar/MenuBar";
 
 interface TabsContentProjectManagementProps {
+    menuItemSelected: string,
     setShowModal: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
@@ -17,20 +18,20 @@ interface TabsContentProjectManagementProps {
 export const TabsContentProjectManagement: React.FC<TabsContentProjectManagementProps> = (
     {
         setShowModal, projectsTab, setProjectsTab, selectTab, setSimulationCoreMenuItemSelected,
-        setSelectedSimulation
+        setSelectedSimulation, menuItemSelected
     }
 ) => {
 
     const dispatch = useDispatch()
     let projects = useSelector(projectsSelector)
 
-    const menuItems = ['Overview', 'Projects', 'Simulations']
-    const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
+    // const menuItems = ['Overview', 'Projects', 'Simulations']
+    // const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
 
     return (
         <>
 
-            <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/>
+            {/* <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/> */}
             <TabsContentProjectManagementFactory
                 menuItem={menuItemSelected}
                 setShowModal={setShowModal}

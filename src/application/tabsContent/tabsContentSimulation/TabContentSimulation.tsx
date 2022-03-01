@@ -61,7 +61,7 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
 
     return (
         <>
-            <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/>
+            {/* <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/> */}
             <TabsContentSimulationFactory
                 menuItem={menuItemSelected}
                 setMenuItem={setMenuItemSelected}
