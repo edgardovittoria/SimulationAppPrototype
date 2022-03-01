@@ -1,19 +1,36 @@
 {
-  "posts": [
+  "simulation": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "simulationName": "simulation1",
+      "results": [
+        {
+          "name": "label1",
+          "values": [1,20,30,15,17,8,3,33,21,29],
+          "color": "rgb(255, 99, 132)"
+        },
+        {
+          "name": "label2",
+          "values": [2,10,50,35,27,18,3,23,71,59],
+          "color": "rgb(53, 162, 235)"
+        }
+      ]
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "id": 2,
+      "simulationName": "simulation2",
+      "results": [
+        {
+          "name": "label1",
+          "values": [100,20,40,55,17,8,113,63,21,29],
+          "color": "rgb(255, 99, 132)"
+        },
+        {
+          "name": "label2",
+          "values": [20,100,30,135,27,18,4,243,71,59],
+          "color": "rgb(53, 162, 235)"
+        }
+      ]
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }

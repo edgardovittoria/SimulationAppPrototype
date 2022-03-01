@@ -12,7 +12,7 @@ export const Materials: React.FC<MaterialsProps> = ({ selectedProject }) => {
             {(selectedProject) &&
                 <div className="leftPanel modelContainer py-4 h-auto">
                     <ul className="list-unstyled mb-0">
-                        {selectedProject.model.components.map((component) => {
+                        {selectedProject.model.components && selectedProject.model.components.map((component) => {
                             return (
                                 <li key={component.name} className="mt-2">
                                     <div className="row">
