@@ -58,6 +58,7 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
 
+    console.log(menuItemSelected)
     return (
         <>
             {/* <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/> */}
@@ -69,7 +70,6 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
                 selectedComponent={selectedComponent}
                 selectComponent={(component: ComponentEntity) => dispatch(selectComponent(component))}
                 unselectComponent={(component: ComponentEntity) => dispatch(unselectComponent(component))}
-                // resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
                 showSimulationModel={showSimulationModel}
                 setShowSimulationModel={setShowSimulationModel}
                 meshGenerated={meshGenerated}

@@ -14,7 +14,18 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts}) => {
             < div className="selectPortsContainer">
                 <div className="selectPorts">
                     <NavDropdown
-                        title={<AiOutlineThunderbolt color={'#00ae52'} style={{width: "20px", height: "20px"}}/>}
+                        title={
+                            <div className="row">
+                                <div className="col-2">
+                                    <AiOutlineThunderbolt color={'#00ae52'} style={{width: "20px", height: "20px"}}/>
+                                </div>
+                                <div className="col-8 text-black">
+                                    Add Port
+                                </div>
+                            </div>
+
+
+                        }
                         menuVariant="light"
                     >
                         <Nav.Link onClick={() => {

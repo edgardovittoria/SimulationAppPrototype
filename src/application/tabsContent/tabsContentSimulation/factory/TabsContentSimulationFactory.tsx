@@ -85,11 +85,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <FactoryRightPanelContent
                             section="Modeler"
                             components={selectedProject?.model.components}
-                            // assignMaterial={assignMaterial}
-                            // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
-                            // availableMaterials={availableMaterials}
-                            // assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                            ports={selectedProject?.ports}
                         />
                     </RightPanelSimulation>}
                 </>
@@ -126,11 +123,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <FactoryRightPanelContent
                             section="Physics"
                             components={selectedProject?.model.components}
-                            // assignMaterial={assignMaterial}
-                            // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
-                            // availableMaterials={availableMaterials}
-                            // assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                            ports={selectedProject?.ports}
                         />
                     </RightPanelSimulation>
                 </>
@@ -165,11 +159,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <FactoryRightPanelContent
                             section="Simulator"
                             components={selectedProject?.model.components}
-                            // assignMaterial={assignMaterial}
-                            // resetSelectedComponentsArray={resetSelectedComponentsArray}
                             setShowSimulationModel={setShowSimulationModel}
-                            // availableMaterials={availableMaterials}
-                            // assignedMaterials={(selectedProject) ? selectedProject.materials : []}
+                            ports={selectedProject?.ports}
                         />
                     </RightPanelSimulation>
                     <SimulationPanel
