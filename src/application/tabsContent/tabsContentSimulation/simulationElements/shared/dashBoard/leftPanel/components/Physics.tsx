@@ -1,16 +1,49 @@
 import React from 'react';
 import {Project} from "../../../../../../../../model/Project";
+import {AiOutlineThunderbolt} from "react-icons/ai";
+import "./style/physics.css"
+import {IoTrashOutline} from "react-icons/io5";
 
 interface PhysicsProps {
-    selectedProject: Project | undefined
+    selectedProject: Project | undefined,
+    selectPort: Function,
+    deletePort: Function
 }
 
-export const Physics: React.FC<PhysicsProps> = ({selectedProject}) => {
-    return(
+export const Physics: React.FC<PhysicsProps> = ({selectedProject, selectPort, deletePort}) => {
+    return (
         <>
-            {(selectedProject && selectedProject.physics !== "")
-                ? <div className="leftPanel modelContainer">
-                    Physics
+            {(selectedProject && selectedProject.ports.length !== 0)
+                ?
+                <div className="leftPanel modelContainer py-4 h-auto">
+                    <ul className="list-unstyled mb-0">
+                        {selectedProject.ports && selectedProject.ports.map((port) => {
+                            return (
+                                <li key={port.name}
+                                    className={port.isSelected ? 'listItemPort listItemPortSelected' : 'listItemPort'}
+                                    onClick={() => selectPort(port.name)}
+                                >
+                                    <div className="row">
+                                        <div className="col-2 pe-0 ps-0">
+                                            <AiOutlineThunderbolt color={'#00ae52'}
+                                                                  style={{width: "25px", height: "25px"}}/>
+                                        </div>
+                                        <div className="col-8 text-start ps-0">
+                                            <h5 className="fw-normal mb-0">{port.name}</h5>
+                                        </div>
+                                        {port.isSelected &&
+                                            <div
+                                                className="col-2 pe-0 ps-0"
+                                                onClick={() => deletePort(port.name)}
+                                            >
+                                                <IoTrashOutline color={'#d80233'} style={{width: "20px", height: "20px"}}/>
+                                            </div>
+                                        }
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
                 </div>
                 : <div className="leftPanel modelContainer">
                     <img src="/noPhysicsIcon.png" style={{marginTop: "100px"}}/>

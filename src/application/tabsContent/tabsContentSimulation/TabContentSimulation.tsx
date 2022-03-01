@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
-    createSimulation,
+    addPorts,
+    createSimulation, deletePort,
     importModel,
     selectComponent,
     selectedComponentSelector,
-    selectedProjectSelector, simulationSelector, unselectComponent, updateSimulation
+    selectedProjectSelector, selectPort, simulationSelector, unselectComponent, updateSimulation
 } from "../../../store/projectSlice";
 import {MenuBar} from "../menuBar/MenuBar";
 import {TabsContentSimulationFactory} from "./factory/TabsContentSimulationFactory";
@@ -13,6 +14,7 @@ import {ComponentEntity} from "@Draco112358/cad-library";
 import {useGenerateMesh} from "./hooks/useGenerateMesh";
 import {useRunSimulation} from "./hooks/useRunSimulation";
 import {Simulation} from "../../../model/Simulation";
+import {Port} from "../../../model/Project";
 
 interface TabContentSimulationProps {
     menuItems: string[],
@@ -80,6 +82,9 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
                 simulation={simulation as Simulation}
                 selectedTabLeftPanel={selectedTabLeftPanel}
                 setSelectedTabLeftPanel={setSelectedTabLeftPanel}
+                addPorts={(port: Port) => dispatch(addPorts(port))}
+                selectPort={(name: string) => dispatch(selectPort(name))}
+                deletePort={(name: string) => dispatch(deletePort(name))}
             />
         </>
     )

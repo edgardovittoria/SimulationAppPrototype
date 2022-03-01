@@ -21,7 +21,11 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
             return <></>
 
         case 'Physics':
-            return <></>
+            return (
+                <>
+
+                </>
+            )
         case 'Simulator':
             return (
                 <>

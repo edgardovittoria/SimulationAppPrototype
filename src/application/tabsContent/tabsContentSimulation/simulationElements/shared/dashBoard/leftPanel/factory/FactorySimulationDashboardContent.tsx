@@ -17,20 +17,22 @@ interface FactorySimulationDashboardContentProps {
     unselectComponent: Function,
     // updateComponentColor: Function,
     setSelectedSimulation: Function,
-    selectedSimulation: Simulation | undefined
+    selectedSimulation: Simulation | undefined,
+    selectPort: Function,
+    deletePort: Function
 }
 
 export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashboardContentProps> = (
     {
         selectedTab, selectedProject, selectedComponent, selectComponent,
-        unselectComponent, setSelectedSimulation, selectedSimulation
+        unselectComponent, setSelectedSimulation, selectedSimulation,selectPort, deletePort
     }
 ) => {
     switch (selectedTab) {
         case 'Materials' :
             return <Materials selectedProject={selectedProject}/>
         case 'Physics' :
-            return <Physics selectedProject={selectedProject}/>
+            return <Physics selectedProject={selectedProject} selectPort={selectPort} deletePort={deletePort}/>
         case 'Simulator' :
             return <Simulator selectedProject={selectedProject}/>
         case 'Results' :

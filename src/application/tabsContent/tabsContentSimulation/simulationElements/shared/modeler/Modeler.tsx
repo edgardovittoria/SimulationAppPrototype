@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Canvas} from "@react-three/fiber";
 import * as THREE from 'three';
 import {Color, Mesh, MeshPhongMaterial} from 'three';
-import {OrbitControls} from '@react-three/drei'
+import {OrbitControls, TransformControls} from '@react-three/drei'
 import './modeler.css'
 import {GiCubeforce} from "react-icons/gi";
 import {Project} from "../../../../../../model/Project";
@@ -20,12 +20,13 @@ interface ModelerProps {
     // selectedComponent: ComponentEntity[],
     selectComponent: Function,
     // unselectComponent: Function,
-    // updateComponentColor: Function
+    // updateComponentColor: Function,
+    selectPort: Function
 }
 
 export const Modeler: React.FC<ModelerProps> = (
     {
-        selectedProject, importModel, selectComponent
+        selectedProject, importModel, selectComponent, selectPort
     }
 ) => {
 
@@ -80,7 +81,42 @@ export const Modeler: React.FC<ModelerProps> = (
                             </mesh>
                         )
                     })}
-                    <OrbitControls/>
+                    {(selectedProject && selectedProject.ports.length !== 0) &&
+                    <>
+                        {selectedProject?.ports.map(port => {
+                            return(
+                                <>
+                                    <TransformControls
+                                        position={port.position.first}
+                                        showX={port.isSelected}
+                                        showY={port.isSelected}
+                                        showZ={port.isSelected}
+                                    >
+                                        <mesh onClick={() => selectPort(port.name)}>
+                                            <torusGeometry args={[.1, .05, 8, 20, Math.PI*2]}/>
+                                            <meshPhongMaterial color='red'/>
+                                        </mesh>
+                                    </TransformControls>
+                                    <TransformControls
+                                        position={port.position.last}
+                                        showX={port.isSelected}
+                                        showY={port.isSelected}
+                                        showZ={port.isSelected}
+                                    >
+                                        <mesh onClick={() => selectPort(port.name)}>
+                                            <torusGeometry args={[.1, .05, 8, 20, Math.PI*2]}/>
+                                            <meshPhongMaterial color='red'/>
+                                        </mesh>
+                                    </TransformControls>
+                                </>
+
+
+                            )
+                        })
+                        }
+                    </>
+                    }
+                    <OrbitControls makeDefault/>
                 </Canvas>
                 :
                 <div>

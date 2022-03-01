@@ -1,6 +1,6 @@
 import {ComponentEntity, ImportActionParamsObject} from '@Draco112358/cad-library';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Project} from "../model/Project";
+import {Port, Project} from "../model/Project";
 import {Simulation} from "../model/Simulation";
 
 
@@ -143,6 +143,27 @@ export const ProjectSlice = createSlice({
                     project.simulations = selectedProject.simulations
                 }
             })
+        },
+        addPorts(state: ProjectState, action:PayloadAction<Port>){
+            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            selectedProject?.ports.push(action.payload)
+        },
+        selectPort(state:ProjectState, action:PayloadAction<string>){
+            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            selectedProject?.ports.forEach(port => {
+                if(port.name === action.payload){
+                    port.isSelected = true
+                }else{
+                    port.isSelected = false
+                }
+            })
+        },
+        deletePort(state:ProjectState, action:PayloadAction<string>){
+            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            let updatedPortsArray = selectedProject?.ports.filter(port => port.name !== action.payload)
+            if(selectedProject && updatedPortsArray){
+                selectedProject.ports = updatedPortsArray
+            }
         }
     },
     extraReducers: {
@@ -154,7 +175,7 @@ export const ProjectSlice = createSlice({
 export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
     addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
-    resetSelectedComponents, createSimulation, updateSimulation
+    resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort
 } = ProjectSlice.actions
 
 

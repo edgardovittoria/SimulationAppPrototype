@@ -8,7 +8,7 @@ interface SimulatorProps {
 export const Simulator: React.FC<SimulatorProps> = ({selectedProject}) => {
     return(
         <>
-            {(selectedProject && selectedProject.model.components.filter(comp => comp.material !== undefined).length > 0 && selectedProject.physics !== "")
+            {(selectedProject && selectedProject.model.components.filter(comp => comp.material !== undefined).length > 0 && selectedProject.ports.length !== 0)
                 ? <div className="leftPanel modelContainer">
                     Simulator
                 </div>
