@@ -6,17 +6,16 @@ import {PortManagement} from "./components/PortManagement";
 interface FactoryRightPanelContentProps {
     section: string,
     components?: ComponentEntity[],
-    // assignMaterial: Function,
-    // resetSelectedComponentsArray: Function,
     setShowSimulationModel: Function,
-    // availableMaterials: Material[],
-    // assignedMaterials: Material[],
-    ports: Port[] | undefined
+    ports: Port[] | undefined,
+    setPortType: Function,
+    updatePortPosition: Function
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
-        section, components, setShowSimulationModel, ports
+        section, components, setShowSimulationModel, ports,
+        setPortType, updatePortPosition
     }
 ) => {
 
@@ -30,7 +29,11 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
             return (
                 <>
                     {
-                        selectedPort ? <PortManagement selectedPort={selectedPort}/>
+                        selectedPort ? <PortManagement
+                                selectedPort={selectedPort}
+                                setPortType={setPortType}
+                                updatePortPosition={updatePortPosition}
+                            />
                             : <span className="py-1">No Port Selected</span>
                     }
                 </>

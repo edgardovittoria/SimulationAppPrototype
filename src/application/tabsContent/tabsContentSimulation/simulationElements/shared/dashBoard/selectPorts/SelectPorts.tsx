@@ -31,7 +31,8 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts}) => {
                         <Nav.Link onClick={() => {
                             let port: Port = {
                                 name: 'port'+Math.floor(Math.random() * 10),
-                                type: 'port',
+                                category: 'port',
+                                type: 0,
                                 position: {
                                     first: [-2.5, 2.5, 0],
                                     last: [2.5, 2.5, 0]

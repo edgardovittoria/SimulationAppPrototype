@@ -164,6 +164,26 @@ export const ProjectSlice = createSlice({
             if(selectedProject && updatedPortsArray){
                 selectedProject.ports = updatedPortsArray
             }
+        },
+        setPortType(state:ProjectState, action:PayloadAction<{ name: string, type: number }>){
+            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            selectedProject?.ports.forEach(port => {
+                if(port.name === action.payload.name){
+                    port.type = action.payload.type
+                }
+            })
+        },
+        updatePortPosition(state:ProjectState, action:PayloadAction<{type: 'first' | 'last', position: [number, number, number]}>){
+            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            selectedProject?.ports.forEach(port => {
+                if(port.isSelected){
+                    if(action.payload.type === 'first'){
+                        port.position.first = action.payload.position
+                    }else{
+                        port.position.last = action.payload.position
+                    }
+                }
+            })
         }
     },
     extraReducers: {
@@ -175,7 +195,8 @@ export const ProjectSlice = createSlice({
 export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
     addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
-    resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort
+    resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort,
+    setPortType, updatePortPosition
 } = ProjectSlice.actions
 
 

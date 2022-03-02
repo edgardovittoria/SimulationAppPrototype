@@ -2,11 +2,18 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
     addPorts,
-    createSimulation, deletePort,
+    createSimulation,
+    deletePort,
     importModel,
     selectComponent,
     selectedComponentSelector,
-    selectedProjectSelector, selectPort, simulationSelector, unselectComponent, updateSimulation
+    selectedProjectSelector,
+    selectPort,
+    setPortType,
+    simulationSelector,
+    unselectComponent,
+    updatePortPosition,
+    updateSimulation
 } from "../../../store/projectSlice";
 import {MenuBar} from "../menuBar/MenuBar";
 import {TabsContentSimulationFactory} from "./factory/TabsContentSimulationFactory";
@@ -85,6 +92,8 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
                 addPorts={(port: Port) => dispatch(addPorts(port))}
                 selectPort={(name: string) => dispatch(selectPort(name))}
                 deletePort={(name: string) => dispatch(deletePort(name))}
+                setPortType={(obj: {name: string, type: number}) => dispatch(setPortType(obj))}
+                updatePortPosition={(obj: {type: 'first' | 'last', position: [number, number, number]}) => dispatch(updatePortPosition(obj))}
             />
         </>
     )

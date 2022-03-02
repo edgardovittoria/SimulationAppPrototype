@@ -11,7 +11,8 @@ export type Project = {
 
 export type Port = {
     name: string,
-    type: string,
+    category: string,
+    type: number,
     position: {
         first: [number, number, number],
         last: [number, number, number]

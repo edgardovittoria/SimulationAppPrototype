@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Canvas} from "@react-three/fiber";
+import React, {useEffect, useRef, useState} from 'react';
+import {Canvas, Object3DNode} from "@react-three/fiber";
 import * as THREE from 'three';
 import {Color, Mesh, MeshPhongMaterial} from 'three';
 import {OrbitControls, TransformControls} from '@react-three/drei'
@@ -7,7 +7,6 @@ import './modeler.css'
 import {GiCubeforce} from "react-icons/gi";
 import {Project} from "../../../../../../model/Project";
 import {
-    ComponentEntity,
     FactoryShapes,
     ImportActionParamsObject,
     ImportCadProjectButton
@@ -17,16 +16,14 @@ import {
 interface ModelerProps {
     selectedProject: Project | undefined,
     importModel: (params: ImportActionParamsObject) => any,
-    // selectedComponent: ComponentEntity[],
     selectComponent: Function,
-    // unselectComponent: Function,
-    // updateComponentColor: Function,
-    selectPort: Function
+    selectPort: Function,
+    updatePortPosition: Function
 }
 
 export const Modeler: React.FC<ModelerProps> = (
     {
-        selectedProject, importModel, selectComponent, selectPort
+        selectedProject, importModel, selectComponent, selectPort, updatePortPosition
     }
 ) => {
 
@@ -43,6 +40,49 @@ export const Modeler: React.FC<ModelerProps> = (
     //         })
     //     }
     // }, [selectedComponent])
+
+    const transformationFirst = useRef(null);
+    const transformationLast = useRef(null);
+
+    useEffect(() => {
+        if (transformationFirst.current) {
+            const controls = transformationFirst.current as unknown as Object3DNode<any, any>;
+            controls.addEventListener("dragging-changed", onChangeFirstPositionHandler)
+            return () => controls.removeEventListener("dragging-changed", onChangeFirstPositionHandler)
+        }
+    })
+
+    useEffect(() => {
+        if (transformationLast.current) {
+            const controls = transformationLast.current as unknown as Object3DNode<any, any>;
+            controls.addEventListener("dragging-changed", onChangeLastPositionHandler)
+            return () => controls.removeEventListener("dragging-changed", onChangeLastPositionHandler)
+        }
+
+    })
+
+
+    function onChangeFirstPositionHandler(event: THREE.Event) {
+        if (!event.value && transformationFirst.current) {
+            const controls: Object3DNode<any, any> = transformationFirst.current as unknown as Object3DNode<any, any>
+            let transformationParmas = {
+                type: 'first',
+                position: [controls.worldPosition.x, controls.worldPosition.y, controls.worldPosition.z],
+            }
+            updatePortPosition(transformationParmas)
+        }
+    }
+
+    function onChangeLastPositionHandler(event: THREE.Event) {
+        if (!event.value && transformationLast.current) {
+            const controls: Object3DNode<any, any> = transformationLast.current as unknown as Object3DNode<any, any>
+            let transformationParmas = {
+                type: 'last',
+                position: [controls.worldPosition.x, controls.worldPosition.y, controls.worldPosition.z],
+            }
+            updatePortPosition(transformationParmas)
+        }
+    }
 
 
     return (
@@ -87,6 +127,7 @@ export const Modeler: React.FC<ModelerProps> = (
                             return(
                                 <>
                                     <TransformControls
+                                        ref={transformationFirst}
                                         position={port.position.first}
                                         showX={port.isSelected}
                                         showY={port.isSelected}
@@ -98,6 +139,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                         </mesh>
                                     </TransformControls>
                                     <TransformControls
+                                        ref={transformationLast}
                                         position={port.position.last}
                                         showX={port.isSelected}
                                         showY={port.isSelected}

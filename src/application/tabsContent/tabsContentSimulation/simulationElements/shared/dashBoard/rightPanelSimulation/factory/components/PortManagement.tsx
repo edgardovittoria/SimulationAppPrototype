@@ -1,17 +1,18 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {AiOutlineThunderbolt} from "react-icons/ai";
 import {Port} from "../../../../../../../../../model/Project";
 import {Modal} from "react-bootstrap";
 import "./style/portManagement.css"
 
 interface PortManagementProps {
-    selectedPort: Port
+    selectedPort: Port,
+    setPortType: Function,
+    updatePortPosition: Function
 }
 
-export const PortManagement: React.FC<PortManagementProps> = ({selectedPort}) => {
+export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, setPortType, updatePortPosition}) => {
 
     const [show, setShow] = useState(false);
-    const [portType, setPortType] = useState(0);
 
     return(
         <>
@@ -25,49 +26,139 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort}) =>
                 </div>
             </div>
             <hr/>
-            <div>
+            <div className="choosePortTypeContainer">
                 <button
-                    className="btn button-primary mb-2"
+                    className="btn button-primary mb-2 w-100"
                     onClick={() => setShow(true)}
                 >Choose the port type</button>
-                {portType === 1 && <img src="portType1.png" alt="port type 1"/>}
-                {portType === 2 && <img src="portType2.png" alt="port type 2"/>}
-                {portType === 3 && <img src="portType3.png" alt="port type 3"/>}
-                {portType === 4 && <img src="portType4.png" alt="port type 4"/>}
-                {portType === 5 && <img src="portType5.png" alt="port type 5"/>}
+                {selectedPort.type === 1 && <img src="portType1.png" alt="port type 1"/>}
+                {selectedPort.type === 2 && <img src="portType2.png" alt="port type 2"/>}
+                {selectedPort.type === 3 && <img src="portType3.png" alt="port type 3"/>}
+                {selectedPort.type === 4 && <img src="portType4.png" alt="port type 4"/>}
+                {selectedPort.type === 5 && <img src="portType5.png" alt="port type 5"/>}
 
             </div>
             <div className="mt-2">
                 <span>First Position (X,Y,Z)</span>
                 <div className="row mt-2">
-                    <div className="col-3"><input className="w-100" type="number"/></div>
-                    <div className="col-3"><input className="w-100" type="number"/></div>
-                    <div className="col-3"><input className="w-100" type="number"/></div>
+                    <div className="col-4">
+                        <input
+                            className="w-100 inputPortManagement form-control"
+                            type="number"
+                            step={.1}
+                            value={selectedPort.position.first[0]}
+                            onChange={(event) => {
+                                let newPosition = [
+                                    event.currentTarget.value,
+                                    selectedPort.position.first[1],
+                                    selectedPort.position.first[2]
+                                ]
+                                updatePortPosition({type: 'first', position: newPosition})
+                            }}
+                        />
+                    </div>
+                    <div className="col-4">
+                        <input
+                            className="w-100 inputPortManagement form-control"
+                            type="number"
+                            step={.1}
+                            value={selectedPort.position.first[1]}
+                            onChange={(event) => {
+                                let newPosition = [
+                                    selectedPort.position.first[0],
+                                    event.currentTarget.value,
+                                    selectedPort.position.first[2]
+                                ]
+                                updatePortPosition({type: 'first', position: newPosition})
+                            }}
+                        />
+                    </div>
+                    <div className="col-4">
+                        <input
+                            className="w-100 inputPortManagement form-control"
+                            type="number"
+                            step={.1}
+                            value={selectedPort.position.first[2]}
+                            onChange={(event) => {
+                                let newPosition = [
+                                    selectedPort.position.first[0],
+                                    selectedPort.position.first[1],
+                                    event.currentTarget.value
+                                ]
+                                updatePortPosition({type: 'first', position: newPosition})
+                            }}
+                        />
+                    </div>
                 </div>
 
             </div>
             <div className="mt-2">
                 <span>Last Position (X,Y,Z)</span>
                 <div className="row mt-2">
-                    <div className="col-3"><input className="w-100" type="number"/></div>
-                    <div className="col-3"><input className="w-100" type="number"/></div>
-                    <div className="col-3"><input className="w-100" type="number"/></div>
+                    <div className="col-4">
+                        <input
+                            className="w-100 inputPortManagement form-control"
+                            type="number"
+                            step={.1}
+                            value={selectedPort.position.last[0]}
+                            onChange={(event) => {
+                                let newPosition = [
+                                    event.currentTarget.value,
+                                    selectedPort.position.last[1],
+                                    selectedPort.position.last[2]
+                                ]
+                                updatePortPosition({type: 'last', position: newPosition})
+                            }}
+                        />
+                    </div>
+                    <div className="col-4">
+                        <input
+                            className="w-100 inputPortManagement form-control"
+                            type="number"
+                            step={.1}
+                            value={selectedPort.position.last[1]}
+                            onChange={(event) => {
+                                let newPosition = [
+                                    selectedPort.position.last[0],
+                                    event.currentTarget.value,
+                                    selectedPort.position.last[2]
+                                ]
+                                updatePortPosition({type: 'last', position: newPosition})
+                            }}
+                        />
+                    </div>
+                    <div className="col-4">
+                        <input
+                            className="w-100 inputPortManagement form-control"
+                            type="number"
+                            step={.1}
+                            value={selectedPort.position.last[2]}
+                            onChange={(event) => {
+                                let newPosition = [
+                                    selectedPort.position.last[0],
+                                    selectedPort.position.last[1],
+                                    event.currentTarget.value
+                                ]
+                                updatePortPosition({type: 'last', position: newPosition})
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
 
             <div className="mt-2">
                 <span>Impedance</span>
-                <input className="w-100" type="number"/>
+                <input className="w-100 inputPortManagement form-control" type="number"/>
             </div>
 
             <div className="mt-2">
                 <span>Resistance</span>
-                <input className="w-100" type="number"/>
+                <input className="w-100 inputPortManagement form-control" type="number"/>
             </div>
 
             <div className="mt-2">
                 <span>Capacitance</span>
-                <input className="w-100" type="number"/>
+                <input className="w-100 inputPortManagement form-control" type="number"/>
             </div>
 
             <Modal show={show} onHide={() => setShow(false)}>
@@ -79,7 +170,7 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort}) =>
                         <div
                             className="col-4 text-center portTypeBox"
                             onClick={() => {
-                                setPortType(1)
+                                setPortType({name: selectedPort.name, type: 1})
                                 setShow(false)
                             }}
                         >
@@ -88,7 +179,7 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort}) =>
                         <div
                             className="col-4 text-center portTypeBox"
                             onClick={() => {
-                                setPortType(2)
+                                setPortType({name: selectedPort.name, type: 2})
                                 setShow(false)
                             }}
                         >
@@ -97,7 +188,7 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort}) =>
                         <div
                             className="col-4 text-center portTypeBox"
                             onClick={() => {
-                                setPortType(3)
+                                setPortType({name: selectedPort.name, type: 3})
                                 setShow(false)
                             }}
                         >
@@ -108,7 +199,7 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort}) =>
                         <div
                             className="col-6 text-center portTypeBox"
                             onClick={() => {
-                                setPortType(4)
+                                setPortType({name: selectedPort.name, type: 4})
                                 setShow(false)
                             }}
                         >
@@ -117,7 +208,7 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort}) =>
                         <div
                             className="col-6 text-center portTypeBox"
                             onClick={() => {
-                                setPortType(5)
+                                setPortType({name: selectedPort.name, type: 5})
                                 setShow(false)
                             }}
                         >

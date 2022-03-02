@@ -23,9 +23,6 @@ interface TabsContentSimulationFactoryProps {
     selectedComponent: ComponentEntity[],
     selectComponent: Function,
     unselectComponent: Function,
-    // assignMaterial: Function,
-    // resetSelectedComponentsArray: Function,
-    // updateComponentColor: Function,
     showSimulationModel: boolean,
     setShowSimulationModel: Function,
     meshGenerated: boolean,
@@ -40,7 +37,9 @@ interface TabsContentSimulationFactoryProps {
     setSelectedTabLeftPanel: Function,
     addPorts: Function,
     selectPort: Function,
-    deletePort: Function
+    deletePort: Function,
+    setPortType: Function,
+    updatePortPosition: Function
 }
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
@@ -49,7 +48,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
         unselectComponent, selectedComponent,        showSimulationModel, setShowSimulationModel, setMenuItem, meshGenerated,
         setMeshGenerated, simulationStarted, meshApproved, setMeshApproved,
         selectedSimulation, setSelectedSimulation, simulation, selectedTabLeftPanel,
-        setSelectedTabLeftPanel, addPorts, selectPort, deletePort
+        setSelectedTabLeftPanel, addPorts, selectPort, deletePort, setPortType, updatePortPosition
     }
 ) => {
 
@@ -62,9 +61,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         importModel={importModel}
                         selectComponent={selectComponent}
                         selectPort={selectPort}
-                        // unselectComponent={unselectComponent}
-                        // selectedComponent={selectedComponent}
-                        // updateComponentColor={updateComponentColor}
+                        updatePortPosition={updatePortPosition}
                     />
                     <LeftPanel tabs={['Modeler', 'Materials']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
@@ -73,7 +70,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedComponent={selectedComponent}
                             selectComponent={selectComponent}
                             unselectComponent={unselectComponent}
-                            // updateComponentColor={updateComponentColor}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
                             selectPort={selectPort}
@@ -87,6 +83,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             components={selectedProject?.model.components}
                             setShowSimulationModel={setShowSimulationModel}
                             ports={selectedProject?.ports}
+                            setPortType={setPortType}
+                            updatePortPosition={updatePortPosition}
                         />
                     </RightPanelSimulation>}
                 </>
@@ -100,9 +98,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         importModel={importModel}
                         selectComponent={selectComponent}
                         selectPort={selectPort}
-                        // unselectComponent={unselectComponent}
-                        // selectedComponent={selectedComponent}
-                        // updateComponentColor={updateComponentColor}
+                        updatePortPosition={updatePortPosition}
                     />
                     <LeftPanel tabs={['Modeler', 'Physics']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
@@ -111,7 +107,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedComponent={selectedComponent}
                             selectComponent={selectComponent}
                             unselectComponent={unselectComponent}
-                            // updateComponentColor={updateComponentColor}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
                             selectPort={selectPort}
@@ -125,6 +120,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             components={selectedProject?.model.components}
                             setShowSimulationModel={setShowSimulationModel}
                             ports={selectedProject?.ports}
+                            setPortType={setPortType}
+                            updatePortPosition={updatePortPosition}
                         />
                     </RightPanelSimulation>
                 </>
@@ -137,9 +134,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         importModel={importModel}
                         selectComponent={selectComponent}
                         selectPort={selectPort}
-                        // unselectComponent={unselectComponent}
-                        // selectedComponent={selectedComponent}
-                        // updateComponentColor={updateComponentColor}
+                        updatePortPosition={updatePortPosition}
                     />
                     <LeftPanel tabs={['Modeler', 'Simulator']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
@@ -148,7 +143,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedComponent={selectedComponent}
                             selectComponent={selectComponent}
                             unselectComponent={unselectComponent}
-                            // updateComponentColor={updateComponentColor}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
                             selectPort={selectPort}
@@ -161,6 +155,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             components={selectedProject?.model.components}
                             setShowSimulationModel={setShowSimulationModel}
                             ports={selectedProject?.ports}
+                            setPortType={setPortType}
+                            updatePortPosition={updatePortPosition}
                         />
                     </RightPanelSimulation>
                     <SimulationPanel
@@ -189,7 +185,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedComponent={selectedComponent}
                             selectComponent={selectComponent}
                             unselectComponent={unselectComponent}
-                            // updateComponentColor={updateComponentColor}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
                             selectPort={selectPort}
