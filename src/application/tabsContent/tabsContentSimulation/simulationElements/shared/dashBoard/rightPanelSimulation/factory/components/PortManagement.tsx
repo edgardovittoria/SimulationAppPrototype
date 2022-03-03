@@ -1,16 +1,17 @@
 import React, {ChangeEvent, useState} from 'react';
 import {AiOutlineThunderbolt} from "react-icons/ai";
-import {Port} from "../../../../../../../../../model/Project";
+import {Port, RLCParams} from "../../../../../../../../../model/Project";
 import {Modal} from "react-bootstrap";
 import "./style/portManagement.css"
 
 interface PortManagementProps {
     selectedPort: Port,
     setPortType: Function,
-    updatePortPosition: Function
+    updatePortPosition: Function,
+    setRLCParams: Function
 }
 
-export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, setPortType, updatePortPosition}) => {
+export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, setPortType, updatePortPosition, setRLCParams}) => {
 
     const [show, setShow] = useState(false);
 
@@ -148,17 +149,18 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, set
 
             <div className="mt-2">
                 <span>Impedance</span>
-                <input className="w-100 inputPortManagement form-control" type="number"/>
+                <input className="w-100 inputPortManagement form-control" type="number" onChange={(event) => setRLCParams({...selectedPort.rlcParams, impedance: parseFloat(event.currentTarget.value)}as RLCParams)
+                }/>
             </div>
 
             <div className="mt-2">
                 <span>Resistance</span>
-                <input className="w-100 inputPortManagement form-control" type="number"/>
+                <input className="w-100 inputPortManagement form-control" type="number" onChange={(event) => setRLCParams({...selectedPort.rlcParams, resistance: parseFloat(event.currentTarget.value)}as RLCParams)}/>
             </div>
 
             <div className="mt-2">
                 <span>Capacitance</span>
-                <input className="w-100 inputPortManagement form-control" type="number"/>
+                <input className="w-100 inputPortManagement form-control" type="number" onChange={(event) => setRLCParams({...selectedPort.rlcParams, capacitance: parseFloat(event.currentTarget.value)}as RLCParams)}/>
             </div>
 
             <Modal show={show} onHide={() => setShow(false)}>

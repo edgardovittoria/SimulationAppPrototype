@@ -1,7 +1,7 @@
-import {ComponentEntity, ImportActionParamsObject} from '@Draco112358/cad-library';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Port, Project} from "../model/Project";
-import {Simulation} from "../model/Simulation";
+import { ComponentEntity, ImportActionParamsObject } from '@Draco112358/cad-library';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Port, Project, RLCParams } from "../model/Project";
+import { Simulation } from "../model/Simulation";
 
 
 export type ProjectState = {
@@ -25,7 +25,7 @@ export const ProjectSlice = createSlice({
             state.projects = state.projects.filter(project => project.name !== action.payload)
         },
         selectProject(state: ProjectState, action: PayloadAction<string | undefined>) {
-            if(action.payload !== undefined){state.selectedProject = action.payload}
+            if (action.payload !== undefined) { state.selectedProject = action.payload }
 
         },
         importModel(state: ProjectState, action: PayloadAction<ImportActionParamsObject>) {
@@ -51,10 +51,10 @@ export const ProjectSlice = createSlice({
                 })
             }
         },
-        unselectComponent(state: ProjectState, action: PayloadAction<ComponentEntity>){
-          if(state.selectedComponent.length !== 0){
-              state.selectedComponent = state.selectedComponent.filter(component => component.keyComponent !== action.payload.keyComponent)
-          }
+        unselectComponent(state: ProjectState, action: PayloadAction<ComponentEntity>) {
+            if (state.selectedComponent.length !== 0) {
+                state.selectedComponent = state.selectedComponent.filter(component => component.keyComponent !== action.payload.keyComponent)
+            }
         },
         resetSelectedComponents(state: ProjectState) {
             state.selectedComponent = []
@@ -123,67 +123,67 @@ export const ProjectSlice = createSlice({
         //         }
         //     })
         // },
-        createSimulation(state:ProjectState, action:PayloadAction<Simulation>){
+        createSimulation(state: ProjectState, action: PayloadAction<Simulation>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             selectedProject?.simulations.push(action.payload);
             state.projects.forEach(project => {
-                if(project.name === selectedProject?.name){
+                if (project.name === selectedProject?.name) {
                     project.simulations.push(action.payload)
                 }
             })
         },
-        updateSimulation(state:ProjectState, action:PayloadAction<Simulation>){
+        updateSimulation(state: ProjectState, action: PayloadAction<Simulation>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
-            if(selectedProject?.simulations){
+            if (selectedProject?.simulations) {
                 selectedProject.simulations = selectedProject.simulations.filter(s => s.name !== action.payload.name)
                 selectedProject.simulations.push(action.payload)
             }
             state.projects.forEach(project => {
-                if(project.name === selectedProject?.name){
+                if (project.name === selectedProject?.name) {
                     project.simulations = selectedProject.simulations
                 }
             })
         },
-        addPorts(state: ProjectState, action:PayloadAction<Port>){
+        addPorts(state: ProjectState, action: PayloadAction<Port>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             selectedProject?.ports.push(action.payload)
         },
-        selectPort(state:ProjectState, action:PayloadAction<string>){
+        selectPort(state: ProjectState, action: PayloadAction<string>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             selectedProject?.ports.forEach(port => {
-                if(port.name === action.payload){
+                if (port.name === action.payload) {
                     port.isSelected = true
-                }else{
+                } else {
                     port.isSelected = false
                 }
             })
         },
-        deletePort(state:ProjectState, action:PayloadAction<string>){
+        deletePort(state: ProjectState, action: PayloadAction<string>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             let updatedPortsArray = selectedProject?.ports.filter(port => port.name !== action.payload)
-            if(selectedProject && updatedPortsArray){
+            if (selectedProject && updatedPortsArray) {
                 selectedProject.ports = updatedPortsArray
             }
         },
-        setPortType(state:ProjectState, action:PayloadAction<{ name: string, type: number }>){
+        setPortType(state: ProjectState, action: PayloadAction<{ name: string, type: number }>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             selectedProject?.ports.forEach(port => {
-                if(port.name === action.payload.name){
+                if (port.name === action.payload.name) {
                     port.type = action.payload.type
                 }
             })
         },
-        updatePortPosition(state:ProjectState, action:PayloadAction<{type: 'first' | 'last', position: [number, number, number]}>){
-            let selectedProject = findProjectByName(state.projects, state.selectedProject)
-            selectedProject?.ports.forEach(port => {
-                if(port.isSelected){
-                    if(action.payload.type === 'first'){
-                        port.position.first = action.payload.position
-                    }else{
-                        port.position.last = action.payload.position
-                    }
-                }
-            })
+        updatePortPosition(state: ProjectState, action: PayloadAction<{ type: 'first' | 'last', position: [number, number, number] }>) {
+            let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject))
+            if (selectedPort) {
+                (action.payload.type === 'first') ? selectedPort.position.first = action.payload.position : selectedPort.position.last = action.payload.position
+            }
+        },
+        setRLCParams(state: ProjectState, action: PayloadAction<RLCParams>) { 
+            let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject));
+            if(selectedPort){
+                selectedPort.rlcParams = action.payload
+            }
         }
     },
     extraReducers: {
@@ -196,7 +196,7 @@ export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
     addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
     resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort,
-    setPortType, updatePortPosition
+    setPortType, updatePortPosition, setRLCParams
 } = ProjectSlice.actions
 
 
@@ -207,3 +207,5 @@ export const simulationSelector = (state: { projects: ProjectState }) => findPro
 export const findProjectByName = (projects: Project[], name: string | undefined) => {
     return (name !== undefined) ? projects.filter(project => project.name === name)[0] : undefined
 }
+
+const findSelectedPort = (project: Project | undefined) => (project) ? project.ports.filter(port => port.isSelected)[0] : undefined

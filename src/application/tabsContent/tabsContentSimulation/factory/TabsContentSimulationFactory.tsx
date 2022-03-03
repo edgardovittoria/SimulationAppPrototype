@@ -39,7 +39,8 @@ interface TabsContentSimulationFactoryProps {
     selectPort: Function,
     deletePort: Function,
     setPortType: Function,
-    updatePortPosition: Function
+    updatePortPosition: Function,
+    setRLCParams: Function
 }
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
@@ -48,7 +49,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
         unselectComponent, selectedComponent,        showSimulationModel, setShowSimulationModel, setMenuItem, meshGenerated,
         setMeshGenerated, simulationStarted, meshApproved, setMeshApproved,
         selectedSimulation, setSelectedSimulation, simulation, selectedTabLeftPanel,
-        setSelectedTabLeftPanel, addPorts, selectPort, deletePort, setPortType, updatePortPosition
+        setSelectedTabLeftPanel, addPorts, selectPort, deletePort, setPortType, updatePortPosition, setRLCParams
     }
 ) => {
 
@@ -85,6 +86,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             ports={selectedProject?.ports}
                             setPortType={setPortType}
                             updatePortPosition={updatePortPosition}
+                            setRLCParams={setRLCParams}
                         />
                     </RightPanelSimulation>}
                 </>
@@ -122,6 +124,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             ports={selectedProject?.ports}
                             setPortType={setPortType}
                             updatePortPosition={updatePortPosition}
+                            setRLCParams={setRLCParams}
                         />
                     </RightPanelSimulation>
                 </>
@@ -157,6 +160,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             ports={selectedProject?.ports}
                             setPortType={setPortType}
                             updatePortPosition={updatePortPosition}
+                            setRLCParams={setRLCParams}
                         />
                     </RightPanelSimulation>
                     <SimulationPanel

@@ -10,6 +10,7 @@ import {
     selectedProjectSelector,
     selectPort,
     setPortType,
+    setRLCParams,
     simulationSelector,
     unselectComponent,
     updatePortPosition,
@@ -21,7 +22,7 @@ import {ComponentEntity} from "@Draco112358/cad-library";
 import {useGenerateMesh} from "./hooks/useGenerateMesh";
 import {useRunSimulation} from "./hooks/useRunSimulation";
 import {Simulation} from "../../../model/Simulation";
-import {Port} from "../../../model/Project";
+import {Port, RLCParams} from "../../../model/Project";
 
 interface TabContentSimulationProps {
     menuItems: string[],
@@ -93,6 +94,7 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
                 deletePort={(name: string) => dispatch(deletePort(name))}
                 setPortType={(obj: {name: string, type: number}) => dispatch(setPortType(obj))}
                 updatePortPosition={(obj: {type: 'first' | 'last', position: [number, number, number]}) => dispatch(updatePortPosition(obj))}
+                setRLCParams = {(rlcParams: RLCParams) => dispatch(setRLCParams(rlcParams))}
             />
         </>
     )

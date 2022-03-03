@@ -9,13 +9,14 @@ interface FactoryRightPanelContentProps {
     setShowSimulationModel: Function,
     ports: Port[] | undefined,
     setPortType: Function,
-    updatePortPosition: Function
+    updatePortPosition: Function,
+    setRLCParams: Function
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
         section, components, setShowSimulationModel, ports,
-        setPortType, updatePortPosition
+        setPortType, updatePortPosition, setRLCParams
     }
 ) => {
 
@@ -33,6 +34,7 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                                 selectedPort={selectedPort}
                                 setPortType={setPortType}
                                 updatePortPosition={updatePortPosition}
+                                setRLCParams={setRLCParams}
                             />
                             : <span className="py-1">No Port Selected</span>
                     }

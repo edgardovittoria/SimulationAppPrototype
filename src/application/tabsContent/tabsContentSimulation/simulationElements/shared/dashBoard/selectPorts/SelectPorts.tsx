@@ -2,7 +2,7 @@ import React from 'react';
 import {NavDropdown, Nav} from "react-bootstrap";
 import "./selectPorts.css"
 import {AiOutlineThunderbolt} from "react-icons/ai";
-import {Port} from "../../../../../../../model/Project";
+import {Port, RLCParams} from "../../../../../../../model/Project";
 
 interface SelectPortsProps {
     addPorts: Function
@@ -37,7 +37,8 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts}) => {
                                     first: [-2.5, 2.5, 0],
                                     last: [2.5, 2.5, 0]
                                 },
-                                isSelected: false
+                                isSelected: false,
+                                rlcParams: {} as RLCParams
                             }
                             addPorts(port)
                         }}>

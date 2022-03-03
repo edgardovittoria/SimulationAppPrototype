@@ -18,8 +18,11 @@ export type Port = {
         last: [number, number, number]
     },
     isSelected: boolean,
+    rlcParams: RLCParams
+}
+
+export type RLCParams = {
     impedance?: number,
     resistance?: number,
     capacitance?: number,
 }
-
