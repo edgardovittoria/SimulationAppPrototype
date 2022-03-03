@@ -17,6 +17,9 @@ export type Port = {
         first: [number, number, number],
         last: [number, number, number]
     },
-    isSelected: boolean
+    isSelected: boolean,
+    impedance?: number,
+    resistance?: number,
+    capacitance?: number,
 }
 

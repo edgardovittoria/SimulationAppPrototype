@@ -45,7 +45,7 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                     <hr/>
                     {((components !== undefined) && (components.filter(component => component.material === undefined).length === 0)) ?
                         <button
-                            className="btn button-primary flex-column"
+                            className="btn button-primary flex-column w-100"
                             onClick={() => setShowSimulationModel(true)}
                         >
                             <div className="fa fa-power-off me-3" style={{color: '#fff'}}/>

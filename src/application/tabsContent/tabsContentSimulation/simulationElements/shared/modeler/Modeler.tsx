@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Canvas, Object3DNode} from "@react-three/fiber";
+import React, {FC, useEffect, useRef, useState} from 'react';
+import {Canvas, Object3DNode, useThree} from "@react-three/fiber";
 import * as THREE from 'three';
 import {Color, Mesh, MeshPhongMaterial} from 'three';
-import {OrbitControls, TransformControls} from '@react-three/drei'
+import {OrbitControls, TransformControls, GizmoHelper, GizmoViewport} from '@react-three/drei'
 import './modeler.css'
 import {GiCubeforce} from "react-icons/gi";
-import {Project} from "../../../../../../model/Project";
+import {Port, Project} from "../../../../../../model/Project";
 import {
     FactoryShapes,
     ImportActionParamsObject,
@@ -29,20 +29,74 @@ export const Modeler: React.FC<ModelerProps> = (
 
     const [previousColor, setPreviousColor] = useState<Color>({} as Color);
 
-    // useEffect(() => {
-    //     if (selectedProject && selectedProject.model.components && selectedComponent.length === 0) {
-    //         selectedProject.model.components.forEach(component => {
-    //             updateComponentColor({keyComponent: component.keyComponent, color: component.color})
-    //         })
-    //     } else {
-    //         selectedComponent.forEach(component => {
-    //             updateComponentColor({keyComponent: component.keyComponent, color: '#1302fb'})
-    //         })
-    //     }
-    // }, [selectedComponent])
+    return (
+        <div className="d-flex justify-content-center">
+            {(selectedProject && selectedProject.model.components) ?
+                <Canvas style={{width: "1156px", height: "800px"}}>
+                    <pointLight position={[100, 100, 100]} intensity={0.8}/>
+                    <hemisphereLight color={'#ffffff'} groundColor={new THREE.Color('#b9b9b9')} position={[-7, 25, 13]}
+                                     intensity={0.85}/>
+                    {selectedProject.model.components.map(component => {
+                        return (
+                            <mesh
+                                userData={{keyComponent: component.keyComponent, isSelected: false}}
+                                key={component.keyComponent}
+                                onPointerEnter={(event) => {
+                                    setPreviousColor(((event.object as Mesh).material as MeshPhongMaterial).color);
+                                    (event.object as Mesh).material = new THREE.MeshPhongMaterial({
+                                        color: '#0423fa',
+                                        wireframe: true
+                                    })
+                                }}
+                                onPointerLeave={(event) => {
+                                    (event.object as Mesh).material = new THREE.MeshPhongMaterial({
+                                        color: previousColor,
+                                        wireframe: false
+                                    })
+                                }}
+                                position={component.transformationParams.position}
+                                scale={component.transformationParams.scale}
+                                rotation={component.transformationParams.rotation}
+                            >
+                                <FactoryShapes entity={component}/>
+                            </mesh>
+                        )
+                    })}
+                    <PortControls
+                        selectedProject={selectedProject}
+                        selectPort={selectPort}
+                        updatePortPosition={updatePortPosition}
+                    />
+                </Canvas>
+                :
+                <div>
+                    <ImportCadProjectButton className='btn button-primary btn-import' importAction={importModel}
+                                            actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
+                        <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import CAD
+                    </ImportCadProjectButton>
+                </div>
+            }
+        </div>
+    )
+
+}
+
+interface PortControlsProps {
+    selectedProject: Project | undefined,
+    selectPort: Function,
+    updatePortPosition: Function
+}
+
+const PortControls: FC<PortControlsProps> = (
+    {
+        selectedProject, selectPort, updatePortPosition
+    }
+) => {
 
     const transformationFirst = useRef(null);
     const transformationLast = useRef(null);
+    const { scene } = useThree()
+    let selectedPort: Port | undefined = undefined;
 
     useEffect(() => {
         if (transformationFirst.current) {
@@ -85,91 +139,65 @@ export const Modeler: React.FC<ModelerProps> = (
     }
 
 
+
     return (
-        <div className="d-flex justify-content-center">
-            {(selectedProject && selectedProject.model.components) ?
-                <Canvas style={{width: "1156px", height: "800px"}}>
-                    <pointLight position={[100, 100, 100]} intensity={0.8}/>
-                    <hemisphereLight color={'#ffffff'} groundColor={new THREE.Color('#b9b9b9')} position={[-7, 25, 13]}
-                                     intensity={0.85}/>
-                    {selectedProject.model.components.map(component => {
-                        return (
-                            <mesh
-                                userData={{keyComponent: component.keyComponent, isSelected: false}}
-                                key={component.keyComponent}
-                                onPointerEnter={(event) => {
-                                    setPreviousColor(((event.object as Mesh).material as MeshPhongMaterial).color);
-                                    (event.object as Mesh).material = new THREE.MeshPhongMaterial({
-                                        color: '#0423fa',
-                                        wireframe: true
-                                    })
-                                }}
-                                onPointerLeave={(event) => {
-                                    (event.object as Mesh).material = new THREE.MeshPhongMaterial({
-                                        color: previousColor,
-                                        wireframe: false
-                                    })
-                                }}
-                                onDoubleClick={() => {
-                                    selectComponent(component)
-                                }}
-                                position={component.transformationParams.position}
-                                scale={component.transformationParams.scale}
-                                rotation={component.transformationParams.rotation}
-                            >
-                                <FactoryShapes entity={component}/>
-                            </mesh>
-                        )
-                    })}
-                    {(selectedProject && selectedProject.ports.length !== 0) &&
-                    <>
-                        {selectedProject?.ports.map(port => {
-                            return(
-                                <>
-                                    <TransformControls
-                                        ref={transformationFirst}
-                                        position={port.position.first}
-                                        showX={port.isSelected}
-                                        showY={port.isSelected}
-                                        showZ={port.isSelected}
-                                    >
-                                        <mesh onClick={() => selectPort(port.name)}>
-                                            <torusGeometry args={[.1, .05, 8, 20, Math.PI*2]}/>
-                                            <meshPhongMaterial color='red'/>
-                                        </mesh>
-                                    </TransformControls>
-                                    <TransformControls
-                                        ref={transformationLast}
-                                        position={port.position.last}
-                                        showX={port.isSelected}
-                                        showY={port.isSelected}
-                                        showZ={port.isSelected}
-                                    >
-                                        <mesh onClick={() => selectPort(port.name)}>
-                                            <torusGeometry args={[.1, .05, 8, 20, Math.PI*2]}/>
-                                            <meshPhongMaterial color='red'/>
-                                        </mesh>
-                                    </TransformControls>
-                                </>
-
-
-                            )
-                        })
-                        }
-                    </>
+        <>
+            {(selectedProject && selectedProject.ports.length !== 0) &&
+            <>
+                {selectedProject?.ports.map(port => {
+                    if(port.isSelected){
+                        selectedPort = port
                     }
-                    <OrbitControls makeDefault/>
-                </Canvas>
-                :
-                <div>
-                    <ImportCadProjectButton className='btn button-primary btn-import' importAction={importModel}
-                                            actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
-                        <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import CAD
-                    </ImportCadProjectButton>
-                </div>
+                    return(
+                        <>
+                                <mesh
+                                    key={port.name+'first'}
+                                    name={port.name+'first'}
+                                    onClick={() => selectPort(port.name)}
+                                    position={port.position.first}
+                                >
+                                    <torusGeometry args={[.1, .05, 8, 20, Math.PI*2]}/>
+                                    <meshPhongMaterial color='red'/>
+                                </mesh>
+
+                                <mesh
+                                    key={port.name+'last'}
+                                    name={port.name+'last'}
+                                    onClick={() => selectPort(port.name)}
+                                    position={port.position.last}
+                                >
+                                    <torusGeometry args={[.1, .05, 8, 20, Math.PI*2]}/>
+                                    <meshPhongMaterial color='red'/>
+                                </mesh>
+                        </>
+                    )
+                })
+                }
+            </>
             }
-        </div>
+            <TransformControls
+                object={(selectedPort) && scene.getObjectByName((selectedPort as Port).name+'first')}
+                ref={transformationFirst}
+                position={(selectedPort) && (selectedPort as Port).position.first}
+                showX={(selectedPort) ? (selectedPort as Port).isSelected : false}
+                showY={(selectedPort) ? (selectedPort as Port).isSelected : false}
+                showZ={(selectedPort) ? (selectedPort as Port).isSelected : false}
+            />
+            <TransformControls
+                object={(selectedPort) && scene.getObjectByName((selectedPort as Port).name+'last')}
+                ref={transformationLast}
+                position={(selectedPort) && (selectedPort as Port).position.last}
+                showX={(selectedPort) ? (selectedPort as Port).isSelected : false}
+                showY={(selectedPort) ? (selectedPort as Port).isSelected : false}
+                showZ={(selectedPort) ? (selectedPort as Port).isSelected : false}
+            />
+            <OrbitControls makeDefault/>
+            <GizmoHelper alignment="bottom-right" margin={[150, 80]}>
+                <GizmoViewport  axisColors={['red', '#40ff00', 'blue']} labelColor="white" />
+            </GizmoHelper>
+        </>
     )
+
 
 }
 

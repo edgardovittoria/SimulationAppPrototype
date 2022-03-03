@@ -3,10 +3,12 @@
     padding: 5px;
 }
 .listItemPort:hover{
-    background-color: #d8d8d8;
+    background-color: var(--backgroundColor);
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .listItemPortSelected{
-    background-color: #d8d8d8;
+    background-color: var(--backgroundColor);
+    border-radius: 5px;
 }

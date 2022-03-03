@@ -23,7 +23,8 @@ export const LeftPanel: React.FC<DashBoardProps> = (
         if (tabs[1] === 'Results') {
             setSelectedTab("Results")
         }
-    }, []);
+        console.log(selectedTab)
+    }, [tabs[1]]);
 
     return (
         <>

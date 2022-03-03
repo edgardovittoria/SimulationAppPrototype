@@ -65,7 +65,6 @@ export const TabContentSimulation: React.FC<TabContentSimulationProps> = (
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
 
-    console.log(menuItemSelected)
     return (
         <>
             {/* <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/> */}
