@@ -1,13 +1,20 @@
+.portManagementContainer{
+    overflow-y: scroll;
+}
 .portTypeBox:hover{
     background-color: #dfdfdf;
 }
 
-.choosePortTypeContainer{
+.choosePortTypeContainer, .portPositionBox{
     padding: 10px;
     text-align: center;
     border: 1px solid #29686E;
     border-radius: 5px;
     background-color: #f6f6f6;
+}
+
+.portPositionBox{
+    text-align: left;
 }
 
 .modal-dialog{
