@@ -47,12 +47,12 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, set
                             className="w-100 inputPortManagement form-control"
                             type="number"
                             step={.1}
-                            value={selectedPort.position.first[0]}
+                            value={selectedPort.inputElement.transformationParams.position[0]}
                             onChange={(event) => {
                                 let newPosition = [
                                     event.currentTarget.value,
-                                    selectedPort.position.first[1],
-                                    selectedPort.position.first[2]
+                                    selectedPort.inputElement.transformationParams.position[1],
+                                    selectedPort.inputElement.transformationParams.position[2]
                                 ]
                                 updatePortPosition({type: 'first', position: newPosition})
                             }}
@@ -63,12 +63,12 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, set
                             className="w-100 inputPortManagement form-control"
                             type="number"
                             step={.1}
-                            value={selectedPort.position.first[1]}
+                            value={selectedPort.inputElement.transformationParams.position[1]}
                             onChange={(event) => {
                                 let newPosition = [
-                                    selectedPort.position.first[0],
+                                    selectedPort.inputElement.transformationParams.position[0],
                                     event.currentTarget.value,
-                                    selectedPort.position.first[2]
+                                    selectedPort.inputElement.transformationParams.position[2]
                                 ]
                                 updatePortPosition({type: 'first', position: newPosition})
                             }}
@@ -79,11 +79,11 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, set
                             className="w-100 inputPortManagement form-control"
                             type="number"
                             step={.1}
-                            value={selectedPort.position.first[2]}
+                            value={selectedPort.inputElement.transformationParams.position[2]}
                             onChange={(event) => {
                                 let newPosition = [
-                                    selectedPort.position.first[0],
-                                    selectedPort.position.first[1],
+                                    selectedPort.inputElement.transformationParams.position[0],
+                                    selectedPort.inputElement.transformationParams.position[1],
                                     event.currentTarget.value
                                 ]
                                 updatePortPosition({type: 'first', position: newPosition})
@@ -101,12 +101,12 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, set
                             className="w-100 inputPortManagement form-control"
                             type="number"
                             step={.1}
-                            value={selectedPort.position.last[0]}
+                            value={selectedPort.outputElement.transformationParams.position[0]}
                             onChange={(event) => {
                                 let newPosition = [
                                     event.currentTarget.value,
-                                    selectedPort.position.last[1],
-                                    selectedPort.position.last[2]
+                                    selectedPort.outputElement.transformationParams.position[1],
+                                    selectedPort.outputElement.transformationParams.position[2]
                                 ]
                                 updatePortPosition({type: 'last', position: newPosition})
                             }}
@@ -117,12 +117,12 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, set
                             className="w-100 inputPortManagement form-control"
                             type="number"
                             step={.1}
-                            value={selectedPort.position.last[1]}
+                            value={selectedPort.outputElement.transformationParams.position[1]}
                             onChange={(event) => {
                                 let newPosition = [
-                                    selectedPort.position.last[0],
+                                    selectedPort.outputElement.transformationParams.position[0],
                                     event.currentTarget.value,
-                                    selectedPort.position.last[2]
+                                    selectedPort.outputElement.transformationParams.position[2]
                                 ]
                                 updatePortPosition({type: 'last', position: newPosition})
                             }}
@@ -133,11 +133,11 @@ export const PortManagement: React.FC<PortManagementProps> = ({selectedPort, set
                             className="w-100 inputPortManagement form-control"
                             type="number"
                             step={.1}
-                            value={selectedPort.position.last[2]}
+                            value={selectedPort.outputElement.transformationParams.position[2]}
                             onChange={(event) => {
                                 let newPosition = [
-                                    selectedPort.position.last[0],
-                                    selectedPort.position.last[1],
+                                    selectedPort.outputElement.transformationParams.position[0],
+                                    selectedPort.outputElement.transformationParams.position[1],
                                     event.currentTarget.value
                                 ]
                                 updatePortPosition({type: 'last', position: newPosition})

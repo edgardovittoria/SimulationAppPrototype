@@ -176,7 +176,7 @@ export const ProjectSlice = createSlice({
         updatePortPosition(state: ProjectState, action: PayloadAction<{ type: 'first' | 'last', position: [number, number, number] }>) {
             let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject))
             if (selectedPort) {
-                (action.payload.type === 'first') ? selectedPort.position.first = action.payload.position : selectedPort.position.last = action.payload.position
+                (action.payload.type === 'first') ? selectedPort.inputElement.transformationParams.position = action.payload.position : selectedPort.outputElement.transformationParams.position = action.payload.position
             }
         },
         setRLCParams(state: ProjectState, action: PayloadAction<RLCParams>) { 
@@ -208,4 +208,4 @@ export const findProjectByName = (projects: Project[], name: string | undefined)
     return (name !== undefined) ? projects.filter(project => project.name === name)[0] : undefined
 }
 
-const findSelectedPort = (project: Project | undefined) => (project) ? project.ports.filter(port => port.isSelected)[0] : undefined
+export const findSelectedPort = (project: Project | undefined) => (project) ? project.ports.filter(port => port.isSelected)[0] : undefined

@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {NavDropdown, Nav} from "react-bootstrap";
 import "./selectPorts.css"
 import {AiOutlineThunderbolt} from "react-icons/ai";
 import {Port, RLCParams} from "../../../../../../../model/Project";
+import { CircleGeometryAttributes, ComponentEntity, TransformationParams } from '@Draco112358/cad-library';
 
 interface SelectPortsProps {
     addPorts: Function
 }
 
 export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts}) => {
+    const [keyPort, setKeyPort] = useState(0)
+    const generateNewKeyPort = (key: number) => {
+        setKeyPort(key+1)
+        return key+1
+    }
     return(
         <>
             < div className="selectPortsContainer">
@@ -30,13 +36,49 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts}) => {
                     >
                         <Nav.Link onClick={() => {
                             let port: Port = {
-                                name: 'port'+Math.floor(Math.random() * 10),
+                                name: "Port" + generateNewKeyPort(keyPort),
                                 category: 'port',
                                 type: 0,
-                                position: {
-                                    first: [-2.5, 2.5, 0],
-                                    last: [2.5, 2.5, 0]
-                                },
+                                inputElement: {
+                                    type: "CIRCLE",
+                                    keyComponent: 0,
+                                    geometryAttributes: {
+                                        radius: 0.05,
+                                        segments: 10,
+                                    } as CircleGeometryAttributes,
+                                    name: "inputPort" + generateNewKeyPort(keyPort),
+                                    orbitEnabled: false,
+                                    transformationParams: {
+                                        position : [-2.5,2.5,0],
+                                        rotation : [0,0,0],
+                                        scale: [1,1,1]
+                                    } as TransformationParams,
+                                    previousTransformationParams:  {
+                                        position : [-2.5,2.5,0],
+                                        rotation : [0,0,0],
+                                        scale: [1,1,1]
+                                    } as TransformationParams,       
+                                } as ComponentEntity,
+                                outputElement: {
+                                    type: "CIRCLE",
+                                    keyComponent: 0,
+                                    geometryAttributes: {
+                                        radius: 0.05,
+                                        segments: 10,
+                                    } as CircleGeometryAttributes,
+                                    name: "outputPort" + generateNewKeyPort(keyPort),
+                                    orbitEnabled: false,
+                                    transformationParams: {
+                                        position : [2.5,2.5,0],
+                                        rotation : [0,0,0],
+                                        scale: [1,1,1]
+                                    } as TransformationParams,
+                                    previousTransformationParams:  {
+                                        position : [2.5,2.5,0],
+                                        rotation : [0,0,0],
+                                        scale: [1,1,1]
+                                    } as TransformationParams,    
+                                } as ComponentEntity,
                                 isSelected: false,
                                 rlcParams: {} as RLCParams
                             }

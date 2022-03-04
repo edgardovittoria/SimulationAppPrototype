@@ -1,4 +1,4 @@
-import { CanvasState } from "@Draco112358/cad-library";
+import { CanvasState, ComponentEntity } from "@Draco112358/cad-library";
 import {Simulation} from "./Simulation";
 
 export type Project = {
@@ -13,10 +13,8 @@ export type Port = {
     name: string,
     category: string,
     type: number,
-    position: {
-        first: [number, number, number],
-        last: [number, number, number]
-    },
+    inputElement: ComponentEntity,
+    outputElement: ComponentEntity,
     isSelected: boolean,
     rlcParams: RLCParams
 }
