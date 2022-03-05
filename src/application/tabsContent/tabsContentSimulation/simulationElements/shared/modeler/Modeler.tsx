@@ -76,7 +76,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                     rotation={port.inputElement.transformationParams.rotation}
                                     onClick={() => selectPort(port.name)}
                                 >
-                                    <FactoryShapes entity={port.inputElement} color="#00ff00"/>
+                                    <FactoryShapes entity={port.inputElement} color="#00ff00" />
                                 </mesh>
                                 <mesh
                                     key={port.outputElement.name}
@@ -91,11 +91,11 @@ export const Modeler: React.FC<ModelerProps> = (
                             </>
                         )
                     })}
-                    <PortControls
+                    {(selectedPort) && <PortControls
                         selectedPort={selectedPort}
                         selectPort={selectPort}
                         updatePortPosition={updatePortPosition}
-                    />
+                    />}
                 </Canvas>
                 :
                 <div>
