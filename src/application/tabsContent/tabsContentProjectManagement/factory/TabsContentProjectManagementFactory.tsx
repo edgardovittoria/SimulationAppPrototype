@@ -15,14 +15,15 @@ interface TabsContentProjectManagementFactoryProps {
     selectProject: Function,
     removeProject: Function,
     setSimulationCoreMenuItemSelected: Function,
-    setSelectedSimulation: Function
+    setSelectedSimulation: Function,
+    setMenuItem: Function
 }
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
     {
         menuItem, setShowModal, projectsTab, setProjectsTab, selectTab,
         projects, selectProject, removeProject, setSimulationCoreMenuItemSelected,
-        setSelectedSimulation
+        setSelectedSimulation, setMenuItem
     }
 ) => {
 
@@ -34,6 +35,7 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
         projects={projects}
         selectProject={selectProject}
         removeProject={removeProject}
+        setMenuItem={setMenuItem}
     />, []);
 
     switch (menuItem) {

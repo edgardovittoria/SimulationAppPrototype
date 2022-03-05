@@ -53,6 +53,7 @@ function App() {
             {(tabSelected === 'DASHBOARD')
                 ?
                 <TabsContentProjectManagement
+                    setMenuItem={setMenuItemSelected}
                     setShowModal={setShowCreateNewProjectModal}
                     projectsTab={projectsTab}
                     setProjectsTab={setProjectsTab}

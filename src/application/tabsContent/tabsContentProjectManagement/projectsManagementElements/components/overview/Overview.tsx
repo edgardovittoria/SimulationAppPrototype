@@ -16,11 +16,12 @@ interface OverviewProps {
     selectTab: Function,
     projects: Project[],
     selectProject: Function,
-    removeProject: Function
+    removeProject: Function,
+    setMenuItem: Function
 }
 
 export const Overview: React.FC<OverviewProps> = (
-    { setShowModal, projectsTab, setProjectsTab, selectTab, projects, selectProject, removeProject }
+    { setShowModal, projectsTab, setProjectsTab, selectTab, projects, selectProject, removeProject, setMenuItem }
 ) => {
     const [cardMenuHovered, setCardMenuHovered] = useState(false);
 
@@ -45,7 +46,7 @@ export const Overview: React.FC<OverviewProps> = (
                             setShowModal(true)
                         }}>
                         + New Project</a>
-                    <ImportSimProjectButton className="newProjectLink">
+                    <ImportSimProjectButton className="newProjectLink" setMenuItem={setMenuItem}>
                         Import Project
                     </ImportSimProjectButton>
                 </div>

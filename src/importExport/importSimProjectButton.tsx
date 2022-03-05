@@ -3,7 +3,12 @@ import { useDispatch } from "react-redux";
 import { Project } from "../model/Project";
 import { addProject } from "../store/projectSlice";
 
-export const ImportSimProjectButton: FC<{ className?: string }> = ({ className, children }) => {
+interface ImportSimProjectButtonProps{
+    className?: string,
+    setMenuItem: Function
+}
+
+export const ImportSimProjectButton: FC<ImportSimProjectButtonProps> = ({ className, children, setMenuItem }) => {
 
     const inputRefProject = useRef(null)
     const dispatch = useDispatch()
@@ -30,6 +35,7 @@ export const ImportSimProjectButton: FC<{ className?: string }> = ({ className, 
                         files[0].text().then((value) => {
                             let project: Project = JSON.parse(value)
                             dispatch(addProject(project))
+                            setMenuItem("Projects")
                         })
                     }
                 }}
