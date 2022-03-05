@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, { FC, useRef, useState } from 'react';
 import './overview.css'
-import {Project} from "../../../../../../model/Project";
-import {OverlayTrigger} from "react-bootstrap";
-import {BsThreeDotsVertical} from "react-icons/bs";
-import {popoverRight} from "../../shared/popover/Popover";
+import { Project } from "../../../../../../model/Project";
+import { OverlayTrigger } from "react-bootstrap";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { popoverRight } from "../../shared/popover/Popover";
+import { exportSimulationProject } from '../../../../../../importExport/exportFunctions';
+import { useDispatch } from 'react-redux';
+import { addProject } from '../../../../../../store/projectSlice';
+import { ImportSimProjectButton } from '../../../../../../importExport/importSimProjectButton';
 
 interface OverviewProps {
     setShowModal: Function,
@@ -16,13 +20,13 @@ interface OverviewProps {
 }
 
 export const Overview: React.FC<OverviewProps> = (
-    {setShowModal, projectsTab, setProjectsTab, selectTab, projects, selectProject, removeProject}
+    { setShowModal, projectsTab, setProjectsTab, selectTab, projects, selectProject, removeProject }
 ) => {
     const [cardMenuHovered, setCardMenuHovered] = useState(false);
 
     const handleCardClick = (project: Project) => {
-        if(!cardMenuHovered){
-            if(!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)){
+        if (!cardMenuHovered) {
+            if (!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)) {
                 setProjectsTab(projectsTab.concat(project))
             }
             selectProject(project.name)
@@ -37,20 +41,23 @@ export const Overview: React.FC<OverviewProps> = (
                 <div className="titleContainer">
                     <h5>My Recent Projects</h5>
                     <a href="/#" className="newProjectLink"
-                       onClick={() => {
-                           setShowModal(true)
-                       }}>
+                        onClick={() => {
+                            setShowModal(true)
+                        }}>
                         + New Project</a>
+                    <ImportSimProjectButton className="newProjectLink">
+                        Import Project
+                    </ImportSimProjectButton>
                 </div>
 
                 {projects.length === 0 ?
                     <div className="noProjectsContainer">
-                        <img src="/noProjectsIcon2.png" className="noProjectsIcon" alt="No Projects Icon"/>
+                        <img src="/noProjectsIcon2.png" className="noProjectsIcon" alt="No Projects Icon" />
                         <p>No projects for now.</p>
                         <button className="btn button-primary" data-toggle="modal" data-target="#createNewProjectModal"
-                                onClick={() => {
-                                    setShowModal(true)
-                                }}>CREATE YOUR FIRST PROJECT
+                            onClick={() => {
+                                setShowModal(true)
+                            }}>CREATE YOUR FIRST PROJECT
                         </button>
                     </div>
                     :
@@ -65,13 +72,21 @@ export const Overview: React.FC<OverviewProps> = (
                                             </div>
                                             <div className="col-2" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
                                                 <OverlayTrigger trigger="click" placement="right" overlay={popoverRight(project, removeProject, projectsTab, setProjectsTab)}>
-                                                    <button className="overviewCardMenuButton">
-                                                        <BsThreeDotsVertical/>
-                                                    </button>
+                                                    <>
+                                                        <button className="overviewCardMenuButton">
+                                                            <BsThreeDotsVertical />
+                                                        </button>
+                                                        <button className="overviewCardMenuButton" onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            exportSimulationProject(project)
+                                                        }}>
+                                                            Export
+                                                        </button>
+                                                    </>
                                                 </OverlayTrigger>
                                             </div>
                                         </div>
-                                        <h6 className="card-subtitle mb-2 text-muted">{project.description.substr(0,50)}</h6>
+                                        <h6 className="card-subtitle mb-2 text-muted">{project.description.substr(0, 50)}</h6>
                                     </div>
                                 </div>
                             )
@@ -82,7 +97,7 @@ export const Overview: React.FC<OverviewProps> = (
             <div className="box boxYourPlan">
                 <h5>Your Plan</h5>
                 <div className="yourPlanContent">
-                    <h2 className="yourPlanTitle">Upgrade to a Pro <br/> Account</h2>
+                    <h2 className="yourPlanTitle">Upgrade to a Pro <br /> Account</h2>
                     <div className="row">
                         <div className="col-7">
                             <ul>
@@ -103,7 +118,7 @@ export const Overview: React.FC<OverviewProps> = (
             <div className="box boxSimulation">
                 <h5>Simulations</h5>
                 <div className="simulationContent">
-                    <img src="/noresultfound.png" className="noResultFoundIcon" alt="No Result Found Icon"/>
+                    <img src="/noresultfound.png" className="noResultFoundIcon" alt="No Result Found Icon" />
                     <p>No Results Found</p>
                 </div>
 
@@ -114,3 +129,4 @@ export const Overview: React.FC<OverviewProps> = (
     )
 
 }
+

@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import {NavDropdown, Nav} from "react-bootstrap";
 import "./selectPorts.css"
 import {AiOutlineThunderbolt} from "react-icons/ai";
-import {Port, RLCParams} from "../../../../../../../model/Project";
+import {Port, Project, RLCParams} from "../../../../../../../model/Project";
 import { CircleGeometryAttributes, ComponentEntity, TransformationParams } from '@Draco112358/cad-library';
 
 interface SelectPortsProps {
-    addPorts: Function
+    addPorts: Function,
+    selectedProject: Project
 }
 
-export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts}) => {
-    const [keyPort, setKeyPort] = useState(0)
+export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProject}) => {
+    const [keyPort, setKeyPort] = useState(selectedProject.ports.length)
     const generateNewKeyPort = (key: number) => {
         setKeyPort(key+1)
         return key+1

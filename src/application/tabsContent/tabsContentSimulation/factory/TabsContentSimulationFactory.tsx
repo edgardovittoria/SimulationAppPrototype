@@ -115,7 +115,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             deletePort={deletePort}
                         />
                     </LeftPanel>
-                    {selectedProject?.model.components && <SelectPorts addPorts={addPorts}/>}
+                    {selectedProject?.model.components && <SelectPorts addPorts={addPorts} selectedProject={selectedProject}/>}
                     <RightPanelSimulation ports={selectedProject?.ports}>
                         <FactoryRightPanelContent
                             section="Physics"

@@ -19,7 +19,7 @@ export const ProjectSlice = createSlice({
     } as ProjectState,
     reducers: {
         addProject(state: ProjectState, action: PayloadAction<Project>) {
-            state.projects.push(action.payload)
+            (!projectAlreadyExists(state.projects, action.payload)) && state.projects.push(action.payload)
         },
         removeProject(state: ProjectState, action: PayloadAction<string>) {
             state.projects = state.projects.filter(project => project.name !== action.payload)
@@ -209,3 +209,4 @@ export const findProjectByName = (projects: Project[], name: string | undefined)
 }
 
 export const findSelectedPort = (project: Project | undefined) => (project) ? project.ports.filter(port => port.isSelected)[0] : undefined
+const projectAlreadyExists = (projects: Project[], newProject: Project) => { return projects.filter(project => project.name === newProject.name).length > 0 ? true : false}
