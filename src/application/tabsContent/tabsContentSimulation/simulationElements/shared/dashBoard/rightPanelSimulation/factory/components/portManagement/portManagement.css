@@ -1,0 +1,61 @@
+
+.portTypeBox:hover{
+    background-color: #dfdfdf;
+}
+
+.choosePortTypeContainer, .portPositionBox{
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #29686E;
+    border-radius: 5px;
+    background-color: #f6f6f6;
+}
+
+.portPositionBox{
+    text-align: left;
+}
+
+.modal-dialog{
+    max-width: 700px;
+}
+
+.modal-content{
+    padding: 20px;
+}
+
+.inputPortManagement{
+    padding: 4px;
+    border: 1px solid #a3a3a3;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.selectSignal{
+    background-color: transparent;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid #a3a3a3;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.btnNewSignal, .loadSignal{
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    color: #a3a3a3;
+    padding: 0px;
+    font-size: 15px;
+}
+
+.btnNewSignal:hover, .loadSignal:hover{
+    cursor: pointer;
+    color: #000000;
+}
+
+input[type="file"] {
+    display: none;
+}
+

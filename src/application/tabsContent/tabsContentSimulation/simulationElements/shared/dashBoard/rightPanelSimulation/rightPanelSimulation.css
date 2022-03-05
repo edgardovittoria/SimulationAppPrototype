@@ -2,16 +2,17 @@
     position: absolute;
     right: 2%;
     top: 160px;
-    width: 24%;
-
-}
-
-.rightPanel{
+    width: 22%;
     border-radius: 5px;
     background-color: var(--boxBackgroundColor);
     padding: 20px;
     box-shadow: 2px 5px 5px var(--shadowColor);
-    height: 700px;
+}
+
+.rightPanel{
+    max-height: 550px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .dropdownSelect{

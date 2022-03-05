@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ComponentEntity} from "@Draco112358/cad-library";
 import {Port} from "../../../../../../../../model/Project";
-import {PortManagement} from "./components/PortManagement";
+import {PortManagement} from "./components/portManagement/PortManagement";
+import {PortType} from "./components/portManagement/components/PortType";
+import {PortPosition} from "./components/portManagement/components/PortPosition";
+import {RLCParamsComponent} from "./components/portManagement/components/RLCParamsComponent";
+import {InputSignal} from "./components/portManagement/components/InputSignal";
+import {ModalSelectPortType} from "./components/modals/ModalSelectPortType";
+import {ModalSignals} from "./components/modals/ModalSignals";
 
 interface FactoryRightPanelContentProps {
     section: string,
@@ -21,6 +27,8 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
 ) => {
 
     let selectedPort = ports?.filter(port => port.isSelected)[0];
+    const [showModalSelectPortType, setShowModalSelectPortType] = useState(false);
+    const [showModalSignal, setShowModalSignal] = useState(false);
 
     switch (section) {
         case 'Modeler':
@@ -30,12 +38,18 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
             return (
                 <>
                     {
-                        selectedPort ? <PortManagement
-                                selectedPort={selectedPort}
-                                setPortType={setPortType}
-                                updatePortPosition={updatePortPosition}
-                                setRLCParams={setRLCParams}
-                            />
+                        selectedPort ?
+                            <PortManagement>
+                                <PortType setShow={setShowModalSelectPortType} selectedPort={selectedPort}/>
+                                <PortPosition selectedPort={selectedPort} updatePortPosition={updatePortPosition}/>
+                                <RLCParamsComponent selectedPort={selectedPort} setRLCParams={setRLCParams}/>
+                                <InputSignal setShowModalSignal={setShowModalSignal}/>
+
+                                <ModalSelectPortType show={showModalSelectPortType} setShow={setShowModalSelectPortType}
+                                                     selectedPort={selectedPort} setPortType={setPortType}
+                                />
+                                <ModalSignals showModalSignal={showModalSignal} setShowModalSignal={setShowModalSignal}/>
+                            </PortManagement>
                             : <span className="py-1">No Port Selected</span>
                     }
                 </>

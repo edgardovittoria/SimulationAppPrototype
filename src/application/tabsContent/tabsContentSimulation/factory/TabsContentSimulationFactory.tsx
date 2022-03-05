@@ -78,7 +78,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         />
                     </LeftPanel>
                     {selectedComponent.length > 0 &&
-                    <RightPanelSimulation>
+                    <RightPanelSimulation ports={selectedProject?.ports}>
                         <FactoryRightPanelContent
                             section="Modeler"
                             components={selectedProject?.model.components}
@@ -115,8 +115,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             deletePort={deletePort}
                         />
                     </LeftPanel>
-                    <SelectPorts addPorts={addPorts}/>
-                    <RightPanelSimulation>
+                    {selectedProject?.model.components && <SelectPorts addPorts={addPorts}/>}
+                    <RightPanelSimulation ports={selectedProject?.ports}>
                         <FactoryRightPanelContent
                             section="Physics"
                             components={selectedProject?.model.components}
@@ -152,7 +152,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             deletePort={deletePort}
                         />
                     </LeftPanel>
-                    <RightPanelSimulation>
+                    <RightPanelSimulation ports={selectedProject?.ports}>
                         <FactoryRightPanelContent
                             section="Simulator"
                             components={selectedProject?.model.components}
