@@ -7,15 +7,16 @@ import { TabsContainer } from "./application/tabsContainer/TabsContainer";
 import {
     addProject,
     projectsSelector,
+    removeProject,
     resetSelectedComponents, selectProject
 } from "./store/projectSlice";
 import { Project } from "./model/Project";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateNewProjectModal } from "./application/modals/createNewProjectModal/CreateNewProjectModal";
-import { TabsContentProjectManagement } from "./application/tabsContent/tabsContentProjectManagement/TabsContentProjectManagement";
 import { TabContentSimulation } from "./application/tabsContent/tabsContentSimulation/TabContentSimulation";
 import { Simulation } from "./model/Simulation";
 import { MenuBar } from './application/tabsContent/menuBar/MenuBar';
+import { TabsContentProjectManagementFactory } from './application/tabsContent/tabsContentProjectManagement/factory/TabsContentProjectManagementFactory';
 
 
 function App() {
@@ -52,15 +53,18 @@ function App() {
             <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems} />
             {(tabSelected === 'DASHBOARD')
                 ?
-                <TabsContentProjectManagement
-                    setMenuItem={setMenuItemSelected}
+                <TabsContentProjectManagementFactory
+                    menuItem={menuItemSelected}
                     setShowModal={setShowCreateNewProjectModal}
                     projectsTab={projectsTab}
                     setProjectsTab={setProjectsTab}
                     selectTab={setTabSelected}
+                    projects={projects}
+                    selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
+                    removeProject={(projectName: string) => dispatch(removeProject(projectName))}
                     setSimulationCoreMenuItemSelected={setMenuItemSelected}
                     setSelectedSimulation={setSelectedSimulation}
-                    menuItemSelected={menuItemSelected}
+                    setMenuItem={setMenuItemSelected}
                 />
                 : <TabContentSimulation
                     menuItems={menuItems}
