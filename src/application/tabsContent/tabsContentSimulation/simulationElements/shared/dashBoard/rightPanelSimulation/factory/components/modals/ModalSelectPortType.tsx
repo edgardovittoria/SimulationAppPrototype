@@ -29,6 +29,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                         }}
                     >
                         <img src="portType1.png" alt="img"/>
+                        <div>Type 1</div>
                     </div>
                     <div
                         className="col-4 text-center portTypeBox"
@@ -38,6 +39,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                         }}
                     >
                         <img src="portType2.png" alt="img"/>
+                        <div>Type 2</div>
                     </div>
                     <div
                         className="col-4 text-center portTypeBox"
@@ -47,6 +49,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                         }}
                     >
                         <img src="portType3.png" alt="img"/>
+                        <div>Type 3</div>
                     </div>
                 </div>
                 <div className="row">
@@ -58,6 +61,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                         }}
                     >
                         <img src="portType4.png" alt="img"/>
+                        <div>Type 4</div>
                     </div>
                     <div
                         className="col-6 text-center portTypeBox"
@@ -67,6 +71,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                         }}
                     >
                         <img src="portType5.png" alt="img"/>
+                        <div>Type 5</div>
                     </div>
                 </div>
             </Modal.Body>

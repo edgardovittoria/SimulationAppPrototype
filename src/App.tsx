@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './App.css';
 import './GlobalColors.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,15 +8,14 @@ import {
     addProject,
     projectsSelector,
     removeProject,
-    resetSelectedComponents, selectProject
-} from "./store/projectSlice";
+    resetSelectedComponents, selectProject} from "./store/projectSlice";
 import { Project } from "./model/Project";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateNewProjectModal } from "./application/modals/createNewProjectModal/CreateNewProjectModal";
-import { TabContentSimulation } from "./application/tabsContent/tabsContentSimulation/TabContentSimulation";
 import { Simulation } from "./model/Simulation";
 import { MenuBar } from './application/tabsContent/menuBar/MenuBar';
 import { TabsContentProjectManagementFactory } from './application/tabsContent/tabsContentProjectManagement/factory/TabsContentProjectManagementFactory';
+import { TabsContentSimulationFactory } from './application/tabsContent/tabsContentSimulation/factory/TabsContentSimulationFactory';
 
 
 function App() {
@@ -66,10 +65,10 @@ function App() {
                     setSelectedSimulation={setSelectedSimulation}
                     setMenuItem={setMenuItemSelected}
                 />
-                : <TabContentSimulation
-                    menuItems={menuItems}
-                    menuItemSelected={menuItemSelected}
-                    setMenuItemSelected={setMenuItemSelected}
+                :
+                <TabsContentSimulationFactory
+                    menuItem={menuItemSelected}
+                    setMenuItem={setMenuItemSelected}
                     selectedSimulation={selectedSimulation}
                     setSelectedSimulation={setSelectedSimulation}
                 />
