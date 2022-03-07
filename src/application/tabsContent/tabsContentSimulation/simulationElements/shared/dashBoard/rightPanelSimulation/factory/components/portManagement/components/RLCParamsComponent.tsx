@@ -13,6 +13,7 @@ export const RLCParamsComponent: React.FC<RLCParamsProps> = ({selectedPort, setR
             <div className="mt-2">
                 <span>Resistance</span>
                 <input className="w-100 inputPortManagement form-control" type="number"
+                       value={(selectedPort.rlcParams.resistance) ? selectedPort.rlcParams.resistance.toString() : ""}
                        onChange={(event) => setRLCParams({
                            ...selectedPort.rlcParams,
                            resistance: parseFloat(event.currentTarget.value)
@@ -21,6 +22,7 @@ export const RLCParamsComponent: React.FC<RLCParamsProps> = ({selectedPort, setR
             <div className="mt-2">
                 <span>Inductance</span>
                 <input className="w-100 inputPortManagement form-control" type="number"
+                       value={(selectedPort.rlcParams.inductance) ? selectedPort.rlcParams.inductance.toString() : ""}
                        onChange={(event) => setRLCParams({
                            ...selectedPort.rlcParams,
                            inductance: parseFloat(event.currentTarget.value)
@@ -30,6 +32,7 @@ export const RLCParamsComponent: React.FC<RLCParamsProps> = ({selectedPort, setR
             <div className="mt-2">
                 <span>Capacitance</span>
                 <input className="w-100 inputPortManagement form-control" type="number"
+                       value={(selectedPort.rlcParams.capacitance) ? selectedPort.rlcParams.capacitance.toString() : ""}
                        onChange={(event) => setRLCParams({
                            ...selectedPort.rlcParams,
                            capacitance: parseFloat(event.currentTarget.value)

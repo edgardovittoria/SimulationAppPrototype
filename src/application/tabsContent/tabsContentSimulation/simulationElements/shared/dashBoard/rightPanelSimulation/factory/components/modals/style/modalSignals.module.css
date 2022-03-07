@@ -1,0 +1,37 @@
+.btnAddSignal, .btnAddValues{
+    border-radius: 5px;
+    border: 1px solid var(--secondaryColor);
+    background-color: var(--secondaryColor);
+    color: white;
+    height: 30px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.btnAddSignal{
+    margin-top: 20px;
+}
+
+.btnAddSignal:hover, .btnAddValues:hover{
+    opacity: 0.9;
+}
+
+.inputNumber, .selectSignalType{
+    border-radius: 5px;
+    border: 1px solid var(--secondaryColor);
+    width: 75%;
+    padding: 2px;
+
+}
+
+.selectSignalType{
+    display: block;
+    background-color: transparent;
+    height: 30px;
+    padding: 2px;
+}
+
+/*.inputNumber:focus{
+    border-color: var(--primaryColor) !important;
+    box-shadow: 2px 2px 10px var(--primaryColor) !important;
+}*/
