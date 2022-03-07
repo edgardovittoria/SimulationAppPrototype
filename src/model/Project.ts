@@ -20,7 +20,7 @@ export type Port = {
 }
 
 export type RLCParams = {
-    impedance?: number,
+    inductance?: number,
     resistance?: number,
     capacitance?: number,
 }

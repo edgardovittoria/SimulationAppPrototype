@@ -19,11 +19,11 @@ export const RLCParamsComponent: React.FC<RLCParamsProps> = ({selectedPort, setR
                        } as RLCParams)}/>
             </div>
             <div className="mt-2">
-                <span>Impedance</span>
+                <span>Inductance</span>
                 <input className="w-100 inputPortManagement form-control" type="number"
                        onChange={(event) => setRLCParams({
                            ...selectedPort.rlcParams,
-                           impedance: parseFloat(event.currentTarget.value)
+                           inductance: parseFloat(event.currentTarget.value)
                        } as RLCParams)
                        }/>
             </div>
