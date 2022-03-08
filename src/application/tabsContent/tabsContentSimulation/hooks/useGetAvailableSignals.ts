@@ -11,6 +11,7 @@ export const useGetAvailableSignals = () => {
     }, []);
 
     return {
-        availableSignals: availableSignals
+        availableSignals: availableSignals,
+        setAvailableSignals: setAvailableSignals
     }
 }

@@ -81,7 +81,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
 
-    const { availableSignals } = useGetAvailableSignals()
+    const { availableSignals, setAvailableSignals } = useGetAvailableSignals()
 
     switch (menuItem) {
         case 'Modeler':
@@ -119,6 +119,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                 setRLCParams={rlcParamsSetting}
                                 setPortSignal={portSignalSetting}
                                 availableSignals={availableSignals}
+                                setAvailableSignals={setAvailableSignals}
                             />
                         </RightPanelSimulation>}
                 </>
@@ -158,6 +159,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setRLCParams={rlcParamsSetting}
                             setPortSignal={portSignalSetting}
                             availableSignals={availableSignals}
+                            setAvailableSignals={setAvailableSignals}
                         />
                     </RightPanelSimulation>
                 </>
@@ -196,6 +198,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setRLCParams={rlcParamsSetting}
                             setPortSignal={portSignalSetting}
                             availableSignals={availableSignals}
+                            setAvailableSignals={setAvailableSignals}
                         />
                     </RightPanelSimulation>
                     <SimulationPanel

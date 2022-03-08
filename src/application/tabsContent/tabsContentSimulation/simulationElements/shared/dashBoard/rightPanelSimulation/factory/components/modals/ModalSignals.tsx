@@ -2,15 +2,18 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Modal} from "react-bootstrap";
 import css from './style/modalSignals.module.css';
 import {Signal, SignalValues} from "../../../../../../../../../../model/Port";
+import {saveSignal} from "../../../../../../../api/signals_api";
 
 interface ModalSignalsProps {
     showModalSignal: boolean,
-    setShowModalSignal: Function
+    setShowModalSignal: Function,
+    setAvailableSignals: Function,
+    availableSignals: Signal[]
 }
 
 export const ModalSignals: React.FC<ModalSignalsProps> = (
     {
-        showModalSignal, setShowModalSignal
+        showModalSignal, setShowModalSignal, setAvailableSignals, availableSignals
     }
 ) => {
 
@@ -150,13 +153,17 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
                             <button className={css.btnAddSignal}
                                     onClick={() => {
                                         let newSignal: Signal = {
+                                            id: signalName,
                                             name: signalName,
                                             type: signalType,
                                             signalValues: signalValuesArray
                                         }
+                                        let confirm = window.confirm('Are you sure to save the signal?');
+                                        if(confirm){
+                                            setAvailableSignals([...availableSignals, newSignal])
+                                            onModalClose()
+                                        }
 
-                                        console.log(newSignal)
-                                        //TODO: save new signal on the server
                                     }}
                             >ADD SIGNAL
                             </button>

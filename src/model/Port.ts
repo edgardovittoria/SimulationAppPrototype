@@ -18,6 +18,7 @@ export type RLCParams = {
 }
 
 export interface Signal {
+    id: string,
     name: string,
     type: string,
     signalValues: SignalValues[]

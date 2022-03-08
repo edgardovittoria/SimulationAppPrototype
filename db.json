@@ -6,12 +6,34 @@
       "results": [
         {
           "name": "label1",
-          "values": [1,20,30,15,17,8,3,33,21,29],
+          "values": [
+            1,
+            20,
+            30,
+            15,
+            17,
+            8,
+            3,
+            33,
+            21,
+            29
+          ],
           "color": "rgb(255, 99, 132)"
         },
         {
           "name": "label2",
-          "values": [2,10,50,35,27,18,3,23,71,59],
+          "values": [
+            2,
+            10,
+            50,
+            35,
+            27,
+            18,
+            3,
+            23,
+            71,
+            59
+          ],
           "color": "rgb(53, 162, 235)"
         }
       ]
@@ -22,12 +44,34 @@
       "results": [
         {
           "name": "label1",
-          "values": [100,20,40,55,17,8,113,63,21,29],
+          "values": [
+            100,
+            20,
+            40,
+            55,
+            17,
+            8,
+            113,
+            63,
+            21,
+            29
+          ],
           "color": "rgb(255, 99, 132)"
         },
         {
           "name": "label2",
-          "values": [20,100,30,135,27,18,4,243,71,59],
+          "values": [
+            20,
+            100,
+            30,
+            135,
+            27,
+            18,
+            4,
+            243,
+            71,
+            59
+          ],
           "color": "rgb(53, 162, 235)"
         }
       ]
@@ -35,32 +79,141 @@
   ],
   "signals": [
     {
-      "name": "Signal 1", "type": "current",
+      "name": "Signal 1",
+      "type": "current",
       "signalValues": [
         {
-          "freq": 10, "signal": {"Re": 1, "Im": 10}},
-        {"freq": 20, "signal": {"Re": 10, "Im": 15}},
-        {"freq": 30, "signal": {"Re": 36, "Im": 20}},
-        {"freq": 40, "signal": {"Re": 76, "Im": 50}},
-        {"freq": 50, "signal": {"Re": 16, "Im": 1}},
-        {"freq": 60, "signal": {"Re": 26, "Im": 60}},
-        {"freq": 70, "signal": {"Re": 90, "Im": 30}},
-        {"freq": 80, "signal": {"Re": 50, "Im": 45}},
-        {"freq": 90, "signal": {"Re": 20, "Im": 5}}
+          "freq": 10,
+          "signal": {
+            "Re": 1,
+            "Im": 10
+          }
+        },
+        {
+          "freq": 20,
+          "signal": {
+            "Re": 10,
+            "Im": 15
+          }
+        },
+        {
+          "freq": 30,
+          "signal": {
+            "Re": 36,
+            "Im": 20
+          }
+        },
+        {
+          "freq": 40,
+          "signal": {
+            "Re": 76,
+            "Im": 50
+          }
+        },
+        {
+          "freq": 50,
+          "signal": {
+            "Re": 16,
+            "Im": 1
+          }
+        },
+        {
+          "freq": 60,
+          "signal": {
+            "Re": 26,
+            "Im": 60
+          }
+        },
+        {
+          "freq": 70,
+          "signal": {
+            "Re": 90,
+            "Im": 30
+          }
+        },
+        {
+          "freq": 80,
+          "signal": {
+            "Re": 50,
+            "Im": 45
+          }
+        },
+        {
+          "freq": 90,
+          "signal": {
+            "Re": 20,
+            "Im": 5
+          }
+        }
       ]
     },
     {
-      "name": "Signal 2", "type": "voltage",
+      "name": "Signal 2",
+      "type": "voltage",
       "signalValues": [
-        {"freq": 10, "signal": {"Re": 50, "Im": 10}},
-        {"freq": 20, "signal": {"Re": 76, "Im": 15}},
-        {"freq": 30, "signal": {"Re": 50, "Im": 20}},
-        {"freq": 40, "signal": {"Re": 76, "Im": 50}},
-        {"freq": 50, "signal": {"Re": 50, "Im": 1}},
-        {"freq": 60, "signal": {"Re": 76, "Im": 60}},
-        {"freq": 70, "signal": {"Re": 50, "Im": 30}},
-        {"freq": 80, "signal": {"Re": 76, "Im": 45}},
-        {"freq": 90, "signal": {"Re": 50, "Im": 5}}
+        {
+          "freq": 10,
+          "signal": {
+            "Re": 50,
+            "Im": 10
+          }
+        },
+        {
+          "freq": 20,
+          "signal": {
+            "Re": 76,
+            "Im": 15
+          }
+        },
+        {
+          "freq": 30,
+          "signal": {
+            "Re": 50,
+            "Im": 20
+          }
+        },
+        {
+          "freq": 40,
+          "signal": {
+            "Re": 76,
+            "Im": 50
+          }
+        },
+        {
+          "freq": 50,
+          "signal": {
+            "Re": 50,
+            "Im": 1
+          }
+        },
+        {
+          "freq": 60,
+          "signal": {
+            "Re": 76,
+            "Im": 60
+          }
+        },
+        {
+          "freq": 70,
+          "signal": {
+            "Re": 50,
+            "Im": 30
+          }
+        },
+        {
+          "freq": 80,
+          "signal": {
+            "Re": 76,
+            "Im": 45
+          }
+        },
+        {
+          "freq": 90,
+          "signal": {
+            "Re": 50,
+            "Im": 5
+          }
+        }
       ]
     }
   ]

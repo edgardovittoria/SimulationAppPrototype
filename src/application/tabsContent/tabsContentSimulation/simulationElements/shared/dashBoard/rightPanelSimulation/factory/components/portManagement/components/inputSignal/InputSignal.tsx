@@ -8,7 +8,8 @@ interface InputSignalProps {
     setShowModalSignal: Function,
     setPortSignal: Function,
     selectedPort: Port,
-    availableSignals: Signal[]
+    availableSignals: Signal[],
+
 }
 
 export const InputSignal: React.FC<InputSignalProps> = (

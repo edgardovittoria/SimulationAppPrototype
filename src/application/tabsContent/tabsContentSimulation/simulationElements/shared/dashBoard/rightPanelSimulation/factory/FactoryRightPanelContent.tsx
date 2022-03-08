@@ -18,13 +18,14 @@ interface FactoryRightPanelContentProps {
     updatePortPosition: Function,
     setRLCParams: Function,
     setPortSignal: Function,
-    availableSignals: Signal[]
+    availableSignals: Signal[],
+    setAvailableSignals: Function
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
         section, components, setShowSimulationModel, ports,
-        setPortType, updatePortPosition, setRLCParams, setPortSignal, availableSignals
+        setPortType, updatePortPosition, setRLCParams, setPortSignal, availableSignals, setAvailableSignals
     }
 ) => {
 
@@ -55,7 +56,12 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                                 <ModalSelectPortType show={showModalSelectPortType} setShow={setShowModalSelectPortType}
                                                      selectedPort={selectedPort} setPortType={setPortType}
                                 />
-                                <ModalSignals showModalSignal={showModalSignal} setShowModalSignal={setShowModalSignal}/>
+                                <ModalSignals
+                                    showModalSignal={showModalSignal}
+                                    setShowModalSignal={setShowModalSignal}
+                                    setAvailableSignals={setAvailableSignals}
+                                    availableSignals={availableSignals}
+                                />
                             </PortManagement>
                             : <span className="py-1">No Port Selected</span>
                     }
