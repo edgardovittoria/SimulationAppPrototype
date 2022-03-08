@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Port, RLCParams } from "../../../../model/Project";
+import React, {useEffect, useState} from 'react';
+import {Port, RLCParams, Signal} from "../../../../model/Port";
 import { ResultsContent } from "../simulationElements/components/resultsContent/ResultsContent";
 import { Modeler } from "../simulationElements/shared/modeler/Modeler";
 import { LeftPanel } from "../simulationElements/shared/dashBoard/leftPanel/LeftPanel";
@@ -14,10 +14,28 @@ import { Simulation } from "../../../../model/Simulation";
 import { FactorySimulationDashboardContent } from "../simulationElements/shared/dashBoard/leftPanel/factory/FactorySimulationDashboardContent";
 import { SelectPorts } from "../simulationElements/shared/dashBoard/selectPorts/SelectPorts";
 import { useDispatch, useSelector } from 'react-redux';
-import { addPorts, createSimulation, deletePort, importModel, selectComponent, selectedComponentSelector, selectedProjectSelector, selectPort, setPortType, setRLCParams, simulationSelector, unselectComponent, updatePortPosition, updateSimulation } from '../../../../store/projectSlice';
+import {
+    addPorts,
+    createSimulation,
+    deletePort,
+    importModel,
+    selectComponent,
+    selectedComponentSelector,
+    selectedProjectSelector,
+    selectPort,
+    setAssociatedSignal,
+    setPortType,
+    setRLCParams,
+    simulationSelector,
+    unselectComponent,
+    updatePortPosition,
+    updateSimulation
+} from '../../../../store/projectSlice';
 import { useGenerateMesh } from '../hooks/useGenerateMesh';
 import { useRunSimulation } from '../hooks/useRunSimulation';
 import { ComponentEntity } from '@Draco112358/cad-library';
+import {getSignals} from "../api/signals_api";
+import {useGetAvailableSignals} from "../hooks/useGetAvailableSignals";
 
 interface TabsContentSimulationFactoryProps {
     menuItem: string,
@@ -38,6 +56,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     const rlcParamsSetting = (rlcParams: RLCParams) => dispatch(setRLCParams(rlcParams))
     const portPositionUpdate = (obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))
     const portTypeSetting = (obj: { name: string, type: number }) => dispatch(setPortType(obj))
+    const portSignalSetting = (signal: Signal) => dispatch(setAssociatedSignal(signal))
     const componentSelection = (component: ComponentEntity) => dispatch(selectComponent(component))
     const componentDeselection = (component: ComponentEntity) => dispatch(unselectComponent(component))
 
@@ -61,6 +80,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     let simulation = simulations?.filter(s => s.name === newSimulation.name)[0] as Simulation
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
+
+    const { availableSignals } = useGetAvailableSignals()
 
     switch (menuItem) {
         case 'Modeler':
@@ -96,6 +117,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                 setPortType={portTypeSetting}
                                 updatePortPosition={portPositionUpdate}
                                 setRLCParams={rlcParamsSetting}
+                                setPortSignal={portSignalSetting}
+                                availableSignals={availableSignals}
                             />
                         </RightPanelSimulation>}
                 </>
@@ -133,6 +156,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setPortType={portTypeSetting}
                             updatePortPosition={portPositionUpdate}
                             setRLCParams={rlcParamsSetting}
+                            setPortSignal={portSignalSetting}
+                            availableSignals={availableSignals}
                         />
                     </RightPanelSimulation>
                 </>
@@ -169,6 +194,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setPortType={portTypeSetting}
                             updatePortPosition={portPositionUpdate}
                             setRLCParams={rlcParamsSetting}
+                            setPortSignal={portSignalSetting}
+                            availableSignals={availableSignals}
                         />
                     </RightPanelSimulation>
                     <SimulationPanel

@@ -5,9 +5,9 @@ import { Color, Mesh, MeshPhongMaterial } from 'three';
 import { OrbitControls, TransformControls, GizmoHelper, GizmoViewport } from '@react-three/drei'
 import './modeler.css'
 import { GiCubeforce } from "react-icons/gi";
-import { Port, Project } from "../../../../../../model/Project";
+import { Project } from '../../../../../../model/Project'
+import { Port } from "../../../../../../model/Port";
 import {
-    ComponentEntity,
     FactoryShapes,
     ImportActionParamsObject,
     ImportCadProjectButton

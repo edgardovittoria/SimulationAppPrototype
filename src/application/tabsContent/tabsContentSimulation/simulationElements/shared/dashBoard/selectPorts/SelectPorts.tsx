@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {NavDropdown, Nav} from "react-bootstrap";
 import "./selectPorts.css"
 import {AiOutlineThunderbolt} from "react-icons/ai";
-import {Port, Project, RLCParams} from "../../../../../../../model/Project";
+import { Project } from "../../../../../../../model/Project";
+import {Port, RLCParams} from "../../../../../../../model/Port";
 import { CircleGeometryAttributes, ComponentEntity, TransformationParams } from '@Draco112358/cad-library';
 
 interface SelectPortsProps {
@@ -81,7 +82,8 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                     } as TransformationParams,    
                                 } as ComponentEntity,
                                 isSelected: false,
-                                rlcParams: {} as RLCParams
+                                rlcParams: {} as RLCParams,
+                                associatedSignal: undefined
                             }
                             addPorts(port)
                         }}>

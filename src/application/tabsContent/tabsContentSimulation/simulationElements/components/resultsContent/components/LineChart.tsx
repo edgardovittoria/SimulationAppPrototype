@@ -12,7 +12,6 @@ import {
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import {Simulation} from "../../../../../../../model/Simulation";
-import {Project} from "../../../../../../../model/Project";
 
 ChartJS.register(
     CategoryScale,

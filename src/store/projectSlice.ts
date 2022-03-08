@@ -1,7 +1,9 @@
 import { ComponentEntity, ImportActionParamsObject } from '@Draco112358/cad-library';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Port, Project, RLCParams } from "../model/Project";
+import { Project } from "../model/Project";
+import { Port, RLCParams } from "../model/Port";
 import { Simulation } from "../model/Simulation";
+import {Signal} from "../model/Port";
 
 
 export type ProjectState = {
@@ -59,70 +61,6 @@ export const ProjectSlice = createSlice({
         resetSelectedComponents(state: ProjectState) {
             state.selectedComponent = []
         },
-        // assignMaterial(state: ProjectState, action: PayloadAction<{ material: Omit<Material, 'associatedComponentKey'>, keyComponent: number }>) {
-        //     //case 1: the material's array already contain at least one element
-        //     if (state.selectedProject && state.selectedProject.materials.length > 0) {
-        //         state.selectedProject.materials.forEach(material => {
-        //             //case 1.1: material to add is already present but not contain the keyComponent of the request
-        //             if (material.name === action.payload.material.name) {
-        //                 if (!material.associatedComponentKey.includes(action.payload.keyComponent)) {
-        //                     material.associatedComponentKey.push(action.payload.keyComponent)
-        //                 }
-        //                 //case 1.2: material to add is not already present
-        //             } else if (material.name !== action.payload.material.name && material.associatedComponentKey.includes(action.payload.keyComponent)) {
-        //                 /*
-        //                 * One of the material already present contains the keyComponent of the request
-        //                 * so it is deleted and insert in the correct material that is pushed in the material's array.
-        //                 * If one of the material have an empty associatedComponentKey it is deleted
-        //                 * */
-        //                 let indexOfKeyToRemove = material.associatedComponentKey.findIndex(value => value === action.payload.keyComponent);
-        //                 material.associatedComponentKey.splice(indexOfKeyToRemove, 1);
-        //                 if (material.associatedComponentKey.length === 0 && state.selectedProject) {
-        //                     state.selectedProject.materials = state.selectedProject?.materials.filter(m => m.name !== material.name)
-        //                     if(state.selectedProject?.materials.filter(m => m.name === action.payload.material.name).length === 0){
-        //                         state.selectedProject?.materials.push(
-        //                             {...action.payload.material, associatedComponentKey: [action.payload.keyComponent]}
-        //                         )
-        //                     }
-        //                 } else {
-        //                     if(state.selectedProject?.materials.filter(m => m.name === action.payload.material.name).length === 0){
-        //                         state.selectedProject?.materials.push(
-        //                             {...action.payload.material, associatedComponentKey: [action.payload.keyComponent]}
-        //                         )
-        //                     }
-        //                 }
-        //                 //case 1.3: material to add is not already present
-        //             } else if (state.selectedProject?.materials.filter(m => m.name === action.payload.material.name).length === 0) {
-        //                 /*
-        //                 * One of the material already present not contains the keyComponent of the request.
-        //                 * */
-        //                 state.selectedProject?.materials.push(
-        //                     {...action.payload.material, associatedComponentKey: [action.payload.keyComponent]}
-        //                 )
-
-        //             }
-        //         })
-        //         //case 2: the material's array is empty
-        //     } else {
-        //         state.selectedProject?.materials.push(
-        //             {...action.payload.material, associatedComponentKey: [action.payload.keyComponent]}
-        //         )
-        //     }
-
-        //     state.selectedProject?.materials.forEach(material => {
-        //         state.selectedProject?.model.components.forEach(component => {
-        //             if (material.associatedComponentKey.includes(component.keyComponent)) {
-        //                 component.material = material
-        //             }
-        //         })
-        //     })
-
-        //     state.projects.forEach(project => {
-        //         if (project.name === state.selectedProject?.name) {
-        //             project.materials = state.selectedProject.materials
-        //         }
-        //     })
-        // },
         createSimulation(state: ProjectState, action: PayloadAction<Simulation>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             selectedProject?.simulations.push(action.payload);
@@ -184,7 +122,13 @@ export const ProjectSlice = createSlice({
             if(selectedPort){
                 selectedPort.rlcParams = action.payload
             }
-        }
+        },
+        setAssociatedSignal(state: ProjectState, action: PayloadAction<Signal>){
+            let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject));
+            if(selectedPort){
+                selectedPort.associatedSignal = action.payload
+            }
+        },
     },
     extraReducers: {
         //qui inseriamo i metodi : PENDING, FULLFILLED, REJECT utili per la gestione delle richieste asincrone
@@ -196,7 +140,7 @@ export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
     addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
     resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort,
-    setPortType, updatePortPosition, setRLCParams
+    setPortType, updatePortPosition, setRLCParams, setAssociatedSignal
 } = ProjectSlice.actions
 
 

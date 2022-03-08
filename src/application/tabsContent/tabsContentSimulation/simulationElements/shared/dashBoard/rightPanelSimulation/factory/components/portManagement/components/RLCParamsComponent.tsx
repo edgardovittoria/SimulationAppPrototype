@@ -1,5 +1,5 @@
 import React from 'react';
-import {Port, RLCParams} from "../../../../../../../../../../../model/Project";
+import {Port, RLCParams} from "../../../../../../../../../../../model/Port";
 
 interface RLCParamsProps {
     selectedPort: Port,

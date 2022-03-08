@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal} from "react-bootstrap";
-import {Port} from "../../../../../../../../../../model/Project";
+import {Port} from "../../../../../../../../../../model/Port";
 
 interface ModalSelectPortTypeProps {
     show: boolean,

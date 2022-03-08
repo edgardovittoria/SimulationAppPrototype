@@ -1,24 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Modal} from "react-bootstrap";
 import css from './style/modalSignals.module.css';
+import {Signal, SignalValues} from "../../../../../../../../../../model/Port";
 
 interface ModalSignalsProps {
     showModalSignal: boolean,
     setShowModalSignal: Function
-}
-
-interface Signal {
-    name: string,
-    type: string,
-    signalValues: SignalValues[]
-}
-
-interface SignalValues {
-    freq: number,
-    signal: {
-        Re: number,
-        Im: number
-    }
 }
 
 export const ModalSignals: React.FC<ModalSignalsProps> = (

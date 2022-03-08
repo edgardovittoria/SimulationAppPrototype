@@ -1,0 +1,8 @@
+.tableWrapper{
+    width: 50%;
+    height: 200px;
+    overflow: scroll;
+    padding: 10px;
+    background-color: #f6f6f6;
+    box-shadow: 1px 1px 10px 1px #c8c8c8;
+}

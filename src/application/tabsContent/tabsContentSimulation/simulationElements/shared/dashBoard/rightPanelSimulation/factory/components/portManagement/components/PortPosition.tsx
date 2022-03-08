@@ -1,5 +1,5 @@
 import React from 'react';
-import {Port} from "../../../../../../../../../../../model/Project";
+import {Port} from "../../../../../../../../../../../model/Port";
 
 interface PortPositionProps {
     selectedPort : Port,

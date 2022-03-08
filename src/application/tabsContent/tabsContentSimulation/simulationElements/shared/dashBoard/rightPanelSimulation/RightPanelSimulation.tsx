@@ -1,6 +1,6 @@
 import React from 'react';
 import './rightPanelSimulation.css'
-import {Port} from "../../../../../../../model/Project";
+import {Port} from "../../../../../../../model/Port";
 import {AiOutlineThunderbolt} from "react-icons/ai";
 
 interface RightPanelSimulationProps {

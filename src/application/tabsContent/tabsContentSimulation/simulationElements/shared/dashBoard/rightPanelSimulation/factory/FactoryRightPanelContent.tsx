@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {ComponentEntity} from "@Draco112358/cad-library";
-import {Port} from "../../../../../../../../model/Project";
+import {Port, Signal} from "../../../../../../../../model/Port";
 import {PortManagement} from "./components/portManagement/PortManagement";
 import {PortType} from "./components/portManagement/components/PortType";
 import {PortPosition} from "./components/portManagement/components/PortPosition";
 import {RLCParamsComponent} from "./components/portManagement/components/RLCParamsComponent";
-import {InputSignal} from "./components/portManagement/components/InputSignal";
+import {InputSignal} from "./components/portManagement/components/inputSignal/InputSignal";
 import {ModalSelectPortType} from "./components/modals/ModalSelectPortType";
 import {ModalSignals} from "./components/modals/ModalSignals";
 
@@ -16,13 +16,15 @@ interface FactoryRightPanelContentProps {
     ports: Port[] | undefined,
     setPortType: Function,
     updatePortPosition: Function,
-    setRLCParams: Function
+    setRLCParams: Function,
+    setPortSignal: Function,
+    availableSignals: Signal[]
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
         section, components, setShowSimulationModel, ports,
-        setPortType, updatePortPosition, setRLCParams
+        setPortType, updatePortPosition, setRLCParams, setPortSignal, availableSignals
     }
 ) => {
 
@@ -43,7 +45,12 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                                 <PortType setShow={setShowModalSelectPortType} selectedPort={selectedPort}/>
                                 <PortPosition selectedPort={selectedPort} updatePortPosition={updatePortPosition}/>
                                 <RLCParamsComponent selectedPort={selectedPort} setRLCParams={setRLCParams}/>
-                                <InputSignal setShowModalSignal={setShowModalSignal}/>
+                                <InputSignal
+                                    setShowModalSignal={setShowModalSignal}
+                                    setPortSignal={setPortSignal}
+                                    selectedPort={selectedPort}
+                                    availableSignals={availableSignals}
+                                />
 
                                 <ModalSelectPortType show={showModalSelectPortType} setShow={setShowModalSelectPortType}
                                                      selectedPort={selectedPort} setPortType={setPortType}
