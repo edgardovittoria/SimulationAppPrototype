@@ -30,7 +30,7 @@
     padding: 2px;
 }
 
-/*.inputNumber:focus{
-    border-color: var(--primaryColor) !important;
-    box-shadow: 2px 2px 10px var(--primaryColor) !important;
-}*/
+.signalsTableRow{
+    max-height: 250px;
+    overflow: scroll;
+}

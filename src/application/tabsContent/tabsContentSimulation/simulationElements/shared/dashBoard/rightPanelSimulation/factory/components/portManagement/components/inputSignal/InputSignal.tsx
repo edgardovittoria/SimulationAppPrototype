@@ -3,6 +3,7 @@ import {Port, Signal} from "../../../../../../../../../../../../model/Port";
 import {Modal} from "react-bootstrap";
 import {SignalChart} from "./components/SignalChart";
 import css from "./inputSignal.module.css";
+import {ModalInputSignal} from "../../../modals/ModalInputSignal";
 
 interface InputSignalProps {
     setShowModalSignal: Function,
@@ -25,11 +26,11 @@ export const InputSignal: React.FC<InputSignalProps> = (
 
     return (
         <>
-            <div className="mt-4 portPositionBox">
+            <div className={`mt-4 ${css.inputSignalBox}`}>
                 <div className="row">
                     <h6>Input Signal</h6>
                     <div className="col-4">
-                        <select className="w-100 selectSignal"
+                        <select className={`w-100 ${css.selectSignal}`}
                                 value={selectedPort.associatedSignal?.name}
                                 onChange={(event) => {
                                     if (event.currentTarget.value === 'undefined') {
@@ -47,12 +48,12 @@ export const InputSignal: React.FC<InputSignalProps> = (
                     <div className="col-4">
                         <button
                             onClick={() => setShowModalSignal(true)}
-                            className="w-100 btnNewSignal"
+                            className={`w-100 ${css.btnNewSignal}`}
                         >+New Signal
                         </button>
                     </div>
                     <div className="col-4">
-                        <label className="loadSignal">
+                        <label className={css.loadSignal}>
                             <input type="file"/>
                             Load Signal
                         </label>
@@ -60,54 +61,14 @@ export const InputSignal: React.FC<InputSignalProps> = (
                     {selectedPort.associatedSignal &&
                     <div className="mt-3">
                         <h6>Selected Signal:</h6>
-                        <span className="selectedSignal"
+                        <span className={css.selectedSignal}
                               onClick={() => setShow(true)}>{selectedPort.associatedSignal.name}</span>
                     </div>
                     }
 
                 </div>
                 {selectedPort.associatedSignal &&
-                <Modal show={show} onHide={() => setShow(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{selectedPort.associatedSignal.name}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="row justify-content-center text-center py-3 h-50">
-                            <div className={css.tableWrapper}>
-                                <table className="w-100">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Frequency</th>
-                                        <th>Signal(Re+Im)</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {(selectedPort.associatedSignal) && selectedPort.associatedSignal.signalValues.map((row, index) => {
-                                        return (
-                                            <tr key={index}>
-                                                <td>{index}</td>
-                                                <td>{row.freq}</td>
-                                                <td>{row.signal.Re} + {row.signal.Im}i</td>
-                                            </tr>
-                                        )
-                                    })}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                        <div className="row mt-4">
-                            <div className="col-6">
-                                <SignalChart signal={selectedPort.associatedSignal} type="module"/>
-                            </div>
-                            <div className="col-6">
-                                <SignalChart signal={selectedPort.associatedSignal} type="phase"/>
-                            </div>
-
-                        </div>
-                    </Modal.Body>
-                </Modal>
+                    <ModalInputSignal show={show} setShow={setShow} selectedPort={selectedPort}/>
                 }
             </div>
         </>

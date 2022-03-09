@@ -1,6 +1,6 @@
 import React from 'react';
 import {Project} from "../../../../../../model/Project";
-import './projects.css'
+import css from './projects.module.css';
 import {OverlayTrigger} from "react-bootstrap";
 import {BsThreeDotsVertical} from "react-icons/bs";
 import {popoverRight} from "../../shared/popover/Popover";
@@ -29,7 +29,7 @@ export const Projects: React.FC<ProjectsProps> = (
     }
 
     return (
-        <div className="box projectsBox">
+        <div className={`box ${css.projectsBox}`}>
             {projects.length > 0
                 ?
                 <>
@@ -38,17 +38,17 @@ export const Projects: React.FC<ProjectsProps> = (
                             <h5>Projects</h5>
                         </div>
                         <div
-                            className="col-2 text-center projectsNewProject"
+                            className={`col-2 text-center ${css.projectsNewProject}`}
                             onClick={() => setShowModal(true)}
                         >+ New Project
                         </div>
                     </div>
-                    <div className="projectsProjectsContainer">
+                    <div className={css.projectsProjectsContainer}>
 
                             {projects.map(project => {
                                 return (
-                                    <div className="box projectsCard" key={project.name}>
-                                        <div className="card-header projectsCardHeader">
+                                    <div className={`box ${css.projectsCard}`} key={project.name}>
+                                        <div className={`card-header ${css.projectsCardHeader}`}>
                                             <div className="row">
                                                 <div className="col-10">
                                                     {project.name}
@@ -56,7 +56,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                                 <div className="col-2">
                                                     <OverlayTrigger trigger="click" placement="right"
                                                                     overlay={popoverRight(project, removeProject, projectsTab, setProjectsTab)}>
-                                                        <button className="projectsCardMenuButton">
+                                                        <button className={css.projectsCardMenuButton}>
                                                             <BsThreeDotsVertical/>
                                                         </button>
                                                     </OverlayTrigger>
@@ -64,10 +64,10 @@ export const Projects: React.FC<ProjectsProps> = (
                                             </div>
                                         </div>
                                         <div className="card-body" onClick={() => handleCardClick(project)}>
-                                            <img className="projectsProjectImage" src="/noresultfound.png"
+                                            <img className={css.projectsProjectImage} src="/noresultfound.png"
                                                  alt="Project Image"/>
                                         </div>
-                                        <div className="card-footer projectsCardFooter">
+                                        <div className={`card-footer ${css.projectsCardFooter}`}>
                                             {project.description.substr(0,15) + '...'}
                                         </div>
                                     </div>
@@ -79,8 +79,8 @@ export const Projects: React.FC<ProjectsProps> = (
                 :
                 <>
                     <h5>Projects</h5>
-                    <div className="projectsNoProjectsContainer">
-                        <img src="/noProjectsIcon2.png" className="projectsNoProjectsIcon" alt="No Projects Icon"/>
+                    <div className={css.projectsNoProjectsContainer}>
+                        <img src="/noProjectsIcon2.png" className={css.projectsNoProjectsIcon} alt="No Projects Icon"/>
                         <p>No projects for now.</p>
                         <button className="btn button-primary" data-toggle="modal" data-target="#createNewProjectModal"
                                 onClick={() => {

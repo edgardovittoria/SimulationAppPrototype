@@ -43,7 +43,9 @@ function App() {
 
 
     useEffect(() => {
-        setMenuItemSelected(menuItems[0])
+        if(menuItemSelected !== "Results"){
+            setMenuItemSelected(menuItems[0])
+        }
     }, [tabSelected])
 
     return (

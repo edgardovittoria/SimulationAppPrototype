@@ -37,7 +37,7 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
 
 
     return (
-        <Modal show={showModalSignal} onHide={onModalClose}>
+        <Modal show={showModalSignal} onHide={onModalClose} size="lg">
             <Modal.Header closeButton>
                 <Modal.Title>DEFINE NEW SIGNAL</Modal.Title>
             </Modal.Header>
@@ -127,7 +127,7 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
                     {signalValuesArray.length > 0 &&
                     <>
                         <hr className="mt-4"/>
-                        <div className="row">
+                        <div className={`row ${css.signalsTableRow}`}>
                             <table className="w-50 mt-1 ms-3">
                                 <thead>
                                     <tr>
@@ -149,7 +149,7 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
                                 </tbody>
                             </table>
                         </div>
-                        <div className="row">
+                        <div className="row m-auto">
                             <button className={css.btnAddSignal}
                                     onClick={() => {
                                         let newSignal: Signal = {

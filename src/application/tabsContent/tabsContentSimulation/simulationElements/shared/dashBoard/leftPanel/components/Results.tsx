@@ -3,6 +3,8 @@ import {Project} from "../../../../../../../../model/Project";
 import {GiPowerButton} from "react-icons/gi";
 import {Simulation} from "../../../../../../../../model/Simulation";
 
+import css from "./style/results.module.css";
+
 interface ResultsProps {
     selectedProject: Project | undefined,
     setSelectedSimulation: Function,
@@ -14,11 +16,11 @@ export const Results: React.FC<ResultsProps> = ({selectedProject, setSelectedSim
     return(
         <>
             {(selectedProject && selectedProject.simulations.length > 0)
-                ? <div className="leftPanel modelContainer p-4">
+                ? <div className={`${css.leftPanel} ${css.modelContainer} p-4`}>
                     {selectedProject.simulations.map(sim => {
                         return(
                             <div
-                                className={(selectedSimulation && sim.name === selectedSimulation.name) ? "row mb-2 simulationItem simulationItemSelected": "row mb-2 simulationItem"} key={sim.name}
+                                className={(selectedSimulation && sim.name === selectedSimulation.name) ? `row mb-2 ${css.simulationItem} ${css.simulationItemSelected}`: `row mb-2 ${css.simulationItem}`} key={sim.name}
                                 onClick={() => {setSelectedSimulation(sim)}}
                             >
                                 <div className="col-1">
@@ -31,10 +33,10 @@ export const Results: React.FC<ResultsProps> = ({selectedProject, setSelectedSim
                         )
                     })}
                 </div>
-                : <div className="leftPanel modelContainer">
-                    <img src="/noResultsIcon.png" style={{marginTop: "100px"}}/>
+                : <div className={`${css.leftPanel} ${css.modelContainer}`}>
+                    <img src="/noResultsIcon.png" className={css.noResultsIcon}/>
                     <h5>No results to view</h5>
-                    <p style={{marginTop: "50px"}}>Complete a study setup with CAD, materials, and physics, then Estimate and Run to generate results.</p>
+                    <p className={css.noResultsText}>Complete a study setup with CAD, materials, and physics, then Estimate and Run to generate results.</p>
                 </div>
             }
         </>

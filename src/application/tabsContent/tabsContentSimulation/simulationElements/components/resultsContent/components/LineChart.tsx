@@ -57,7 +57,7 @@ export const LineChart: React.FC<LineChartProps> = ({simulation}) => {
             },
             title: {
                 display: true,
-                text: (simulation) ? simulation.name : "",
+                text: (simulation) ? simulation.name : ""
             },
         },
         layout: {

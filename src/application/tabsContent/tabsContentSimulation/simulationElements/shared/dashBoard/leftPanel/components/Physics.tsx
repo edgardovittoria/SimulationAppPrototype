@@ -1,7 +1,7 @@
 import React from 'react';
 import {Project} from "../../../../../../../../model/Project";
 import {AiOutlineThunderbolt} from "react-icons/ai";
-import "./style/physics.css"
+import css from "./style/physics.module.css"
 import {IoTrashOutline} from "react-icons/io5";
 
 interface PhysicsProps {
@@ -15,12 +15,12 @@ export const Physics: React.FC<PhysicsProps> = ({selectedProject, selectPort, de
         <>
             {(selectedProject && selectedProject.ports.length !== 0)
                 ?
-                <div className="leftPanel modelContainer py-4 h-auto">
+                <div className={`${css.leftPanel} ${css.modelContainer} py-4 h-auto`}>
                     <ul className="list-unstyled mb-0">
                         {selectedProject.ports && selectedProject.ports.map((port) => {
                             return (
                                 <li key={port.name}
-                                    className={port.isSelected ? 'listItemPort listItemPortSelected' : 'listItemPort'}
+                                    className={port.isSelected ? `${css.listItemPort} ${css.listItemPortSelected}` : css.listItemPort}
                                     onClick={() => selectPort(port.name)}
                                 >
                                     <div className="row">
@@ -45,10 +45,10 @@ export const Physics: React.FC<PhysicsProps> = ({selectedProject, selectPort, de
                         })}
                     </ul>
                 </div>
-                : <div className="leftPanel modelContainer">
-                    <img src="/noPhysicsIcon.png" style={{marginTop: "100px"}}/>
+                : <div className={`${css.leftPanel} ${css.modelContainer}`}>
+                    <img src="/noPhysicsIcon.png" className={css.noPhysicsIcon}/>
                     <h5>No Physics applied</h5>
-                    <p style={{marginTop: "50px"}}>Select a tool from the Physics Toolbar and apply it to
+                    <p className={css.noPhysicsText}>Select a tool from the Physics Toolbar and apply it to
                         geometry in the 3D View.</p>
                 </div>
             }

@@ -1,5 +1,5 @@
 import React from 'react';
-import "./simulations.css"
+import css from "./simulations.module.css";
 import {FaCheck, FaPauseCircle} from "react-icons/fa";
 import {Simulation} from "../../../../../../model/Simulation";
 import {TiDelete} from "react-icons/ti";
@@ -49,7 +49,7 @@ export const Simulations: React.FC<SimulationsProps> = (
     }
 
     return (
-        <div className="box simulationsBox">
+        <div className={`box ${css.simulationsBox}`}>
             {simulations.length > 0
                 ?
                 <>
@@ -74,7 +74,7 @@ export const Simulations: React.FC<SimulationsProps> = (
                                     <tr key={simulation.name}
                                         onMouseOver={() => showResultsIcon(index.toString())}
                                         onMouseOut={() => hideResultsIcon(index.toString())}
-                                        className="simulationsTableRow"
+                                        className={css.simulationsTableRow}
                                     >
                                         <th scope="row" className="py-4">
                                             {statusIcon}
@@ -84,7 +84,7 @@ export const Simulations: React.FC<SimulationsProps> = (
                                         <td className="py-4">{simulation.ended}</td>
                                         <td className="py-4">{simulation.status}</td>
                                         <td className="py-4">{simulation.associatedProject}</td>
-                                        <td id={index.toString()} className="py-4 simulationsResultIcon" style={{visibility: "hidden"}}>
+                                        <td id={index.toString()} className={`py-4 ${css.simulationsResultIcon}`} style={{visibility: "hidden"}}>
                                             <AiOutlineBarChart color={'#00ae52'} style={{width: "30px", height: "30px"}}
                                                 onClick={() => {
                                                     selectTab(simulation.associatedProject)
@@ -107,8 +107,8 @@ export const Simulations: React.FC<SimulationsProps> = (
                 :
                 <>
                     <h5>Simulations</h5>
-                    <div className="simulationsNoResultsContainer">
-                        <img src="/noresultfound.png" className="simulationsNoResultsIcon" alt="No Results Icon"/>
+                    <div className={css.simulationsNoResultsContainer}>
+                        <img src="/noresultfound.png" className={css.simulationsNoResultsIcon} alt="No Results Icon"/>
                         <p>No results found</p>
                     </div>
                 </>

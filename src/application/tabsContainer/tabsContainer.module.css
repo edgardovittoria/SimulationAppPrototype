@@ -40,3 +40,18 @@
 .nav-link{
     display: flex;
 }
+
+.notificationContainer{
+    padding-bottom: 7px;
+}
+
+.notificationIcon, .userIcon{
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
+    color: var(--primaryColor);
+}
+
+.notificationIcon:hover, .userIcon:hover{
+    color: var(--secondaryColor);
+}

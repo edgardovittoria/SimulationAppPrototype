@@ -41,8 +41,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
     switch (menuItem) {
         case 'Overview' :
             return (
-                <div className="container">
-                    <div className="row rowOverview justify-content-between">
+                <div className="container d-flex">
+                    <div className="row w-75 me-4 justify-content-between">
                         {memoizedOverview}
                     </div>
                     <RightPanel/>
@@ -51,8 +51,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
 
         case 'Projects' :
             return (
-                <div className="container">
-                    <div className="row rowOverview justify-content-between">
+                <div className="container d-flex">
+                    <div className="row w-75 me-4 justify-content-between">
                         <Projects
                             setShowModal={setShowModal}
                             projectsTab={projectsTab}
@@ -68,8 +68,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
             )
         case 'Simulations' :
             return (
-                <div className="container">
-                    <div className="row rowOverview justify-content-between">
+                <div className="container d-flex">
+                    <div className="row w-75 me-4 justify-content-between">
                         <Simulations
                             projects={projects}
                             selectTab={selectTab}

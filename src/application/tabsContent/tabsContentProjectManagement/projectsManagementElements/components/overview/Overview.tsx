@@ -1,12 +1,10 @@
 import React, { FC, useRef, useState } from 'react';
-import './overview.css'
+import css from './overview.module.css';
 import { Project } from "../../../../../../model/Project";
 import { OverlayTrigger } from "react-bootstrap";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { popoverRight } from "../../shared/popover/Popover";
 import { exportSimulationProject } from '../../../../../../importExport/exportFunctions';
-import { useDispatch } from 'react-redux';
-import { addProject } from '../../../../../../store/projectSlice';
 import { ImportSimProjectButton } from '../../../../../../importExport/importSimProjectButton';
 
 interface OverviewProps {
@@ -38,22 +36,22 @@ export const Overview: React.FC<OverviewProps> = (
 
     return (
         <>
-            <div className="box boxProjects">
-                <div className="titleContainer">
+            <div className={`box ${css.boxProjects}`}>
+                <div className={css.titleContainer}>
                     <h5>My Recent Projects</h5>
-                    <a href="/#" className="newProjectLink"
+                    <button className={css.newProjectLink}
                         onClick={() => {
                             setShowModal(true)
                         }}>
-                        + New Project</a>
-                    <ImportSimProjectButton className="newProjectLink" setMenuItem={setMenuItem}>
+                        + New Project</button>
+                    <ImportSimProjectButton className={css.newProjectLink} setMenuItem={setMenuItem}>
                         Import Project
                     </ImportSimProjectButton>
                 </div>
 
                 {projects.length === 0 ?
-                    <div className="noProjectsContainer">
-                        <img src="/noProjectsIcon2.png" className="noProjectsIcon" alt="No Projects Icon" />
+                    <div className={css.noProjectsContainer}>
+                        <img src="/noProjectsIcon2.png" className={css.noProjectsIcon} alt="No Projects Icon" />
                         <p>No projects for now.</p>
                         <button className="btn button-primary" data-toggle="modal" data-target="#createNewProjectModal"
                             onClick={() => {
@@ -62,22 +60,22 @@ export const Overview: React.FC<OverviewProps> = (
                         </button>
                     </div>
                     :
-                    <div className="projectsContainer">
+                    <div className={css.projectsContainer}>
                         {projects.map(project => {
                             return (
-                                <div key={project.name} className="card" onClick={() => handleCardClick(project)}>
+                                <div key={project.name} className={css.card} onClick={() => handleCardClick(project)}>
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-10 overviewProjectName">
+                                            <div className={`col-10 ${css.overviewProjectName}`}>
                                                 {project.name}
                                             </div>
                                             <div className="col-2" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
                                                 <OverlayTrigger trigger="click" placement="right" overlay={popoverRight(project, removeProject, projectsTab, setProjectsTab)}>
                                                     <>
-                                                        <button className="overviewCardMenuButton">
+                                                        <button className={css.overviewCardMenuButton}>
                                                             <BsThreeDotsVertical />
                                                         </button>
-                                                        <button className="overviewCardMenuButton" onClick={(e) => {
+                                                        <button className={css.overviewCardMenuButton} onClick={(e) => {
                                                             e.stopPropagation()
                                                             exportSimulationProject(project)
                                                         }}>
@@ -95,31 +93,31 @@ export const Overview: React.FC<OverviewProps> = (
                     </div>
                 }
             </div>
-            <div className="box boxYourPlan">
+            <div className={`box ${css.boxYourPlan}`}>
                 <h5>Your Plan</h5>
-                <div className="yourPlanContent">
-                    <h2 className="yourPlanTitle">Upgrade to a Pro <br /> Account</h2>
+                <div className={css.yourPlanContent}>
+                    <h2 className={css.yourPlanTitle}>Upgrade to a Pro <br /> Account</h2>
                     <div className="row">
                         <div className="col-7">
                             <ul>
-                                <li className="li-yourPlan">
+                                <li className={css.liYourPlan}>
                                     text list item 1
                                 </li>
-                                <li className="li-yourPlan">
+                                <li className={css.liYourPlan}>
                                     text list item 2
                                 </li>
                             </ul>
-                            <button className="btn btn-seeMore">See More</button>
+                            <button className={`btn ${css.btnSeeMore}`}>See More</button>
                         </div>
                     </div>
                 </div>
 
 
             </div>
-            <div className="box boxSimulation">
+            <div className={`box ${css.boxSimulation}`}>
                 <h5>Simulations</h5>
-                <div className="simulationContent">
-                    <img src="/noresultfound.png" className="noResultFoundIcon" alt="No Result Found Icon" />
+                <div className={css.simulationContent}>
+                    <img src="/noresultfound.png" className={css.noResultFoundIcon} alt="No Result Found Icon" />
                     <p>No Results Found</p>
                 </div>
 

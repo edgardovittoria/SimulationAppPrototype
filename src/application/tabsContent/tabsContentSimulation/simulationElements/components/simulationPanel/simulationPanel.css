@@ -2,13 +2,10 @@
     height: 100%;
 }
 
-.simulationPanelMenu, .simulationModalTitle{
+.simulationModalTitle{
     background-color: #e1e1e1;
 }
 
-.simulationPanelContent{
-
-}
 
 .accordion-button {
     border: none !important;
@@ -32,8 +29,8 @@
 }
 
 .simulationModal > .modal-dialog{
-    max-width: 75%;
-    margin-top: 8%;
+    max-width: 80%;
+    margin-top: 5%;
 }
 
 .simulationModal > .modal-dialog > .modal-content{

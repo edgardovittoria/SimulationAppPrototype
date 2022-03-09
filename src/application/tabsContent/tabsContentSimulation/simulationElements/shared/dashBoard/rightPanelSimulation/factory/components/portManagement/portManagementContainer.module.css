@@ -1,0 +1,27 @@
+.portManagementContainer{
+    position: absolute;
+    right: 2%;
+    top: 207px;
+    width: 22%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: var(--boxBackgroundColor);
+    padding: 20px;
+    box-shadow: 2px 5px 5px var(--shadowColor);
+    max-height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.portManagementContainerTitle{
+    position: absolute;
+    right: 2%;
+    top: 160px;
+    width: 22%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: var(--boxBackgroundColor);
+    padding: 10px;
+    box-shadow: 2px 5px 5px var(--shadowColor);
+    border-bottom: 1px solid #29686E;
+}

@@ -2,6 +2,8 @@ import React from 'react';
 import { FaCircle } from "react-icons/fa";
 import { Project } from "../../../../../../../../model/Project";
 
+import css from "./style/materials.module.css"
+
 interface MaterialsProps {
     selectedProject: Project | undefined
 }
@@ -10,7 +12,7 @@ export const Materials: React.FC<MaterialsProps> = ({ selectedProject }) => {
     return (
         <>
             {(selectedProject) &&
-                <div className="leftPanel modelContainer py-4 h-auto">
+                <div className={`${css.leftPanel} ${css.modelContainer} py-4 h-auto`}>
                     <ul className="list-unstyled mb-0">
                         {selectedProject.model.components && selectedProject.model.components.map((component) => {
                             return (

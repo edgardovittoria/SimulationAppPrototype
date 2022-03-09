@@ -1,6 +1,6 @@
 import React from 'react';
 import {FaBell, FaPlus, FaTimes, FaUser} from "react-icons/fa";
-import './tabsContainer.css'
+import css from './tabsContainer.module.css'
 import {Project} from "../../model/Project";
 
 interface TabsContainerProps {
@@ -29,47 +29,47 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                     <a className="navbar-brand" href="/">SimulationApp</a>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="nav nav-tabs">
-                            <li className="nav-item navItemTabs" onClick={() => {
+                            <li className={`nav-item ${css.navItemTabs}`} onClick={() => {
                                 selectTab("DASHBOARD")
                                 selectProject(undefined)
                                 resetSelectedComponentsArray()
                             }}>
                                 <div
-                                    className={(selectedTab === 'DASHBOARD') ? 'nav-link active projectTab' : 'nav-link projectTabNotActive'}
+                                    className={(selectedTab === 'DASHBOARD') ? `nav-link active ${css.projectTab}` : `nav-link ${css.projectTabNotActive}`}
                                     aria-current="page"
                                 >Dashboard
                                 </div>
                             </li>
                             {projectsTab.map(projectTab => {
-                                return <li key={projectTab.name} className="nav-item navItemTabs">
-                                    <div className={(selectedTab === projectTab.name) ? 'nav-link active' : 'nav-link'}>
+                                return <li key={projectTab.name} className={`nav-item ${css.navItemTabs}`}>
+                                    <div className={(selectedTab === projectTab.name) ? 'nav-link active d-flex' : 'nav-link d-flex'}>
                                         <div
-                                            className={(selectedTab === projectTab.name) ? 'projectTab' : 'projectTabNotActive'}
+                                            className={(selectedTab === projectTab.name) ? css.projectTab : css.projectTabNotActive}
                                             aria-current="page" onClick={() => {
                                             selectTab(projectTab.name)
                                             selectProject(projectTab.name)
                                             resetSelectedComponentsArray()
                                         }}>{projectTab.name}
                                         </div>
-                                        <div className="closeIconContainer" onClick={() => {
+                                        <div className={css.closeIconContainer} onClick={() => {
                                             closeProjectTab(projectTab.name)
                                             selectProject(undefined)
                                             resetSelectedComponentsArray()
                                         }}>
-                                            <FaTimes className="closeIcon"/>
+                                            <FaTimes className={css.closeIcon}/>
                                         </div>
                                     </div>
 
                                 </li>
                             })}
-                            <li className="nav-item addNewProject">
-                                <FaPlus onClick={() => setShowModal(true)} className="addNewProjectIcon"/>
+                            <li className={`nav-item ${css.addNewProject}`}>
+                                <FaPlus onClick={() => setShowModal(true)} className={css.addNewProjectIcon}/>
                             </li>
                         </ul>
                     </div>
-                    <div className="mr-auto notificationContainer">
-                        <FaBell className="notificationIcon"/>
-                        <FaUser className="userIcon"/>
+                    <div className={`mr-auto ${css.notificationContainer}`}>
+                        <FaBell className={css.notificationIcon}/>
+                        <FaUser className={css.userIcon}/>
                     </div>
                 </div>
             </nav>

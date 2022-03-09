@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Tab, Tabs} from "react-bootstrap";
 import {FactorySimulationDashboardContent} from "./factory/FactorySimulationDashboardContent";
 
-import "./leftPanel.css"
+import css from "./leftPanel.module.css";
 import {tabTitles} from "./components/modelerTabTitlesAndIcons";
 
 interface DashBoardProps {
@@ -23,7 +23,6 @@ export const LeftPanel: React.FC<DashBoardProps> = (
         if (tabs[1] === 'Results') {
             setSelectedTab("Results")
         }
-        console.log(selectedTab)
     }, [tabs[1]]);
 
     return (
@@ -31,7 +30,7 @@ export const LeftPanel: React.FC<DashBoardProps> = (
             <Tabs
                 activeKey={selectedTab}
                 onSelect={(k) => (k) && setSelectedTab(k)}
-                className="tabsContainer"
+                className={css.tabsContainer}
                 defaultActiveKey="Modeler"
             >
                 {tabs.map((tab, index) => {
@@ -39,7 +38,7 @@ export const LeftPanel: React.FC<DashBoardProps> = (
                         <Tab
                             key={index}
                             eventKey={tab}
-                            tabClassName={(selectedTab === tab) ? "" : "notActiveTab"}
+                            tabClassName={(selectedTab === tab) ? "" : css.notActiveTab}
                             disabled={selectedTab === 'Results'}
                             title={
                                 (selectedTab === tab) ? tabTitles.filter(tabTitle => tabTitle.key === tab)[0].object

@@ -3,7 +3,6 @@ import { Canvas, Object3DNode, useThree } from "@react-three/fiber";
 import * as THREE from 'three';
 import { Color, Mesh, MeshPhongMaterial } from 'three';
 import { OrbitControls, TransformControls, GizmoHelper, GizmoViewport } from '@react-three/drei'
-import './modeler.css'
 import { GiCubeforce } from "react-icons/gi";
 import { Project } from '../../../../../../model/Project'
 import { Port } from "../../../../../../model/Port";
@@ -99,7 +98,7 @@ export const Modeler: React.FC<ModelerProps> = (
                 </Canvas>
                 :
                 <div>
-                    <ImportCadProjectButton className='btn button-primary btn-import' importAction={importModel}
+                    <ImportCadProjectButton className='btn button-primary position-absolute start-50 top-50' importAction={importModel}
                         actionParams={{ id: selectedProject?.name } as ImportActionParamsObject}>
                         <GiCubeforce style={{ width: "25px", height: "25px", marginRight: "5px" }} /> Import CAD
                     </ImportCadProjectButton>

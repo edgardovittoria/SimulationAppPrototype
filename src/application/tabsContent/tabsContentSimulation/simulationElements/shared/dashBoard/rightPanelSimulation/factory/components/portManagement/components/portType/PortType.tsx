@@ -1,5 +1,7 @@
 import React from 'react';
-import {Port} from "../../../../../../../../../../../model/Port";
+import {Port} from "../../../../../../../../../../../../model/Port";
+
+import css from "./portType.module.css";
 
 interface PortTypeProps {
     setShow: Function,
@@ -8,7 +10,7 @@ interface PortTypeProps {
 
 export const PortType: React.FC<PortTypeProps> = ({setShow, selectedPort}) => {
     return(
-        <div className="choosePortTypeContainer">
+        <div className={css.portTypeBox}>
             <div className="w-100 text-start">
                 <h6>Port Type</h6>
             </div>

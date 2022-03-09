@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {NavDropdown, Nav} from "react-bootstrap";
-import "./selectPorts.css"
+import css from "./selectPorts.module.css";
 import {AiOutlineThunderbolt} from "react-icons/ai";
+import {BsArrowDownShort} from "react-icons/bs";
 import { Project } from "../../../../../../../model/Project";
 import {Port, RLCParams} from "../../../../../../../model/Port";
 import { CircleGeometryAttributes, ComponentEntity, TransformationParams } from '@Draco112358/cad-library';
@@ -19,20 +20,18 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
     }
     return(
         <>
-            < div className="selectPortsContainer">
-                <div className="selectPorts">
+            < div className={css.selectPortsContainer}>
+                <div className={css.selectPorts}>
                     <NavDropdown
                         title={
-                            <div className="row">
-                                <div className="col-2">
+                            <div className="row py-1">
+                                <div className="col-2 ps-0">
                                     <AiOutlineThunderbolt color={'#00ae52'} style={{width: "20px", height: "20px"}}/>
                                 </div>
-                                <div className="col-8 text-black">
+                                <div className="col-5 text-black">
                                     Add Port
                                 </div>
                             </div>
-
-
                         }
                         menuVariant="light"
                     >
@@ -59,7 +58,7 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                         position : [-2.5,2.5,0],
                                         rotation : [0,0,0],
                                         scale: [1,1,1]
-                                    } as TransformationParams,       
+                                    } as TransformationParams,
                                 } as ComponentEntity,
                                 outputElement: {
                                     type: "CIRCLE",
@@ -79,7 +78,7 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                         position : [2.5,2.5,0],
                                         rotation : [0,0,0],
                                         scale: [1,1,1]
-                                    } as TransformationParams,    
+                                    } as TransformationParams,
                                 } as ComponentEntity,
                                 isSelected: false,
                                 rlcParams: {} as RLCParams,
@@ -87,17 +86,17 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                             }
                             addPorts(port)
                         }}>
-                            <div className="dropdownItem">
+                            <div className={css.dropdownItem}>
                                 <span>Port</span>
                             </div>
                         </Nav.Link>
                         <Nav.Link onClick={() => {}}>
-                            <div className="dropdownItem">
+                            <div className={css.dropdownItem}>
                                 <span>Lumped</span>
                             </div>
                         </Nav.Link>
                         <Nav.Link onClick={() => {}}>
-                            <div className="dropdownItem">
+                            <div className={css.dropdownItem}>
                                 <span>Probe</span>
                             </div>
                         </Nav.Link>

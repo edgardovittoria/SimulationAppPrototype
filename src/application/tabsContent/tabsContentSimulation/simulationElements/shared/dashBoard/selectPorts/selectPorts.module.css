@@ -16,6 +16,10 @@
     text-transform: capitalize;
 }
 
-.dropdownItem:hover{
+.dropdownItem:hover {
     color: rgba(189, 186, 186, 0.87);
+}
+
+.dropdown-toggle::after {
+    display: none;
 }

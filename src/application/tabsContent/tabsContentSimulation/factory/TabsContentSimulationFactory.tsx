@@ -6,9 +6,9 @@ import { LeftPanel } from "../simulationElements/shared/dashBoard/leftPanel/Left
 import { RightPanelSimulation } from "../simulationElements/shared/dashBoard/rightPanelSimulation/RightPanelSimulation";
 import { FactoryRightPanelContent } from "../simulationElements/shared/dashBoard/rightPanelSimulation/factory/FactoryRightPanelContent";
 import { SimulationPanel } from "../simulationElements/components/simulationPanel/SimulationPanel";
-import { LeftMenu } from "../simulationElements/components/simulationPanel/components/LeftMenu";
-import { PanelContent } from "../simulationElements/components/simulationPanel/components/PanelContent";
-import { PanelFooter } from "../simulationElements/components/simulationPanel/components/PanelFooter";
+import { LeftMenu } from "../simulationElements/components/simulationPanel/components/leftMenu/LeftMenu";
+import { PanelContent } from "../simulationElements/components/simulationPanel/components/panelContent/PanelContent";
+import { PanelFooter } from "../simulationElements/components/simulationPanel/components/panelFooter/PanelFooter";
 import { LineChart } from "../simulationElements/components/resultsContent/components/LineChart";
 import { Simulation } from "../../../../model/Simulation";
 import { FactorySimulationDashboardContent } from "../simulationElements/shared/dashBoard/leftPanel/factory/FactorySimulationDashboardContent";
@@ -82,6 +82,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
 
     const { availableSignals, setAvailableSignals } = useGetAvailableSignals()
+
+    console.log(menuItem)
 
     switch (menuItem) {
         case 'Modeler':

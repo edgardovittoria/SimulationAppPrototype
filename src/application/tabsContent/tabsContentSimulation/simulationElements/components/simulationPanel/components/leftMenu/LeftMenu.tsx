@@ -2,6 +2,8 @@ import { ComponentEntity } from '@Draco112358/cad-library';
 import React from 'react';
 import {Accordion} from "react-bootstrap";
 
+import css from "./leftMenu.module.css";
+
 interface LeftMenuProps {
     components?: ComponentEntity[]
     physics: string[]
@@ -9,7 +11,7 @@ interface LeftMenuProps {
 
 export const LeftMenu: React.FC<LeftMenuProps> = ({components, physics}) => {
     return(
-        <div className="col-3 simulationPanelMenu">
+        <div className={`col-3 ${css.simulationPanelMenu}`}>
             <Accordion>
                 <Accordion.Item eventKey="0" key={0}>
                     <Accordion.Header>Materials</Accordion.Header>

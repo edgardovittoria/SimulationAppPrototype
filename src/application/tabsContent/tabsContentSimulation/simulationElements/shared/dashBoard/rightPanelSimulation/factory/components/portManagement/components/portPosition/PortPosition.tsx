@@ -1,5 +1,7 @@
 import React from 'react';
-import {Port} from "../../../../../../../../../../../model/Port";
+import {Port} from "../../../../../../../../../../../../model/Port";
+
+import css from "./portPosition.module.css";
 
 interface PortPositionProps {
     selectedPort : Port,
@@ -8,14 +10,14 @@ interface PortPositionProps {
 
 export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updatePortPosition}) => {
     return(
-        <div className="mt-3 portPositionBox">
+        <div className={`mt-3 ${css.portPositionBox}`}>
             <h6>Port Position</h6>
             <div className="mt-2">
                 <span>Input (X,Y,Z)</span>
                 <div className="row mt-2">
                     <div className="col-4">
                         <input
-                            className="w-100 inputPortManagement form-control"
+                            className={`w-100 ${css.inputPortManagement} form-control`}
                             type="number"
                             step={.1}
                             value={selectedPort.inputElement.transformationParams.position[0]}
@@ -31,7 +33,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                     </div>
                     <div className="col-4">
                         <input
-                            className="w-100 inputPortManagement form-control"
+                            className={`w-100 ${css.inputPortManagement} form-control`}
                             type="number"
                             step={.1}
                             value={selectedPort.inputElement.transformationParams.position[1]}
@@ -47,7 +49,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                     </div>
                     <div className="col-4">
                         <input
-                            className="w-100 inputPortManagement form-control"
+                            className={`w-100 ${css.inputPortManagement} form-control`}
                             type="number"
                             step={.1}
                             value={selectedPort.inputElement.transformationParams.position[2]}
@@ -69,7 +71,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                 <div className="row mt-2">
                     <div className="col-4">
                         <input
-                            className="w-100 inputPortManagement form-control"
+                            className={`w-100 ${css.inputPortManagement} form-control`}
                             type="number"
                             step={.1}
                             value={selectedPort.outputElement.transformationParams.position[0]}
@@ -85,7 +87,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                     </div>
                     <div className="col-4">
                         <input
-                            className="w-100 inputPortManagement form-control"
+                            className={`w-100 ${css.inputPortManagement} form-control`}
                             type="number"
                             step={.1}
                             value={selectedPort.outputElement.transformationParams.position[1]}
@@ -101,7 +103,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                     </div>
                     <div className="col-4">
                         <input
-                            className="w-100 inputPortManagement form-control"
+                            className={`w-100 ${css.inputPortManagement} form-control`}
                             type="number"
                             step={.1}
                             value={selectedPort.outputElement.transformationParams.position[2]}

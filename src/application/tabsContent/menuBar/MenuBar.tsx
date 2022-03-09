@@ -1,5 +1,5 @@
 import React from 'react';
-import './menuBar.css'
+import css from './menuBar.module.css'
 
 interface MenuBarProps {
     setMenuItem: Function,
@@ -9,8 +9,8 @@ interface MenuBarProps {
 
 export const MenuBar: React.FC<MenuBarProps> = ({menuItems, setMenuItem, activeMenuItem}) => {
     return (
-        <div className="menuBarContainer">
-            <ul className="nav menuBar">
+        <div className={css.menuBarContainer}>
+            <ul className={`nav ${css.menuBar}`}>
                 {(menuItems as string[]).map(item => <li key={item} className="nav-item" onClick={() => setMenuItem(item)}>
                     <a className={(activeMenuItem === item) ? 'nav-link active' : 'nav-link'} aria-current="page"
                        href="/#">{item}</a>

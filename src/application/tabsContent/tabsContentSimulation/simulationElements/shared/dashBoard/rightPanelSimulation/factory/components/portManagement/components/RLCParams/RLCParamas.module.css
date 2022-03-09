@@ -1,0 +1,15 @@
+.RLCParamsBox{
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #29686E;
+    border-radius: 5px;
+    background-color: #f6f6f6;
+}
+
+.inputPortManagement{
+    padding: 4px;
+    border: 1px solid #a3a3a3;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 500;
+}
