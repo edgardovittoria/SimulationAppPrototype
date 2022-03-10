@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { Canvas, Object3DNode, useThree } from "@react-three/fiber";
 import * as THREE from 'three';
 import { Color, Mesh, MeshPhongMaterial } from 'three';
-import { OrbitControls, TransformControls, GizmoHelper, GizmoViewport } from '@react-three/drei'
+import {OrbitControls, TransformControls, GizmoHelper, GizmoViewport, Line} from '@react-three/drei'
 import { GiCubeforce } from "react-icons/gi";
 import { Project } from '../../../../../../model/Project'
 import { Port } from "../../../../../../model/Port";
@@ -77,6 +77,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                 >
                                     <FactoryShapes entity={port.inputElement} color="#00ff00" />
                                 </mesh>
+
                                 <mesh
                                     key={port.outputElement.name}
                                     name={port.outputElement.name}
@@ -87,6 +88,11 @@ export const Modeler: React.FC<ModelerProps> = (
                                 >
                                     <FactoryShapes entity={port.outputElement} />
                                 </mesh>
+                                <Line
+                                    points={[port.inputElement.transformationParams.position, port.outputElement.transformationParams.position]}
+                                    color="red"
+                                    lineWidth={1}
+                                />
                             </>
                         )
                     })}
