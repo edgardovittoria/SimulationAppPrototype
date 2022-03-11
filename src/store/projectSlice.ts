@@ -129,6 +129,12 @@ export const ProjectSlice = createSlice({
                 selectedPort.associatedSignal = action.payload
             }
         },
+        setScreenshot(state:ProjectState, action:PayloadAction<string>){
+            let selectedProject = findProjectByName(state.projects, state.selectedProject);
+            if(selectedProject){
+                selectedProject.screenshot = action.payload
+            }
+        }
     },
     extraReducers: {
         //qui inseriamo i metodi : PENDING, FULLFILLED, REJECT utili per la gestione delle richieste asincrone
@@ -140,7 +146,7 @@ export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
     addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
     resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort,
-    setPortType, updatePortPosition, setRLCParams, setAssociatedSignal
+    setPortType, updatePortPosition, setRLCParams, setAssociatedSignal, setScreenshot
 } = ProjectSlice.actions
 
 

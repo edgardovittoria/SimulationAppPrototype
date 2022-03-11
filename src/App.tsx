@@ -8,7 +8,8 @@ import {
     addProject,
     projectsSelector,
     removeProject,
-    resetSelectedComponents, selectProject} from "./store/projectSlice";
+    resetSelectedComponents, selectProject, setScreenshot
+} from "./store/projectSlice";
 import { Project } from "./model/Project";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateNewProjectModal } from "./application/modals/createNewProjectModal/CreateNewProjectModal";

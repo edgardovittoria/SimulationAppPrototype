@@ -16,7 +16,7 @@ interface TabsContentProjectManagementFactoryProps {
     removeProject: Function,
     setSimulationCoreMenuItemSelected: Function,
     setSelectedSimulation: Function,
-    setMenuItem: Function
+    setMenuItem: Function,
 }
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
@@ -36,7 +36,7 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
         selectProject={selectProject}
         removeProject={removeProject}
         setMenuItem={setMenuItem}
-    />, []);
+    />, [projects]);
 
     switch (menuItem) {
         case 'Overview' :

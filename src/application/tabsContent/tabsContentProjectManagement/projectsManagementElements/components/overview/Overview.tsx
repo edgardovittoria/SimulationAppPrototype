@@ -1,11 +1,8 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import css from './overview.module.css';
 import { Project } from "../../../../../../model/Project";
-import { OverlayTrigger } from "react-bootstrap";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { popoverRight } from "../../shared/popover/Popover";
-import { exportSimulationProject } from '../../../../../../importExport/exportFunctions';
 import { ImportSimProjectButton } from '../../../../../../importExport/importSimProjectButton';
+import {ProjectManagementIcons} from "../../shared/ProjectManagementIcons";
 
 interface OverviewProps {
     setShowModal: Function,
@@ -23,6 +20,7 @@ export const Overview: React.FC<OverviewProps> = (
 ) => {
     const [cardMenuHovered, setCardMenuHovered] = useState(false);
 
+
     const handleCardClick = (project: Project) => {
         if (!cardMenuHovered) {
             if (!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)) {
@@ -33,6 +31,7 @@ export const Overview: React.FC<OverviewProps> = (
         }
 
     }
+
 
     return (
         <>
@@ -67,22 +66,10 @@ export const Overview: React.FC<OverviewProps> = (
                                     <div className="card-body">
                                         <div className="row">
                                             <div className={`col-10 ${css.overviewProjectName}`}>
-                                                {project.name}
+                                                {(project.name.length > 15) ? project.name.substr(0,15) + '...' : project.name}
                                             </div>
                                             <div className="col-2" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
-                                                <OverlayTrigger trigger="click" placement="right" overlay={popoverRight(project, removeProject, projectsTab, setProjectsTab)}>
-                                                    <>
-                                                        <button className={css.overviewCardMenuButton}>
-                                                            <BsThreeDotsVertical />
-                                                        </button>
-                                                        <button className={css.overviewCardMenuButton} onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            exportSimulationProject(project)
-                                                        }}>
-                                                            Export
-                                                        </button>
-                                                    </>
-                                                </OverlayTrigger>
+                                                <ProjectManagementIcons project={project} removeProject={removeProject} projectsTab={projectsTab} setProjectsTab={setProjectsTab}/>
                                             </div>
                                         </div>
                                         <h6 className="card-subtitle mb-2 text-muted">{project.description.substr(0, 50)}</h6>

@@ -1,9 +1,7 @@
 import React from 'react';
 import {Project} from "../../../../../../model/Project";
 import css from './projects.module.css';
-import {OverlayTrigger} from "react-bootstrap";
-import {BsThreeDotsVertical} from "react-icons/bs";
-import {popoverRight} from "../../shared/popover/Popover";
+import {ProjectManagementIcons} from "../../shared/ProjectManagementIcons";
 
 interface ProjectsProps {
     setShowModal: Function,
@@ -12,7 +10,7 @@ interface ProjectsProps {
     selectTab: Function,
     projects: Project[],
     selectProject: Function,
-    removeProject: Function
+    removeProject: Function,
 }
 
 export const Projects: React.FC<ProjectsProps> = (
@@ -23,7 +21,6 @@ export const Projects: React.FC<ProjectsProps> = (
         if (!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)) {
             setProjectsTab(projectsTab.concat(project))
         }
-        //dispatch(selectProject(project.name))
         selectProject(project.name)
         selectTab(project.name)
     }
@@ -51,24 +48,20 @@ export const Projects: React.FC<ProjectsProps> = (
                                         <div className={`card-header ${css.projectsCardHeader}`}>
                                             <div className="row">
                                                 <div className="col-10">
-                                                    {project.name}
+                                                    {(project.name.length > 11) ? project.name.substr(0,11) + '...' : project.name}
                                                 </div>
                                                 <div className="col-2">
-                                                    <OverlayTrigger trigger="click" placement="right"
-                                                                    overlay={popoverRight(project, removeProject, projectsTab, setProjectsTab)}>
-                                                        <button className={css.projectsCardMenuButton}>
-                                                            <BsThreeDotsVertical/>
-                                                        </button>
-                                                    </OverlayTrigger>
+                                                    <ProjectManagementIcons project={project} removeProject={removeProject} projectsTab={projectsTab} setProjectsTab={setProjectsTab}/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="card-body" onClick={() => handleCardClick(project)}>
-                                            <img className={css.projectsProjectImage} src="/noresultfound.png"
+                                            <img className={css.projectsProjectImage}
+                                                 src={(project.screenshot) ? project.screenshot : "/noResultsIcon.png"}
                                                  alt="Project Image"/>
                                         </div>
                                         <div className={`card-footer ${css.projectsCardFooter}`}>
-                                            {project.description.substr(0,15) + '...'}
+                                            {(project.description.length > 20) ? project.description.substr(0,20) + '...' : project.description}
                                         </div>
                                     </div>
                                 )

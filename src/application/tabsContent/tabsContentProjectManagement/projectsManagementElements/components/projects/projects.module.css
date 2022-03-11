@@ -19,13 +19,17 @@
 }
 
 .projectsCard {
-    width: 20% !important;
+    width: 35% !important;
     padding: 15px;
     margin: 30px 20px 20px;
+    border: 2px solid #bdefc7;
+    transition: 1s;
 }
 
 .projectsCard:hover{
     cursor: pointer;
+    border: 2px solid #29686E;
+    transition: 1s;
 }
 
 .projectsCardHeader, .projectsCardFooter{
@@ -33,7 +37,8 @@
 }
 
 .projectsProjectImage{
-    width: 90%;
+    width: 100%;
+    transform: scale(1.2);
 }
 
 .projectsDeleteIcon{

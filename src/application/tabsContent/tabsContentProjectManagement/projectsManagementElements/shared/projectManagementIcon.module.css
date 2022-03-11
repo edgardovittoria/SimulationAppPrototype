@@ -1,0 +1,11 @@
+.deleteIcon:hover{
+    background-color: #f1caca;
+    padding: 1px;
+    border-radius: 10px;
+}
+
+.exportIcon:hover{
+    background-color: #bdefc7;
+    padding: 1px;
+    border-radius: 10px;
+}

@@ -19,17 +19,20 @@ interface ModelerProps {
     importModel: (params: ImportActionParamsObject) => any,
     selectComponent: Function,
     selectPort: Function,
-    updatePortPosition: Function
+    updatePortPosition: Function,
+    setScreenshot: Function
 }
 
 export const Modeler: React.FC<ModelerProps> = (
     {
-        selectedProject, importModel, selectComponent, selectPort, updatePortPosition
+        selectedProject, importModel, selectComponent, selectPort, updatePortPosition,
+        setScreenshot
     }
 ) => {
 
     const [previousColor, setPreviousColor] = useState<Color>({} as Color);
     let selectedPort = findSelectedPort(selectedProject)
+
 
     return (
         <div className="d-flex justify-content-center">
@@ -105,6 +108,7 @@ export const Modeler: React.FC<ModelerProps> = (
                     <GizmoHelper alignment="bottom-right" margin={[150, 80]}>
                         <GizmoViewport axisColors={['red', '#40ff00', 'blue']} labelColor="white" />
                     </GizmoHelper>
+                    <ScreenShootComponent selectedProject={selectedProject} setScreenshot={setScreenshot}/>
                 </Canvas>
                 :
                 <div>
@@ -134,9 +138,6 @@ const PortControls: FC<PortControlsProps> = (
     const transformationFirst = useRef(null);
     const transformationLast = useRef(null);
     const { scene } = useThree()
-
-
-
 
     useEffect(() => {
         if (transformationFirst.current) {
@@ -202,6 +203,44 @@ const PortControls: FC<PortControlsProps> = (
     )
 
 
+}
+
+interface ScreenShootComponentProps{
+    selectedProject: Project | undefined,
+    setScreenshot: Function
+}
+
+const ScreenShootComponent: FC<ScreenShootComponentProps> = ({selectedProject, setScreenshot}) => {
+
+    const { gl, scene, camera } = useThree()
+
+    function screenShot() {
+        gl.render(scene, camera)
+        gl.toneMapping = THREE.ACESFilmicToneMapping
+        gl.toneMappingExposure = 0.6
+        gl.outputEncoding = THREE.sRGBEncoding
+        gl.domElement.toBlob(
+            function(blob) {
+                let reader = new FileReader();
+                (blob) && reader.readAsDataURL(blob);
+                reader.onloadend = function() {
+                    let base64data = reader.result;
+                    setScreenshot(base64data as string)
+                }
+            },
+            'image/jpg',
+            2.0
+        )
+    }
+
+    useEffect(() => {
+        screenShot()
+    }, [selectedProject]);
+
+
+
+
+    return <></>
 }
 
 

@@ -7,5 +7,6 @@ export type Project = {
     description: string,
     model: CanvasState,
     ports: Port[],
-    simulations: Simulation[]
+    simulations: Simulation[],
+    screenshot: string | undefined
 }
