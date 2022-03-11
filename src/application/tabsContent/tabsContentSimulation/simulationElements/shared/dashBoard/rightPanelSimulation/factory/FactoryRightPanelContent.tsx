@@ -8,7 +8,6 @@ import {RLCParamsComponent} from "./components/portManagement/components/RLCPara
 import {InputSignal} from "./components/portManagement/components/inputSignal/InputSignal";
 import {ModalSelectPortType} from "./components/modals/ModalSelectPortType";
 import {ModalSignals} from "./components/modals/ModalSignals";
-import {AiOutlineThunderbolt} from "react-icons/ai";
 import {SimulatorLauncher} from "./components/simulatorLauncher/SimulatorLauncher";
 
 interface FactoryRightPanelContentProps {
@@ -51,6 +50,7 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                             setPortSignal={setPortSignal}
                             selectedPort={selectedPort ?? {} as Port}
                             availableSignals={availableSignals}
+                            setAvailableSignals={setAvailableSignals}
                         />
 
                         <ModalSelectPortType show={showModalSelectPortType} setShow={setShowModalSelectPortType}

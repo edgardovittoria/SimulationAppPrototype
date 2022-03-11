@@ -83,7 +83,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     const { availableSignals, setAvailableSignals } = useGetAvailableSignals()
 
-    console.log(menuItem)
 
     switch (menuItem) {
         case 'Modeler':
