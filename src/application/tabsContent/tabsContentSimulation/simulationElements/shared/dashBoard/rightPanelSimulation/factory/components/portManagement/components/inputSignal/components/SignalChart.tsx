@@ -41,17 +41,19 @@ export const SignalChart: React.FC<SignalChartProps> = ({signal, type}) => {
 
     const datasets: Dataset[] = [];
     let frequencyValues: number[] = [];
-    let signalReValues: number[] = [];
-    let signalImValues: number[] = [];
+    let signalMagnitude: number[] = [];
+    let signalPhase: number[] = [];
     signal.signalValues.forEach(value => {
         frequencyValues.push(value.freq)
-        signalReValues.push(value.signal.Re)
-        signalImValues.push(value.signal.Im)
+        let magnitudeValue = Math.sqrt((Math.pow(value.signal.Re,2) + Math.pow(value.signal.Im,2)))
+        signalMagnitude.push(magnitudeValue)
+        let phaseValue = Math.atan(value.signal.Im/value.signal.Re)
+        signalPhase.push(phaseValue)
     })
     if(type === "module"){
         datasets.push({
             label: 'Module',
-            data: signalReValues,
+            data: signalMagnitude,
             borderColor: 'blue',
             backgroundColor: 'blue',
             lineTension: .5
@@ -59,7 +61,7 @@ export const SignalChart: React.FC<SignalChartProps> = ({signal, type}) => {
     }else{
         datasets.push({
             label: 'Phase',
-            data: signalImValues,
+            data: signalPhase,
             borderColor: 'red',
             backgroundColor: 'red',
             lineTension: .5
