@@ -101,6 +101,10 @@ export const Modeler: React.FC<ModelerProps> = (
                         selectPort={selectPort}
                         updatePortPosition={updatePortPosition}
                     />}
+                    <OrbitControls makeDefault />
+                    <GizmoHelper alignment="bottom-right" margin={[150, 80]}>
+                        <GizmoViewport axisColors={['red', '#40ff00', 'blue']} labelColor="white" />
+                    </GizmoHelper>
                 </Canvas>
                 :
                 <div>
@@ -194,10 +198,6 @@ const PortControls: FC<PortControlsProps> = (
                 showY={(selectedPort) ? (selectedPort as Port).isSelected : false}
                 showZ={(selectedPort) ? (selectedPort as Port).isSelected : false}
             />
-            <OrbitControls makeDefault />
-            <GizmoHelper alignment="bottom-right" margin={[150, 80]}>
-                <GizmoViewport axisColors={['red', '#40ff00', 'blue']} labelColor="white" />
-            </GizmoHelper>
         </>
     )
 
