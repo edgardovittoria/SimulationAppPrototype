@@ -12,7 +12,8 @@ import {
     ImportCadProjectButton
 } from '@Draco112358/cad-library'
 import { findSelectedPort } from '../../../../../../store/projectSlice';
-
+import {Screenshot} from "./components/Screenshot";
+import {PortControls} from "./components/PortControls";
 
 interface ModelerProps {
     selectedProject: Project | undefined,
@@ -108,7 +109,7 @@ export const Modeler: React.FC<ModelerProps> = (
                     <GizmoHelper alignment="bottom-right" margin={[150, 80]}>
                         <GizmoViewport axisColors={['red', '#40ff00', 'blue']} labelColor="white" />
                     </GizmoHelper>
-                    <ScreenShootComponent selectedProject={selectedProject} setScreenshot={setScreenshot}/>
+                    <Screenshot selectedProject={selectedProject} setScreenshot={setScreenshot}/>
                 </Canvas>
                 :
                 <div>
@@ -122,127 +123,3 @@ export const Modeler: React.FC<ModelerProps> = (
     )
 
 }
-
-interface PortControlsProps {
-    selectedPort: Port | undefined,
-    selectPort: Function,
-    updatePortPosition: Function
-}
-
-const PortControls: FC<PortControlsProps> = (
-    {
-        selectedPort, selectPort, updatePortPosition
-    }
-) => {
-
-    const transformationFirst = useRef(null);
-    const transformationLast = useRef(null);
-    const { scene } = useThree()
-
-    useEffect(() => {
-        if (transformationFirst.current) {
-            const controls = transformationFirst.current as unknown as Object3DNode<any, any>;
-            controls.addEventListener("dragging-changed", onChangeFirstPositionHandler)
-            return () => controls.removeEventListener("dragging-changed", onChangeFirstPositionHandler)
-        }
-    })
-
-    useEffect(() => {
-        if (transformationLast.current) {
-            const controls = transformationLast.current as unknown as Object3DNode<any, any>;
-            controls.addEventListener("dragging-changed", onChangeLastPositionHandler)
-            return () => controls.removeEventListener("dragging-changed", onChangeLastPositionHandler)
-        }
-
-    })
-
-
-    function onChangeFirstPositionHandler(event: THREE.Event) {
-        if (!event.value && transformationFirst.current) {
-            const controls: Object3DNode<any, any> = transformationFirst.current as unknown as Object3DNode<any, any>
-            let transformationParmas = {
-                type: 'first',
-                position: [controls.worldPosition.x, controls.worldPosition.y, controls.worldPosition.z],
-            }
-            updatePortPosition(transformationParmas)
-        }
-    }
-
-    function onChangeLastPositionHandler(event: THREE.Event) {
-        if (!event.value && transformationLast.current) {
-            const controls: Object3DNode<any, any> = transformationLast.current as unknown as Object3DNode<any, any>
-            let transformationParmas = {
-                type: 'last',
-                position: [controls.worldPosition.x, controls.worldPosition.y, controls.worldPosition.z],
-            }
-            updatePortPosition(transformationParmas)
-        }
-    }
-
-
-
-    return (
-        <>
-            <TransformControls
-                object={(selectedPort) && scene.getObjectByName((selectedPort as Port).inputElement.name)}
-                ref={transformationFirst}
-                position={(selectedPort) && (selectedPort as Port).inputElement.transformationParams.position}
-                showX={(selectedPort) ? (selectedPort as Port).isSelected : false}
-                showY={(selectedPort) ? (selectedPort as Port).isSelected : false}
-                showZ={(selectedPort) ? (selectedPort as Port).isSelected : false}
-            />
-            <TransformControls
-                object={(selectedPort) && scene.getObjectByName((selectedPort as Port).outputElement.name)}
-                ref={transformationLast}
-                position={(selectedPort) && (selectedPort as Port).outputElement.transformationParams.position}
-                showX={(selectedPort) ? (selectedPort as Port).isSelected : false}
-                showY={(selectedPort) ? (selectedPort as Port).isSelected : false}
-                showZ={(selectedPort) ? (selectedPort as Port).isSelected : false}
-            />
-        </>
-    )
-
-
-}
-
-interface ScreenShootComponentProps{
-    selectedProject: Project | undefined,
-    setScreenshot: Function
-}
-
-const ScreenShootComponent: FC<ScreenShootComponentProps> = ({selectedProject, setScreenshot}) => {
-
-    const { gl, scene, camera } = useThree()
-
-    function screenShot() {
-        gl.render(scene, camera)
-        gl.toneMapping = THREE.ACESFilmicToneMapping
-        gl.toneMappingExposure = 0.6
-        gl.outputEncoding = THREE.sRGBEncoding
-        gl.domElement.toBlob(
-            function(blob) {
-                let reader = new FileReader();
-                (blob) && reader.readAsDataURL(blob);
-                reader.onloadend = function() {
-                    let base64data = reader.result;
-                    setScreenshot(base64data as string)
-                }
-            },
-            'image/jpg',
-            2.0
-        )
-    }
-
-    useEffect(() => {
-        screenShot()
-    }, [selectedProject]);
-
-
-
-
-    return <></>
-}
-
-
-
-

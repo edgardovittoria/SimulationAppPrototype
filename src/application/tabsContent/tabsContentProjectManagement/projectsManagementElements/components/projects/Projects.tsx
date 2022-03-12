@@ -57,7 +57,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                         </div>
                                         <div className="card-body" onClick={() => handleCardClick(project)}>
                                             <img className={css.projectsProjectImage}
-                                                 src={(project.screenshot) ? project.screenshot : "/noResultsIcon.png"}
+                                                 src={(project.screenshot) ? project.screenshot : "/noResultsIconForProject.png"}
                                                  alt="Project Image"/>
                                         </div>
                                         <div className={`card-footer ${css.projectsCardFooter}`}>
