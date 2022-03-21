@@ -1,9 +1,9 @@
 import React from 'react';
 import css from './rightPanelSimulation.module.css';
-import {Port} from "../../../../../../../model/Port";
+import {Port, Probe} from "../../../../../../../model/Port";
 
 interface RightPanelSimulationProps {
-    ports: Port[] | undefined
+    ports: (Port | Probe)[] | undefined
 }
 
 export const RightPanelSimulation: React.FC<RightPanelSimulationProps> = (

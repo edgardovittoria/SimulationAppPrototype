@@ -5,14 +5,13 @@ import * as THREE from "three";
 import {TransformControls} from "@react-three/drei";
 
 interface PortControlsProps {
-    selectedPort: Port | undefined,
-    selectPort: Function,
+    selectedPort: Port,
     updatePortPosition: Function
 }
 
 export const PortControls: FC<PortControlsProps> = (
     {
-        selectedPort, selectPort, updatePortPosition
+        selectedPort, updatePortPosition
     }
 ) => {
 
@@ -67,18 +66,18 @@ export const PortControls: FC<PortControlsProps> = (
             <TransformControls
                 object={(selectedPort) && scene.getObjectByName((selectedPort as Port).inputElement.name)}
                 ref={transformationFirst}
-                position={(selectedPort) && (selectedPort as Port).inputElement.transformationParams.position}
-                showX={(selectedPort) ? (selectedPort as Port).isSelected : false}
-                showY={(selectedPort) ? (selectedPort as Port).isSelected : false}
-                showZ={(selectedPort) ? (selectedPort as Port).isSelected : false}
+                position={selectedPort.inputElement.transformationParams.position}
+                showX={selectedPort.isSelected}
+                showY={selectedPort.isSelected}
+                showZ={selectedPort.isSelected}
             />
             <TransformControls
                 object={(selectedPort) && scene.getObjectByName((selectedPort as Port).outputElement.name)}
                 ref={transformationLast}
-                position={(selectedPort) && (selectedPort as Port).outputElement.transformationParams.position}
-                showX={(selectedPort) ? (selectedPort as Port).isSelected : false}
-                showY={(selectedPort) ? (selectedPort as Port).isSelected : false}
-                showZ={(selectedPort) ? (selectedPort as Port).isSelected : false}
+                position={selectedPort.outputElement.transformationParams.position}
+                showX={selectedPort.isSelected}
+                showY={selectedPort.isSelected}
+                showZ={selectedPort.isSelected}
             />
         </>
     )

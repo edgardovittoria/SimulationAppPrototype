@@ -18,6 +18,12 @@ export const Physics: React.FC<PhysicsProps> = ({selectedProject, selectPort, de
                 <div className={`${css.leftPanel} ${css.modelContainer} py-4 h-auto`}>
                     <ul className="list-unstyled mb-0">
                         {selectedProject.ports && selectedProject.ports.map((port) => {
+                            let portColor = 'orange';
+                            if(port.category === 'lumped'){
+                                portColor = 'violet'
+                            }else if(port.category === 'port'){
+                                portColor = 'red'
+                            }
                             return (
                                 <li key={port.name}
                                     className={port.isSelected ? `${css.listItemPort} ${css.listItemPortSelected}` : css.listItemPort}
@@ -25,7 +31,7 @@ export const Physics: React.FC<PhysicsProps> = ({selectedProject, selectPort, de
                                 >
                                     <div className="row">
                                         <div className="col-2 pe-0 ps-0">
-                                            <AiOutlineThunderbolt color={'#00ae52'}
+                                            <AiOutlineThunderbolt color={portColor}
                                                                   style={{width: "25px", height: "25px"}}/>
                                         </div>
                                         <div className="col-8 text-start ps-0">

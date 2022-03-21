@@ -2,7 +2,7 @@ import {ComponentEntity} from "@Draco112358/cad-library";
 
 export type Port = {
     name: string,
-    category: string,
+    category: 'port' | 'lumped',
     type: number,
     inputElement: ComponentEntity,
     outputElement: ComponentEntity,
@@ -30,4 +30,12 @@ export interface SignalValues {
         Re: number,
         Im: number
     }
+}
+
+export type Probe = {
+    name: string,
+    category: 'probe',
+    isSelected: boolean,
+    elements: ComponentEntity[],
+    groupPosition: [number, number, number]
 }

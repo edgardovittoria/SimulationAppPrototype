@@ -1,5 +1,5 @@
 import React from 'react';
-import {Port, RLCParams} from "../../../../../../../../../../../../model/Port";
+import {Port, Probe, RLCParams} from "../../../../../../../../../../../../model/Port";
 
 import css from "./RLCParamas.module.css";
 

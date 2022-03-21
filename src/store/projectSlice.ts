@@ -1,8 +1,8 @@
-import { ComponentEntity, ImportActionParamsObject } from '@Draco112358/cad-library';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Project } from "../model/Project";
-import { Port, RLCParams } from "../model/Port";
-import { Simulation } from "../model/Simulation";
+import {ComponentEntity, ImportActionParamsObject} from '@Draco112358/cad-library';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Project} from "../model/Project";
+import {Port, Probe, RLCParams} from "../model/Port";
+import {Simulation} from "../model/Simulation";
 import {Signal} from "../model/Port";
 
 
@@ -27,7 +27,9 @@ export const ProjectSlice = createSlice({
             state.projects = state.projects.filter(project => project.name !== action.payload)
         },
         selectProject(state: ProjectState, action: PayloadAction<string | undefined>) {
-            if (action.payload !== undefined) { state.selectedProject = action.payload }
+            if (action.payload !== undefined) {
+                state.selectedProject = action.payload
+            }
 
         },
         importModel(state: ProjectState, action: PayloadAction<ImportActionParamsObject>) {
@@ -82,18 +84,14 @@ export const ProjectSlice = createSlice({
                 }
             })
         },
-        addPorts(state: ProjectState, action: PayloadAction<Port>) {
+        addPorts(state: ProjectState, action: PayloadAction<Port | Probe>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             selectedProject?.ports.push(action.payload)
         },
         selectPort(state: ProjectState, action: PayloadAction<string>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             selectedProject?.ports.forEach(port => {
-                if (port.name === action.payload) {
-                    port.isSelected = true
-                } else {
-                    port.isSelected = false
-                }
+                port.isSelected = port.name === action.payload;
             })
         },
         deletePort(state: ProjectState, action: PayloadAction<string>) {
@@ -106,39 +104,50 @@ export const ProjectSlice = createSlice({
         setPortType(state: ProjectState, action: PayloadAction<{ name: string, type: number }>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject)
             selectedProject?.ports.forEach(port => {
-                if (port.name === action.payload.name) {
-                    port.type = action.payload.type
+                if (port.category === 'port' || port.category === 'lumped') {
+                    if (port.name === action.payload.name) {
+                        port.type = action.payload.type
+                    }
                 }
             })
         },
-        updatePortPosition(state: ProjectState, action: PayloadAction<{ type: 'first' | 'last', position: [number, number, number] }>) {
+        updatePortPosition(state: ProjectState, action: PayloadAction<{ type: 'first' | 'last' | 'probe', position: [number, number, number] }>) {
             let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject))
             if (selectedPort) {
-                (action.payload.type === 'first') ? selectedPort.inputElement.transformationParams.position = action.payload.position : selectedPort.outputElement.transformationParams.position = action.payload.position
+                if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
+                    (action.payload.type === 'first') ? selectedPort.inputElement.transformationParams.position = action.payload.position : selectedPort.outputElement.transformationParams.position = action.payload.position
+                }else if(action.payload.type === 'probe'){
+                    (selectedPort as Probe).groupPosition = action.payload.position
+                }
             }
         },
-        setRLCParams(state: ProjectState, action: PayloadAction<RLCParams>) { 
+        setRLCParams(state: ProjectState, action: PayloadAction<RLCParams>) {
             let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject));
-            if(selectedPort){
-                selectedPort.rlcParams = action.payload
+            if (selectedPort) {
+                if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
+                    selectedPort.rlcParams = action.payload
+                }
             }
         },
-        setAssociatedSignal(state: ProjectState, action: PayloadAction<Signal>){
+        setAssociatedSignal(state: ProjectState, action: PayloadAction<Signal>) {
             let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject));
-            if(selectedPort){
-                selectedPort.associatedSignal = action.payload
+            if (selectedPort) {
+                if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
+                    selectedPort.associatedSignal = action.payload
+                }
             }
         },
-        setScreenshot(state:ProjectState, action:PayloadAction<string>){
+        setScreenshot(state: ProjectState, action: PayloadAction<string>) {
             let selectedProject = findProjectByName(state.projects, state.selectedProject);
-            if(selectedProject){
+            if (selectedProject) {
                 selectedProject.screenshot = action.payload
             }
         }
     },
-    extraReducers: {
-        //qui inseriamo i metodi : PENDING, FULLFILLED, REJECT utili per la gestione delle richieste asincrone
-    }
+    extraReducers:
+        {
+            //qui inseriamo i metodi : PENDING, FULLFILLED, REJECT utili per la gestione delle richieste asincrone
+        }
 })
 
 
@@ -159,4 +168,6 @@ export const findProjectByName = (projects: Project[], name: string | undefined)
 }
 
 export const findSelectedPort = (project: Project | undefined) => (project) ? project.ports.filter(port => port.isSelected)[0] : undefined
-const projectAlreadyExists = (projects: Project[], newProject: Project) => { return projects.filter(project => project.name === newProject.name).length > 0 ? true : false}
+const projectAlreadyExists = (projects: Project[], newProject: Project) => {
+    return projects.filter(project => project.name === newProject.name).length > 0 ? true : false
+}

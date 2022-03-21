@@ -1,13 +1,13 @@
 import React from 'react';
 import {Modal} from "react-bootstrap";
-import {Port} from "../../../../../../../../../../model/Port";
+import {Port, Probe} from "../../../../../../../../../../model/Port";
 
 import css from "./style/modalSelectPortType.module.css";
 
 interface ModalSelectPortTypeProps {
     show: boolean,
     setShow: Function,
-    selectedPort: Port,
+    selectedPort: Port | Probe,
     setPortType: Function
 }
 

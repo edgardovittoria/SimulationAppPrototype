@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import {NavDropdown, Nav} from "react-bootstrap";
 import css from "./selectPorts.module.css";
 import {AiOutlineThunderbolt} from "react-icons/ai";
-import {BsArrowDownShort} from "react-icons/bs";
 import { Project } from "../../../../../../../model/Project";
-import {Port, RLCParams} from "../../../../../../../model/Port";
+import {Port, Probe, RLCParams} from "../../../../../../../model/Port";
 import { CircleGeometryAttributes, ComponentEntity, TransformationParams } from '@Draco112358/cad-library';
 
 interface SelectPortsProps {
@@ -90,12 +89,253 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 <span>Port</span>
                             </div>
                         </Nav.Link>
-                        <Nav.Link onClick={() => {}}>
+                        <Nav.Link onClick={() => {
+                            let lumped: Port = {
+                                name: "Lumped" + generateNewKeyPort(keyPort),
+                                category: 'lumped',
+                                type: 0,
+                                inputElement: {
+                                    type: "CIRCLE",
+                                    keyComponent: 0,
+                                    geometryAttributes: {
+                                        radius: 0.05,
+                                        segments: 10,
+                                    } as CircleGeometryAttributes,
+                                    name: "inputPort" + generateNewKeyPort(keyPort),
+                                    orbitEnabled: false,
+                                    transformationParams: {
+                                        position : [-2.5,2.5,0],
+                                        rotation : [0,0,0],
+                                        scale: [1,1,1]
+                                    } as TransformationParams,
+                                    previousTransformationParams:  {
+                                        position : [-2.5,2.5,0],
+                                        rotation : [0,0,0],
+                                        scale: [1,1,1]
+                                    } as TransformationParams,
+                                } as ComponentEntity,
+                                outputElement: {
+                                    type: "CIRCLE",
+                                    keyComponent: 0,
+                                    geometryAttributes: {
+                                        radius: 0.05,
+                                        segments: 10,
+                                    } as CircleGeometryAttributes,
+                                    name: "outputPort" + generateNewKeyPort(keyPort),
+                                    orbitEnabled: false,
+                                    transformationParams: {
+                                        position : [2.5,2.5,0],
+                                        rotation : [0,0,0],
+                                        scale: [1,1,1]
+                                    } as TransformationParams,
+                                    previousTransformationParams:  {
+                                        position : [2.5,2.5,0],
+                                        rotation : [0,0,0],
+                                        scale: [1,1,1]
+                                    } as TransformationParams,
+                                } as ComponentEntity,
+                                isSelected: false,
+                                rlcParams: {} as RLCParams,
+                                associatedSignal: undefined
+                            }
+                            addPorts(lumped)
+                        }}>
                             <div className={css.dropdownItem}>
                                 <span>Lumped</span>
                             </div>
                         </Nav.Link>
-                        <Nav.Link onClick={() => {}}>
+                        <Nav.Link onClick={() => {
+                            let probe: Probe = {
+                                name: "Probe" + generateNewKeyPort(keyPort),
+                                category: 'probe',
+                                isSelected: false,
+                                groupPosition: [0,3,0],
+                                elements: [
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [-0.5,.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [-0.5,.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [0,.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [0,.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [.5,.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [.5,.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [-0.5,0,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [-0.5,0,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [0,0,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [0,0,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [.5,0,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [.5,0,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [-0.5,-0.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [-0.5,-0.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [0,-0.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [0,-0.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position : [.5,-0.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                        previousTransformationParams:  {
+                                            position : [.5,-0.5,0],
+                                            rotation : [0,0,0],
+                                            scale: [1,1,1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+
+                                ]
+                            }
+                            addPorts(probe)
+                        }}>
                             <div className={css.dropdownItem}>
                                 <span>Probe</span>
                             </div>
