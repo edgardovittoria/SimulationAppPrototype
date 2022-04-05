@@ -33,7 +33,7 @@ import {
 } from '../../../../store/projectSlice';
 import { useGenerateMesh } from '../hooks/useGenerateMesh';
 import { useRunSimulation } from '../hooks/useRunSimulation';
-import { ComponentEntity } from '@Draco112358/cad-library';
+import { ComponentEntity } from 'cad-library';
 import {getSignals} from "../api/signals_api";
 import {useGetAvailableSignals} from "../hooks/useGetAvailableSignals";
 

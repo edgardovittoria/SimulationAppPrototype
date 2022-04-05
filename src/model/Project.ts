@@ -1,4 +1,4 @@
-import { CanvasState } from "@Draco112358/cad-library";
+import { CanvasState } from "cad-library";
 import {Simulation} from "./Simulation";
 import {Port, Probe} from "./Port";
 

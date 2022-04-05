@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Project} from "../../../model/Project";
 import {Modal} from "react-bootstrap";
-import { CanvasState } from '@Draco112358/cad-library';
+import { CanvasState } from 'cad-library';
 
 interface CreateNewProjectModalProps {
     show: boolean,

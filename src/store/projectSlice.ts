@@ -1,4 +1,4 @@
-import {ComponentEntity, ImportActionParamsObject} from '@Draco112358/cad-library';
+import {ComponentEntity, ImportActionParamsObject} from 'cad-library';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Project} from "../model/Project";
 import {Port, Probe, RLCParams} from "../model/Port";

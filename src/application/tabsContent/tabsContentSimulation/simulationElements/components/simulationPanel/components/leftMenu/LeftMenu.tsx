@@ -1,4 +1,4 @@
-import { ComponentEntity } from '@Draco112358/cad-library';
+import { ComponentEntity } from 'cad-library';
 import React from 'react';
 import {Accordion} from "react-bootstrap";
 

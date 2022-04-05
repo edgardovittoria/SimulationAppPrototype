@@ -1,5 +1,5 @@
 import {Project} from "../../../../../../../../model/Project";
-import {ComponentEntity} from "@Draco112358/cad-library";
+import {ComponentEntity} from "cad-library";
 import React from "react";
 import {FaCube, FaCubes} from "react-icons/fa";
 

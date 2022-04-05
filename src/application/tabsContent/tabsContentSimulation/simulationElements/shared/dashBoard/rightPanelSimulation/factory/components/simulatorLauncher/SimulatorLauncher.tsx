@@ -1,5 +1,5 @@
 import React from 'react';
-import {ComponentEntity} from "@Draco112358/cad-library";
+import {ComponentEntity} from "cad-library";
 
 import css from "./simulatorLauncher.module.css";
 

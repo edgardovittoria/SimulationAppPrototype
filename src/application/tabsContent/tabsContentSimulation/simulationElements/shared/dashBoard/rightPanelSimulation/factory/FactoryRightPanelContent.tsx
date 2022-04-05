@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ComponentEntity} from "@Draco112358/cad-library";
+import {ComponentEntity} from "cad-library";
 import {Port, Probe, Signal} from "../../../../../../../../model/Port";
 import {PortManagement} from "./components/portManagement/PortManagement";
 import {PortType} from "./components/portManagement/components/portType/PortType";

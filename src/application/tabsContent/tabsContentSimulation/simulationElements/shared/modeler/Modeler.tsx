@@ -10,7 +10,7 @@ import {
     FactoryShapes,
     ImportActionParamsObject,
     ImportCadProjectButton
-} from '@Draco112358/cad-library'
+} from 'cad-library'
 import {findSelectedPort} from '../../../../../../store/projectSlice';
 import {Screenshot} from "./components/Screenshot";
 import {PortControls} from "./components/PortControls";
@@ -98,8 +98,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                         <Line
                                             points={[port.inputElement.transformationParams.position, port.outputElement.transformationParams.position]}
                                             color={(port.category === 'port') ? 'red' : 'violet'}
-                                            lineWidth={1}
-                                        />
+                                            lineWidth={1} alphaWrite={undefined}                                        />
                                     </> :
                                     <>
                                         <group

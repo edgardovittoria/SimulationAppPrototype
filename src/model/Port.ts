@@ -1,4 +1,4 @@
-import {ComponentEntity} from "@Draco112358/cad-library";
+import {ComponentEntity} from "cad-library";
 
 export type Port = {
     name: string,

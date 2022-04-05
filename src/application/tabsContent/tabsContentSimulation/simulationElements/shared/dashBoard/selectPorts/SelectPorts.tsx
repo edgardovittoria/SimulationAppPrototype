@@ -4,7 +4,7 @@ import css from "./selectPorts.module.css";
 import {AiOutlineThunderbolt} from "react-icons/ai";
 import { Project } from "../../../../../../../model/Project";
 import {Port, Probe, RLCParams} from "../../../../../../../model/Port";
-import { CircleGeometryAttributes, ComponentEntity, TransformationParams } from '@Draco112358/cad-library';
+import { CircleGeometryAttributes, ComponentEntity, TransformationParams } from 'cad-library';
 
 interface SelectPortsProps {
     addPorts: Function,
