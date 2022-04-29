@@ -1,10 +1,10 @@
 import {client, q} from "../client";
-import {FaunaResSimulation} from "../responseModels";
+import {FaunaResSignals} from "../responseModels";
 
-export const getSimulationByName: (name: string) => Promise<FaunaResSimulation> = async (name: string) => {
+export async function getSignals(){
     try {
         const response = await client.query(
-            q.Get(q.Match(q.Index('simulation_by_name'), name))
+            q.Map(q.Paginate(q.Documents(q.Collection('Signals'))), q.Lambda('doc', q.Get(q.Var('doc'))))
         )
             .catch((err) => console.error(
                 'Error: [%s] %s: %s',
@@ -12,9 +12,9 @@ export const getSimulationByName: (name: string) => Promise<FaunaResSimulation> 
                 err.message,
                 err.errors()[0].description,
             ));
-        return (response as FaunaResSimulation)
+        return (response as FaunaResSignals).data.map(d => d.data)
     }catch (e) {
         console.log(e)
-        return {} as FaunaResSimulation;
+        return [];
     }
 }

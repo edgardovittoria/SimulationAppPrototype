@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Signal} from "../../../../model/Port";
-import {getSignals} from "../api/signals_api";
+import {getSignals} from "../../../../faunadb/api/signalsAPIs";
 
 export const useGetAvailableSignals = () => {
     const [availableSignals, setAvailableSignals] = useState<Signal[]>([]);

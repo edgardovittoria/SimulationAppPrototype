@@ -6,6 +6,8 @@ export type FaunaResSignals = {
 }
 
 export type FaunaResSimulation = {
-    data: {data: Simulation, ref: Object, ts: number}
+    data: Simulation,
+    ref: Object,
+    ts: number
 }
 

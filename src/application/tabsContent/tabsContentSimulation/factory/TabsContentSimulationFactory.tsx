@@ -34,7 +34,6 @@ import {
 import { useGenerateMesh } from '../hooks/useGenerateMesh';
 import { useRunSimulation } from '../hooks/useRunSimulation';
 import { ComponentEntity } from 'cad-library';
-import {getSignals} from "../api/signals_api";
 import {useGetAvailableSignals} from "../hooks/useGetAvailableSignals";
 
 interface TabsContentSimulationFactoryProps {

@@ -30,9 +30,10 @@ export const useRunSimulation =
                 setSimulationStarted("Completed")
 
                 getSimulationByName(simulation.name).then(res => {
+                    console.log(res)
                     let simulationUpdated: Simulation = {
                         ...simulation,
-                        results: [...(res as FaunaResSimulation).data.data.results],
+                        results: [...(res.data as Simulation).results],
                         ended: Date.now().toString(),
                         status: "Completed"
                     }
