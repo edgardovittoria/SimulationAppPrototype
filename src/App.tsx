@@ -17,9 +17,30 @@ import { Simulation } from "./model/Simulation";
 import { MenuBar } from './application/tabsContent/menuBar/MenuBar';
 import { TabsContentProjectManagementFactory } from './application/tabsContent/tabsContentProjectManagement/factory/TabsContentProjectManagementFactory';
 import { TabsContentSimulationFactory } from './application/tabsContent/tabsContentSimulation/factory/TabsContentSimulationFactory';
+import faunadb from "faunadb";
+import {client} from "./faunadb/client";
+import {Signal} from "./model/Port";
+import {FaunaResSignals, FaunaResSimulation} from "./faunadb/responseModels";
+
 
 
 function App() {
+
+    const q = faunadb.query
+
+    /*useEffect(() => {
+        client.query(
+            q.Get(q.Match(q.Index('simulation_by_name'), 'simulation1'))
+        )
+            .then((res) => console.log((res as FaunaResSimulation).data))
+            .catch((err) => console.error(
+                'Error: [%s] %s: %s',
+                err.name,
+                err.message,
+                err.errors()[0].description,
+            ));
+    }, []);*/
+
 
     const projects = useSelector(projectsSelector)
     const dispatch = useDispatch()

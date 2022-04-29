@@ -1,11 +1,5 @@
-import axios from "axios";
+import {getSimulationByName} from "../../../../faunadb/api/simulationAPIs";
 
 export async function getResults(simulationName: string){
-    try {
-        const response = await axios.get(`http://localhost:3002/simulation?simulationName=${simulationName}`);
-        return response.data[0]
-    }catch (e) {
-        console.log(e)
-        return [];
-    }
+        return await getSimulationByName(simulationName)
 }
