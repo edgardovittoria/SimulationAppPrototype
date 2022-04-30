@@ -26,9 +26,10 @@ import {FaunaResSignals, FaunaResSimulation} from "./faunadb/responseModels";
 
 function App() {
 
-    const q = faunadb.query
 
-    /*useEffect(() => {
+    /*const q = faunadb.query
+
+    useEffect(() => {
         client.query(
             q.Get(q.Match(q.Index('simulation_by_name'), 'simulation1'))
         )

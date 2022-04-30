@@ -2,6 +2,7 @@ import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {Port, Signal, SignalValues} from "../../../../../../../../../../../../model/Port";
 import css from "./inputSignal.module.css";
 import {ModalInputSignal} from "../../../modals/ModalInputSignal";
+import {saveSignal} from "../../../../../../../../../../../../faunadb/api/signalsAPIs";
 
 interface InputSignalProps {
     setShowModalSignal: Function,
@@ -37,7 +38,7 @@ export const InputSignal: React.FC<InputSignalProps> = (
         let signalName = file?.name.split(".")[0];
         let signalValues: SignalValues[] = [];
         let fileError = false;
-        (file as File).text().then(value => {
+        (file as File).text().then(async value => {
             let rows = value.split(/\r?\n/);
             rows.splice(rows.length - 1, 1)
             rows.forEach(row => {
@@ -61,6 +62,7 @@ export const InputSignal: React.FC<InputSignalProps> = (
                     type: "current",
                     signalValues: signalValues,
                 }
+                await saveSignal(signal)
                 setAvailableSignals([...availableSignals, signal])
             }else {
                 alert("The imported file is not in the correct format. Please upload a correct file!")

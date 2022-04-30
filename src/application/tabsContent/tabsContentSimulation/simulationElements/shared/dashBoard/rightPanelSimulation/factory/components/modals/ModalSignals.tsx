@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Modal} from "react-bootstrap";
 import css from './style/modalSignals.module.css';
 import {Signal, SignalValues} from "../../../../../../../../../../model/Port";
-import {saveSignal} from "../../../../../../../api/signals_api";
+import {saveSignal} from "../../../../../../../../../../faunadb/api/signalsAPIs";
 
 interface ModalSignalsProps {
     showModalSignal: boolean,
@@ -151,7 +151,7 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
                         </div>
                         <div className="row m-auto">
                             <button className={css.btnAddSignal}
-                                    onClick={() => {
+                                    onClick={async () => {
                                         let newSignal: Signal = {
                                             id: signalName,
                                             name: signalName,
@@ -161,6 +161,7 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
                                         let confirm = window.confirm('Are you sure to save the signal?');
                                         if(confirm){
                                             setAvailableSignals([...availableSignals, newSignal])
+                                            await saveSignal(newSignal)
                                             onModalClose()
                                         }
 

@@ -6,6 +6,7 @@ import {FaunaResSignals} from "../../../../faunadb/responseModels";
 
 
 
+/*
 export async function saveSignal(signal: Signal){
     try {
         await axios.post(`http://localhost:3002/signals`, signal);
@@ -13,4 +14,4 @@ export async function saveSignal(signal: Signal){
         console.log(e)
         return [];
     }
-}
+}*/

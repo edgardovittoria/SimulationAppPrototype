@@ -148,6 +148,7 @@
       ]
     },
     {
+      "id": "Signal 2",
       "name": "Signal 2",
       "type": "voltage",
       "signalValues": [

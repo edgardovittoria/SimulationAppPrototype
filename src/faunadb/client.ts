@@ -1,9 +1,10 @@
 import faunadb from 'faunadb';
 
+
 export const client = new faunadb.Client({
-    secret: 'fnAElR7D9uAAwIMHtPtrjCuz-u07dab_kltE1a3w',
-    domain: 'db.eu.fauna.com',
-    port: 443,
+    secret: process.env.REACT_APP_FAUNA_DB_KEY as string,
+    domain: process.env.REACT_APP_FAUNA_DB_DOMAIN as string,
+    port: parseInt(process.env.REACT_APP_FAUNA_DB_PORT as string),
     scheme: 'https',
 })
 
