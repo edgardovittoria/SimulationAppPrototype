@@ -1,7 +1,7 @@
 import {client, q} from "../client";
 import {FaunaResSimulation} from "../responseModels";
 
-export const getSimulationByName: (name: string) => Promise<FaunaResSimulation> = async (name: string) => {
+export const getSimulationByName = async (name: string) => {
     try {
         const response = await client.query(
             q.Get(q.Match(q.Index('simulation_by_name'), name))

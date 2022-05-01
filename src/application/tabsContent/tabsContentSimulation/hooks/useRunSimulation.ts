@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {Simulation} from "../../../../model/Simulation";
-import {getResults} from "../api/results_api";
 import {getSimulationByName} from "../../../../faunadb/api/simulationAPIs";
 import {FaunaResSimulation} from "../../../../faunadb/responseModels";
 
