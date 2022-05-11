@@ -27,22 +27,6 @@ import {FaunaResSignals, FaunaResSimulation} from "./faunadb/responseModels";
 function App() {
 
 
-    /*const q = faunadb.query
-
-    useEffect(() => {
-        client.query(
-            q.Get(q.Match(q.Index('simulation_by_name'), 'simulation1'))
-        )
-            .then((res) => console.log((res as FaunaResSimulation).data))
-            .catch((err) => console.error(
-                'Error: [%s] %s: %s',
-                err.name,
-                err.message,
-                err.errors()[0].description,
-            ));
-    }, []);*/
-
-
     const projects = useSelector(projectsSelector)
     const dispatch = useDispatch()
     const [tabSelected, setTabSelected] = useState("DASHBOARD");

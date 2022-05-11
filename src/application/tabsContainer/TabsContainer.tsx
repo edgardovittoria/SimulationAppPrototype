@@ -1,7 +1,9 @@
 import React from 'react';
-import {FaBell, FaPlus, FaTimes, FaUser} from "react-icons/fa";
+import {FaBell, FaDoorOpen, FaPlus, FaTimes, FaUser} from "react-icons/fa";
 import css from './tabsContainer.module.css'
 import {Project} from "../../model/Project";
+import {useAuth0} from "@auth0/auth0-react";
+import {RiLoginBoxFill} from "react-icons/ri";
 
 interface TabsContainerProps {
     selectTab: Function,
@@ -21,6 +23,8 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
         setProjectsTab(projectsTab.filter(projectTab => projectTab.name !== projectLabel))
         selectTab("DASHBOARD")
     }
+
+    const {loginWithRedirect, isAuthenticated, logout} = useAuth0();
 
     return (
         <>
@@ -42,7 +46,8 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                             </li>
                             {projectsTab.map(projectTab => {
                                 return <li key={projectTab.name} className={`nav-item ${css.navItemTabs}`}>
-                                    <div className={(selectedTab === projectTab.name) ? 'nav-link active d-flex' : 'nav-link d-flex'}>
+                                    <div
+                                        className={(selectedTab === projectTab.name) ? 'nav-link active d-flex' : 'nav-link d-flex'}>
                                         <div
                                             className={(selectedTab === projectTab.name) ? css.projectTab : css.projectTabNotActive}
                                             aria-current="page" onClick={() => {
@@ -69,7 +74,11 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                     </div>
                     <div className={`mr-auto ${css.notificationContainer}`}>
                         <FaBell className={css.notificationIcon}/>
-                        <FaUser className={css.userIcon}/>
+                        {isAuthenticated ? <FaUser className={css.userIcon} onClick={() => logout({ returnTo: window.location.origin })}/> :
+                            <RiLoginBoxFill className={css.userIcon} onClick={() => {
+                                loginWithRedirect()
+                            }}/>
+                        }
                     </div>
                 </div>
             </nav>

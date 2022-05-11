@@ -54,4 +54,5 @@
 
 .notificationIcon:hover, .userIcon:hover{
     color: var(--secondaryColor);
+    cursor: pointer;
 }
