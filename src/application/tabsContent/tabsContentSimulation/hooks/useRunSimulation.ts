@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {Simulation} from "../../../../model/Simulation";
 import {getSimulationByName} from "../../../../faunadb/api/simulationAPIs";
-import {FaunaResSimulation} from "../../../../faunadb/responseModels";
 
 export const useRunSimulation =
     (
@@ -32,7 +31,7 @@ export const useRunSimulation =
                     console.log(res)
                     let simulationUpdated: Simulation = {
                         ...simulation,
-                        results: [...(res.data as Simulation).results],
+                        results: [...(res.results)],
                         ended: Date.now().toString(),
                         status: "Completed"
                     }

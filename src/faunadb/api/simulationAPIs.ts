@@ -1,10 +1,10 @@
+import { Simulation } from "../../model/Simulation";
 import {client, q} from "../client";
-import {FaunaResSimulation} from "../responseModels";
 
 export const getSimulationByName = async (name: string) => {
     try {
         const response = await client.query(
-            q.Get(q.Match(q.Index('simulation_by_name'), name))
+            q.Select("data", q.Get(q.Match(q.Index('simulation_by_name'), name)))
         )
             .catch((err) => console.error(
                 'Error: [%s] %s: %s',
@@ -12,9 +12,9 @@ export const getSimulationByName = async (name: string) => {
                 err.message,
                 err.errors()[0].description,
             ));
-        return (response as FaunaResSimulation)
+        return response as Simulation
     }catch (e) {
         console.log(e)
-        return {} as FaunaResSimulation;
+        return {} as Simulation;
     }
 }

@@ -8,8 +8,7 @@ import {
     addProject,
     projectsSelector,
     removeProject,
-    resetSelectedComponents, selectProject, setScreenshot
-} from "./store/projectSlice";
+    resetSelectedComponents, selectProject} from "./store/projectSlice";
 import { Project } from "./model/Project";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateNewProjectModal } from "./application/modals/createNewProjectModal/CreateNewProjectModal";
@@ -17,10 +16,6 @@ import { Simulation } from "./model/Simulation";
 import { MenuBar } from './application/tabsContent/menuBar/MenuBar';
 import { TabsContentProjectManagementFactory } from './application/tabsContent/tabsContentProjectManagement/factory/TabsContentProjectManagementFactory';
 import { TabsContentSimulationFactory } from './application/tabsContent/tabsContentSimulation/factory/TabsContentSimulationFactory';
-import faunadb from "faunadb";
-import {client} from "./faunadb/client";
-import {Signal} from "./model/Port";
-import {FaunaResSignals, FaunaResSimulation} from "./faunadb/responseModels";
 
 
 

@@ -1,11 +1,15 @@
-import {client, q} from "../client";
-import {FaunaResSignals} from "../responseModels";
-import {Signal} from "../../model/Port";
+import { client, q } from "../client";
+import { Signal } from "../../model/Port";
 
 export async function getSignals() {
     try {
         const response = await client.query(
-            q.Map(q.Paginate(q.Documents(q.Collection('Signals'))), q.Lambda('doc', q.Get(q.Var('doc'))))
+            q.Select("data",
+                q.Map(
+                    q.Paginate(q.Match(q.Index("signals_all"))),
+                    q.Lambda("signal", q.Select("data", q.Get(q.Var("signal"))))
+                )
+            )
         )
             .catch((err) => console.error(
                 'Error: [%s] %s: %s',
@@ -13,7 +17,7 @@ export async function getSignals() {
                 err.message,
                 err.errors()[0].description,
             ));
-        return (response as FaunaResSignals).data.map(d => d.data)
+        return response as Signal[]
     } catch (e) {
         console.log(e)
         return [];
