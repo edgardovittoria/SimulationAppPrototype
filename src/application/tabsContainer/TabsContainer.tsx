@@ -1,9 +1,10 @@
 import React from 'react';
-import {FaBell, FaDoorOpen, FaPlus, FaTimes, FaUser} from "react-icons/fa";
+import { FaBell, FaPlus, FaTimes, FaUser } from "react-icons/fa";
 import css from './tabsContainer.module.css'
-import {Project} from "../../model/Project";
-import {useAuth0} from "@auth0/auth0-react";
-import {RiLoginBoxFill} from "react-icons/ri";
+import { Project } from "../../model/Project";
+import { useAuth0 } from "@auth0/auth0-react";
+import { RiLoginBoxFill } from "react-icons/ri";
+import { SetUserInfo } from 'cad-library';
 
 interface TabsContainerProps {
     selectTab: Function,
@@ -16,7 +17,7 @@ interface TabsContainerProps {
 }
 
 export const TabsContainer: React.FC<TabsContainerProps> = (
-    {selectTab, selectedTab, projectsTab, setProjectsTab, setShowModal, selectProject, resetSelectedComponentsArray}
+    { selectTab, selectedTab, projectsTab, setProjectsTab, setShowModal, selectProject, resetSelectedComponentsArray }
 ) => {
 
     const closeProjectTab = (projectLabel: string) => {
@@ -24,13 +25,14 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
         selectTab("DASHBOARD")
     }
 
-    const {loginWithRedirect, isAuthenticated, logout} = useAuth0();
+    const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
     return (
         <>
+            <SetUserInfo />
             <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/">SimulationApp</a>
+                    <a className="navbar-brand" href="/">ESimIA</a>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="nav nav-tabs">
                             <li className={`nav-item ${css.navItemTabs}`} onClick={() => {
@@ -51,33 +53,33 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                                         <div
                                             className={(selectedTab === projectTab.name) ? css.projectTab : css.projectTabNotActive}
                                             aria-current="page" onClick={() => {
-                                            selectTab(projectTab.name)
-                                            selectProject(projectTab.name)
-                                            resetSelectedComponentsArray()
-                                        }}>{projectTab.name}
+                                                selectTab(projectTab.name)
+                                                selectProject(projectTab.name)
+                                                resetSelectedComponentsArray()
+                                            }}>{projectTab.name}
                                         </div>
                                         <div className={css.closeIconContainer} onClick={() => {
                                             closeProjectTab(projectTab.name)
                                             selectProject(undefined)
                                             resetSelectedComponentsArray()
                                         }}>
-                                            <FaTimes className={css.closeIcon}/>
+                                            <FaTimes className={css.closeIcon} />
                                         </div>
                                     </div>
 
                                 </li>
                             })}
                             <li className={`nav-item ${css.addNewProject}`}>
-                                <FaPlus onClick={() => setShowModal(true)} className={css.addNewProjectIcon}/>
+                                <FaPlus onClick={() => setShowModal(true)} className={css.addNewProjectIcon} />
                             </li>
                         </ul>
                     </div>
                     <div className={`mr-auto ${css.notificationContainer}`}>
-                        <FaBell className={css.notificationIcon}/>
-                        {isAuthenticated ? <FaUser className={css.userIcon} onClick={() => logout({ returnTo: window.location.origin })}/> :
+                        <FaBell className={css.notificationIcon} />
+                        {isAuthenticated ? <FaUser className={css.userIcon} onClick={() => logout({ returnTo: window.location.origin })} /> :
                             <RiLoginBoxFill className={css.userIcon} onClick={() => {
                                 loginWithRedirect()
-                            }}/>
+                            }} />
                         }
                     </div>
                 </div>
