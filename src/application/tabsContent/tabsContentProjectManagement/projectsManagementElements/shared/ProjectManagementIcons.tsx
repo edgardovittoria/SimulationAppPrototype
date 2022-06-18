@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {BiExport, BiTrash} from "react-icons/bi";
+import {BiExport, BiShare, BiShareAlt, BiTrash} from "react-icons/bi";
 import css from "./projectManagementIcon.module.css";
 import {exportSimulationProject} from "../../../../../importExport/exportFunctions";
 import {Overlay, Tooltip} from "react-bootstrap";
@@ -20,11 +20,31 @@ export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
 
     const exportIcon = useRef(null);
     const deleteIcon = useRef(null);
+    const shareIcon = useRef(null);
     const [showExport, setShowExport] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
+    const [showShare, setShowShare] = useState(false);
 
     return(
-        <div className="row">
+        <div className="row justify-content-end">
+            <div ref={shareIcon}
+                 onMouseOver={() => setShowShare(true)}
+                 onMouseOut={() => setShowShare(false)}
+                 className="col-2">
+                <BiShareAlt
+                    className={css.exportIcon}
+                    color={'#1C494D'}
+                    size="20px"
+                    onClick={() => {}}
+                />
+                <Overlay target={shareIcon.current} show={showShare} placement="top">
+                    {(props) => (
+                        <Tooltip {...props}>
+                            Share Project
+                        </Tooltip>
+                    )}
+                </Overlay>
+            </div>
             <div ref={exportIcon}
                  onMouseOver={() => setShowExport(true)}
                  onMouseOut={() => setShowExport(false)}

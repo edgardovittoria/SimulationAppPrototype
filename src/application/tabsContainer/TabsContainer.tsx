@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { FaBell, FaPlus, FaTimes, FaUser } from "react-icons/fa";
 import css from './tabsContainer.module.css'
 import { Project } from "../../model/Project";
 import { useAuth0 } from "@auth0/auth0-react";
-import { RiLoginBoxFill } from "react-icons/ri";
-import { SetUserInfo } from 'cad-library';
+import {SetUserInfo, UsersState, usersStateSelector} from 'cad-library';
+import {IoIosSettings} from "react-icons/io";
+import {HiOutlineLogout} from "react-icons/hi";
+import {useSelector} from "react-redux";
 
 interface TabsContainerProps {
     selectTab: Function,
@@ -13,17 +15,26 @@ interface TabsContainerProps {
     setProjectsTab: Function,
     setShowModal: Function,
     selectProject: Function,
-    resetSelectedComponentsArray: Function
+    resetSelectedComponentsArray: Function,
+    user: UsersState
 }
 
 export const TabsContainer: React.FC<TabsContainerProps> = (
-    { selectTab, selectedTab, projectsTab, setProjectsTab, setShowModal, selectProject, resetSelectedComponentsArray }
+    {
+        selectTab, selectedTab, projectsTab, setProjectsTab, setShowModal,
+        selectProject, resetSelectedComponentsArray, user
+    }
 ) => {
 
     const closeProjectTab = (projectLabel: string) => {
         setProjectsTab(projectsTab.filter(projectTab => projectTab.name !== projectLabel))
         selectTab("DASHBOARD")
     }
+
+    const [userDropdownVisibility, setUserDropdownVisibility] = useState(false);
+
+
+
 
     const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
@@ -74,13 +85,38 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                             </li>
                         </ul>
                     </div>
-                    <div className={`mr-auto ${css.notificationContainer}`}>
+                    <div className={`${css.notificationContainer}`}>
                         <FaBell className={css.notificationIcon} />
-                        {isAuthenticated ? <FaUser className={css.userIcon} onClick={() => logout({ returnTo: window.location.origin })} /> :
+                        {isAuthenticated ?
+                            <div className="position-relative">
+                                <FaUser className={css.userIcon} onClick={() => setUserDropdownVisibility(!userDropdownVisibility)}/>
+                                <ul style={{display: !userDropdownVisibility ? "none" : "block"}}
+                                    className={css.userDropdown}>
+                                    <li className={css.userNameText}>{user.userName}</li>
+                                    <hr/>
+                                    <div className={`d-flex align-items-center ${css.listItemProfileMenu}`}>
+                                        <IoIosSettings className={css.listItemIcon}/>
+                                        <li>Settings</li>
+                                    </div>
+                                    <hr/>
+                                    <div className={`d-flex align-items-center ${css.listItemProfileMenu}`}
+                                         onClick={() => logout({ returnTo: window.location.origin })}>
+                                        <HiOutlineLogout className={css.listItemIcon}/>
+                                        <li>Logout</li>
+                                    </div>
+
+                                </ul>
+                            </div>
+                             :
+                            <button className={css.loginButton}
+                                    onClick={loginWithRedirect}>
+                                Login
+                            </button>}
+                        {/*{isAuthenticated ? <FaUser className={css.userIcon} onClick={() => logout({ returnTo: window.location.origin })} /> :
                             <RiLoginBoxFill className={css.userIcon} onClick={() => {
                                 loginWithRedirect()
                             }} />
-                        }
+                        }*/}
                     </div>
                 </div>
             </nav>

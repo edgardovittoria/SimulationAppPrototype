@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Project} from "../../../model/Project";
 import {Modal} from "react-bootstrap";
-import { CanvasState } from 'cad-library';
+import {CanvasState, UsersState} from 'cad-library';
 
 interface CreateNewProjectModalProps {
     show: boolean,
@@ -10,11 +10,12 @@ interface CreateNewProjectModalProps {
     setProjectsTab: Function,
     selectTab: Function,
     addNewProject: Function,
-    selectProject: Function
+    selectProject: Function,
+    user: UsersState
 }
 
 export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
-    {show, setShow, projectsTab, setProjectsTab, selectTab, addNewProject, selectProject}
+    {show, setShow, projectsTab, setProjectsTab, selectTab, addNewProject, selectProject, user}
 ) => {
 
     const [projectName, setProjectName] = useState("");
@@ -29,7 +30,9 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
                 model: {} as CanvasState,
                 ports: [],
                 simulations: [],
-                screenshot: undefined
+                screenshot: undefined,
+                owner: user,
+                sharedWidth: [] as UsersState[]
             }
             addNewProject(newProject)
             selectProject(newProject.name)

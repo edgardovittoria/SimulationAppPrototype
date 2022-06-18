@@ -1,30 +1,52 @@
-import {ComponentEntity, ImportActionParamsObject} from 'cad-library';
+import {ComponentEntity, ImportActionParamsObject, UsersState} from 'cad-library';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Project} from "../model/Project";
 import {Port, Probe, RLCParams} from "../model/Port";
 import {Simulation} from "../model/Simulation";
 import {Signal} from "../model/Port";
+import {Folder} from "../model/Folder";
 
 
 export type ProjectState = {
-    projects: Project[],
+    projects: Folder,
     selectedProject: string | undefined,
+    selectedFolder: Folder,
     selectedComponent: ComponentEntity[]
 }
 
 export const ProjectSlice = createSlice({
     name: 'projects',
     initialState: {
-        projects: [],
+        projects: {
+            name: "My Files",
+            projectList: [],
+            subFolders: [],
+            owner: {} as UsersState,
+            sharedWidth: [],
+            parent: "root"
+        },
         selectedProject: undefined,
+        selectedFolder: {
+            name: "My Files",
+            projectList: [],
+            subFolders: [],
+            owner: {} as UsersState,
+            sharedWidth: [],
+            parent: "root"
+        },
         selectedComponent: []
     } as ProjectState,
     reducers: {
         addProject(state: ProjectState, action: PayloadAction<Project>) {
-            (!projectAlreadyExists(state.projects, action.payload)) && state.projects.push(action.payload)
+            if(state.selectedFolder.name === "My Files" && (!projectAlreadyExists(state.projects.projectList, action.payload))){
+                state.projects.projectList.push(action.payload)
+            }else{
+                state.selectedFolder.projectList.push(action.payload)
+                recursiveProjectAdd(state.projects.subFolders, state.selectedFolder?.name, action.payload)
+            }
         },
         removeProject(state: ProjectState, action: PayloadAction<string>) {
-            state.projects = state.projects.filter(project => project.name !== action.payload)
+            state.projects.projectList = state.projects.projectList.filter(project => project.name !== action.payload)
         },
         selectProject(state: ProjectState, action: PayloadAction<string | undefined>) {
             if (action.payload !== undefined) {
@@ -32,12 +54,28 @@ export const ProjectSlice = createSlice({
             }
 
         },
+        addFolder(state: ProjectState, action: PayloadAction<Folder>){
+            if(state.selectedFolder.name === "My Files"){
+                state.projects.subFolders.push(action.payload)
+            }else{
+                state.selectedFolder.subFolders.push(action.payload)
+                recursiveSubFoldersUpdate(state.projects.subFolders, state.selectedFolder?.name, action.payload)
+            }
+        },
+        selectFolder(state: ProjectState, action: PayloadAction<Folder | string>){
+            if(typeof action.payload === 'string'){
+                recursiveSelectFolder(state, state.projects.subFolders, action.payload)
+            }else{
+                state.selectedFolder = action.payload
+            }
+
+        },
         importModel(state: ProjectState, action: PayloadAction<ImportActionParamsObject>) {
-            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
             if (selectedProject && selectedProject.name === action.payload.id) {
                 selectedProject.model = action.payload.canvas
             }
-            state.projects.map(project => {
+            state.projects.projectList.map(project => {
                 if (project.name === action.payload.id) {
                     project.model = action.payload.canvas
                 }
@@ -64,45 +102,45 @@ export const ProjectSlice = createSlice({
             state.selectedComponent = []
         },
         createSimulation(state: ProjectState, action: PayloadAction<Simulation>) {
-            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
             selectedProject?.simulations.push(action.payload);
-            state.projects.forEach(project => {
+            state.projects.projectList.forEach(project => {
                 if (project.name === selectedProject?.name) {
                     project.simulations.push(action.payload)
                 }
             })
         },
         updateSimulation(state: ProjectState, action: PayloadAction<Simulation>) {
-            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
             if (selectedProject?.simulations) {
                 selectedProject.simulations = selectedProject.simulations.filter(s => s.name !== action.payload.name)
                 selectedProject.simulations.push(action.payload)
             }
-            state.projects.forEach(project => {
+            state.projects.projectList.forEach(project => {
                 if (project.name === selectedProject?.name) {
                     project.simulations = selectedProject.simulations
                 }
             })
         },
         addPorts(state: ProjectState, action: PayloadAction<Port | Probe>) {
-            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
             selectedProject?.ports.push(action.payload)
         },
         selectPort(state: ProjectState, action: PayloadAction<string>) {
-            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
             selectedProject?.ports.forEach(port => {
                 port.isSelected = port.name === action.payload;
             })
         },
         deletePort(state: ProjectState, action: PayloadAction<string>) {
-            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
             let updatedPortsArray = selectedProject?.ports.filter(port => port.name !== action.payload)
             if (selectedProject && updatedPortsArray) {
                 selectedProject.ports = updatedPortsArray
             }
         },
         setPortType(state: ProjectState, action: PayloadAction<{ name: string, type: number }>) {
-            let selectedProject = findProjectByName(state.projects, state.selectedProject)
+            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
             selectedProject?.ports.forEach(port => {
                 if (port.category === 'port' || port.category === 'lumped') {
                     if (port.name === action.payload.name) {
@@ -112,7 +150,7 @@ export const ProjectSlice = createSlice({
             })
         },
         updatePortPosition(state: ProjectState, action: PayloadAction<{ type: 'first' | 'last' | 'probe', position: [number, number, number] }>) {
-            let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject))
+            let selectedPort = findSelectedPort(findProjectByName(state.projects.projectList, state.selectedProject))
             if (selectedPort) {
                 if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
                     (action.payload.type === 'first') ? selectedPort.inputElement.transformationParams.position = action.payload.position : selectedPort.outputElement.transformationParams.position = action.payload.position
@@ -122,7 +160,7 @@ export const ProjectSlice = createSlice({
             }
         },
         setRLCParams(state: ProjectState, action: PayloadAction<RLCParams>) {
-            let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject));
+            let selectedPort = findSelectedPort(findProjectByName(state.projects.projectList, state.selectedProject));
             if (selectedPort) {
                 if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
                     selectedPort.rlcParams = action.payload
@@ -130,7 +168,7 @@ export const ProjectSlice = createSlice({
             }
         },
         setAssociatedSignal(state: ProjectState, action: PayloadAction<Signal>) {
-            let selectedPort = findSelectedPort(findProjectByName(state.projects, state.selectedProject));
+            let selectedPort = findSelectedPort(findProjectByName(state.projects.projectList, state.selectedProject));
             if (selectedPort) {
                 if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
                     selectedPort.associatedSignal = action.payload
@@ -138,7 +176,7 @@ export const ProjectSlice = createSlice({
             }
         },
         setScreenshot(state: ProjectState, action: PayloadAction<string>) {
-            let selectedProject = findProjectByName(state.projects, state.selectedProject);
+            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject);
             if (selectedProject) {
                 selectedProject.screenshot = action.payload
             }
@@ -155,14 +193,16 @@ export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
     addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
     resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort,
-    setPortType, updatePortPosition, setRLCParams, setAssociatedSignal, setScreenshot
+    setPortType, updatePortPosition, setRLCParams, setAssociatedSignal, setScreenshot, addFolder, selectFolder
 } = ProjectSlice.actions
 
 
-export const projectsSelector = (state: { projects: ProjectState }) => state.projects.projects;
-export const selectedProjectSelector = (state: { projects: ProjectState }) => findProjectByName(state.projects.projects, state.projects.selectedProject);
+export const projectsSelector = (state: { projects: ProjectState }) => state.projects.projects.projectList;
+export const FolderStateSelector = (state: { projects: ProjectState }) => state.projects.projects.subFolders;
+export const SelectedFolderSelector = (state: { projects: ProjectState }) => state.projects.selectedFolder;
+export const selectedProjectSelector = (state: { projects: ProjectState }) => findProjectByName(state.projects.projects.projectList, state.projects.selectedProject);
 export const selectedComponentSelector = (state: { projects: ProjectState }) => state.projects.selectedComponent;
-export const simulationSelector = (state: { projects: ProjectState }) => findProjectByName(state.projects.projects, state.projects.selectedProject)?.simulations;
+export const simulationSelector = (state: { projects: ProjectState }) => findProjectByName(state.projects.projects.projectList, state.projects.selectedProject)?.simulations;
 export const findProjectByName = (projects: Project[], name: string | undefined) => {
     return (name !== undefined) ? projects.filter(project => project.name === name)[0] : undefined
 }
@@ -170,4 +210,37 @@ export const findProjectByName = (projects: Project[], name: string | undefined)
 export const findSelectedPort = (project: Project | undefined) => (project) ? project.ports.filter(port => port.isSelected)[0] : undefined
 const projectAlreadyExists = (projects: Project[], newProject: Project) => {
     return projects.filter(project => project.name === newProject.name).length > 0 ? true : false
+}
+
+const recursiveSubFoldersUpdate = (subFolders: Folder[], parent: string, folderToAdd: Folder) => {
+    subFolders.forEach(sf => {
+        if(sf.name === parent){
+            sf.subFolders.push(folderToAdd)
+        }else{
+            recursiveSubFoldersUpdate(sf.subFolders, parent, folderToAdd)
+        }
+    })
+}
+
+const recursiveProjectAdd = (subFolders: Folder[], parent: string, projectToAdd: Project) => {
+    subFolders.forEach(sf => {
+        if(sf.name === parent && (!projectAlreadyExists(sf.projectList, projectToAdd))){
+            sf.projectList.push(projectToAdd)
+        }else{
+            recursiveProjectAdd(sf.subFolders, parent, projectToAdd)
+        }
+    })
+}
+
+const recursiveSelectFolder = (state: ProjectState, folders: Folder[],  folderToSelect: string) => {
+    if(state.projects.name === folderToSelect){
+        state.selectedFolder = state.projects //add recursion
+    }
+    folders.forEach(f => {
+        if(f.name === folderToSelect){
+            state.selectedFolder = f
+        }else{
+            recursiveSelectFolder(state, f.subFolders, folderToSelect)
+        }
+    })
 }

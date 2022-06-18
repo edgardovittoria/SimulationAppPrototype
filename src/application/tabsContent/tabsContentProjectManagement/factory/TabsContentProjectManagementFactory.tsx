@@ -4,14 +4,19 @@ import RightPanel from "../projectsManagementElements/components/rightPanel/Righ
 import {Overview} from "../projectsManagementElements/components/overview/Overview";
 import {Projects} from "../projectsManagementElements/components/projects/Projects";
 import {Simulations} from "../projectsManagementElements/components/simulations/Simulations";
+import {Folder} from "../../../../model/Folder";
 
 interface TabsContentProjectManagementFactoryProps {
     menuItem: string,
     setShowModal: Function,
+    setShowNewFolderModal: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
     projects: Project[],
+    folders: Folder[],
+    selectedFolder: Folder,
+    selectFolder: Function,
     selectProject: Function,
     removeProject: Function,
     setSimulationCoreMenuItemSelected: Function,
@@ -21,9 +26,9 @@ interface TabsContentProjectManagementFactoryProps {
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
     {
-        menuItem, setShowModal, projectsTab, setProjectsTab, selectTab,
-        projects, selectProject, removeProject, setSimulationCoreMenuItemSelected,
-        setSelectedSimulation, setMenuItem
+        menuItem, setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab,
+        projects, folders, selectedFolder, selectFolder, selectProject,
+        removeProject, setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem
     }
 ) => {
 
@@ -55,10 +60,14 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
                     <div className="row w-75 me-4 justify-content-between">
                         <Projects
                             setShowModal={setShowModal}
+                            setShowNewFolderModal={setShowNewFolderModal}
                             projectsTab={projectsTab}
                             setProjectsTab={setProjectsTab}
                             selectTab={selectTab}
                             projects={projects}
+                            folders={folders}
+                            selectedFolder={selectedFolder}
+                            selectFolder={selectFolder}
                             selectProject={selectProject}
                             removeProject={removeProject}
                         />

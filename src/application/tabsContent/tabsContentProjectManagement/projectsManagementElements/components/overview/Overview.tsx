@@ -65,10 +65,10 @@ export const Overview: React.FC<OverviewProps> = (
                                 <div key={project.name} className={css.card} onClick={() => handleCardClick(project)}>
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className={`col-10 ${css.overviewProjectName}`}>
+                                            <div className={`col-6 ${css.overviewProjectName}`}>
                                                 {(project.name.length > 15) ? project.name.substr(0,15) + '...' : project.name}
                                             </div>
-                                            <div className="col-2" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
+                                            <div className="col-6" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
                                                 <ProjectManagementIcons project={project} removeProject={removeProject} projectsTab={projectsTab} setProjectsTab={setProjectsTab}/>
                                             </div>
                                         </div>

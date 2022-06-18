@@ -1,11 +1,14 @@
 .projectsBox{
-    height: 465px;
+    height: 600px;
     width: 100%;
     text-align: left;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 20px;
 }
  .projectsProjectsContainer{
     overflow: scroll;
-     display: block ruby;
+    display: block ruby;
  }
 
 .projectsNoProjectsContainer{
@@ -19,7 +22,7 @@
 }
 
 .projectsCard {
-    width: 35% !important;
+    width: 20% !important;
     padding: 15px;
     margin: 30px 20px 20px;
     border: 2px solid #bdefc7;
@@ -71,4 +74,28 @@
 .projectsDeleteText{
     color: var(--dangerColor);
     font-size: 16px;
+}
+
+.folderBox{
+    display: flex;
+    align-items: center;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #c9c4c4;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.folderBox:hover{
+    opacity: .7;
+    cursor: pointer;
+}
+
+.folderHistory{
+    padding: 20px;
+    font-size: 20px;
+}
+
+.folderHistoryItem:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
