@@ -142,7 +142,12 @@ export const Modeler: React.FC<ModelerProps> = (
                     <ImportCadProjectButton className='btn button-primary position-absolute start-50 top-50'
                                             importAction={importModel}
                                             actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
-                        <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import CAD
+                        <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import From FS
+                    </ImportCadProjectButton>
+                    <ImportCadProjectButton className='btn button-primary position-absolute start-50 top-50 mt-5'
+                                            importAction={importModel}
+                                            actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
+                        <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import From DB
                     </ImportCadProjectButton>
                 </div>
             }
