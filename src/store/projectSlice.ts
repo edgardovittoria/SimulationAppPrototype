@@ -46,7 +46,12 @@ export const ProjectSlice = createSlice({
             }
         },
         removeProject(state: ProjectState, action: PayloadAction<string>) {
-            state.projects.projectList = state.projects.projectList.filter(project => project.name !== action.payload)
+            if(state.selectedFolder.name === "My Files"){
+                state.projects.projectList = state.projects.projectList.filter(p => p.name !== action.payload)
+            }else{
+                state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.name !== action.payload)
+                recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.name, action.payload)
+            }
         },
         selectProject(state: ProjectState, action: PayloadAction<string | undefined>) {
             if (action.payload !== undefined) {
@@ -228,6 +233,16 @@ const recursiveProjectAdd = (subFolders: Folder[], parent: string, projectToAdd:
             sf.projectList.push(projectToAdd)
         }else{
             recursiveProjectAdd(sf.subFolders, parent, projectToAdd)
+        }
+    })
+}
+
+const recursiveProjectRemove = (subFolders: Folder[], parent: string, projectToRemove: string) => {
+    subFolders.forEach(sf => {
+        if(sf.name === parent){
+            sf.projectList = sf.projectList.filter(p => p.name !== projectToRemove)
+        }else{
+            recursiveProjectRemove(sf.subFolders, parent, projectToRemove)
         }
     })
 }
