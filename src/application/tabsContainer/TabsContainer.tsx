@@ -3,10 +3,9 @@ import { FaBell, FaPlus, FaTimes, FaUser } from "react-icons/fa";
 import css from './tabsContainer.module.css'
 import { Project } from "../../model/Project";
 import { useAuth0 } from "@auth0/auth0-react";
-import {SetUserInfo, UsersState, usersStateSelector} from 'cad-library';
+import {SetUserInfo, UsersState} from 'cad-library';
 import {IoIosSettings} from "react-icons/io";
 import {HiOutlineLogout} from "react-icons/hi";
-import {useSelector} from "react-redux";
 
 interface TabsContainerProps {
     selectTab: Function,

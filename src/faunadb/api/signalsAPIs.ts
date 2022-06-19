@@ -1,42 +1,34 @@
-import { client, q } from "../client";
 import { Signal } from "../../model/Port";
+import faunadb from "faunadb"
 
-export async function getSignals() {
-    try {
-        const response = await client.query(
-            q.Select("data",
-                q.Map(
-                    q.Paginate(q.Match(q.Index("signals_all"))),
-                    q.Lambda("signal", q.Select("data", q.Get(q.Var("signal"))))
-                )
+export async function getSignals(faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query) {
+    const response = await faunaClient.query(
+        faunaQuery.Select("data",
+            faunaQuery.Map(
+                faunaQuery.Paginate(faunaQuery.Match(faunaQuery.Index("signals_all"))),
+                faunaQuery.Lambda("signal", faunaQuery.Select("data", faunaQuery.Get(faunaQuery.Var("signal"))))
             )
         )
-            .catch((err) => console.error(
-                'Error: [%s] %s: %s',
-                err.name,
-                err.message,
-                err.errors()[0].description,
-            ));
-        return response as Signal[]
-    } catch (e) {
-        console.log(e)
-        return [];
-    }
+    )
+        .catch((err) => console.error(
+            'Error: [%s] %s: %s',
+            err.name,
+            err.message,
+            err.errors()[0].description,
+        ));
+    return response as Signal[]
 }
 
-export async function saveSignal(newSignal: Signal) {
-    try {
-        await client.query((
-            q.Create(
-                q.Collection('Signals'),
-                {
-                    data: {
-                        ...newSignal
-                    }
+export async function saveSignal(faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, newSignal: Signal) {
+    await faunaClient.query((
+        faunaQuery.Create(
+            faunaQuery.Collection('Signals'),
+            {
+                data: {
+                    ...newSignal
                 }
-            )
-        ))
-    } catch (e) {
-        console.log(e)
-    }
+            }
+        )
+    ))
+
 }

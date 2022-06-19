@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Port, RLCParams, Signal} from "../../../../model/Port";
 import { ResultsContent } from "../simulationElements/components/resultsContent/ResultsContent";
 import { Modeler } from "../simulationElements/shared/modeler/Modeler";
@@ -41,11 +41,12 @@ interface TabsContentSimulationFactoryProps {
     setMenuItem: Function
     selectedSimulation: Simulation | undefined,
     setSelectedSimulation: Function,
+    setShowLoadFromDBModal: Function
 }
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
     {
-        menuItem, setMenuItem, selectedSimulation, setSelectedSimulation
+        menuItem, setMenuItem, selectedSimulation, setSelectedSimulation, setShowLoadFromDBModal
     }
 ) => {
     const dispatch = useDispatch()
@@ -95,6 +96,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectPort={portSelection}
                         updatePortPosition={portPositionUpdate}
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
+                        setShowLoadFromDBModal={setShowLoadFromDBModal}
                     />
                     <LeftPanel tabs={['Modeler', 'Materials']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
@@ -137,6 +139,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectPort={portSelection}
                         updatePortPosition={portPositionUpdate}
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
+                        setShowLoadFromDBModal={setShowLoadFromDBModal}
                     />
                     <LeftPanel tabs={['Modeler', 'Physics']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
@@ -178,6 +181,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectPort={portSelection}
                         updatePortPosition={portPositionUpdate}
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
+                        setShowLoadFromDBModal={setShowLoadFromDBModal}
                     />
                     <LeftPanel tabs={['Modeler', 'Simulator']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent

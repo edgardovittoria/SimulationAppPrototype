@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Tab, Tabs} from "react-bootstrap";
-import {FactorySimulationDashboardContent} from "./factory/FactorySimulationDashboardContent";
 
 import css from "./leftPanel.module.css";
 import {tabTitles} from "./components/modelerTabTitlesAndIcons";

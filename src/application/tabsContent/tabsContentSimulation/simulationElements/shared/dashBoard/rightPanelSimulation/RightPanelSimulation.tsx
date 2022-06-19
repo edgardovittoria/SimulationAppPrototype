@@ -1,5 +1,4 @@
 import React from 'react';
-import css from './rightPanelSimulation.module.css';
 import {Port, Probe} from "../../../../../../../model/Port";
 
 interface RightPanelSimulationProps {

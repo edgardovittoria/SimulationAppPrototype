@@ -1,11 +1,11 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
-import {Canvas, Object3DNode, useThree} from "@react-three/fiber";
+import React, {useState} from 'react';
+import {Canvas} from "@react-three/fiber";
 import * as THREE from 'three';
 import {Color, Mesh, MeshPhongMaterial} from 'three';
-import {OrbitControls, TransformControls, GizmoHelper, GizmoViewport, Line} from '@react-three/drei'
+import {OrbitControls, GizmoHelper, GizmoViewport, Line} from '@react-three/drei'
 import {GiCubeforce} from "react-icons/gi";
 import {Project} from '../../../../../../model/Project'
-import {Port, Probe} from "../../../../../../model/Port";
+import {Probe} from "../../../../../../model/Port";
 import {
     FactoryShapes,
     ImportActionParamsObject,
@@ -22,13 +22,14 @@ interface ModelerProps {
     selectComponent: Function,
     selectPort: Function,
     updatePortPosition: Function,
-    setScreenshot: Function
+    setScreenshot: Function, 
+    setShowLoadFromDBModal: Function
 }
 
 export const Modeler: React.FC<ModelerProps> = (
     {
         selectedProject, importModel, selectComponent, selectPort, updatePortPosition,
-        setScreenshot
+        setScreenshot, setShowLoadFromDBModal
     }
 ) => {
 
@@ -144,11 +145,9 @@ export const Modeler: React.FC<ModelerProps> = (
                                             actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
                         <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import From FS
                     </ImportCadProjectButton>
-                    <ImportCadProjectButton className='btn button-primary position-absolute start-50 top-50 mt-5'
-                                            importAction={importModel}
-                                            actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
+                    <button className='btn button-primary position-absolute start-50 top-50 mt-5' onClick={() => setShowLoadFromDBModal(true)}>
                         <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import From DB
-                    </ImportCadProjectButton>
+                    </button>
                 </div>
             }
         </div>

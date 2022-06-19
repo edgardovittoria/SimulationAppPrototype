@@ -80,12 +80,13 @@ export const ProjectSlice = createSlice({
             if (selectedProject && selectedProject.name === action.payload.id) {
                 selectedProject.model = action.payload.canvas
             }
+            else{
             state.projects.projectList.map(project => {
                 if (project.name === action.payload.id) {
                     project.model = action.payload.canvas
                 }
                 return 'model imported'
-            })
+            })}
         },
         selectComponent(state: ProjectState, action: PayloadAction<ComponentEntity>) {
             if (state.selectedComponent.length === 0) {

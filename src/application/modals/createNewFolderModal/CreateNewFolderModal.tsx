@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
-import {Project} from "../../../model/Project";
-import {CanvasState, UsersState} from "cad-library";
+import {UsersState} from "cad-library";
 import {Folder} from "../../../model/Folder";
 
 interface CreateNewFolderModalProps {
-    showNewFolderModal: boolean,
     setShowNewFolderModal: Function,
     addNewFolder: Function,
     user: UsersState,
@@ -14,7 +12,7 @@ interface CreateNewFolderModalProps {
 
 export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
     {
-        showNewFolderModal, setShowNewFolderModal, addNewFolder, user, selectedFolder
+        setShowNewFolderModal, addNewFolder, user, selectedFolder
     }
 ) => {
 
@@ -40,7 +38,7 @@ export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
     }
 
     return (
-        <Modal show={showNewFolderModal} onHide={handleClose}>
+        <Modal show={true} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>CREATE NEW FOLDER</Modal.Title>
             </Modal.Header>

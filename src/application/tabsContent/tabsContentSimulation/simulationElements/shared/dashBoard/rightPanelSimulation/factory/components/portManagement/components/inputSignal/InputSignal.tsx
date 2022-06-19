@@ -3,6 +3,7 @@ import {Port, Signal, SignalValues} from "../../../../../../../../../../../../mo
 import css from "./inputSignal.module.css";
 import {ModalInputSignal} from "../../../modals/ModalInputSignal";
 import {saveSignal} from "../../../../../../../../../../../../faunadb/api/signalsAPIs";
+import { useFaunaQuery } from 'cad-library';
 
 interface InputSignalProps {
     setShowModalSignal: Function,
@@ -20,6 +21,7 @@ export const InputSignal: React.FC<InputSignalProps> = (
 ) => {
 
     const [show, setShow] = useState(false);
+    const {execQuery} = useFaunaQuery()
 
     function getSignalByName(name: string) {
         return availableSignals.filter(signal => signal.name === name)[0]
@@ -62,7 +64,7 @@ export const InputSignal: React.FC<InputSignalProps> = (
                     type: "current",
                     signalValues: signalValues,
                 }
-                await saveSignal(signal)
+                await execQuery(saveSignal, signal)
                 setAvailableSignals([...availableSignals, signal])
             }else {
                 alert("The imported file is not in the correct format. Please upload a correct file!")

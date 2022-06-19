@@ -4,7 +4,6 @@ import {Modal} from "react-bootstrap";
 import {CanvasState, UsersState} from 'cad-library';
 
 interface CreateNewProjectModalProps {
-    show: boolean,
     setShow: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
@@ -15,7 +14,7 @@ interface CreateNewProjectModalProps {
 }
 
 export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
-    {show, setShow, projectsTab, setProjectsTab, selectTab, addNewProject, selectProject, user}
+    {setShow, projectsTab, setProjectsTab, selectTab, addNewProject, selectProject, user}
 ) => {
 
     const [projectName, setProjectName] = useState("");
@@ -46,7 +45,7 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
     }
 
     return(
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={true} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>CREATE NEW PROJECT</Modal.Title>
             </Modal.Header>

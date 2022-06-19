@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Simulation} from "../../../../model/Simulation";
 import {getSimulationByName} from "../../../../faunadb/api/simulationAPIs";
+import { useFaunaQuery } from "cad-library";
 
 export const useRunSimulation =
     (
@@ -10,6 +11,7 @@ export const useRunSimulation =
     const [simulationStarted, setSimulationStarted] = useState<"notStarted" | "started" | "Completed">("notStarted");
     const [meshApproved, setMeshApproved] = useState(false);
     const [newSimulation, setNewSimulation] = useState<Simulation>({} as Simulation);
+    const {execQuery} = useFaunaQuery()
     useEffect(() => {
         if (showSimulationModel && meshApproved) {
             setSimulationStarted("started");
@@ -27,7 +29,7 @@ export const useRunSimulation =
             setTimeout(() => {
                 setSimulationStarted("Completed")
 
-                getSimulationByName(simulation.name).then(res => {
+                execQuery(getSimulationByName, simulation.name).then(res => {
                     console.log(res)
                     let simulationUpdated: Simulation = {
                         ...simulation,

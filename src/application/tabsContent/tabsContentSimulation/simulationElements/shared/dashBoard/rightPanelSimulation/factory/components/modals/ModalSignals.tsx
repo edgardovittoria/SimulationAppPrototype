@@ -1,8 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import css from './style/modalSignals.module.css';
 import {Signal, SignalValues} from "../../../../../../../../../../model/Port";
 import {saveSignal} from "../../../../../../../../../../faunadb/api/signalsAPIs";
+import { useFaunaQuery } from 'cad-library';
 
 interface ModalSignalsProps {
     showModalSignal: boolean,
@@ -24,6 +25,7 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
     const [signalRe, setSignalRe] = useState<number | string>('');
     const [signalIm, setSignalIm] = useState<number | string>('');
     const [signalValuesArray, setSignalValuesArray] = useState<SignalValues[]>([]);
+    const {execQuery} = useFaunaQuery()
 
     function onModalClose() {
         setSignalValuesArray([])
@@ -161,7 +163,7 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
                                         let confirm = window.confirm('Are you sure to save the signal?');
                                         if(confirm){
                                             setAvailableSignals([...availableSignals, newSignal])
-                                            await saveSignal(newSignal)
+                                            await execQuery(saveSignal, newSignal)
                                             onModalClose()
                                         }
 

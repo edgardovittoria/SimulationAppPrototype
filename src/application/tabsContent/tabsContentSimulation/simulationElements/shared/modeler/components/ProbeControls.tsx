@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Port, Probe} from "../../../../../../../model/Port";
+import {Probe} from "../../../../../../../model/Port";
 import {Object3DNode, useThree} from "@react-three/fiber";
 import * as THREE from "three";
 import {TransformControls} from "@react-three/drei";

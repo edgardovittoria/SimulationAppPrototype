@@ -1,9 +1,9 @@
 import React from 'react';
-import {Project} from "../../../../../../model/Project";
+import { Project } from "../../../../../../model/Project";
 import css from './projects.module.css';
-import {ProjectManagementIcons} from "../../shared/ProjectManagementIcons";
-import {Folder} from "../../../../../../model/Folder";
-import {IoMdFolder} from "react-icons/io";
+import { ProjectManagementIcons } from "../../shared/ProjectManagementIcons";
+import { Folder } from "../../../../../../model/Folder";
+import { IoMdFolder } from "react-icons/io";
 
 interface ProjectsProps {
     setShowModal: Function,
@@ -34,7 +34,7 @@ export const Projects: React.FC<ProjectsProps> = (
         selectTab(project.name)
     }
 
-    if(selectedFolder.name !== "My Files"){
+    if (selectedFolder.name !== "My Files") {
         projects = selectedFolder.projectList;
         folders = selectedFolder.subFolders
     }
@@ -58,29 +58,29 @@ export const Projects: React.FC<ProjectsProps> = (
             </div>
             {
                 selectedFolder.name !== 'My Files' &&
-                    <div className={css.folderHistory}>
-                        <hr/>
-                        <span
-                            onClick={() => selectFolder(selectedFolder.parent)}
-                            className={css.folderHistoryItem}>
-                            {selectedFolder.parent}
-                        </span> &gt; <span className="fw-bold">{selectedFolder.name}</span>
-                        <hr/>
-                    </div>
+                <div className={css.folderHistory}>
+                    <hr />
+                    <span
+                        onClick={() => selectFolder(selectedFolder.parent)}
+                        className={css.folderHistoryItem}>
+                        {selectedFolder.parent}
+                    </span> &gt; <span className="fw-bold">{selectedFolder.name}</span>
+                    <hr />
+                </div>
             }
             <div className={css.projectsBox}>
                 {projects.length > 0 || folders.length > 0
                     ?
                     <>
                         <div className="row">
-                            {folders.length >0 && <h5>Folders</h5>}
+                            {folders.length > 0 && <h5>Folders</h5>}
                             {folders.map(folder => {
                                 return (
                                     <div className="col-3">
                                         <div className={css.folderBox} onDoubleClick={() => selectFolder(folder)}>
                                             <IoMdFolder className="me-2"
-                                                        style={{width: "35px", height: "35px"}}
-                                                        color={"#7a7b7d"}
+                                                style={{ width: "35px", height: "35px" }}
+                                                color={"#7a7b7d"}
                                             />
                                             <span className="fw-bold fs-6 text-black-50">{folder.name}</span>
                                         </div>
@@ -100,16 +100,16 @@ export const Projects: React.FC<ProjectsProps> = (
                                                 </div>
                                                 <div className="col-6">
                                                     <ProjectManagementIcons project={project}
-                                                                            removeProject={removeProject}
-                                                                            projectsTab={projectsTab}
-                                                                            setProjectsTab={setProjectsTab}/>
+                                                        removeProject={removeProject}
+                                                        projectsTab={projectsTab}
+                                                        setProjectsTab={setProjectsTab} />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="card-body" onClick={() => handleCardClick(project)}>
                                             <img className={css.projectsProjectImage}
-                                                 src={(project.screenshot) ? project.screenshot : "/noResultsIconForProject.png"}
-                                                 alt="Project Image"/>
+                                                src={(project.screenshot) ? project.screenshot : "/noResultsIconForProject.png"}
+                                            />
                                         </div>
                                         <div className={`card-footer ${css.projectsCardFooter}`}>
                                             {(project.description.length > 20) ? project.description.substr(0, 20) + '...' : project.description}
@@ -125,13 +125,13 @@ export const Projects: React.FC<ProjectsProps> = (
                     <>
                         <div className={css.projectsNoProjectsContainer}>
                             <img src="/noProjectsIcon2.png" className={css.projectsNoProjectsIcon}
-                                 alt="No Projects Icon"/>
+                                alt="No Projects Icon" />
                             <p>No projects for now.</p>
                             <button className="btn button-primary" data-toggle="modal"
-                                    data-target="#createNewProjectModal"
-                                    onClick={() => {
-                                        setShowModal(true)
-                                    }}>CREATE YOUR FIRST PROJECT
+                                data-target="#createNewProjectModal"
+                                onClick={() => {
+                                    setShowModal(true)
+                                }}>CREATE YOUR FIRST PROJECT
                             </button>
                         </div>
                     </>

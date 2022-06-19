@@ -1,36 +1,38 @@
-import {useEffect, useMemo, useState} from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './App.css';
 import './GlobalColors.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import {TabsContainer} from "./application/tabsContainer/TabsContainer";
+import { TabsContainer } from "./application/tabsContainer/TabsContainer";
 import {
     addProject,
+    importModel,
     projectsSelector,
     removeProject,
-    resetSelectedComponents, selectProject
+    resetSelectedComponents, selectedProjectSelector, selectProject
 } from "./store/projectSlice";
-import {Project} from "./model/Project";
-import {useDispatch, useSelector} from "react-redux";
-import {CreateNewProjectModal} from "./application/modals/createNewProjectModal/CreateNewProjectModal";
-import {Simulation} from "./model/Simulation";
-import {MenuBar} from './application/tabsContent/menuBar/MenuBar';
+import { Project } from "./model/Project";
+import { useDispatch, useSelector } from "react-redux";
+import { CreateNewProjectModal } from "./application/modals/createNewProjectModal/CreateNewProjectModal";
+import { Simulation } from "./model/Simulation";
+import { MenuBar } from './application/tabsContent/menuBar/MenuBar';
 import {
     TabsContentProjectManagementFactory
 } from './application/tabsContent/tabsContentProjectManagement/factory/TabsContentProjectManagementFactory';
 import {
     TabsContentSimulationFactory
 } from './application/tabsContent/tabsContentSimulation/factory/TabsContentSimulationFactory';
-import {usersStateSelector} from "cad-library";
-import {CreateNewFolderModal} from "./application/modals/createNewFolderModal/CreateNewFolderModal";
-import {addFolder, FolderStateSelector, SelectedFolderSelector, selectFolder} from "./store/projectSlice";
-import {Folder} from "./model/Folder";
+import { ImportActionParamsObject, ImportModelFromDBModal, usersStateSelector, CanvasState } from "cad-library";
+import { CreateNewFolderModal } from "./application/modals/createNewFolderModal/CreateNewFolderModal";
+import { addFolder, FolderStateSelector, SelectedFolderSelector, selectFolder } from "./store/projectSlice";
+import { Folder } from "./model/Folder";
 
 
 function App() {
 
 
     const projects = useSelector(projectsSelector)
+    const selectedProject = useSelector(selectedProjectSelector)
     const folders = useSelector(FolderStateSelector)
     const selectedFolder = useSelector(SelectedFolderSelector)
     const user = useSelector(usersStateSelector)
@@ -39,6 +41,7 @@ function App() {
     const [projectsTab, setProjectsTab] = useState<Project[]>(projects);
     const [showCreateNewProjectModal, setShowCreateNewProjectModal] = useState(false);
     const [showCreateNewFolderModal, setShowCreateNewFolderModal] = useState(false);
+    const [showModalLoadFromDB, setShowModalLoadFromDB] = useState(false)
 
     const menuItems = getMenuItemsArrayBasedOnTabType(tabSelected)
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
@@ -66,7 +69,7 @@ function App() {
     return (
         <>
             {memoizedTabsContainer}
-            <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/>
+            <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems} />
             {(tabSelected === 'DASHBOARD')
                 ?
                 <TabsContentProjectManagementFactory
@@ -92,10 +95,10 @@ function App() {
                     setMenuItem={setMenuItemSelected}
                     selectedSimulation={selectedSimulation}
                     setSelectedSimulation={setSelectedSimulation}
+                    setShowLoadFromDBModal={setShowModalLoadFromDB}
                 />
             }
-            <CreateNewProjectModal
-                show={showCreateNewProjectModal}
+            {(showCreateNewProjectModal) && <CreateNewProjectModal
                 setShow={setShowCreateNewProjectModal}
                 projectsTab={projectsTab}
                 setProjectsTab={setProjectsTab}
@@ -103,14 +106,28 @@ function App() {
                 addNewProject={(project: Project) => dispatch(addProject(project))}
                 selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
                 user={user}
-            />
-            <CreateNewFolderModal
-                showNewFolderModal={showCreateNewFolderModal}
+            />}
+            {(showCreateNewFolderModal) && <CreateNewFolderModal
                 setShowNewFolderModal={setShowCreateNewFolderModal}
                 addNewFolder={(folder: Folder) => dispatch(addFolder(folder))}
                 user={user}
                 selectedFolder={selectedFolder}
-            />
+            />}
+            {(showModalLoadFromDB) && <ImportModelFromDBModal
+                showModalLoad={setShowModalLoadFromDB}
+                importAction={importModel}
+                importActionParams={
+                    {
+                        canvas: {
+                            components: [],
+                            lastActionType: "",
+                            numberOfGeneratedKey: 0,
+                            selectedComponentKey: 0
+                        } as CanvasState,
+                        id: selectedProject?.name
+                    } as ImportActionParamsObject
+                }
+            />}
         </>
 
 
