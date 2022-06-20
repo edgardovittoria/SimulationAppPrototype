@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Project } from "../../../../../../model/Project";
 import css from './projects.module.css';
 import { ProjectManagementIcons } from "../../shared/ProjectManagementIcons";
@@ -17,12 +17,13 @@ interface ProjectsProps {
     selectFolder: Function,
     selectProject: Function,
     removeProject: Function,
+    execQuery: Function
 }
 
 export const Projects: React.FC<ProjectsProps> = (
     {
         setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab, projects,
-        folders, selectedFolder, selectFolder, removeProject, selectProject
+        folders, selectedFolder, selectFolder, removeProject, selectProject, execQuery
     }
 ) => {
 
@@ -102,7 +103,9 @@ export const Projects: React.FC<ProjectsProps> = (
                                                     <ProjectManagementIcons project={project}
                                                         removeProject={removeProject}
                                                         projectsTab={projectsTab}
-                                                        setProjectsTab={setProjectsTab} />
+                                                        setProjectsTab={setProjectsTab}
+                                                        execQuery={execQuery}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>

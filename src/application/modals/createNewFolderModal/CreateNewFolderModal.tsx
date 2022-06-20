@@ -2,17 +2,21 @@ import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {UsersState} from "cad-library";
 import {Folder} from "../../../model/Folder";
+import {updateFolderOrProject} from "../../../faunadb/api/projectsFolderAPIs";
+import {store} from "../../../store/store";
 
 interface CreateNewFolderModalProps {
     setShowNewFolderModal: Function,
     addNewFolder: Function,
     user: UsersState,
-    selectedFolder: Folder
+    selectedFolder: Folder,
+    selectFolder: Function,
+    execQuery: Function,
 }
 
 export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
     {
-        setShowNewFolderModal, addNewFolder, user, selectedFolder
+        setShowNewFolderModal, addNewFolder, user, selectedFolder, selectFolder, execQuery
     }
 ) => {
 
@@ -20,18 +24,22 @@ export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
 
     const handleClose = () => setShowNewFolderModal(false)
 
+
     const handleCreate = () => {
         if(folderName.length > 0){
             let newFolder: Folder = {
                 name: folderName,
                 owner: user,
-                sharedWidth: [],
+                sharedWith: [],
                 projectList: [],
                 subFolders: [],
-                parent: selectedFolder.name
+                parent: selectedFolder.name,
+                faunaDocumentId: selectedFolder.faunaDocumentId
             }
             addNewFolder(newFolder)
             setShowNewFolderModal(false)
+            //selectFolder(store.getState().projects.projects)
+            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
         }else{
             alert("Folder's name is required!")
         }

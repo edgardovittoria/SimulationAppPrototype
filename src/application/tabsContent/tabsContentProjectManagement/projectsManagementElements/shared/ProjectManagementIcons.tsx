@@ -4,17 +4,20 @@ import css from "./projectManagementIcon.module.css";
 import {exportSimulationProject} from "../../../../../importExport/exportFunctions";
 import {Overlay, Tooltip} from "react-bootstrap";
 import {Project} from "../../../../../model/Project";
+import {updateFolderOrProject} from "../../../../../faunadb/api/projectsFolderAPIs";
+import {store} from "../../../../../store/store";
 
 interface ProjectManagementIconsProps {
     project: Project,
     removeProject: Function,
     projectsTab: Project[],
-    setProjectsTab: Function
+    setProjectsTab: Function,
+    execQuery: Function
 }
 
 export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
     {
-        project, removeProject, projectsTab, setProjectsTab
+        project, removeProject, projectsTab, setProjectsTab, execQuery
     }
 ) => {
 
@@ -74,6 +77,7 @@ export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
                     onClick={() => {
                         removeProject(project.name)
                         setProjectsTab(projectsTab.filter(p => p.name !== project.name))
+                        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
                     }}
                 />
                 <Overlay target={deleteIcon.current} show={showDelete} placement="top">

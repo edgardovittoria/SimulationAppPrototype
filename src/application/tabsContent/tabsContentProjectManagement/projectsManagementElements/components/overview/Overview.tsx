@@ -12,11 +12,15 @@ interface OverviewProps {
     projects: Project[],
     selectProject: Function,
     removeProject: Function,
-    setMenuItem: Function
+    setMenuItem: Function,
+    execQuery: Function
 }
 
 export const Overview: React.FC<OverviewProps> = (
-    { setShowModal, projectsTab, setProjectsTab, selectTab, projects, selectProject, removeProject, setMenuItem }
+    {
+        setShowModal, projectsTab, setProjectsTab, selectTab, projects,
+        selectProject, removeProject, setMenuItem, execQuery
+    }
 ) => {
     const [cardMenuHovered, setCardMenuHovered] = useState(false);
 
@@ -69,7 +73,13 @@ export const Overview: React.FC<OverviewProps> = (
                                                 {(project.name.length > 15) ? project.name.substr(0,15) + '...' : project.name}
                                             </div>
                                             <div className="col-6" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
-                                                <ProjectManagementIcons project={project} removeProject={removeProject} projectsTab={projectsTab} setProjectsTab={setProjectsTab}/>
+                                                <ProjectManagementIcons
+                                                    project={project}
+                                                    removeProject={removeProject}
+                                                    projectsTab={projectsTab}
+                                                    setProjectsTab={setProjectsTab}
+                                                    execQuery={execQuery}
+                                                />
                                             </div>
                                         </div>
                                         <h6 className="card-subtitle mb-2 text-muted">{project.description.substr(0, 50)}</h6>

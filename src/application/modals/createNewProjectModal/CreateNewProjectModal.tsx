@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Project} from "../../../model/Project";
 import {Modal} from "react-bootstrap";
 import {CanvasState, UsersState} from 'cad-library';
+import {store} from "../../../store/store";
+import {updateFolderOrProject} from "../../../faunadb/api/projectsFolderAPIs";
 
 interface CreateNewProjectModalProps {
     setShow: Function,
@@ -10,11 +12,16 @@ interface CreateNewProjectModalProps {
     selectTab: Function,
     addNewProject: Function,
     selectProject: Function,
-    user: UsersState
+    user: UsersState,
+    selectFolder: Function,
+    execQuery: Function,
 }
 
 export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
-    {setShow, projectsTab, setProjectsTab, selectTab, addNewProject, selectProject, user}
+    {
+        setShow, projectsTab, setProjectsTab, selectTab, addNewProject, selectProject, user,
+        selectFolder, execQuery
+    }
 ) => {
 
     const [projectName, setProjectName] = useState("");
@@ -38,10 +45,11 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
             setProjectsTab(projectsTab.concat(newProject))
             selectTab(newProject.name)
             setShow(false)
+            selectFolder(store.getState().projects.projects)
+            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
         }else{
             alert("Project's name is required!")
         }
-
     }
 
     return(

@@ -6,10 +6,10 @@ import 'font-awesome/css/font-awesome.min.css';
 import { TabsContainer } from "./application/tabsContainer/TabsContainer";
 import {
     addProject,
-    importModel,
+    importModel, projectsFolderSelector,
     projectsSelector,
     removeProject,
-    resetSelectedComponents, selectedProjectSelector, selectProject
+    resetSelectedComponents, selectedProjectSelector, selectProject, setFaunaDocumentId, setProjectsFolderToUser
 } from "./store/projectSlice";
 import { Project } from "./model/Project";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,14 +22,21 @@ import {
 import {
     TabsContentSimulationFactory
 } from './application/tabsContent/tabsContentSimulation/factory/TabsContentSimulationFactory';
-import { ImportActionParamsObject, ImportModelFromDBModal, usersStateSelector, CanvasState } from "cad-library";
+import {
+    ImportActionParamsObject,
+    ImportModelFromDBModal,
+    usersStateSelector,
+    CanvasState,
+    useFaunaQuery
+} from "cad-library";
 import { CreateNewFolderModal } from "./application/modals/createNewFolderModal/CreateNewFolderModal";
 import { addFolder, FolderStateSelector, SelectedFolderSelector, selectFolder } from "./store/projectSlice";
 import { Folder } from "./model/Folder";
+import {useAuth0} from "@auth0/auth0-react";
+import {getProjectsFolderByOwner} from "./faunadb/api/projectsFolderAPIs";
 
 
 function App() {
-
 
     const projects = useSelector(projectsSelector)
     const selectedProject = useSelector(selectedProjectSelector)
@@ -47,6 +54,25 @@ function App() {
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
 
     const [selectedSimulation, setSelectedSimulation] = useState<Simulation | undefined>(undefined);
+
+    const {execQuery} = useFaunaQuery()
+
+    useEffect(() => {
+        if(user.userName){
+            execQuery(getProjectsFolderByOwner, user.userName).then(res => {
+                dispatch(setProjectsFolderToUser({
+                    ...res.data,
+                    faunaDocumentId: res.ref.value.id
+                }))
+                dispatch(selectFolder({
+                    ...res.data,
+                    faunaDocumentId: res.ref.value.id
+                }))
+                console.log(res)
+            })
+        }
+    }, [user.userName]);
+
 
     const memoizedTabsContainer = useMemo(() => <TabsContainer
         selectTab={setTabSelected}
@@ -88,6 +114,7 @@ function App() {
                     setSimulationCoreMenuItemSelected={setMenuItemSelected}
                     setSelectedSimulation={setSelectedSimulation}
                     setMenuItem={setMenuItemSelected}
+                    execQuery={execQuery}
                 />
                 :
                 <TabsContentSimulationFactory
@@ -106,12 +133,16 @@ function App() {
                 addNewProject={(project: Project) => dispatch(addProject(project))}
                 selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
                 user={user}
+                selectFolder={(folder: Folder) => dispatch(selectFolder(folder))}
+                execQuery={execQuery}
             />}
             {(showCreateNewFolderModal) && <CreateNewFolderModal
                 setShowNewFolderModal={setShowCreateNewFolderModal}
                 addNewFolder={(folder: Folder) => dispatch(addFolder(folder))}
                 user={user}
                 selectedFolder={selectedFolder}
+                selectFolder={(folder: Folder) => dispatch(selectFolder(folder))}
+                execQuery={execQuery}
             />}
             {(showModalLoadFromDB) && <ImportModelFromDBModal
                 showModalLoad={setShowModalLoadFromDB}

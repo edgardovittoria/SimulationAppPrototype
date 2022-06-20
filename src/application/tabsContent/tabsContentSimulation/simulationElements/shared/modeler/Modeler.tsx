@@ -139,13 +139,14 @@ export const Modeler: React.FC<ModelerProps> = (
                     <Screenshot selectedProject={selectedProject} setScreenshot={setScreenshot}/>
                 </Canvas>
                 :
-                <div>
-                    <ImportCadProjectButton className='btn button-primary position-absolute start-50 top-50'
+                <div className="position-absolute top-50 w-25 d-flex justify-content-between">
+                    <ImportCadProjectButton className='btn button-primary '
                                             importAction={importModel}
                                             actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
                         <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import From FS
                     </ImportCadProjectButton>
-                    <button className='btn button-primary position-absolute start-50 top-50 mt-5' onClick={() => setShowLoadFromDBModal(true)}>
+                    <span className="border-start border-dark"/>
+                    <button className='btn button-primary' onClick={() => setShowLoadFromDBModal(true)}>
                         <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import From DB
                     </button>
                 </div>

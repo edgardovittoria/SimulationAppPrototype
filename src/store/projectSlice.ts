@@ -19,36 +19,42 @@ export const ProjectSlice = createSlice({
     initialState: {
         projects: {
             name: "My Files",
-            projectList: [],
-            subFolders: [],
             owner: {} as UsersState,
-            sharedWidth: [],
+            sharedWith: [],
+            subFolders: [],
+            projectList: [],
             parent: "root"
         },
         selectedProject: undefined,
         selectedFolder: {
             name: "My Files",
-            projectList: [],
-            subFolders: [],
             owner: {} as UsersState,
-            sharedWidth: [],
+            sharedWith: [],
+            subFolders: [],
+            projectList: [],
             parent: "root"
         },
         selectedComponent: []
     } as ProjectState,
     reducers: {
         addProject(state: ProjectState, action: PayloadAction<Project>) {
-            if(state.selectedFolder.name === "My Files" && (!projectAlreadyExists(state.projects.projectList, action.payload))){
+            if (state.selectedFolder.name === "My Files" && (!projectAlreadyExists(state.projects.projectList, action.payload))) {
                 state.projects.projectList.push(action.payload)
-            }else{
+            } else {
                 state.selectedFolder.projectList.push(action.payload)
                 recursiveProjectAdd(state.projects.subFolders, state.selectedFolder?.name, action.payload)
             }
         },
+        setFaunaDocumentId(state: ProjectState, action: PayloadAction<number>){
+            state.projects.faunaDocumentId = action.payload
+        },
+        setProjectsFolderToUser(state: ProjectState, action: PayloadAction<Folder>) {
+            state.projects = action.payload
+        },
         removeProject(state: ProjectState, action: PayloadAction<string>) {
-            if(state.selectedFolder.name === "My Files"){
+            if (state.selectedFolder.name === "My Files") {
                 state.projects.projectList = state.projects.projectList.filter(p => p.name !== action.payload)
-            }else{
+            } else {
                 state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.name !== action.payload)
                 recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.name, action.payload)
             }
@@ -59,18 +65,18 @@ export const ProjectSlice = createSlice({
             }
 
         },
-        addFolder(state: ProjectState, action: PayloadAction<Folder>){
-            if(state.selectedFolder.name === "My Files"){
+        addFolder(state: ProjectState, action: PayloadAction<Folder>) {
+            if (state.selectedFolder.name === "My Files") {
                 state.projects.subFolders.push(action.payload)
-            }else{
+            } else {
                 state.selectedFolder.subFolders.push(action.payload)
                 recursiveSubFoldersUpdate(state.projects.subFolders, state.selectedFolder?.name, action.payload)
             }
         },
-        selectFolder(state: ProjectState, action: PayloadAction<Folder | string>){
-            if(typeof action.payload === 'string'){
+        selectFolder(state: ProjectState, action: PayloadAction<Folder | string>) {
+            if (typeof action.payload === 'string') {
                 recursiveSelectFolder(state, state.projects.subFolders, action.payload)
-            }else{
+            } else {
                 state.selectedFolder = action.payload
             }
 
@@ -79,14 +85,14 @@ export const ProjectSlice = createSlice({
             let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
             if (selectedProject && selectedProject.name === action.payload.id) {
                 selectedProject.model = action.payload.canvas
+            } else {
+                state.projects.projectList.map(project => {
+                    if (project.name === action.payload.id) {
+                        project.model = action.payload.canvas
+                    }
+                    return 'model imported'
+                })
             }
-            else{
-            state.projects.projectList.map(project => {
-                if (project.name === action.payload.id) {
-                    project.model = action.payload.canvas
-                }
-                return 'model imported'
-            })}
         },
         selectComponent(state: ProjectState, action: PayloadAction<ComponentEntity>) {
             if (state.selectedComponent.length === 0) {
@@ -160,7 +166,7 @@ export const ProjectSlice = createSlice({
             if (selectedPort) {
                 if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
                     (action.payload.type === 'first') ? selectedPort.inputElement.transformationParams.position = action.payload.position : selectedPort.outputElement.transformationParams.position = action.payload.position
-                }else if(action.payload.type === 'probe'){
+                } else if (action.payload.type === 'probe') {
                     (selectedPort as Probe).groupPosition = action.payload.position
                 }
             }
@@ -199,11 +205,13 @@ export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
     addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
     resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort,
-    setPortType, updatePortPosition, setRLCParams, setAssociatedSignal, setScreenshot, addFolder, selectFolder
+    setPortType, updatePortPosition, setRLCParams, setAssociatedSignal, setScreenshot, addFolder, selectFolder,
+    setProjectsFolderToUser, setFaunaDocumentId
 } = ProjectSlice.actions
 
 
 export const projectsSelector = (state: { projects: ProjectState }) => state.projects.projects.projectList;
+export const projectsFolderSelector = (state: { projects: ProjectState }) => state.projects.projects;
 export const FolderStateSelector = (state: { projects: ProjectState }) => state.projects.projects.subFolders;
 export const SelectedFolderSelector = (state: { projects: ProjectState }) => state.projects.selectedFolder;
 export const selectedProjectSelector = (state: { projects: ProjectState }) => findProjectByName(state.projects.projects.projectList, state.projects.selectedProject);
@@ -220,9 +228,9 @@ const projectAlreadyExists = (projects: Project[], newProject: Project) => {
 
 const recursiveSubFoldersUpdate = (subFolders: Folder[], parent: string, folderToAdd: Folder) => {
     subFolders.forEach(sf => {
-        if(sf.name === parent){
+        if (sf.name === parent) {
             sf.subFolders.push(folderToAdd)
-        }else{
+        } else {
             recursiveSubFoldersUpdate(sf.subFolders, parent, folderToAdd)
         }
     })
@@ -230,9 +238,9 @@ const recursiveSubFoldersUpdate = (subFolders: Folder[], parent: string, folderT
 
 const recursiveProjectAdd = (subFolders: Folder[], parent: string, projectToAdd: Project) => {
     subFolders.forEach(sf => {
-        if(sf.name === parent && (!projectAlreadyExists(sf.projectList, projectToAdd))){
+        if (sf.name === parent && (!projectAlreadyExists(sf.projectList, projectToAdd))) {
             sf.projectList.push(projectToAdd)
-        }else{
+        } else {
             recursiveProjectAdd(sf.subFolders, parent, projectToAdd)
         }
     })
@@ -240,22 +248,22 @@ const recursiveProjectAdd = (subFolders: Folder[], parent: string, projectToAdd:
 
 const recursiveProjectRemove = (subFolders: Folder[], parent: string, projectToRemove: string) => {
     subFolders.forEach(sf => {
-        if(sf.name === parent){
+        if (sf.name === parent) {
             sf.projectList = sf.projectList.filter(p => p.name !== projectToRemove)
-        }else{
+        } else {
             recursiveProjectRemove(sf.subFolders, parent, projectToRemove)
         }
     })
 }
 
-const recursiveSelectFolder = (state: ProjectState, folders: Folder[],  folderToSelect: string) => {
-    if(state.projects.name === folderToSelect){
+const recursiveSelectFolder = (state: ProjectState, folders: Folder[], folderToSelect: string) => {
+    if (state.projects.name === folderToSelect) {
         state.selectedFolder = state.projects //add recursion
     }
     folders.forEach(f => {
-        if(f.name === folderToSelect){
+        if (f.name === folderToSelect) {
             state.selectedFolder = f
-        }else{
+        } else {
             recursiveSelectFolder(state, f.subFolders, folderToSelect)
         }
     })
