@@ -207,9 +207,9 @@ export const projectsSelector = (state: { projects: ProjectState }) => state.pro
 export const projectsFolderSelector = (state: { projects: ProjectState }) => state.projects.projects;
 export const FolderStateSelector = (state: { projects: ProjectState }) => state.projects.projects.subFolders;
 export const SelectedFolderSelector = (state: { projects: ProjectState }) => state.projects.selectedFolder;
-export const selectedProjectSelector = (state: { projects: ProjectState }) => findProjectByName(state.projects.projects.projectList, state.projects.selectedProject);
+export const selectedProjectSelector = (state: { projects: ProjectState }) => findProjectByName(takeAllProjectsIn(state.projects.projects), state.projects.selectedProject);
 export const selectedComponentSelector = (state: { projects: ProjectState }) => state.projects.selectedComponent;
-export const simulationSelector = (state: { projects: ProjectState }) => findProjectByName(state.projects.projects.projectList, state.projects.selectedProject)?.simulations;
+export const simulationSelector = (state: { projects: ProjectState }) => findProjectByName(takeAllProjectsIn(state.projects.projects), state.projects.selectedProject)?.simulations;
 export const findProjectByName = (projects: Project[], name: string | undefined) => {
     return (name !== undefined) ? projects.filter(project => project.name === name)[0] : undefined
 }
