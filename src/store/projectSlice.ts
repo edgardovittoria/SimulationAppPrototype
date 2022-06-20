@@ -1,10 +1,10 @@
-import {ComponentEntity, ImportActionParamsObject, UsersState} from 'cad-library';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Project} from "../model/Project";
-import {Port, Probe, RLCParams} from "../model/Port";
-import {Simulation} from "../model/Simulation";
-import {Signal} from "../model/Port";
-import {Folder} from "../model/Folder";
+import { ComponentEntity, ImportActionParamsObject, UsersState } from 'cad-library';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Project } from "../model/Project";
+import { Port, Probe, RLCParams } from "../model/Port";
+import { Simulation } from "../model/Simulation";
+import { Signal } from "../model/Port";
+import { Folder } from "../model/Folder";
 
 
 export type ProjectState = {
@@ -45,7 +45,7 @@ export const ProjectSlice = createSlice({
                 recursiveProjectAdd(state.projects.subFolders, state.selectedFolder?.name, action.payload)
             }
         },
-        setFaunaDocumentId(state: ProjectState, action: PayloadAction<number>){
+        setFaunaDocumentId(state: ProjectState, action: PayloadAction<number>) {
             state.projects.faunaDocumentId = action.payload
         },
         setProjectsFolderToUser(state: ProjectState, action: PayloadAction<Folder>) {
@@ -82,16 +82,9 @@ export const ProjectSlice = createSlice({
 
         },
         importModel(state: ProjectState, action: PayloadAction<ImportActionParamsObject>) {
-            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
-            if (selectedProject && selectedProject.name === action.payload.id) {
+            let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
+            if (selectedProject) {
                 selectedProject.model = action.payload.canvas
-            } else {
-                state.projects.projectList.map(project => {
-                    if (project.name === action.payload.id) {
-                        project.model = action.payload.canvas
-                    }
-                    return 'model imported'
-                })
             }
         },
         selectComponent(state: ProjectState, action: PayloadAction<ComponentEntity>) {
@@ -195,9 +188,9 @@ export const ProjectSlice = createSlice({
         }
     },
     extraReducers:
-        {
-            //qui inseriamo i metodi : PENDING, FULLFILLED, REJECT utili per la gestione delle richieste asincrone
-        }
+    {
+        //qui inseriamo i metodi : PENDING, FULLFILLED, REJECT utili per la gestione delle richieste asincrone
+    }
 })
 
 
@@ -219,6 +212,10 @@ export const selectedComponentSelector = (state: { projects: ProjectState }) => 
 export const simulationSelector = (state: { projects: ProjectState }) => findProjectByName(state.projects.projects.projectList, state.projects.selectedProject)?.simulations;
 export const findProjectByName = (projects: Project[], name: string | undefined) => {
     return (name !== undefined) ? projects.filter(project => project.name === name)[0] : undefined
+}
+
+const takeAllProjectsIn = (folder: Folder): Project[] => {
+    return folder.subFolders.reduce((projects, subF) => projects.concat(takeAllProjectsIn(subF)), folder.projectList)
 }
 
 export const findSelectedPort = (project: Project | undefined) => (project) ? project.ports.filter(port => port.isSelected)[0] : undefined

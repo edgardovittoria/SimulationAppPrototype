@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Project } from "../../../../../../model/Project";
 import css from './projects.module.css';
 import { ProjectManagementIcons } from "../../shared/ProjectManagementIcons";
@@ -75,9 +75,9 @@ export const Projects: React.FC<ProjectsProps> = (
                     <>
                         <div className="row">
                             {folders.length > 0 && <h5>Folders</h5>}
-                            {folders.map(folder => {
+                            {folders.map((folder,index) => {
                                 return (
-                                    <div className="col-3">
+                                    <div className="col-3" key={index}>
                                         <div className={css.folderBox} onDoubleClick={() => selectFolder(folder)}>
                                             <IoMdFolder className="me-2"
                                                 style={{ width: "35px", height: "35px" }}
@@ -110,7 +110,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                             </div>
                                         </div>
                                         <div className="card-body" onClick={() => handleCardClick(project)}>
-                                            <img className={css.projectsProjectImage}
+                                            <img className={css.projectsProjectImage} alt="project_screenshot"
                                                 src={(project.screenshot) ? project.screenshot : "/noResultsIconForProject.png"}
                                             />
                                         </div>

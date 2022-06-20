@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {BiExport, BiShare, BiShareAlt, BiTrash} from "react-icons/bi";
+import {BiExport, BiShareAlt, BiTrash} from "react-icons/bi";
 import css from "./projectManagementIcon.module.css";
 import {exportSimulationProject} from "../../../../../importExport/exportFunctions";
 import {Overlay, Tooltip} from "react-bootstrap";

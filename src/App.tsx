@@ -6,10 +6,9 @@ import 'font-awesome/css/font-awesome.min.css';
 import { TabsContainer } from "./application/tabsContainer/TabsContainer";
 import {
     addProject,
-    importModel, projectsFolderSelector,
-    projectsSelector,
+    importModel, projectsSelector,
     removeProject,
-    resetSelectedComponents, selectedProjectSelector, selectProject, setFaunaDocumentId, setProjectsFolderToUser
+    resetSelectedComponents, selectedProjectSelector, selectProject, setProjectsFolderToUser
 } from "./store/projectSlice";
 import { Project } from "./model/Project";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +31,6 @@ import {
 import { CreateNewFolderModal } from "./application/modals/createNewFolderModal/CreateNewFolderModal";
 import { addFolder, FolderStateSelector, SelectedFolderSelector, selectFolder } from "./store/projectSlice";
 import { Folder } from "./model/Folder";
-import {useAuth0} from "@auth0/auth0-react";
 import {getProjectsFolderByOwner} from "./faunadb/api/projectsFolderAPIs";
 
 
@@ -68,7 +66,6 @@ function App() {
                     ...res.data,
                     faunaDocumentId: res.ref.value.id
                 }))
-                console.log(res)
             })
         }
     }, [user.userName]);
