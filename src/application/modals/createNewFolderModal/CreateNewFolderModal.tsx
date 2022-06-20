@@ -38,7 +38,6 @@ export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
             }
             addNewFolder(newFolder)
             setShowNewFolderModal(false)
-            //selectFolder(store.getState().projects.projects)
             execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
         }else{
             alert("Folder's name is required!")

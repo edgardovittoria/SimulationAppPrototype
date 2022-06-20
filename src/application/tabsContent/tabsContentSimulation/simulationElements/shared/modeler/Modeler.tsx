@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Canvas} from "@react-three/fiber";
 import * as THREE from 'three';
 import {Color, Mesh, MeshPhongMaterial} from 'three';
@@ -7,14 +7,17 @@ import {GiCubeforce} from "react-icons/gi";
 import {Project} from '../../../../../../model/Project'
 import {Probe} from "../../../../../../model/Port";
 import {
+    CanvasState,
     FactoryShapes,
     ImportActionParamsObject,
-    ImportCadProjectButton
+    ImportCadProjectButton, useFaunaQuery
 } from 'cad-library'
-import {findSelectedPort} from '../../../../../../store/projectSlice';
+import {findSelectedPort, selectedProjectSelector} from '../../../../../../store/projectSlice';
 import {Screenshot} from "./components/Screenshot";
 import {PortControls} from "./components/PortControls";
 import {ProbeControls} from "./components/ProbeControls";
+import {store} from "../../../../../../store/store";
+import {updateFolderOrProject} from "../../../../../../faunadb/api/projectsFolderAPIs";
 
 interface ModelerProps {
     selectedProject: Project | undefined,
@@ -35,6 +38,18 @@ export const Modeler: React.FC<ModelerProps> = (
 
     const [previousColor, setPreviousColor] = useState<Color>({} as Color);
     let selectedPort = findSelectedPort(selectedProject)
+
+    const {execQuery} = useFaunaQuery()
+
+    /*
+    * TODO: review this solution
+    * problem: too many query to fauna db
+    * */
+    useEffect(() => {
+        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
+        console.log('pippo')
+    }, [(selectedProject) && selectedProject.model]);
+
 
 
     return (
