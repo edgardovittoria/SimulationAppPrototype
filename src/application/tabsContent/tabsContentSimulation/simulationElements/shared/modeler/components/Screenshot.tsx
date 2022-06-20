@@ -19,7 +19,7 @@ export const Screenshot: FC<ScreenshotProps> = ({selectedProject, setScreenshot}
 
     const options = {
         maxSizeMB: .05,
-        maxWidthOrHeight: 600
+        maxWidthOrHeight: 300
     }
 
     function screenShot() {
