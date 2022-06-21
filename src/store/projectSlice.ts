@@ -128,24 +128,24 @@ export const ProjectSlice = createSlice({
             })
         },
         addPorts(state: ProjectState, action: PayloadAction<Port | Probe>) {
-            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
+            let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
             selectedProject?.ports.push(action.payload)
         },
         selectPort(state: ProjectState, action: PayloadAction<string>) {
-            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
+            let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
             selectedProject?.ports.forEach(port => {
                 port.isSelected = port.name === action.payload;
             })
         },
         deletePort(state: ProjectState, action: PayloadAction<string>) {
-            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
+            let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
             let updatedPortsArray = selectedProject?.ports.filter(port => port.name !== action.payload)
             if (selectedProject && updatedPortsArray) {
                 selectedProject.ports = updatedPortsArray
             }
         },
         setPortType(state: ProjectState, action: PayloadAction<{ name: string, type: number }>) {
-            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
+            let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
             selectedProject?.ports.forEach(port => {
                 if (port.category === 'port' || port.category === 'lumped') {
                     if (port.name === action.payload.name) {
@@ -155,7 +155,7 @@ export const ProjectSlice = createSlice({
             })
         },
         updatePortPosition(state: ProjectState, action: PayloadAction<{ type: 'first' | 'last' | 'probe', position: [number, number, number] }>) {
-            let selectedPort = findSelectedPort(findProjectByName(state.projects.projectList, state.selectedProject))
+            let selectedPort = findSelectedPort(findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject))
             if (selectedPort) {
                 if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
                     (action.payload.type === 'first') ? selectedPort.inputElement.transformationParams.position = action.payload.position : selectedPort.outputElement.transformationParams.position = action.payload.position
@@ -165,7 +165,7 @@ export const ProjectSlice = createSlice({
             }
         },
         setRLCParams(state: ProjectState, action: PayloadAction<RLCParams>) {
-            let selectedPort = findSelectedPort(findProjectByName(state.projects.projectList, state.selectedProject));
+            let selectedPort = findSelectedPort(findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject));
             if (selectedPort) {
                 if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
                     selectedPort.rlcParams = action.payload
@@ -173,7 +173,7 @@ export const ProjectSlice = createSlice({
             }
         },
         setAssociatedSignal(state: ProjectState, action: PayloadAction<Signal>) {
-            let selectedPort = findSelectedPort(findProjectByName(state.projects.projectList, state.selectedProject));
+            let selectedPort = findSelectedPort(findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject));
             if (selectedPort) {
                 if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
                     selectedPort.associatedSignal = action.payload
@@ -181,7 +181,7 @@ export const ProjectSlice = createSlice({
             }
         },
         setScreenshot(state: ProjectState, action: PayloadAction<string>) {
-            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject);
+            let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
             if (selectedProject) {
                 selectedProject.screenshot = action.payload
             }

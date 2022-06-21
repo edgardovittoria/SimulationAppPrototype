@@ -11,8 +11,10 @@ interface ScreenshotProps{
 
 export const Screenshot: FC<ScreenshotProps> = ({selectedProject, setScreenshot}) => {
 
+
     useEffect(() => {
         screenShot()
+        console.log('screenshot')
     }, [selectedProject?.model.components]);
 
     const { gl, scene, camera } = useThree()
