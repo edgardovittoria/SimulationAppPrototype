@@ -1,10 +1,10 @@
-import { ComponentEntity, ImportActionParamsObject, UsersState } from 'cad-library';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Project } from "../model/Project";
-import { Port, Probe, RLCParams } from "../model/Port";
-import { Simulation } from "../model/Simulation";
-import { Signal } from "../model/Port";
-import { Folder } from "../model/Folder";
+import {ComponentEntity, ImportActionParamsObject, UsersState} from 'cad-library';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Project} from "../model/Project";
+import {Port, Probe, RLCParams} from "../model/Port";
+import {Simulation} from "../model/Simulation";
+import {Signal} from "../model/Port";
+import {Folder} from "../model/Folder";
 
 
 export type ProjectState = {
@@ -59,6 +59,30 @@ export const ProjectSlice = createSlice({
                 recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.name, action.payload)
             }
         },
+        moveObject(state: ProjectState, action: PayloadAction<{
+            projectToMove: Project | Folder,
+            targetFolder: string
+        }>) {
+            if("model" in action.payload.projectToMove){
+                if (state.selectedFolder.name === "My Files") {
+                    state.projects.projectList = state.projects.projectList.filter(p => p.name !== action.payload.projectToMove.name)
+                } else {
+                    state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.name !== action.payload.projectToMove.name)
+                    recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.name, action.payload.projectToMove.name)
+                }
+                recursiveProjectAdd(state.projects.subFolders, action.payload.targetFolder, action.payload.projectToMove)
+            }else{
+                if (state.selectedFolder.name === "My Files") {
+                    state.projects.subFolders = state.projects.subFolders.filter(sf => sf.name !== action.payload.projectToMove.name)
+                }else {
+                    state.selectedFolder.subFolders = state.selectedFolder.subFolders.filter(sf => sf.name !== action.payload.projectToMove.name)
+                    recursiveFolderRemove(state.projects.subFolders, state.selectedFolder.name, action.payload.projectToMove)
+                }
+                let updatedFolder = {...action.payload.projectToMove, parent: action.payload.targetFolder}
+                recursiveSubFoldersUpdate(state.projects.subFolders, action.payload.targetFolder, updatedFolder)
+            }
+
+        },
         selectProject(state: ProjectState, action: PayloadAction<string | undefined>) {
             if (action.payload !== undefined) {
                 state.selectedProject = action.payload
@@ -71,6 +95,14 @@ export const ProjectSlice = createSlice({
             } else {
                 state.selectedFolder.subFolders.push(action.payload)
                 recursiveSubFoldersUpdate(state.projects.subFolders, state.selectedFolder?.name, action.payload)
+            }
+        },
+        removeFolder(state: ProjectState, action: PayloadAction<Folder>){
+            if (state.selectedFolder.name === "My Files") {
+                state.projects.subFolders = state.projects.subFolders.filter(sf => sf.name !== action.payload.name)
+            }else {
+                state.selectedFolder.subFolders = state.selectedFolder.subFolders.filter(sf => sf.name !== action.payload.name)
+                recursiveFolderRemove(state.projects.subFolders, state.selectedFolder.name, action.payload)
             }
         },
         selectFolder(state: ProjectState, action: PayloadAction<Folder | string>) {
@@ -188,9 +220,9 @@ export const ProjectSlice = createSlice({
         }
     },
     extraReducers:
-    {
-        //qui inseriamo i metodi : PENDING, FULLFILLED, REJECT utili per la gestione delle richieste asincrone
-    }
+        {
+            //qui inseriamo i metodi : PENDING, FULLFILLED, REJECT utili per la gestione delle richieste asincrone
+        }
 })
 
 
@@ -199,7 +231,7 @@ export const {
     addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
     resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort,
     setPortType, updatePortPosition, setRLCParams, setAssociatedSignal, setScreenshot, addFolder, selectFolder,
-    setProjectsFolderToUser, setFaunaDocumentId
+    setProjectsFolderToUser, setFaunaDocumentId, moveObject, removeFolder
 } = ProjectSlice.actions
 
 
@@ -233,6 +265,16 @@ const recursiveSubFoldersUpdate = (subFolders: Folder[], parent: string, folderT
     })
 }
 
+const recursiveFolderRemove = (subFolders: Folder[], parent: string, folderToRemove: Folder) => {
+    subFolders.forEach(sf => {
+        if (sf.name === parent) {
+            sf.subFolders = sf.subFolders.filter(f => f.name !== folderToRemove.name)
+        } else {
+            recursiveFolderRemove(sf.subFolders, parent, folderToRemove)
+        }
+    })
+}
+
 const recursiveProjectAdd = (subFolders: Folder[], parent: string, projectToAdd: Project) => {
     subFolders.forEach(sf => {
         if (sf.name === parent && (!projectAlreadyExists(sf.projectList, projectToAdd))) {
@@ -255,7 +297,7 @@ const recursiveProjectRemove = (subFolders: Folder[], parent: string, projectToR
 
 const recursiveSelectFolder = (state: ProjectState, folders: Folder[], folderToSelect: string) => {
     if (state.projects.name === folderToSelect) {
-        state.selectedFolder = state.projects //add recursion
+        state.selectedFolder = state.projects
     }
     folders.forEach(f => {
         if (f.name === folderToSelect) {

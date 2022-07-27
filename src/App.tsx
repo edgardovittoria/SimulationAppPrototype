@@ -3,10 +3,11 @@ import './App.css';
 import './GlobalColors.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import 'react-contexify/dist/ReactContexify.css';
 import { TabsContainer } from "./application/tabsContainer/TabsContainer";
 import {
     addProject,
-    importModel, projectsSelector,
+    importModel, moveObject, projectsSelector, removeFolder,
     removeProject,
     resetSelectedComponents, selectedProjectSelector, selectProject, setProjectsFolderToUser
 } from "./store/projectSlice";
@@ -112,6 +113,8 @@ function App() {
                     setSelectedSimulation={setSelectedSimulation}
                     setMenuItem={setMenuItemSelected}
                     execQuery={execQuery}
+                    moveObject={(obj: {projectToMove: Project | Folder, targetFolder: string}) => dispatch(moveObject(obj))}
+                    removeFolder={(folder: Folder) => dispatch(removeFolder(folder))}
                 />
                 :
                 <TabsContentSimulationFactory

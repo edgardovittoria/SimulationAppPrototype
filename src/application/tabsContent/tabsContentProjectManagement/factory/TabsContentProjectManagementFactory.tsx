@@ -22,14 +22,17 @@ interface TabsContentProjectManagementFactoryProps {
     setSimulationCoreMenuItemSelected: Function,
     setSelectedSimulation: Function,
     setMenuItem: Function,
-    execQuery: Function
+    execQuery: Function,
+    moveObject: Function,
+    removeFolder: Function
 }
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
     {
         menuItem, setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab,
         projects, folders, selectedFolder, selectFolder, selectProject,
-        removeProject, setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem, execQuery
+        removeProject, setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem, execQuery,
+        moveObject, removeFolder
     }
 ) => {
 
@@ -73,6 +76,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
                             selectProject={selectProject}
                             removeProject={removeProject}
                             execQuery={execQuery}
+                            moveObject={moveObject}
+                            removeFolder={removeFolder}
                         />
                     </div>
                     <RightPanel/>

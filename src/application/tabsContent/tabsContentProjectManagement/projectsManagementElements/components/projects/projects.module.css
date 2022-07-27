@@ -83,6 +83,7 @@
     border: 1px solid #c9c4c4;
     border-radius: 10px;
     margin-top: 10px;
+    margin-left: 10px;
 }
 
 .folderBox:hover{
