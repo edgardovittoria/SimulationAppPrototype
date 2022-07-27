@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'react-contexify/dist/ReactContexify.css';
 import { TabsContainer } from "./application/tabsContainer/TabsContainer";
 import {
-    addProject,
+    addProject, allFoldersNameSelector,
     importModel, moveObject, projectsSelector, removeFolder,
     removeProject,
     resetSelectedComponents, selectedProjectSelector, selectProject, setProjectsFolderToUser
@@ -42,6 +42,7 @@ function App() {
     const folders = useSelector(FolderStateSelector)
     const selectedFolder = useSelector(SelectedFolderSelector)
     const user = useSelector(usersStateSelector)
+    const allFoldersName = useSelector(allFoldersNameSelector)
     const dispatch = useDispatch()
     const [tabSelected, setTabSelected] = useState("DASHBOARD");
     const [projectsTab, setProjectsTab] = useState<Project[]>(projects);
@@ -115,6 +116,7 @@ function App() {
                     execQuery={execQuery}
                     moveObject={(obj: {projectToMove: Project | Folder, targetFolder: string}) => dispatch(moveObject(obj))}
                     removeFolder={(folder: Folder) => dispatch(removeFolder(folder))}
+                    allFoldersName={allFoldersName}
                 />
                 :
                 <TabsContentSimulationFactory

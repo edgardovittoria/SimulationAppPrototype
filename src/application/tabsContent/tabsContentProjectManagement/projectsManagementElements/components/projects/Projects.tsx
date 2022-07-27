@@ -23,14 +23,15 @@ interface ProjectsProps {
     removeProject: Function,
     execQuery: Function,
     moveObject: Function,
-    removeFolder: Function
+    removeFolder: Function,
+    allFoldersName: string[]
 }
 
 export const Projects: React.FC<ProjectsProps> = (
     {
         setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab, projects,
         folders, selectedFolder, selectFolder, removeProject, selectProject, execQuery, moveObject,
-        removeFolder
+        removeFolder, allFoldersName
     }
 ) => {
 
@@ -74,15 +75,21 @@ export const Projects: React.FC<ProjectsProps> = (
                     {path.map((p, index) => {
                         return (
                             <>
-                                {index !== path.length - 1 ? <span
-                                    className={css.folderHistoryItem}
-                                    onClick={() => {
-                                        let newPath = path.filter((p, i) => i <= index)
-                                        setPath(newPath)
-                                        selectFolder(p)
-                                    }}>
-                                        {p} &gt;{' '}
-                                    </span> : <span className="fw-bold">{p}</span>}
+                                {index !== path.length - 1 ?
+                                    <>
+                                        <span
+                                            className={css.folderHistoryItem}
+                                            onClick={() => {
+                                                let newPath = path.filter((p, i) => i <= index);
+                                                setPath(newPath);
+                                                selectFolder(p);
+                                            }}>
+                                                {p}
+                                        </span>
+                                        <span>{' '}&gt;{' '}</span>
+                                    </> :
+                                    <span className="fw-bold">{p}</span>
+                                }
                             </>
 
                         )
@@ -104,6 +111,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                                                      execQuery={execQuery}
                                                                      removeFolder={removeFolder}
                                                                      path={path} setPath={setPath}
+                                                                     allFoldersName={allFoldersName}
                                         />
                                     )
                                 })}
@@ -116,7 +124,8 @@ export const Projects: React.FC<ProjectsProps> = (
                                                               setProjectsTab={setProjectsTab}
                                                               removeProject={removeProject}
                                                               execQuery={execQuery} handleCardClick={handleCardClick}
-                                                              selectedFolder={selectedFolder}
+                                                              selectedFolder={selectedFolder} moveObject={moveObject}
+                                                              allFoldersName={allFoldersName}
                                         />
                                     )
                                 })}

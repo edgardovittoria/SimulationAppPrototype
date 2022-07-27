@@ -8,8 +8,9 @@ import {useDrag, useDragDropManager, useDrop} from "react-dnd";
 import {Project} from "../../../../../../../model/Project";
 import {updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../../../../store/store";
-import {Menu, Item, Separator, useContextMenu, TriggerEvent} from 'react-contexify';
-import {BiTrash} from "react-icons/bi";
+import {Menu, Item, Separator, useContextMenu, TriggerEvent, Submenu} from 'react-contexify';
+import {BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
+import {BsFillFolderSymlinkFill} from "react-icons/bs"
 
 interface DroppableAndDraggableFolderProps {
     selectFolder: Function,
@@ -19,12 +20,14 @@ interface DroppableAndDraggableFolderProps {
     execQuery: Function,
     removeFolder: Function,
     path: string[],
-    setPath: Function
+    setPath: Function,
+    allFoldersName: string[]
 }
 
 export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderProps> = (
     {
-        selectFolder, selectedFolder, folder, moveObject, execQuery, removeFolder, path, setPath
+        selectFolder, selectedFolder, folder, moveObject, execQuery, removeFolder,
+        path, setPath, allFoldersName
     }
 ) => {
 
@@ -60,70 +63,97 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                 projectToMove: projectToMove,
                 targetFolder: dropTargetFolder
             })
-            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-            })
+            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
         }
         setDragDone(false)
     }, [dragDone]);
 
-    const { show } = useContextMenu({
+    const {show} = useContextMenu({
         id: folder.name,
     });
 
-    function handleContextMenu(event: any){
+    function handleContextMenu(event: any) {
         event.preventDefault();
         show(event)
     }
 
-    const handleItemClick = ({ event, props } : any) => console.log(event,props);
 
     return (
         <>
-                <div className={`${css.folderBox} col-3`}
-                     ref={ref => {
-                         drag(drop(ref))
-                     }}
-                     onContextMenu={handleContextMenu}
-                     key={folder.name}
-                     role='Dustbin'
-                     style={{backgroundColor: isOver ? '#e6e6e6' : 'white', opacity: isDragging ? 0.5 : 1}}
-                     onDoubleClick={() => {
-                         setPath([...path, folder.name])
-                         selectFolder(folder.name)
-                     }}>
-                    <IoMdFolder className="me-2"
-                                style={{width: "35px", height: "35px"}}
-                                color={"#7a7b7d"}
-                    />
-                    <span className="fw-bold fs-6 text-black-50">{folder.name}</span>
+            <div className={`${css.folderBox} col-3`}
+                 ref={ref => {
+                     drag(drop(ref))
+                 }}
+                 onContextMenu={handleContextMenu}
+                 key={folder.name}
+                 role='Dustbin'
+                 style={{backgroundColor: isOver ? '#e6e6e6' : 'white', opacity: isDragging ? 0.5 : 1}}
+                 onDoubleClick={() => {
+                     setPath([...path, folder.name])
+                     selectFolder(folder.name)
+                 }}>
+                <IoMdFolder className="me-2"
+                            style={{width: "35px", height: "35px"}}
+                            color={"#7a7b7d"}
+                />
+                <span className="fw-bold fs-6 text-black-50">{folder.name}</span>
 
-                    <Menu id={folder.name}>
-
-                        <Item data={folder} onClick={(data) => {
-                            removeFolder(data.data)
-                            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
-                        }}>
-                            <BiTrash
+                <Menu id={folder.name}>
+                    <Submenu label={
+                        <>
+                            <BsFillFolderSymlinkFill
                                 className={`${iconCss.deleteIcon} me-3`}
-                                color="red"
-                                size="20px"
-                            />
-                            Delete
-                        </Item>
-                        {/*<Item data={folder} onClick={(data) => {
-                            removeFolder(data.data)
-                            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
-                        }}>
-                            <BiTrash
-                                className={`${iconCss.deleteIcon} me-3`}
-                                color="red"
+                                color={'#29686EFF'}
                                 size="20px"
                             />
                             Move
-                        </Item>*/}
-                    </Menu>
+                        </>
+                    }>
+                        {allFoldersName.filter(n => n !== folder.parent && n !== folder.name).map(name => {
+                            return (
+                                <Item onClick={() => {
+                                    moveObject({
+                                        projectToMove: folder,
+                                        targetFolder: name
+                                    })
+                                    execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
+                                }}>{name}</Item>
+                            )
+                        })}
+                    </Submenu>
+                    <Item onClick={() => {}} disabled>
+                        <BiRename
+                            className="me-3"
+                            color={'#29686EFF'}
+                            size="20px"
+                        />
+                        Rename
+                    </Item>
+                    <Separator />
+                    <Item onClick={() => {}} disabled>
+                        <BiShareAlt
+                            className="me-3"
+                            color={'#29686EFF'}
+                            size="20px"
+                        />
+                        Share
+                    </Item>
+                    <Separator />
+                    <Item data={folder} onClick={(data) => {
+                        removeFolder(data.data)
+                        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
+                        })
+                    }}>
+                        <BiTrash
+                            className={`${iconCss.deleteIcon} me-3`}
+                            color={'#29686EFF'}
+                            size="20px"
+                        />
+                        Delete
+                    </Item>
+                </Menu>
 
-                </div>
+            </div>
 
 
         </>
