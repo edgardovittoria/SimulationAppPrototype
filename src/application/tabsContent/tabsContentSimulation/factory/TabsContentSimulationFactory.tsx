@@ -1,19 +1,23 @@
 import React, {useState} from 'react';
 import {Port, RLCParams, Signal} from "../../../../model/Port";
-import { ResultsContent } from "../simulationElements/components/resultsContent/ResultsContent";
-import { Modeler } from "../simulationElements/shared/modeler/Modeler";
-import { LeftPanel } from "../simulationElements/shared/dashBoard/leftPanel/LeftPanel";
-import { RightPanelSimulation } from "../simulationElements/shared/dashBoard/rightPanelSimulation/RightPanelSimulation";
-import { FactoryRightPanelContent } from "../simulationElements/shared/dashBoard/rightPanelSimulation/factory/FactoryRightPanelContent";
-import { SimulationPanel } from "../simulationElements/components/simulationPanel/SimulationPanel";
-import { LeftMenu } from "../simulationElements/components/simulationPanel/components/leftMenu/LeftMenu";
-import { PanelContent } from "../simulationElements/components/simulationPanel/components/panelContent/PanelContent";
-import { PanelFooter } from "../simulationElements/components/simulationPanel/components/panelFooter/PanelFooter";
-import { LineChart } from "../simulationElements/components/resultsContent/components/LineChart";
-import { Simulation } from "../../../../model/Simulation";
-import { FactorySimulationDashboardContent } from "../simulationElements/shared/dashBoard/leftPanel/factory/FactorySimulationDashboardContent";
-import { SelectPorts } from "../simulationElements/shared/dashBoard/selectPorts/SelectPorts";
-import { useDispatch, useSelector } from 'react-redux';
+import {ResultsContent} from "../simulationElements/components/resultsContent/ResultsContent";
+import {Modeler} from "../simulationElements/shared/modeler/Modeler";
+import {LeftPanel} from "../simulationElements/shared/dashBoard/leftPanel/LeftPanel";
+import {RightPanelSimulation} from "../simulationElements/shared/dashBoard/rightPanelSimulation/RightPanelSimulation";
+import {
+    FactoryRightPanelContent
+} from "../simulationElements/shared/dashBoard/rightPanelSimulation/factory/FactoryRightPanelContent";
+import {SimulationPanel} from "../simulationElements/components/simulationPanel/SimulationPanel";
+import {LeftMenu} from "../simulationElements/components/simulationPanel/components/leftMenu/LeftMenu";
+import {PanelContent} from "../simulationElements/components/simulationPanel/components/panelContent/PanelContent";
+import {PanelFooter} from "../simulationElements/components/simulationPanel/components/panelFooter/PanelFooter";
+import {LineChart} from "../simulationElements/components/resultsContent/components/LineChart";
+import {Simulation} from "../../../../model/Simulation";
+import {
+    FactorySimulationDashboardContent
+} from "../simulationElements/shared/dashBoard/leftPanel/factory/FactorySimulationDashboardContent";
+import {SelectPorts} from "../simulationElements/shared/dashBoard/selectPorts/SelectPorts";
+import {useDispatch, useSelector} from 'react-redux';
 import {
     addPorts,
     createSimulation,
@@ -31,9 +35,9 @@ import {
     updatePortPosition,
     updateSimulation
 } from '../../../../store/projectSlice';
-import { useGenerateMesh } from '../hooks/useGenerateMesh';
-import { useRunSimulation } from '../hooks/useRunSimulation';
-import { ComponentEntity } from 'cad-library';
+import {useGenerateMesh} from '../hooks/useGenerateMesh';
+import {useRunSimulation} from '../hooks/useRunSimulation';
+import {ComponentEntity} from 'cad-library';
 import {useGetAvailableSignals} from "../hooks/useGetAvailableSignals";
 
 interface TabsContentSimulationFactoryProps {
@@ -69,7 +73,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     const simulations = useSelector(simulationSelector);
 
 
-    const { meshGenerated, setMeshGenerated } = useGenerateMesh(showSimulationModel);
+    const {meshGenerated, setMeshGenerated} = useGenerateMesh(showSimulationModel);
     const {
         simulationStarted,
         meshApproved,
@@ -82,8 +86,9 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
 
-    const { availableSignals, setAvailableSignals } = useGetAvailableSignals()
+    const {availableSignals, setAvailableSignals} = useGetAvailableSignals()
 
+    const [quantumDimensions, setQuantumDimensions] = useState<[number, number, number]>([0.00000, 0.000000, 0.000000]);
 
     switch (menuItem) {
         case 'Modeler':
@@ -98,7 +103,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
                     />
-                    <LeftPanel tabs={['Modeler', 'Materials']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
+                    <LeftPanel tabs={['Modeler', 'Materials']} selectedTab={selectedTabLeftPanel}
+                               setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
                             selectedTab={selectedTabLeftPanel}
                             selectedProject={selectedProject}
@@ -141,7 +147,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
                     />
-                    <LeftPanel tabs={['Modeler', 'Physics']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
+                    <LeftPanel tabs={['Modeler', 'Physics']} selectedTab={selectedTabLeftPanel}
+                               setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
                             selectedTab={selectedTabLeftPanel}
                             selectedProject={selectedProject}
@@ -154,7 +161,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             deletePort={portDeletion}
                         />
                     </LeftPanel>
-                    {selectedProject?.model.components && <SelectPorts addPorts={portAdding} selectedProject={selectedProject} />}
+                    {selectedProject?.model.components &&
+                        <SelectPorts addPorts={portAdding} selectedProject={selectedProject}/>}
                     <RightPanelSimulation ports={selectedProject?.ports}>
                         <FactoryRightPanelContent
                             section="Physics"
@@ -183,7 +191,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
                     />
-                    <LeftPanel tabs={['Modeler', 'Simulator']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
+                    <LeftPanel tabs={['Modeler', 'Simulator']} selectedTab={selectedTabLeftPanel}
+                               setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
                             selectedTab={selectedTabLeftPanel}
                             selectedProject={selectedProject}
@@ -215,21 +224,27 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         setShowSimulationModel={setShowSimulationModel}
                     >
                         <LeftMenu components={selectedProject?.model.components}
-                            physics={['physic1']} />
+                                  physics={['physic1']}/>
                         <PanelContent simulationStarted={simulationStarted} meshGenerated={meshGenerated}
-                            simulation={simulation} selectedProject={selectedProject}
+                                      simulation={simulation} selectedProject={selectedProject}
+                                      setQuantumDimensions={setQuantumDimensions}
+                                      quantumDimensions={quantumDimensions}
                         />
                         <PanelFooter simulationStarted={simulationStarted} meshGenerated={meshGenerated}
-                            meshApproved={meshApproved} setMeshGenerated={setMeshGenerated}
-                            setMeshApproved={setMeshApproved} setMenuItem={setMenuItem}
-                            setShowSimulationModel={setShowSimulationModel} />
+                                     meshApproved={meshApproved} setMeshGenerated={setMeshGenerated}
+                                     setMeshApproved={setMeshApproved} setMenuItem={setMenuItem}
+                                     setShowSimulationModel={setShowSimulationModel}
+                                     quantumDimensions={quantumDimensions}
+                                     components={selectedProject?.model.components}
+                        />
                     </SimulationPanel>
                 </>
             )
         case 'Results':
             return (
                 <ResultsContent>
-                    <LeftPanel tabs={['Modeler', 'Results']} selectedTab={selectedTabLeftPanel} setSelectedTab={setSelectedTabLeftPanel}>
+                    <LeftPanel tabs={['Modeler', 'Results']} selectedTab={selectedTabLeftPanel}
+                               setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
                             selectedTab={selectedTabLeftPanel}
                             selectedProject={selectedProject}
@@ -243,7 +258,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         />
                     </LeftPanel>
                     {(selectedSimulation && selectedProject && selectedProject.simulations.length > 0) &&
-                        <LineChart simulation={selectedSimulation} />
+                        <LineChart simulation={selectedSimulation}/>
                     }
                 </ResultsContent>
             )

@@ -5,17 +5,22 @@ import {OrbitControls} from "@react-three/drei";
 import {Simulation} from "../../../../../../../../model/Simulation";
 import {FactoryShapes} from "cad-library";
 import {Project} from "../../../../../../../../model/Project";
+import css
+    from "../../../../shared/dashBoard/rightPanelSimulation/factory/components/portManagement/components/portPosition/portPosition.module.css";
 
 interface PanelContentProps {
     simulationStarted: 'notStarted' | 'started' | 'Completed',
     meshGenerated: boolean,
     simulation: Simulation,
-    selectedProject: Project | undefined
+    selectedProject: Project | undefined,
+    setQuantumDimensions: Function,
+    quantumDimensions: [number, number, number]
 }
 
 export const PanelContent: React.FC<PanelContentProps> = (
     {
-        simulationStarted, meshGenerated, simulation, selectedProject
+        simulationStarted, meshGenerated, simulation, selectedProject,
+        setQuantumDimensions, quantumDimensions
     }
 ) => {
 
@@ -35,10 +40,52 @@ export const PanelContent: React.FC<PanelContentProps> = (
                 </div>
             </div>
             <div className="row mt-5 mb-5">
+                <div>
+                    <div className="mt-2">
+                        <span>Set quantum's dimensions</span>
+                        <div className="row mt-2">
+                            <div className="col-4 text-center">
+                                <span>X</span>
+                                <input
+                                    min={0}
+                                    className={`w-100 ${css.inputPortManagement} form-control`}
+                                    type="number"
+                                    step={.000001}
+                                    value={quantumDimensions[0]}
+                                    onChange={(event) => setQuantumDimensions([parseFloat(event.target.value), quantumDimensions[1], quantumDimensions[2]])}
+                                />
+                            </div>
+                            <div className="col-4 text-center">
+                                <span>Y</span>
+                                <input
+                                    min={0.000000}
+                                    className={`w-100 ${css.inputPortManagement} form-control`}
+                                    type="number"
+                                    step={.000001}
+                                    value={quantumDimensions[1]}
+                                    onChange={(event) => setQuantumDimensions([quantumDimensions[0], parseFloat(event.target.value), quantumDimensions[2]])}
+                                />
+                            </div>
+                            <div className="col-4 text-center">
+                                <span>Z</span>
+                                <input
+                                    min={0}
+                                    className={`w-100 ${css.inputPortManagement} form-control`}
+                                    type="number"
+                                    step={.000001}
+                                    value={quantumDimensions[2]}
+                                    onChange={(event) => setQuantumDimensions([quantumDimensions[0], quantumDimensions[1], parseFloat(event.target.value)])}
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 {(meshGenerated && simulationStarted !== 'started') &&
                 <Canvas style={{height: "400px"}}>
-                    <pointLight position={[100, 100, 100]} intensity={0.8}/>
-                    <hemisphereLight color={'#ffffff'} groundColor={new THREE.Color('#b9b9b9')}
+                    {/*<pointLight position={[0, 0, 50]} intensity={.5}/>*/}
+                    <hemisphereLight color={'rgba(147,146,146,0)'
+                    } groundColor={new THREE.Color('#b9b9b9')}
                                      position={[-7, 25, 13]}
                                      intensity={0.85}/>
                     {/*TODO: show mesh that return the server*/}
@@ -48,7 +95,7 @@ export const PanelContent: React.FC<PanelContentProps> = (
                                 onUpdate={(mesh) => {
                                     mesh.material = new THREE.MeshPhongMaterial({
                                         color: component.material?.color,
-                                        wireframe: true
+                                        //wireframe: true
                                     })
                                 }}
                                 position={component.transformationParams.position}

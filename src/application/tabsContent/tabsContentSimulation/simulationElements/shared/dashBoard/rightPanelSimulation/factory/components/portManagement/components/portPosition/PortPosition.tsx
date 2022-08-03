@@ -22,7 +22,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={selectedPort.inputElement.transformationParams.position[0]}
+                                    value={selectedPort.inputElement.transformationParams.position[0].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             parseFloat(event.currentTarget.value),
@@ -38,7 +38,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={selectedPort.inputElement.transformationParams.position[1]}
+                                    value={selectedPort.inputElement.transformationParams.position[1].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             selectedPort.inputElement.transformationParams.position[0],
@@ -54,7 +54,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={selectedPort.inputElement.transformationParams.position[2]}
+                                    value={selectedPort.inputElement.transformationParams.position[2].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             selectedPort.inputElement.transformationParams.position[0],
@@ -76,7 +76,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={selectedPort.outputElement.transformationParams.position[0]}
+                                    value={selectedPort.outputElement.transformationParams.position[0].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             parseFloat(event.currentTarget.value),
@@ -92,7 +92,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={selectedPort.outputElement.transformationParams.position[1]}
+                                    value={selectedPort.outputElement.transformationParams.position[1].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             selectedPort.outputElement.transformationParams.position[0],
@@ -108,7 +108,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={selectedPort.outputElement.transformationParams.position[2]}
+                                    value={selectedPort.outputElement.transformationParams.position[2].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             selectedPort.outputElement.transformationParams.position[0],
@@ -133,7 +133,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={(selectedPort as Probe).groupPosition[0]}
+                                    value={(selectedPort as Probe).groupPosition[0].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             parseFloat(event.currentTarget.value),
@@ -149,7 +149,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={(selectedPort as Probe).groupPosition[1]}
+                                    value={(selectedPort as Probe).groupPosition[1].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             (selectedPort as Probe).groupPosition[0],
@@ -165,7 +165,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                     className={`w-100 ${css.inputPortManagement} form-control`}
                                     type="number"
                                     step={.1}
-                                    value={(selectedPort as Probe).groupPosition[2]}
+                                    value={(selectedPort as Probe).groupPosition[2].toFixed(6)}
                                     onChange={(event) => {
                                         let newPosition = [
                                             (selectedPort as Probe).groupPosition[0],
