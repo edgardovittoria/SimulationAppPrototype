@@ -1,21 +1,21 @@
-import { useEffect, useMemo, useState } from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import './App.css';
 import './GlobalColors.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'react-contexify/dist/ReactContexify.css';
-import { TabsContainer } from "./application/tabsContainer/TabsContainer";
+import {TabsContainer} from "./application/tabsContainer/TabsContainer";
 import {
     addProject, allFoldersNameSelector,
     importModel, moveObject, projectsSelector, removeFolder,
     removeProject,
     resetSelectedComponents, selectedProjectSelector, selectProject, setProjectsFolderToUser
 } from "./store/projectSlice";
-import { Project } from "./model/Project";
-import { useDispatch, useSelector } from "react-redux";
-import { CreateNewProjectModal } from "./application/modals/createNewProjectModal/CreateNewProjectModal";
-import { Simulation } from "./model/Simulation";
-import { MenuBar } from './application/tabsContent/menuBar/MenuBar';
+import {Project} from "./model/Project";
+import {useDispatch, useSelector} from "react-redux";
+import {CreateNewProjectModal} from "./application/modals/createNewProjectModal/CreateNewProjectModal";
+import {Simulation} from "./model/Simulation";
+import {MenuBar} from './application/tabsContent/menuBar/MenuBar';
 import {
     TabsContentProjectManagementFactory
 } from './application/tabsContent/tabsContentProjectManagement/factory/TabsContentProjectManagementFactory';
@@ -29,9 +29,9 @@ import {
     CanvasState,
     useFaunaQuery
 } from "cad-library";
-import { CreateNewFolderModal } from "./application/modals/createNewFolderModal/CreateNewFolderModal";
-import { addFolder, FolderStateSelector, SelectedFolderSelector, selectFolder } from "./store/projectSlice";
-import { Folder } from "./model/Folder";
+import {CreateNewFolderModal} from "./application/modals/createNewFolderModal/CreateNewFolderModal";
+import {addFolder, FolderStateSelector, SelectedFolderSelector, selectFolder} from "./store/projectSlice";
+import {Folder} from "./model/Folder";
 import {getProjectsFolderByOwner} from "./faunadb/api/projectsFolderAPIs";
 
 
@@ -49,6 +49,7 @@ function App() {
     const [showCreateNewProjectModal, setShowCreateNewProjectModal] = useState(false);
     const [showCreateNewFolderModal, setShowCreateNewFolderModal] = useState(false);
     const [showModalLoadFromDB, setShowModalLoadFromDB] = useState(false)
+    const [path, setPath] = useState(["My Files"]);
 
     const menuItems = getMenuItemsArrayBasedOnTabType(tabSelected)
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
@@ -58,7 +59,7 @@ function App() {
     const {execQuery} = useFaunaQuery()
 
     useEffect(() => {
-        if(user.userName){
+        if (user.userName) {
             execQuery(getProjectsFolderByOwner, user.userName).then(res => {
                 dispatch(setProjectsFolderToUser({
                     ...res.data,
@@ -86,15 +87,13 @@ function App() {
 
 
     useEffect(() => {
-        if (menuItemSelected !== "Results") {
-            setMenuItemSelected(menuItems[0])
-        }
+        setMenuItemSelected(menuItems[0])
     }, [tabSelected])
 
     return (
         <>
             {memoizedTabsContainer}
-            <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems} />
+            <MenuBar setMenuItem={setMenuItemSelected} activeMenuItem={menuItemSelected} menuItems={menuItems}/>
             {(tabSelected === 'DASHBOARD')
                 ?
                 <TabsContentProjectManagementFactory
@@ -114,9 +113,11 @@ function App() {
                     setSelectedSimulation={setSelectedSimulation}
                     setMenuItem={setMenuItemSelected}
                     execQuery={execQuery}
-                    moveObject={(obj: {projectToMove: Project | Folder, targetFolder: string}) => dispatch(moveObject(obj))}
+                    moveObject={(obj: { projectToMove: Project | Folder, targetFolder: string }) => dispatch(moveObject(obj))}
                     removeFolder={(folder: Folder) => dispatch(removeFolder(folder))}
                     allFoldersName={allFoldersName}
+                    path={path}
+                    setPath={setPath}
                 />
                 :
                 <TabsContentSimulationFactory
@@ -125,6 +126,7 @@ function App() {
                     selectedSimulation={selectedSimulation}
                     setSelectedSimulation={setSelectedSimulation}
                     setShowLoadFromDBModal={setShowModalLoadFromDB}
+                    execQuery={execQuery}
                 />
             }
             {(showCreateNewProjectModal) && <CreateNewProjectModal

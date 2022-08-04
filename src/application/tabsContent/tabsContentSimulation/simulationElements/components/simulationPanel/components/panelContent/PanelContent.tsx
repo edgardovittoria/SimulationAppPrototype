@@ -83,11 +83,8 @@ export const PanelContent: React.FC<PanelContentProps> = (
                 </div>
                 {(meshGenerated && simulationStarted !== 'started') &&
                 <Canvas style={{height: "400px"}}>
-                    {/*<pointLight position={[0, 0, 50]} intensity={.5}/>*/}
-                    <hemisphereLight color={'rgba(147,146,146,0)'
-                    } groundColor={new THREE.Color('#b9b9b9')}
-                                     position={[-7, 25, 13]}
-                                     intensity={0.85}/>
+                    <pointLight position={[100, 100, 100]} intensity={0.8}/>
+                    <hemisphereLight color={'#3a3a3a'}  position={[0, 25, 13]} intensity={0.6}/>
                     {/*TODO: show mesh that return the server*/}
                     {selectedProject && selectedProject.model.components.map(component => {
                         return (

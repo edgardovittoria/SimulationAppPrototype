@@ -24,14 +24,16 @@ interface ProjectsProps {
     execQuery: Function,
     moveObject: Function,
     removeFolder: Function,
-    allFoldersName: string[]
+    allFoldersName: string[],
+    path: string[]
+    setPath: Function
 }
 
 export const Projects: React.FC<ProjectsProps> = (
     {
         setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab, projects,
         folders, selectedFolder, selectFolder, removeProject, selectProject, execQuery, moveObject,
-        removeFolder, allFoldersName
+        removeFolder, allFoldersName, path, setPath
     }
 ) => {
 
@@ -47,8 +49,6 @@ export const Projects: React.FC<ProjectsProps> = (
         projects = selectedFolder.projectList;
         folders = selectedFolder.subFolders
     }
-
-    const [path, setPath] = useState(["My Files"]);
 
     return (
         <DndProvider backend={HTML5Backend}>

@@ -37,7 +37,7 @@ import {
 } from '../../../../store/projectSlice';
 import {useGenerateMesh} from '../hooks/useGenerateMesh';
 import {useRunSimulation} from '../hooks/useRunSimulation';
-import {ComponentEntity} from 'cad-library';
+import {ComponentEntity, Material} from 'cad-library';
 import {useGetAvailableSignals} from "../hooks/useGetAvailableSignals";
 
 interface TabsContentSimulationFactoryProps {
@@ -45,12 +45,13 @@ interface TabsContentSimulationFactoryProps {
     setMenuItem: Function
     selectedSimulation: Simulation | undefined,
     setSelectedSimulation: Function,
-    setShowLoadFromDBModal: Function
+    setShowLoadFromDBModal: Function,
+    execQuery: Function
 }
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
     {
-        menuItem, setMenuItem, selectedSimulation, setSelectedSimulation, setShowLoadFromDBModal
+        menuItem, setMenuItem, selectedSimulation, setSelectedSimulation, setShowLoadFromDBModal, execQuery
     }
 ) => {
     const dispatch = useDispatch()
@@ -63,7 +64,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     const portSignalSetting = (signal: Signal) => dispatch(setAssociatedSignal(signal))
     const componentSelection = (component: ComponentEntity) => dispatch(selectComponent(component))
     const componentDeselection = (component: ComponentEntity) => dispatch(unselectComponent(component))
-    const screenshotSetting = (imageBase64: string) => dispatch(setScreenshot(imageBase64))
 
     const selectedProject = useSelector(selectedProjectSelector)
     const selectedComponent = useSelector(selectedComponentSelector)
@@ -72,15 +72,32 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     const simulations = useSelector(simulationSelector);
 
+    const [quantumDimensions, setQuantumDimensions] = useState<[number, number, number]>([0.00000, 0.000000, 0.000000]);
 
-    const {meshGenerated, setMeshGenerated} = useGenerateMesh(showSimulationModel);
+
+    const {
+        meshGenerated,
+        setMeshGenerated,
+        mesherOutput
+    } = useGenerateMesh(
+        showSimulationModel,
+        selectedProject?.model.components as ComponentEntity[],
+        quantumDimensions
+    );
+
     const {
         simulationStarted,
         meshApproved,
         setMeshApproved,
         newSimulation
-    } = useRunSimulation(showSimulationModel, (newSimulation: Simulation) =>
-        dispatch(createSimulation(newSimulation)), (simulation: Simulation) => dispatch(updateSimulation(simulation)), simulations as Simulation[], selectedProject?.name as string);
+    } = useRunSimulation(
+        showSimulationModel,
+        (newSimulation: Simulation) => dispatch(createSimulation(newSimulation)),
+        (simulation: Simulation) => dispatch(updateSimulation(simulation)),
+        simulations as Simulation[],
+        selectedProject,
+        mesherOutput
+    );
 
     let simulation = simulations?.filter(s => s.name === newSimulation.name)[0] as Simulation
 
@@ -88,7 +105,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     const {availableSignals, setAvailableSignals} = useGetAvailableSignals()
 
-    const [quantumDimensions, setQuantumDimensions] = useState<[number, number, number]>([0.00000, 0.000000, 0.000000]);
 
     switch (menuItem) {
         case 'Modeler':
@@ -130,6 +146,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                 setPortSignal={portSignalSetting}
                                 availableSignals={availableSignals}
                                 setAvailableSignals={setAvailableSignals}
+                                setMeshGenerated={setMeshGenerated}
                             />
                         </RightPanelSimulation>}
                 </>
@@ -162,7 +179,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         />
                     </LeftPanel>
                     {selectedProject?.model.components &&
-                        <SelectPorts addPorts={portAdding} selectedProject={selectedProject}/>}
+                        <SelectPorts addPorts={portAdding} selectedProject={selectedProject} execQuery={execQuery}/>}
                     <RightPanelSimulation ports={selectedProject?.ports}>
                         <FactoryRightPanelContent
                             section="Physics"
@@ -175,6 +192,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setPortSignal={portSignalSetting}
                             availableSignals={availableSignals}
                             setAvailableSignals={setAvailableSignals}
+                            setMeshGenerated={setMeshGenerated}
                         />
                     </RightPanelSimulation>
                 </>
@@ -217,6 +235,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setPortSignal={portSignalSetting}
                             availableSignals={availableSignals}
                             setAvailableSignals={setAvailableSignals}
+                            setMeshGenerated={setMeshGenerated}
                         />
                     </RightPanelSimulation>
                     <SimulationPanel
@@ -236,6 +255,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                      setShowSimulationModel={setShowSimulationModel}
                                      quantumDimensions={quantumDimensions}
                                      components={selectedProject?.model.components}
+                                     project={selectedProject}
                         />
                     </SimulationPanel>
                 </>

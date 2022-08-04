@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {NavDropdown, Nav} from "react-bootstrap";
 import css from "./selectPorts.module.css";
 import {AiOutlineThunderbolt} from "react-icons/ai";
-import { Project } from "../../../../../../../model/Project";
+import {Project} from "../../../../../../../model/Project";
 import {Port, Probe, RLCParams} from "../../../../../../../model/Port";
-import { CircleGeometryAttributes, ComponentEntity, TransformationParams } from 'cad-library';
+import {CircleGeometryAttributes, ComponentEntity, TransformationParams} from 'cad-library';
+import {updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
+import {store} from "../../../../../../../store/store";
 
 interface SelectPortsProps {
     addPorts: Function,
-    selectedProject: Project
+    selectedProject: Project,
+    execQuery: Function
 }
 
-export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProject}) => {
+export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProject, execQuery}) => {
     const [keyPort, setKeyPort] = useState(selectedProject.ports.length)
     const generateNewKeyPort = (key: number) => {
-        setKeyPort(key+1)
-        return key+1
+        setKeyPort(key + 1)
+        return key + 1
     }
-    return(
+    return (
         <>
             < div className={css.selectPortsContainer}>
                 <div className={css.selectPorts}>
@@ -49,14 +52,14 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                     name: "inputPort" + generateNewKeyPort(keyPort),
                                     orbitEnabled: false,
                                     transformationParams: {
-                                        position : [-2.5,2.5,0],
-                                        rotation : [0,0,0],
-                                        scale: [1,1,1]
+                                        position: [-2.5, 2.5, 0],
+                                        rotation: [0, 0, 0],
+                                        scale: [1, 1, 1]
                                     } as TransformationParams,
-                                    previousTransformationParams:  {
-                                        position : [-2.5,2.5,0],
-                                        rotation : [0,0,0],
-                                        scale: [1,1,1]
+                                    previousTransformationParams: {
+                                        position: [-2.5, 2.5, 0],
+                                        rotation: [0, 0, 0],
+                                        scale: [1, 1, 1]
                                     } as TransformationParams,
                                 } as ComponentEntity,
                                 outputElement: {
@@ -69,14 +72,14 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                     name: "outputPort" + generateNewKeyPort(keyPort),
                                     orbitEnabled: false,
                                     transformationParams: {
-                                        position : [2.5,2.5,0],
-                                        rotation : [0,0,0],
-                                        scale: [1,1,1]
+                                        position: [2.5, 2.5, 0],
+                                        rotation: [0, 0, 0],
+                                        scale: [1, 1, 1]
                                     } as TransformationParams,
-                                    previousTransformationParams:  {
-                                        position : [2.5,2.5,0],
-                                        rotation : [0,0,0],
-                                        scale: [1,1,1]
+                                    previousTransformationParams: {
+                                        position: [2.5, 2.5, 0],
+                                        rotation: [0, 0, 0],
+                                        scale: [1, 1, 1]
                                     } as TransformationParams,
                                 } as ComponentEntity,
                                 isSelected: false,
@@ -84,6 +87,7 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 associatedSignal: undefined
                             }
                             addPorts(port)
+                            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Port</span>
@@ -104,14 +108,14 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                     name: "inputPort" + generateNewKeyPort(keyPort),
                                     orbitEnabled: false,
                                     transformationParams: {
-                                        position : [-2.5,2.5,0],
-                                        rotation : [0,0,0],
-                                        scale: [1,1,1]
+                                        position: [-2.5, 2.5, 0],
+                                        rotation: [0, 0, 0],
+                                        scale: [1, 1, 1]
                                     } as TransformationParams,
-                                    previousTransformationParams:  {
-                                        position : [-2.5,2.5,0],
-                                        rotation : [0,0,0],
-                                        scale: [1,1,1]
+                                    previousTransformationParams: {
+                                        position: [-2.5, 2.5, 0],
+                                        rotation: [0, 0, 0],
+                                        scale: [1, 1, 1]
                                     } as TransformationParams,
                                 } as ComponentEntity,
                                 outputElement: {
@@ -124,14 +128,14 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                     name: "outputPort" + generateNewKeyPort(keyPort),
                                     orbitEnabled: false,
                                     transformationParams: {
-                                        position : [2.5,2.5,0],
-                                        rotation : [0,0,0],
-                                        scale: [1,1,1]
+                                        position: [2.5, 2.5, 0],
+                                        rotation: [0, 0, 0],
+                                        scale: [1, 1, 1]
                                     } as TransformationParams,
-                                    previousTransformationParams:  {
-                                        position : [2.5,2.5,0],
-                                        rotation : [0,0,0],
-                                        scale: [1,1,1]
+                                    previousTransformationParams: {
+                                        position: [2.5, 2.5, 0],
+                                        rotation: [0, 0, 0],
+                                        scale: [1, 1, 1]
                                     } as TransformationParams,
                                 } as ComponentEntity,
                                 isSelected: false,
@@ -139,6 +143,7 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 associatedSignal: undefined
                             }
                             addPorts(lumped)
+                            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Lumped</span>
@@ -149,7 +154,7 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 name: "Probe" + generateNewKeyPort(keyPort),
                                 category: 'probe',
                                 isSelected: false,
-                                groupPosition: [0,3,0],
+                                groupPosition: [0, 3, 0],
                                 elements: [
                                     {
                                         type: "CIRCLE",
@@ -161,34 +166,14 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                         name: "inputPort" + generateNewKeyPort(keyPort),
                                         orbitEnabled: false,
                                         transformationParams: {
-                                            position : [-0.5,.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                            position: [-0.5, .5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [-0.5,.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
-                                        } as TransformationParams,
-                                    } as ComponentEntity,
-                                    {
-                                        type: "CIRCLE",
-                                        keyComponent: 0,
-                                        geometryAttributes: {
-                                            radius: 0.05,
-                                            segments: 10,
-                                        } as CircleGeometryAttributes,
-                                        name: "inputPort" + generateNewKeyPort(keyPort),
-                                        orbitEnabled: false,
-                                        transformationParams: {
-                                            position : [0,.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
-                                        } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [0,.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                        previousTransformationParams: {
+                                            position: [-0.5, .5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
                                     } as ComponentEntity,
                                     {
@@ -201,34 +186,14 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                         name: "inputPort" + generateNewKeyPort(keyPort),
                                         orbitEnabled: false,
                                         transformationParams: {
-                                            position : [.5,.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                            position: [0, .5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [.5,.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
-                                        } as TransformationParams,
-                                    } as ComponentEntity,
-                                    {
-                                        type: "CIRCLE",
-                                        keyComponent: 0,
-                                        geometryAttributes: {
-                                            radius: 0.05,
-                                            segments: 10,
-                                        } as CircleGeometryAttributes,
-                                        name: "inputPort" + generateNewKeyPort(keyPort),
-                                        orbitEnabled: false,
-                                        transformationParams: {
-                                            position : [-0.5,0,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
-                                        } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [-0.5,0,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                        previousTransformationParams: {
+                                            position: [0, .5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
                                     } as ComponentEntity,
                                     {
@@ -241,34 +206,14 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                         name: "inputPort" + generateNewKeyPort(keyPort),
                                         orbitEnabled: false,
                                         transformationParams: {
-                                            position : [0,0,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                            position: [.5, .5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [0,0,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
-                                        } as TransformationParams,
-                                    } as ComponentEntity,
-                                    {
-                                        type: "CIRCLE",
-                                        keyComponent: 0,
-                                        geometryAttributes: {
-                                            radius: 0.05,
-                                            segments: 10,
-                                        } as CircleGeometryAttributes,
-                                        name: "inputPort" + generateNewKeyPort(keyPort),
-                                        orbitEnabled: false,
-                                        transformationParams: {
-                                            position : [.5,0,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
-                                        } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [.5,0,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                        previousTransformationParams: {
+                                            position: [.5, .5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
                                     } as ComponentEntity,
                                     {
@@ -281,34 +226,14 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                         name: "inputPort" + generateNewKeyPort(keyPort),
                                         orbitEnabled: false,
                                         transformationParams: {
-                                            position : [-0.5,-0.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                            position: [-0.5, 0, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [-0.5,-0.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
-                                        } as TransformationParams,
-                                    } as ComponentEntity,
-                                    {
-                                        type: "CIRCLE",
-                                        keyComponent: 0,
-                                        geometryAttributes: {
-                                            radius: 0.05,
-                                            segments: 10,
-                                        } as CircleGeometryAttributes,
-                                        name: "inputPort" + generateNewKeyPort(keyPort),
-                                        orbitEnabled: false,
-                                        transformationParams: {
-                                            position : [0,-0.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
-                                        } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [0,-0.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                        previousTransformationParams: {
+                                            position: [-0.5, 0, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
                                     } as ComponentEntity,
                                     {
@@ -321,20 +246,101 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                         name: "inputPort" + generateNewKeyPort(keyPort),
                                         orbitEnabled: false,
                                         transformationParams: {
-                                            position : [.5,-0.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                            position: [0, 0, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
-                                        previousTransformationParams:  {
-                                            position : [.5,-0.5,0],
-                                            rotation : [0,0,0],
-                                            scale: [1,1,1]
+                                        previousTransformationParams: {
+                                            position: [0, 0, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position: [.5, 0, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
+                                        } as TransformationParams,
+                                        previousTransformationParams: {
+                                            position: [.5, 0, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position: [-0.5, -0.5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
+                                        } as TransformationParams,
+                                        previousTransformationParams: {
+                                            position: [-0.5, -0.5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position: [0, -0.5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
+                                        } as TransformationParams,
+                                        previousTransformationParams: {
+                                            position: [0, -0.5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
+                                        } as TransformationParams,
+                                    } as ComponentEntity,
+                                    {
+                                        type: "CIRCLE",
+                                        keyComponent: 0,
+                                        geometryAttributes: {
+                                            radius: 0.05,
+                                            segments: 10,
+                                        } as CircleGeometryAttributes,
+                                        name: "inputPort" + generateNewKeyPort(keyPort),
+                                        orbitEnabled: false,
+                                        transformationParams: {
+                                            position: [.5, -0.5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
+                                        } as TransformationParams,
+                                        previousTransformationParams: {
+                                            position: [.5, -0.5, 0],
+                                            rotation: [0, 0, 0],
+                                            scale: [1, 1, 1]
                                         } as TransformationParams,
                                     } as ComponentEntity,
 
                                 ]
                             }
                             addPorts(probe)
+                            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Probe</span>

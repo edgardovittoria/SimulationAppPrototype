@@ -20,13 +20,15 @@ interface FactoryRightPanelContentProps {
     setRLCParams: Function,
     setPortSignal: Function,
     availableSignals: Signal[],
-    setAvailableSignals: Function
+    setAvailableSignals: Function,
+    setMeshGenerated: Function
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
         section, components, setShowSimulationModel, ports,
-        setPortType, updatePortPosition, setRLCParams, setPortSignal, availableSignals, setAvailableSignals
+        setPortType, updatePortPosition, setRLCParams, setPortSignal, availableSignals, setAvailableSignals,
+        setMeshGenerated
     }
 ) => {
 
@@ -75,7 +77,10 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
             )
         case 'Simulator':
             return (
-                <SimulatorLauncher components={components} setShowSimulationModel={setShowSimulationModel}/>
+                <SimulatorLauncher components={components}
+                                   setShowSimulationModel={setShowSimulationModel}
+                                   setMeshGenerated={setMeshGenerated}
+                />
             )
         case 'Results':
             return <></>

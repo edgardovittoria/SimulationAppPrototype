@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
-import {ComponentEntity, meshFrom} from "cad-library";
-import {STLExporter} from "three/examples/jsm/exporters/STLExporter";
-import * as THREE from "three";
-import {Object3D} from "three";
-
-
+import {ComponentEntity} from "cad-library";
+import {Project} from "../../../../../../../../model/Project";
 
 interface PanelFooterProps{
     simulationStarted: 'notStarted' | 'started' | 'Completed',
@@ -15,17 +11,19 @@ interface PanelFooterProps{
     setMenuItem: Function,
     setShowSimulationModel: Function,
     quantumDimensions: [number, number, number],
-    components: ComponentEntity[] | undefined
+    components: ComponentEntity[] | undefined,
+    project: Project | undefined
 }
 
 export const PanelFooter: React.FC<PanelFooterProps> = (
     {
         simulationStarted, meshGenerated, setMeshGenerated, meshApproved,setMeshApproved,
-        setMenuItem, setShowSimulationModel, quantumDimensions, components
+        setMenuItem, setShowSimulationModel, quantumDimensions, components, project
     }
 ) => {
 
     const [meshGeneration, setMeshGeneration] = useState(false);
+    const [mesherOutput, setMesherOutput] = useState(undefined);
 
 
     function checkQuantumDimensionsValidity(){
@@ -38,34 +36,8 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
         return validity
     }
 
-    function generateSTLListFromComponents(){
-        let materialList: string[] = []
-        components?.forEach(c => {
-            if(c.material?.name && !materialList.includes(c.material?.name)){
-                materialList.push(c.material?.name)
-            }
-        })
-        let filteredComponents: ComponentEntity[][] = []
 
-        materialList.forEach(m => {
-            (components) && filteredComponents.push(components.filter(c => c.material?.name === m))
-        })
 
-        let STLList: string[] = []
-
-        let exporter = new STLExporter();
-
-        filteredComponents.forEach(fc => {
-            let scene = new THREE.Scene()
-            fc.forEach(c => {
-                scene.add(meshFrom(c))
-            })
-            let STLToPush  = exporter.parse(scene).replace("exported", fc[0].material?.name as string)
-            STLList.push(STLToPush)
-        })
-
-        return STLList
-    }
 
     return(
         <div className="row w-100 my-0">
@@ -91,13 +63,6 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
                             disabled={!checkQuantumDimensionsValidity()}
                             onClick={() => {
                                 setMeshGeneration(true)
-                                //TODO: add http request to generate mesh
-                                let objToSendToMesher = {
-                                    STLList: generateSTLListFromComponents(),
-                                    quantum: quantumDimensions
-                                }
-
-                                console.log(objToSendToMesher)
                                 setTimeout(() => {
                                     setMeshGeneration(false)
                                     setMeshGenerated(true)
@@ -122,13 +87,6 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
                                 onClick={() => {
                                     setMeshGeneration(true)
                                     setMeshGenerated(false)
-                                    //TODO: add http request to generate mesh
-                                    let objToSendToMesher = {
-                                        STLList: generateSTLListFromComponents(),
-                                        quantum: quantumDimensions
-                                    }
-
-                                    console.log(objToSendToMesher)
                                     setTimeout(() => {
                                         setMeshGeneration(false)
                                         setMeshGenerated(true)
@@ -140,9 +98,7 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
                         <div className="col-6">
                             <button
                                 className="btn button-primary"
-                                onClick={() => {
-                                    setMeshApproved(true)
-                                }}
+                                onClick={() => setMeshApproved(true)}
                             >Start Simulation
                             </button>
                         </div>

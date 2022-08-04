@@ -147,7 +147,7 @@ export const ProjectSlice = createSlice({
             state.selectedComponent = []
         },
         createSimulation(state: ProjectState, action: PayloadAction<Simulation>) {
-            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
+            let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
             selectedProject?.simulations.push(action.payload);
             state.projects.projectList.forEach(project => {
                 if (project.name === selectedProject?.name) {
@@ -156,7 +156,7 @@ export const ProjectSlice = createSlice({
             })
         },
         updateSimulation(state: ProjectState, action: PayloadAction<Simulation>) {
-            let selectedProject = findProjectByName(state.projects.projectList, state.selectedProject)
+            let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
             if (selectedProject?.simulations) {
                 selectedProject.simulations = selectedProject.simulations.filter(s => s.name !== action.payload.name)
                 selectedProject.simulations.push(action.payload)

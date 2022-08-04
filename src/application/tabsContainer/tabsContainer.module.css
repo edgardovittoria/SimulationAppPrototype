@@ -82,6 +82,7 @@
     margin-top: 8px;
     width: max-content;
     box-shadow: 5px 5px 10px 0 ;
+    z-index: 10000;
 }
 
 .userNameText{

@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Project} from "../../../../model/Project";
 import RightPanel from "../projectsManagementElements/components/rightPanel/RightPanel";
 import {Overview} from "../projectsManagementElements/components/overview/Overview";
@@ -25,7 +25,9 @@ interface TabsContentProjectManagementFactoryProps {
     execQuery: Function,
     moveObject: Function,
     removeFolder: Function,
-    allFoldersName: string[]
+    allFoldersName: string[],
+    path: string[],
+    setPath: Function
 }
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
@@ -33,9 +35,10 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
         menuItem, setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab,
         projects, folders, selectedFolder, selectFolder, selectProject,
         removeProject, setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem, execQuery,
-        moveObject, removeFolder, allFoldersName
+        moveObject, removeFolder, allFoldersName, path, setPath
     }
 ) => {
+
 
     const memoizedOverview: JSX.Element = useMemo(() => <Overview
         setShowModal={setShowModal}
@@ -80,6 +83,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
                             moveObject={moveObject}
                             removeFolder={removeFolder}
                             allFoldersName={allFoldersName}
+                            path={path}
+                            setPath={setPath}
                         />
                     </div>
                     <RightPanel/>

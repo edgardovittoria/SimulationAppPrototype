@@ -5,10 +5,11 @@ import css from "./simulatorLauncher.module.css";
 
 interface SimulatorLauncherProps {
     components: ComponentEntity[] | undefined,
-    setShowSimulationModel: Function
+    setShowSimulationModel: Function,
+    setMeshGenerated: Function
 }
 
-export const SimulatorLauncher: React.FC<SimulatorLauncherProps> = ({components, setShowSimulationModel}) => {
+export const SimulatorLauncher: React.FC<SimulatorLauncherProps> = ({components, setShowSimulationModel, setMeshGenerated}) => {
     return(
         <div className={css.simulatorLauncherContainer}>
             <span className="py-1">Case Study</span>
@@ -16,7 +17,10 @@ export const SimulatorLauncher: React.FC<SimulatorLauncherProps> = ({components,
             {((components !== undefined) && (components.filter(component => component.material === undefined).length === 0)) ?
                 <button
                     className="btn button-primary flex-column w-100"
-                    onClick={() => setShowSimulationModel(true)}
+                    onClick={() => {
+                        setMeshGenerated(false)
+                        setShowSimulationModel(true)
+                    }}
                 >
                     <div className="fa fa-power-off me-3" style={{color: '#fff'}}/>
                     Launcher

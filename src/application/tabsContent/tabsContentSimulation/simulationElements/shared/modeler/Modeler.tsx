@@ -7,12 +7,11 @@ import {GiCubeforce} from "react-icons/gi";
 import {Project} from '../../../../../../model/Project'
 import {Probe} from "../../../../../../model/Port";
 import {
-    CanvasState,
     FactoryShapes,
     ImportActionParamsObject,
     ImportCadProjectButton, useFaunaQuery
 } from 'cad-library'
-import {findSelectedPort, selectedProjectSelector} from '../../../../../../store/projectSlice';
+import {findSelectedPort} from '../../../../../../store/projectSlice';
 import {Screenshot} from "./components/Screenshot";
 import {PortControls} from "./components/PortControls";
 import {ProbeControls} from "./components/ProbeControls";
@@ -47,7 +46,6 @@ export const Modeler: React.FC<ModelerProps> = (
     * */
     useEffect(() => {
         execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
-        console.log('pippo')
     }, [(selectedProject) && selectedProject.model]);
 
 

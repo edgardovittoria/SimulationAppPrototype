@@ -1,16 +1,23 @@
 import {useEffect, useState} from "react";
+import {ComponentEntity} from "cad-library";
+import {generateSTLListFromComponents, getMaterialListFrom} from "./auxiliaryFunctions/auxiliaryFunctions";
 
-export const useGenerateMesh = (showSimulationModel: boolean) => {
+export const useGenerateMesh = (
+    showSimulationModel: boolean, components: ComponentEntity[], quantumDimensions: [number, number, number]
+) => {
     const [meshGenerated, setMeshGenerated] = useState(false);
-    useEffect(() => {
-        /*if(showSimulationModel){
-            setTimeout(() => {
-                //TODO: add request to the server to do meshing and manage response
-                setMeshGenerated(true)
-            }, 5000)
-        }*/
-    }, [meshGenerated, showSimulationModel]);
+    const [mesherOutput, setMesherOutput] = useState(undefined);
 
-    return {meshGenerated, setMeshGenerated}
+    useEffect(() => {
+        let objToSendToMesher = {
+            STLList: (components) && generateSTLListFromComponents(getMaterialListFrom(components), components),
+            quantum: quantumDimensions
+        }
+        //TODO: add http request to generate mesh and set mesherOutput
+
+        console.log(objToSendToMesher)
+    }, [meshGenerated]);
+
+    return {meshGenerated, setMeshGenerated, mesherOutput}
 
 }
