@@ -18,7 +18,7 @@ export const SimulatorLauncher: React.FC<SimulatorLauncherProps> = ({components,
                 <button
                     className="btn button-primary flex-column w-100"
                     onClick={() => {
-                        setMeshGenerated(false)
+                        setMeshGenerated("Not Generated")
                         setShowSimulationModel(true)
                     }}
                 >

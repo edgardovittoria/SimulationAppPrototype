@@ -5,6 +5,8 @@ import {Overview} from "../projectsManagementElements/components/overview/Overvi
 import {Projects} from "../projectsManagementElements/components/projects/Projects";
 import {Simulations} from "../projectsManagementElements/components/simulations/Simulations";
 import {Folder} from "../../../../model/Folder";
+import {useSelector} from "react-redux";
+import {projectsSelector} from "../../../../store/projectSlice";
 
 interface TabsContentProjectManagementFactoryProps {
     menuItem: string,
@@ -13,7 +15,6 @@ interface TabsContentProjectManagementFactoryProps {
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
-    projects: Project[],
     folders: Folder[],
     selectedFolder: Folder,
     selectFolder: Function,
@@ -27,17 +28,20 @@ interface TabsContentProjectManagementFactoryProps {
     removeFolder: Function,
     allFoldersName: string[],
     path: string[],
-    setPath: Function
+    setPath: Function,
+    mainFolder: Folder
 }
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
     {
         menuItem, setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab,
-        projects, folders, selectedFolder, selectFolder, selectProject,
+        folders, selectedFolder, selectFolder, selectProject,
         removeProject, setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem, execQuery,
-        moveObject, removeFolder, allFoldersName, path, setPath
+        moveObject, removeFolder, allFoldersName, path, setPath, mainFolder
     }
 ) => {
+
+    const projects = useSelector(projectsSelector)
 
 
     const memoizedOverview: JSX.Element = useMemo(() => <Overview
@@ -50,6 +54,9 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
         removeProject={removeProject}
         setMenuItem={setMenuItem}
         execQuery={execQuery}
+        setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
+        setSelectedSimulation={setSelectedSimulation}
+        mainFolder={mainFolder}
     />, [projects]);
 
     switch (menuItem) {
@@ -93,13 +100,17 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
         case 'Simulations' :
             return (
                 <div className="container d-flex">
-                    <div className="row w-75 me-4 justify-content-between">
+                    <div className="row w-75 me-4 justify-content-between box">
+                        <h4 className="">Simulations</h4>
                         <Simulations
-                            projects={projects}
                             selectTab={selectTab}
                             setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
                             selectProject={selectProject}
                             setSelectedSimulation={setSelectedSimulation}
+                            setProjectsTab={setProjectsTab}
+                            projectsTab={projectsTab}
+                            mainFolder={mainFolder}
+                            projects={projects}
                         />
                     </div>
                     <RightPanel/>

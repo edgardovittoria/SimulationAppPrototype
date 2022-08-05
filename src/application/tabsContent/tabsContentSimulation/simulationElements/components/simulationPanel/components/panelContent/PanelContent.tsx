@@ -10,7 +10,7 @@ import css
 
 interface PanelContentProps {
     simulationStarted: 'notStarted' | 'started' | 'Completed',
-    meshGenerated: boolean,
+    meshGenerated: "Not Generated" | "Generating" | "Generated",
     simulation: Simulation,
     selectedProject: Project | undefined,
     setQuantumDimensions: Function,
@@ -81,7 +81,7 @@ export const PanelContent: React.FC<PanelContentProps> = (
 
                     </div>
                 </div>
-                {(meshGenerated && simulationStarted !== 'started') &&
+                {(meshGenerated === "Generated" && simulationStarted !== 'started') &&
                 <Canvas style={{height: "400px"}}>
                     <pointLight position={[100, 100, 100]} intensity={0.8}/>
                     <hemisphereLight color={'#3a3a3a'}  position={[0, 25, 13]} intensity={0.6}/>
@@ -89,6 +89,7 @@ export const PanelContent: React.FC<PanelContentProps> = (
                     {selectedProject && selectedProject.model.components.map(component => {
                         return (
                             <mesh
+                                key={component.keyComponent}
                                 onUpdate={(mesh) => {
                                     mesh.material = new THREE.MeshPhongMaterial({
                                         color: component.material?.color,

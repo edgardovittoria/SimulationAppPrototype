@@ -3,6 +3,8 @@ import css from './overview.module.css';
 import { Project } from "../../../../../../model/Project";
 import { ImportSimProjectButton } from '../../../../../../importExport/importSimProjectButton';
 import {ProjectManagementIcons} from "../../shared/ProjectManagementIcons";
+import {Simulations} from "../simulations/Simulations";
+import {Folder} from "../../../../../../model/Folder";
 
 interface OverviewProps {
     setShowModal: Function,
@@ -13,13 +15,18 @@ interface OverviewProps {
     selectProject: Function,
     removeProject: Function,
     setMenuItem: Function,
-    execQuery: Function
+    execQuery: Function,
+    setSimulationCoreMenuItemSelected: Function,
+    setSelectedSimulation: Function,
+    mainFolder: Folder
+
 }
 
 export const Overview: React.FC<OverviewProps> = (
     {
         setShowModal, projectsTab, setProjectsTab, selectTab, projects,
-        selectProject, removeProject, setMenuItem, execQuery
+        selectProject, removeProject, setMenuItem, execQuery, setSimulationCoreMenuItemSelected,
+        setSelectedSimulation, mainFolder
     }
 ) => {
     const [cardMenuHovered, setCardMenuHovered] = useState(false);
@@ -111,13 +118,18 @@ export const Overview: React.FC<OverviewProps> = (
 
 
             </div>
-            <div className={`box ${css.boxSimulation}`}>
-                <h5>Simulations</h5>
-                <div className={css.simulationContent}>
-                    <img src="/noresultfound.png" className={css.noResultFoundIcon} alt="No Result Found Icon" />
-                    <p>No Results Found</p>
-                </div>
-
+            <div className="mt-3 justify-content-between box h-50">
+                <h5 className="">Simulations</h5>
+                <Simulations
+                    selectTab={selectTab}
+                    setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
+                    selectProject={selectProject}
+                    setSelectedSimulation={setSelectedSimulation}
+                    mainFolder={mainFolder}
+                    projects={projects}
+                    setProjectsTab={setProjectsTab}
+                    projectsTab={projectsTab}
+                />
             </div>
 
 

@@ -45,10 +45,9 @@ export const Projects: React.FC<ProjectsProps> = (
         selectTab(project.name)
     }
 
-    if (selectedFolder.name !== "My Files") {
-        projects = selectedFolder.projectList;
-        folders = selectedFolder.subFolders
-    }
+    projects = selectedFolder.projectList;
+    folders = selectedFolder.subFolders
+
 
     return (
         <DndProvider backend={HTML5Backend}>

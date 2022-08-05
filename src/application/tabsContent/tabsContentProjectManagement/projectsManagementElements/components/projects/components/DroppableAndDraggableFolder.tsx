@@ -60,7 +60,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
         if (dragDone) {
             let projectToMove: Project | Folder = dragAndDropManager.getMonitor().getItem()
             moveObject({
-                projectToMove: projectToMove,
+                objectToMove: projectToMove,
                 targetFolder: dropTargetFolder
             })
             execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
@@ -113,7 +113,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                             return (
                                 <Item onClick={() => {
                                     moveObject({
-                                        projectToMove: folder,
+                                        objectToMove: folder,
                                         targetFolder: name
                                     })
                                     execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})

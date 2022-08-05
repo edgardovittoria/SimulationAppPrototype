@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Simulation} from "../../../../model/Simulation";
 import {getSimulationByName} from "../../../../faunadb/api/simulationAPIs";
-import {ComponentEntity, Material, useFaunaQuery} from "cad-library";
+import {useFaunaQuery} from "cad-library";
 import {updateFolderOrProject} from "../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../store/store";
 import {Project} from "../../../../model/Project";
@@ -23,8 +23,8 @@ export const useRunSimulation =
             if (showSimulationModel && meshApproved) {
                 setSimulationStarted("started");
                 let simulation: Simulation = {
-                    name: 'simulation' + (simulationsDone.length + 1).toString(),
-                    started: Date.now().toLocaleString(),
+                    name: associatedProject?.name + ' - sim' + (simulationsDone.length + 1).toString(),
+                    started: Date.now().toString(),
                     ended: "",
                     results: [],
                     status: "Queued",
@@ -60,8 +60,7 @@ export const useRunSimulation =
                 console.log(dataToSendToSolver)
                 setTimeout(() => {
                     setSimulationStarted("Completed")
-                    execQuery(getSimulationByName, simulation.name).then(res => {
-                        console.log(res)
+                    execQuery(getSimulationByName, 'simulation1').then(res => {
                         let simulationUpdated: Simulation = {
                             ...simulation,
                             results: [...(res.results)],

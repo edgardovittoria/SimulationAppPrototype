@@ -4,7 +4,7 @@ import {Project} from "../../../../../../../../model/Project";
 
 interface PanelFooterProps{
     simulationStarted: 'notStarted' | 'started' | 'Completed',
-    meshGenerated: boolean,
+    meshGenerated: "Not Generated" | "Generating" | "Generated",
     meshApproved: boolean,
     setMeshGenerated: Function,
     setMeshApproved: Function,
@@ -22,7 +22,6 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
     }
 ) => {
 
-    const [meshGeneration, setMeshGeneration] = useState(false);
     const [mesherOutput, setMesherOutput] = useState(undefined);
 
 
@@ -56,42 +55,29 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
                         <span className="fw-bold">Simulating...</span>
                     </div>
                     }
-                    {(!meshGeneration && !meshGenerated) &&
+                    {(meshGenerated === "Not Generated") &&
                     <div>
                         <button
                             className="btn button-primary"
                             disabled={!checkQuantumDimensionsValidity()}
-                            onClick={() => {
-                                setMeshGeneration(true)
-                                setTimeout(() => {
-                                    setMeshGeneration(false)
-                                    setMeshGenerated(true)
-                                }, 5000)
-                            }}
+                            onClick={() => setMeshGenerated("Generating")}
                         >Generate Mesh
                         </button>
                     </div>}
-                    {(meshGeneration) &&
+                    {(meshGenerated === "Generating") &&
                         <div>
                             <div className="spinner spinner-border me-3"
                                  style={{width: '20px', height: '20px'}}/>
                             <span className="fw-bold">Generating Mesh</span>
                         </div>
                     }
-                    {(meshGenerated && !meshApproved) &&
+                    {(meshGenerated === "Generated" && !meshApproved) &&
                     <div className="row">
                         <div className="col-6">
                             <button
                                 className="btn button-primary"
                                 disabled={!checkQuantumDimensionsValidity()}
-                                onClick={() => {
-                                    setMeshGeneration(true)
-                                    setMeshGenerated(false)
-                                    setTimeout(() => {
-                                        setMeshGeneration(false)
-                                        setMeshGenerated(true)
-                                    }, 5000)
-                                }}
+                                onClick={() => setMeshGenerated("Generating")}
                             >Regenerate
                             </button>
                         </div>

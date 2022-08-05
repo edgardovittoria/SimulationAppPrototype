@@ -58,14 +58,6 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                         <div className="col-6">
                             {(project.name.length > 11) ? project.name.substr(0, 11) + '...' : project.name}
                         </div>
-                        {/*<div className="col-6">
-                        <ProjectManagementIcons project={project}
-                                                removeProject={removeProject}
-                                                projectsTab={projectsTab}
-                                                setProjectsTab={setProjectsTab}
-                                                execQuery={execQuery}
-                        />
-                    </div>*/}
                     </div>
                 </div>
                 <div className="card-body" onClick={() => handleCardClick(project)}>
@@ -91,7 +83,7 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                             return (
                                 <Item onClick={() => {
                                     moveObject({
-                                        projectToMove: project,
+                                        objectToMove: project,
                                         targetFolder: name
                                     })
                                     execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {

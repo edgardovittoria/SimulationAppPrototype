@@ -7,7 +7,7 @@ import 'react-contexify/dist/ReactContexify.css';
 import {TabsContainer} from "./application/tabsContainer/TabsContainer";
 import {
     addProject, allFoldersNameSelector,
-    importModel, moveObject, projectsSelector, removeFolder,
+    importModel, mainFolderSelector, moveObject, projectsSelector, removeFolder,
     removeProject,
     resetSelectedComponents, selectedProjectSelector, selectProject, setProjectsFolderToUser
 } from "./store/projectSlice";
@@ -37,15 +37,16 @@ import {getProjectsFolderByOwner} from "./faunadb/api/projectsFolderAPIs";
 
 function App() {
 
-    const projects = useSelector(projectsSelector)
     const selectedProject = useSelector(selectedProjectSelector)
     const folders = useSelector(FolderStateSelector)
+    const mainFolder = useSelector(mainFolderSelector)
+
     const selectedFolder = useSelector(SelectedFolderSelector)
     const user = useSelector(usersStateSelector)
     const allFoldersName = useSelector(allFoldersNameSelector)
     const dispatch = useDispatch()
     const [tabSelected, setTabSelected] = useState("DASHBOARD");
-    const [projectsTab, setProjectsTab] = useState<Project[]>(projects);
+    const [projectsTab, setProjectsTab] = useState<Project[]>([]);
     const [showCreateNewProjectModal, setShowCreateNewProjectModal] = useState(false);
     const [showCreateNewFolderModal, setShowCreateNewFolderModal] = useState(false);
     const [showModalLoadFromDB, setShowModalLoadFromDB] = useState(false)
@@ -87,7 +88,11 @@ function App() {
 
 
     useEffect(() => {
-        setMenuItemSelected(menuItems[0])
+        if(tabSelected === "DASHBOARD"){
+            setMenuItemSelected(menuItems[0])
+        }else if(menuItemSelected !== 'Results'){
+            setMenuItemSelected(menuItems[0])
+        }
     }, [tabSelected])
 
     return (
@@ -103,7 +108,6 @@ function App() {
                     projectsTab={projectsTab}
                     setProjectsTab={setProjectsTab}
                     selectTab={setTabSelected}
-                    projects={projects}
                     folders={folders}
                     selectedFolder={selectedFolder}
                     selectFolder={(folder: Folder) => dispatch(selectFolder(folder))}
@@ -113,11 +117,12 @@ function App() {
                     setSelectedSimulation={setSelectedSimulation}
                     setMenuItem={setMenuItemSelected}
                     execQuery={execQuery}
-                    moveObject={(obj: { projectToMove: Project | Folder, targetFolder: string }) => dispatch(moveObject(obj))}
+                    moveObject={(obj: { objectToMove: Project | Folder, targetFolder: string }) => dispatch(moveObject(obj))}
                     removeFolder={(folder: Folder) => dispatch(removeFolder(folder))}
                     allFoldersName={allFoldersName}
                     path={path}
                     setPath={setPath}
+                    mainFolder={mainFolder}
                 />
                 :
                 <TabsContentSimulationFactory

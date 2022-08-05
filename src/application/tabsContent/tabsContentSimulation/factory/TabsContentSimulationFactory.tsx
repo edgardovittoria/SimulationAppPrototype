@@ -51,7 +51,8 @@ interface TabsContentSimulationFactoryProps {
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
     {
-        menuItem, setMenuItem, selectedSimulation, setSelectedSimulation, setShowLoadFromDBModal, execQuery
+        menuItem, setMenuItem, selectedSimulation, setSelectedSimulation, setShowLoadFromDBModal,
+        execQuery
     }
 ) => {
     const dispatch = useDispatch()

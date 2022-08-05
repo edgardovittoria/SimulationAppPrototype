@@ -5,26 +5,42 @@ import {Simulation} from "../../../../../../model/Simulation";
 import {TiDelete} from "react-icons/ti";
 import {MdWatchLater} from "react-icons/md";
 import {AiOutlineBarChart} from "react-icons/ai";
+import {Folder} from "../../../../../../model/Folder";
+import {findProjectByName} from "../../../../../../store/projectSlice";
 import {Project} from "../../../../../../model/Project";
 
 interface SimulationsProps {
-    projects: Project[],
     selectTab: Function,
     setSimulationCoreMenuItemSelected: Function,
     selectProject: Function,
-    setSelectedSimulation: Function
+    setSelectedSimulation: Function,
+    mainFolder: Folder,
+    projects: Project[],
+    setProjectsTab: Function,
+    projectsTab: Project[]
 }
 
 export const Simulations: React.FC<SimulationsProps> = (
     {
-        projects, selectTab, setSimulationCoreMenuItemSelected, selectProject, setSelectedSimulation
+        selectTab, setSimulationCoreMenuItemSelected, selectProject, setSelectedSimulation,
+        mainFolder, projects, setProjectsTab, projectsTab
     }
 ) => {
+
     let simulations: Simulation[] = []
-    projects.map(project => {
-        project.simulations.map(simulation => simulations.push(simulation))
-        return simulations
-    })
+
+    function getAllSimulation(folder: Folder){
+        folder.projectList.forEach(p => {
+            p.simulations.forEach(s => simulations.push(s))
+        })
+        folder.subFolders.forEach(f => {
+            getAllSimulation(f)
+        })
+    }
+
+    getAllSimulation(mainFolder)
+
+
 
     function showResultsIcon (id: string) {
         document.getElementById(id)?.setAttribute('style', 'visibility: visible')
@@ -49,27 +65,26 @@ export const Simulations: React.FC<SimulationsProps> = (
     }
 
     return (
-        <div className={`box ${css.simulationsBox}`}>
+        <>
             {simulations.length > 0
                 ?
-                <>
-                    <h5 className="py-1">Simulations</h5>
-                    <div className="px-3 overflow-scroll">
+                <div className={css.tableFixHead}>
                         <table className="table mt-4">
-                            <thead>
+                            <thead className="w-100">
                                 <tr>
                                     <th scope="col"/>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Project - Name</th>
                                     <th scope="col">Started</th>
                                     <th scope="col">Ended</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Project</th>
                                     <th scope="col"/>
                                 </tr>
                             </thead>
                             <tbody>
                             {simulations.map((simulation, index) => {
                                 let statusIcon: JSX.Element = factoryStatusIcon(simulation.status)
+                                let started = new Date(parseInt(simulation.started))
+                                let ended = new Date(parseInt(simulation.ended))
                                 return (
                                     <tr key={simulation.name}
                                         onMouseOver={() => showResultsIcon(index.toString())}
@@ -80,33 +95,29 @@ export const Simulations: React.FC<SimulationsProps> = (
                                             {statusIcon}
                                         </th>
                                         <td className="fw-bold py-4">{simulation.name}</td>
-                                        <td className="py-4">{simulation.started}</td>
-                                        <td className="py-4">{simulation.ended}</td>
+                                        <td className="py-4">{`${started.toLocaleString()}`}</td>
+                                        <td className="py-4">{`${ended.toLocaleString()}`}</td>
                                         <td className="py-4">{simulation.status}</td>
-                                        <td className="py-4">{simulation.associatedProject}</td>
                                         <td id={index.toString()} className={`py-4 ${css.simulationsResultIcon}`} style={{visibility: "hidden"}}>
                                             <AiOutlineBarChart color={'#00ae52'} style={{width: "30px", height: "30px"}}
                                                 onClick={() => {
                                                     selectTab(simulation.associatedProject)
                                                     selectProject(simulation.associatedProject)
                                                     setSelectedSimulation(simulation)
+                                                    setProjectsTab([...projectsTab, findProjectByName(projects, simulation.associatedProject)])
                                                     setSimulationCoreMenuItemSelected('Results')
                                                 }}
                                             />
                                         </td>
                                     </tr>
-
                                 )
                             })}
                             </tbody>
                         </table>
-
-                    </div>
-                </>
+                </div>
 
                 :
                 <>
-                    <h5>Simulations</h5>
                     <div className={css.simulationsNoResultsContainer}>
                         <img src="/noresultfound.png" className={css.simulationsNoResultsIcon} alt="No Results Icon"/>
                         <p>No results found</p>
@@ -114,6 +125,6 @@ export const Simulations: React.FC<SimulationsProps> = (
                 </>
 
             }
-        </div>
+        </>
     )
 }

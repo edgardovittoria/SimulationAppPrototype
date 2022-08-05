@@ -1,16 +1,15 @@
-.simulationsBox{
-    height: 465px;
+.simulationsBox {
     width: 100%;
     text-align: left;
-    display: grid;
+
 }
 
-.simulationsNoResultsContainer{
+.simulationsNoResultsContainer {
     text-align: center;
     padding: 20px;
 }
 
-.simulationsNoResultsIcon{
+.simulationsNoResultsIcon {
     margin-top: 50px;
     margin-bottom: 50px;
 }
@@ -21,45 +20,57 @@
     margin: 30px 20px 20px;
 }
 
-.simulationsCard:hover{
+.simulationsCard:hover {
     cursor: pointer;
 }
 
-.simulationsCardHeader, .simulationsCardFooter{
+.simulationsCardHeader, .simulationsCardFooter {
     background-color: white;
 }
 
-.simulationsImage{
+.simulationsImage {
     width: 90%;
 }
 
-.simulationsDeleteIcon{
+.simulationsDeleteIcon {
     color: var(--dangerColor);
 }
 
-.simulationsCardMenuButton{
+.simulationsCardMenuButton {
     background-color: white;
     border: none;
     border-radius: 20px;
 }
 
-.simulationsCardMenuButton:hover{
+.simulationsCardMenuButton:hover {
     background-color: rgba(98, 165, 135, 0.66);
 }
 
-.simulationsDeleteContainer:hover{
+.simulationsDeleteContainer:hover {
     cursor: pointer;
 }
 
-.simulationsDeleteText{
+.simulationsDeleteText {
     color: var(--dangerColor);
     font-size: 16px;
 }
 
-.simulationsTableRow:hover{
+.simulationsTableRow:hover {
     background-color: #f1f1f1;
 }
 
-.simulationsResultIcon:hover{
+.simulationsResultIcon:hover {
     cursor: pointer;
+}
+
+.tableFixHead {
+    overflow: auto;
+    height: 100%;
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #f4f4f4;
 }

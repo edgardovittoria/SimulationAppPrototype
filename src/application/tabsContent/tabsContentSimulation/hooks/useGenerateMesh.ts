@@ -5,17 +5,22 @@ import {generateSTLListFromComponents, getMaterialListFrom} from "./auxiliaryFun
 export const useGenerateMesh = (
     showSimulationModel: boolean, components: ComponentEntity[], quantumDimensions: [number, number, number]
 ) => {
-    const [meshGenerated, setMeshGenerated] = useState(false);
+    const [meshGenerated, setMeshGenerated] = useState<"Not Generated" | "Generating" | "Generated">("Not Generated");
     const [mesherOutput, setMesherOutput] = useState(undefined);
 
     useEffect(() => {
-        let objToSendToMesher = {
-            STLList: (components) && generateSTLListFromComponents(getMaterialListFrom(components), components),
-            quantum: quantumDimensions
+        if(meshGenerated === "Generating"){
+            let objToSendToMesher = {
+                STLList: (components) && generateSTLListFromComponents(getMaterialListFrom(components), components),
+                quantum: quantumDimensions
+            }
+            //TODO: add http request to generate mesh and set mesherOutput
+            console.log(objToSendToMesher)
+            setTimeout(() => {
+                setMeshGenerated("Generated")
+            }, 5000)
         }
-        //TODO: add http request to generate mesh and set mesherOutput
 
-        console.log(objToSendToMesher)
     }, [meshGenerated]);
 
     return {meshGenerated, setMeshGenerated, mesherOutput}
