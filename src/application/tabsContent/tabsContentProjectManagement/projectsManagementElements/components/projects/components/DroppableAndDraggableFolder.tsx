@@ -63,7 +63,8 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                 objectToMove: projectToMove,
                 targetFolder: dropTargetFolder
             })
-            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
+            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
+            })
         }
         setDragDone(false)
     }, [dragDone]);
@@ -79,7 +80,6 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
 
 
     return (
-        <>
             <div className={`${css.folderBox} col-3`}
                  ref={ref => {
                      drag(drop(ref))
@@ -111,17 +111,21 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                     }>
                         {allFoldersName.filter(n => n !== folder.parent && n !== folder.name).map(name => {
                             return (
-                                <Item onClick={() => {
-                                    moveObject({
-                                        objectToMove: folder,
-                                        targetFolder: name
-                                    })
-                                    execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
-                                }}>{name}</Item>
+                                <div key={name}>
+                                    <Item onClick={() => {
+                                        moveObject({
+                                            objectToMove: folder,
+                                            targetFolder: name
+                                        })
+                                        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
+                                        })
+                                    }}>{name}</Item>
+                                </div>
                             )
                         })}
                     </Submenu>
-                    <Item onClick={() => {}} disabled>
+                    <Item onClick={() => {
+                    }} disabled>
                         <BiRename
                             className="me-3"
                             color={'#29686EFF'}
@@ -129,8 +133,9 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                         />
                         Rename
                     </Item>
-                    <Separator />
-                    <Item onClick={() => {}} disabled>
+                    <Separator/>
+                    <Item onClick={() => {
+                    }} disabled>
                         <BiShareAlt
                             className="me-3"
                             color={'#29686EFF'}
@@ -138,7 +143,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                         />
                         Share
                     </Item>
-                    <Separator />
+                    <Separator/>
                     <Item data={folder} onClick={(data) => {
                         removeFolder(data.data)
                         execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
@@ -152,12 +157,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                         Delete
                     </Item>
                 </Menu>
-
             </div>
-
-
-        </>
-
     )
 
 }

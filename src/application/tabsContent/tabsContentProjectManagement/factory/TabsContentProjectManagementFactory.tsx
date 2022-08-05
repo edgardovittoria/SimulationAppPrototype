@@ -5,8 +5,14 @@ import {Overview} from "../projectsManagementElements/components/overview/Overvi
 import {Projects} from "../projectsManagementElements/components/projects/Projects";
 import {Simulations} from "../projectsManagementElements/components/simulations/Simulations";
 import {Folder} from "../../../../model/Folder";
-import {useSelector} from "react-redux";
-import {projectsSelector} from "../../../../store/projectSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    allFoldersNameSelector, FolderStateSelector,
+    mainFolderSelector,
+    moveObject,
+    projectsSelector,
+    removeFolder, removeProject
+} from "../../../../store/projectSlice";
 
 interface TabsContentProjectManagementFactoryProps {
     menuItem: string,
@@ -15,35 +21,35 @@ interface TabsContentProjectManagementFactoryProps {
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
-    folders: Folder[],
     selectedFolder: Folder,
     selectFolder: Function,
     selectProject: Function,
-    removeProject: Function,
     setSimulationCoreMenuItemSelected: Function,
     setSelectedSimulation: Function,
     setMenuItem: Function,
     execQuery: Function,
-    moveObject: Function,
-    removeFolder: Function,
-    allFoldersName: string[],
     path: string[],
-    setPath: Function,
-    mainFolder: Folder
+    setPath: Function
 }
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
     {
         menuItem, setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab,
-        folders, selectedFolder, selectFolder, selectProject,
-        removeProject, setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem, execQuery,
-        moveObject, removeFolder, allFoldersName, path, setPath, mainFolder
+        selectedFolder, selectFolder, selectProject,
+        setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem, execQuery, path, setPath
     }
 ) => {
 
+    const dispatch = useDispatch()
+
+    //SELECTORS
     const projects = useSelector(projectsSelector)
+    const mainFolder = useSelector(mainFolderSelector)
+    const folders = useSelector(FolderStateSelector)
+    const allFoldersName = useSelector(allFoldersNameSelector)
 
 
+    //MEMOIZED COMPONENTS
     const memoizedOverview: JSX.Element = useMemo(() => <Overview
         setShowModal={setShowModal}
         projectsTab={projectsTab}
@@ -85,10 +91,10 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
                             selectedFolder={selectedFolder}
                             selectFolder={selectFolder}
                             selectProject={selectProject}
-                            removeProject={removeProject}
+                            removeProject={(projectName: string) => dispatch(removeProject(projectName))}
                             execQuery={execQuery}
-                            moveObject={moveObject}
-                            removeFolder={removeFolder}
+                            moveObject={(obj: { objectToMove: Project | Folder, targetFolder: string }) => dispatch(moveObject(obj))}
+                            removeFolder={(folder: Folder) => dispatch(removeFolder(folder))}
                             allFoldersName={allFoldersName}
                             path={path}
                             setPath={setPath}

@@ -6,11 +6,13 @@ import {Simulation} from "../model/Simulation";
 import {Signal} from "../model/Port";
 import {Folder} from "../model/Folder";
 import {
+    addFolderToStore,
+    addProjectToStore,
     moveFolder,
     moveProject,
     projectAlreadyExists,
     recursiveFindFoldersName, recursiveFolderRemove, recursiveProjectAdd, recursiveProjectRemove,
-    recursiveSelectFolder, recursiveSubFoldersUpdate,
+    recursiveSelectFolder, recursiveSubFoldersUpdate, removeFolderFromStore, removeProjectFromStore,
     takeAllProjectsIn
 } from "./auxiliaryFunctions/managementProjectsAndFoldersFunction";
 
@@ -46,13 +48,7 @@ export const ProjectSlice = createSlice({
     } as ProjectState,
     reducers: {
         addProject(state: ProjectState, action: PayloadAction<Project>) {
-            if (state.selectedFolder.name === "My Files" && (!projectAlreadyExists(state.projects.projectList, action.payload))) {
-                state.projects.projectList.push(action.payload)
-                state.selectedFolder.projectList.push(action.payload)
-            } else {
-                state.selectedFolder.projectList.push(action.payload)
-                recursiveProjectAdd(state.projects.subFolders, state.selectedFolder?.name, action.payload)
-            }
+            addProjectToStore(state, action.payload)
         },
         setFaunaDocumentId(state: ProjectState, action: PayloadAction<number>) {
             state.projects.faunaDocumentId = action.payload
@@ -61,13 +57,7 @@ export const ProjectSlice = createSlice({
             state.projects = action.payload
         },
         removeProject(state: ProjectState, action: PayloadAction<string>) {
-            if (state.selectedFolder.name === "My Files") {
-                state.projects.projectList = state.projects.projectList.filter(p => p.name !== action.payload)
-                state.selectedFolder.projectList = state.projects.projectList.filter(p => p.name !== action.payload)
-            } else {
-                state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.name !== action.payload)
-                recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.name, action.payload)
-            }
+            removeProjectFromStore(state, action.payload)
         },
         moveObject(state: ProjectState, action: PayloadAction<{
             objectToMove: Project | Folder,
@@ -83,23 +73,12 @@ export const ProjectSlice = createSlice({
             if (action.payload !== undefined) {
                 state.selectedProject = action.payload
             }
-
         },
         addFolder(state: ProjectState, action: PayloadAction<Folder>) {
-            if (state.selectedFolder.name === "My Files") {
-                state.projects.subFolders.push(action.payload)
-            } else {
-                state.selectedFolder.subFolders.push(action.payload)
-                recursiveSubFoldersUpdate(state.projects.subFolders, state.selectedFolder?.name, action.payload)
-            }
+            addFolderToStore(state, action.payload)
         },
         removeFolder(state: ProjectState, action: PayloadAction<Folder>) {
-            if (state.selectedFolder.name === "My Files") {
-                state.projects.subFolders = state.projects.subFolders.filter(sf => sf.name !== action.payload.name)
-            } else {
-                state.selectedFolder.subFolders = state.selectedFolder.subFolders.filter(sf => sf.name !== action.payload.name)
-                recursiveFolderRemove(state.projects.subFolders, state.selectedFolder.name, action.payload)
-            }
+            removeFolderFromStore(state, action.payload)
         },
         selectFolder(state: ProjectState, action: PayloadAction<Folder | string>) {
             if (typeof action.payload === 'string') {

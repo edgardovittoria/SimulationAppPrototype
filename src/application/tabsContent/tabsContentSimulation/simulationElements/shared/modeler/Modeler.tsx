@@ -112,7 +112,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                         <Line
                                             points={[port.inputElement.transformationParams.position, port.outputElement.transformationParams.position]}
                                             color={(port.category === 'port') ? 'red' : 'violet'}
-                                            lineWidth={1} alphaWrite={undefined}                                        />
+                                            lineWidth={1} alphaWrite={undefined}                                      />
                                     </> :
                                     <>
                                         <group

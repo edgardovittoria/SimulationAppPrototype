@@ -81,14 +81,17 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                     }>
                         {allFoldersName.filter(n => n !== selectedFolder.name).map(name => {
                             return (
-                                <Item onClick={() => {
-                                    moveObject({
-                                        objectToMove: project,
-                                        targetFolder: name
-                                    })
-                                    execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-                                    })
-                                }}>{name}</Item>
+                                <div key={name}>
+                                    <Item onClick={() => {
+                                        moveObject({
+                                            objectToMove: project,
+                                            targetFolder: name
+                                        })
+                                        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
+                                        })
+                                    }}>{name}</Item>
+                                </div>
+
                             )
                         })}
                     </Submenu>

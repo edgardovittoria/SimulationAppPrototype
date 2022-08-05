@@ -70,12 +70,11 @@ export const Projects: React.FC<ProjectsProps> = (
 
                 <div className={css.folderHistory}>
                     <hr/>
-
                     {path.map((p, index) => {
                         return (
                             <>
                                 {index !== path.length - 1 ?
-                                    <>
+                                    <div className="d-inline" key={p}>
                                         <span
                                             className={css.folderHistoryItem}
                                             onClick={() => {
@@ -86,8 +85,8 @@ export const Projects: React.FC<ProjectsProps> = (
                                                 {p}
                                         </span>
                                         <span>{' '}&gt;{' '}</span>
-                                    </> :
-                                    <span className="fw-bold">{p}</span>
+                                    </div> :
+                                    <span className="fw-bold" key={p}>{p}</span>
                                 }
                             </>
 
