@@ -5,7 +5,7 @@ import {ProjectManagementIcons} from "../../../shared/ProjectManagementIcons";
 import {Project} from "../../../../../../../model/Project";
 import {Folder} from "../../../../../../../model/Folder";
 import {Item, Menu, Separator, Submenu, useContextMenu} from "react-contexify";
-import {updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
+import {deleteSimulationProjectFromFauna, removeIDInFolderProjectsList, updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../../../../store/store";
 import {BiExport, BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
 import iconCss from "../../../shared/projectManagementIcon.module.css";
@@ -124,8 +124,8 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                     <Item data={project} onClick={(data) => {
                         removeProject(data.data.name)
                         setProjectsTab(projectsTab.filter(p => p.name !== project.name))
-                        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-                        })
+                        execQuery(deleteSimulationProjectFromFauna, data.data.faunaDocumentId)
+                        execQuery(removeIDInFolderProjectsList, data.data.faunaDocumentId, selectedFolder)
                     }}>
                         <BiTrash
                             className="me-3"

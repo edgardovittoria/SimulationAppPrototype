@@ -11,5 +11,5 @@ export type Project = {
     screenshot: string | undefined,
     owner: UsersState
     sharedWidth?: UsersState[]
-    faunaDocumentID?: string
+    faunaDocumentId?: string
 }

@@ -6,7 +6,7 @@ import {IoMdFolder} from "react-icons/io";
 import {Folder} from "../../../../../../../model/Folder";
 import {useDrag, useDragDropManager, useDrop} from "react-dnd";
 import {Project} from "../../../../../../../model/Project";
-import {addIDInSubFoldersList, deleteFolderFromFauna, removeIDInSubFoldersList, updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
+import {addIDInSubFoldersList, deleteFolderFromFauna, deleteSimulationProjectFromFauna, getAllProjectsWithinThisFolder, getAllSubFoldersOfThisOne, removeIDInSubFoldersList, updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../../../../store/store";
 import {Menu, Item, Separator, useContextMenu, TriggerEvent, Submenu} from 'react-contexify';
 import {BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
@@ -152,10 +152,13 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                         Share
                     </Item>
                     <Separator/>
-                    <Item data={folder} onClick={(data) => {
-                        execQuery(deleteFolderFromFauna, data.data.faunaDocumentId)
-                        execQuery(removeIDInSubFoldersList, data.data.faunaDocumentId, selectedFolder)
-                        removeFolder(data.data)
+                    <Item onClick={() => {
+                        let folderIDsToDelete = [folder.faunaDocumentId, ...getAllSubFoldersOfThisOne(folder)]
+                        let projectsIDsToDelete = getAllProjectsWithinThisFolder(folder)
+                        folderIDsToDelete.forEach(f => execQuery(deleteFolderFromFauna, f))
+                        projectsIDsToDelete.forEach(p => execQuery(deleteSimulationProjectFromFauna, p))
+                        execQuery(removeIDInSubFoldersList, folder.faunaDocumentId, selectedFolder)
+                        removeFolder(folder)
                         // execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
                         // })
                     }}>

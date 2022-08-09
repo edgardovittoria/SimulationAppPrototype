@@ -3,7 +3,9 @@ import {Project} from "../../../model/Project";
 import {Modal} from "react-bootstrap";
 import {CanvasState, UsersState} from 'cad-library';
 import {store} from "../../../store/store";
-import {updateFolderOrProject} from "../../../faunadb/api/projectsFolderAPIs";
+import {addIDInFolderProjectsList, createSimulationProjectInFauna, updateFolderOrProject} from "../../../faunadb/api/projectsFolderAPIs";
+import { SelectedFolderSelector } from '../../../store/projectSlice';
+import { useSelector } from 'react-redux';
 
 interface CreateNewProjectModalProps {
     setShow: Function,
@@ -26,6 +28,7 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
 
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
+    const selectedFolder = useSelector(SelectedFolderSelector)
 
     const handleClose = () => setShow(false);
     const handleCreate = () => {
@@ -40,13 +43,19 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
                 owner: user,
                 sharedWidth: [] as UsersState[]
             }
-            addNewProject(newProject)
+            execQuery(createSimulationProjectInFauna, newProject).then((res: any) => {
+                newProject = {
+                    ...newProject,
+                    faunaDocumentId: res.ref.value.id
+                } as Project
+                execQuery(addIDInFolderProjectsList, newProject.faunaDocumentId, selectedFolder)
+                addNewProject(newProject)
+            })
             selectProject(newProject.name)
             setProjectsTab(projectsTab.concat(newProject))
             selectTab(newProject.name)
             setShow(false)
             selectFolder(store.getState().projects.projects)
-            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
         }else{
             alert("Project's name is required!")
         }
