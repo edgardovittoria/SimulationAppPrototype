@@ -26,18 +26,18 @@ export const addFolderToStore = (state: ProjectState, folderToAdd: Folder) => {
     if (state.selectedFolder.name === "My Files") {
         state.projects.subFolders.push(folderToAdd)
     } else {
-        state.selectedFolder.subFolders.push(folderToAdd)
-        recursiveSubFoldersUpdate(state.projects.subFolders, state.selectedFolder?.name, folderToAdd)
+        recursiveFoldersAdd(state.projects.subFolders, state.selectedFolder?.name, folderToAdd)
     }
+    state.selectedFolder.subFolders.push(folderToAdd)
 }
 
 export const removeFolderFromStore = (state: ProjectState, folderToRemove: Folder) => {
     if (state.selectedFolder.name === "My Files") {
         state.projects.subFolders = state.projects.subFolders.filter(sf => sf.name !== folderToRemove.name)
     } else {
-        state.selectedFolder.subFolders = state.selectedFolder.subFolders.filter(sf => sf.name !== folderToRemove.name)
         recursiveFolderRemove(state.projects.subFolders, state.selectedFolder.name, folderToRemove)
     }
+    state.selectedFolder.subFolders = state.selectedFolder.subFolders.filter(sf => sf.name !== folderToRemove.name)
 }
 
 export const moveProject = (state: ProjectState, projectToMove: Project, targetFolder: string) => {
@@ -56,23 +56,23 @@ export const moveProject = (state: ProjectState, projectToMove: Project, targetF
 
 export const moveFolder = (state: ProjectState, folderToMove: Folder, targetFolder: string) => {
     if (state.selectedFolder.name === "My Files") {
-        state.projects.subFolders = state.projects.subFolders.filter(sf => sf.name !== folderToMove.name)
+        state.projects.subFolders = state.projects.subFolders.filter(sf => sf.faunaDocumentId !== folderToMove.faunaDocumentId)
     } else {
-        recursiveFolderRemove(state.projects.subFolders, state.selectedFolder.name, folderToMove)
+        recursiveFolderRemove(state.projects.subFolders, state.selectedFolder.faunaDocumentId as string, folderToMove)
     }
-    state.selectedFolder.subFolders = state.selectedFolder.subFolders.filter(sf => sf.name !== folderToMove.name)
+    state.selectedFolder.subFolders = state.selectedFolder.subFolders.filter(sf => sf.faunaDocumentId !== folderToMove.faunaDocumentId)
     let updatedFolder = {...folderToMove, parent: targetFolder}
-    if(targetFolder === "My Files"){
+    if(targetFolder === state.projects.faunaDocumentId){
         state.projects.subFolders.push(updatedFolder)
     }else{
-        recursiveSubFoldersUpdate(state.projects.subFolders, targetFolder, updatedFolder)
+        recursiveFoldersAdd(state.projects.subFolders, targetFolder, updatedFolder)
     }
 }
 
-export const recursiveFindFoldersName = (folder: Folder, allFoldersName: string[]): string[] => {
-    allFoldersName.push(folder.name)
-    folder.subFolders.forEach(sb => recursiveFindFoldersName(sb, allFoldersName))
-    return allFoldersName
+export const recursiveFindFaunaFolderIDs = (folder: Folder, allFolders: Folder[]): Folder[] => {
+    allFolders.push(folder)
+    folder.subFolders.forEach(sb => recursiveFindFaunaFolderIDs(sb, allFolders))
+    return allFolders
 }
 
 export const takeAllProjectsIn = (folder: Folder): Project[] => {
@@ -83,12 +83,12 @@ export const projectAlreadyExists = (projects: Project[], newProject: Project) =
     return projects.filter(project => project.name === newProject.name).length > 0
 }
 
-export const recursiveSubFoldersUpdate = (subFolders: Folder[], parent: string, folderToAdd: Folder) => {
+export const recursiveFoldersAdd = (subFolders: Folder[], parent: string, folderToAdd: Folder) => {
     subFolders.forEach(sf => {
-        if (sf.name === parent) {
+        if (sf.faunaDocumentId === parent) {
             sf.subFolders.push(folderToAdd)
         } else {
-            recursiveSubFoldersUpdate(sf.subFolders, parent, folderToAdd)
+            recursiveFoldersAdd(sf.subFolders, parent, folderToAdd)
         }
     })
 
@@ -96,8 +96,8 @@ export const recursiveSubFoldersUpdate = (subFolders: Folder[], parent: string, 
 
 export const recursiveFolderRemove = (subFolders: Folder[], parent: string, folderToRemove: Folder) => {
     subFolders.forEach(sf => {
-        if (sf.name === parent) {
-            sf.subFolders = sf.subFolders.filter(f => f.name !== folderToRemove.name)
+        if (sf.faunaDocumentId === parent) {
+            sf.subFolders = sf.subFolders.filter(f => f.faunaDocumentId !== folderToRemove.faunaDocumentId)
         } else {
             recursiveFolderRemove(sf.subFolders, parent, folderToRemove)
         }

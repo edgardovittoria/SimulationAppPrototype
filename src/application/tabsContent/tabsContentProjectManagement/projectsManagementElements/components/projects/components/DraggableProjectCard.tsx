@@ -21,13 +21,13 @@ interface DraggableProjectCardProps {
     execQuery: Function,
     handleCardClick: Function,
     selectedFolder: Folder,
-    allFoldersName: string[]
+    allProjectFolders: Folder[]
 }
 
 export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
     {
         project, setProjectsTab, removeProject, projectsTab, moveObject, execQuery,
-        handleCardClick, selectedFolder, allFoldersName
+        handleCardClick, selectedFolder, allProjectFolders
     }
 ) => {
 
@@ -79,17 +79,17 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                             Move
                         </>
                     }>
-                        {allFoldersName.filter(n => n !== selectedFolder.name).map(name => {
+                        {allProjectFolders.filter(n => n.faunaDocumentId !== selectedFolder.faunaDocumentId).map(f => {
                             return (
-                                <div key={name}>
+                                <div key={f.faunaDocumentId}>
                                     <Item onClick={() => {
                                         moveObject({
                                             objectToMove: project,
-                                            targetFolder: name
+                                            targetFolder: f.faunaDocumentId
                                         })
-                                        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-                                        })
-                                    }}>{name}</Item>
+                                        // execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
+                                        // })
+                                    }}>{f.name}</Item>
                                 </div>
 
                             )

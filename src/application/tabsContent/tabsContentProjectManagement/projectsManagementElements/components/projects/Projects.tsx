@@ -24,7 +24,7 @@ interface ProjectsProps {
     execQuery: Function,
     moveObject: Function,
     removeFolder: Function,
-    allFoldersName: string[],
+    allProjectFolders: Folder[],
     path: string[]
     setPath: Function
 }
@@ -33,7 +33,7 @@ export const Projects: React.FC<ProjectsProps> = (
     {
         setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab, projects,
         folders, selectedFolder, selectFolder, removeProject, selectProject, execQuery, moveObject,
-        removeFolder, allFoldersName, path, setPath
+        removeFolder, allProjectFolders, path, setPath
     }
 ) => {
 
@@ -101,7 +101,7 @@ export const Projects: React.FC<ProjectsProps> = (
                         <>
                             <div className="row">
                                 {folders.length > 0 && <h5>Folders</h5>}
-                                {folders.map((folder, index) => {
+                                {folders.map((folder) => {
                                     return (
                                         <DroppableAndDraggableFolder selectFolder={selectFolder}
                                                                      folder={folder} moveObject={moveObject}
@@ -109,7 +109,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                                                      execQuery={execQuery}
                                                                      removeFolder={removeFolder}
                                                                      path={path} setPath={setPath}
-                                                                     allFoldersName={allFoldersName}
+                                                                     allProjectFolders={allProjectFolders}
                                         />
                                     )
                                 })}
@@ -123,7 +123,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                                               removeProject={removeProject}
                                                               execQuery={execQuery} handleCardClick={handleCardClick}
                                                               selectedFolder={selectedFolder} moveObject={moveObject}
-                                                              allFoldersName={allFoldersName}
+                                                              allProjectFolders={allProjectFolders}
                                         />
                                     )
                                 })}

@@ -11,8 +11,8 @@ import {
     moveFolder,
     moveProject,
     projectAlreadyExists,
-    recursiveFindFoldersName, recursiveFolderRemove, recursiveProjectAdd, recursiveProjectRemove,
-    recursiveSelectFolder, recursiveSubFoldersUpdate, removeFolderFromStore, removeProjectFromStore,
+    recursiveFindFaunaFolderIDs as recursiveFindFolders, recursiveFolderRemove, recursiveProjectAdd, recursiveProjectRemove,
+    recursiveSelectFolder, recursiveFoldersAdd, removeFolderFromStore, removeProjectFromStore,
     takeAllProjectsIn
 } from "./auxiliaryFunctions/managementProjectsAndFoldersFunction";
 
@@ -50,7 +50,7 @@ export const ProjectSlice = createSlice({
         addProject(state: ProjectState, action: PayloadAction<Project>) {
             addProjectToStore(state, action.payload)
         },
-        setFaunaDocumentId(state: ProjectState, action: PayloadAction<number>) {
+        setFaunaDocumentId(state: ProjectState, action: PayloadAction<string>) {
             state.projects.faunaDocumentId = action.payload
         },
         setProjectsFolderToUser(state: ProjectState, action: PayloadAction<Folder>) {
@@ -220,10 +220,10 @@ export const simulationSelector = (state: { projects: ProjectState }) => findPro
 export const findProjectByName = (projects: Project[], name: string | undefined) => {
     return (name !== undefined) ? projects.filter(project => project.name === name)[0] : undefined
 }
-export const allFoldersNameSelector = (state: { projects: ProjectState }) => {
-    let allFoldersName: string[] = []
-    allFoldersName = recursiveFindFoldersName(state.projects.projects, allFoldersName)
-    return allFoldersName
+export const allProjectFoldersSelector = (state: { projects: ProjectState }) => {
+    let allFolders: Folder[] = []
+    return recursiveFindFolders(state.projects.projects, allFolders)
+    
 }
 
 export const findSelectedPort = (project: Project | undefined) => (project) ? project.ports.filter(port => port.isSelected)[0] : undefined

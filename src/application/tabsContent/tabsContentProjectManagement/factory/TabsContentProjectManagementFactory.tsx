@@ -7,7 +7,7 @@ import {Simulations} from "../projectsManagementElements/components/simulations/
 import {Folder} from "../../../../model/Folder";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    allFoldersNameSelector, FolderStateSelector,
+    allProjectFoldersSelector, FolderStateSelector,
     mainFolderSelector,
     moveObject,
     projectsSelector,
@@ -46,7 +46,7 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
     const projects = useSelector(projectsSelector)
     const mainFolder = useSelector(mainFolderSelector)
     const folders = useSelector(FolderStateSelector)
-    const allFoldersName = useSelector(allFoldersNameSelector)
+    const allProjectFolders = useSelector(allProjectFoldersSelector)
 
 
     //MEMOIZED COMPONENTS
@@ -95,7 +95,7 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
                             execQuery={execQuery}
                             moveObject={(obj: { objectToMove: Project | Folder, targetFolder: string }) => dispatch(moveObject(obj))}
                             removeFolder={(folder: Folder) => dispatch(removeFolder(folder))}
-                            allFoldersName={allFoldersName}
+                            allProjectFolders={allProjectFolders}
                             path={path}
                             setPath={setPath}
                         />

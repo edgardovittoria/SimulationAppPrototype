@@ -8,5 +8,5 @@ export type Folder = {
     projectList: Project[],
     subFolders: Folder[],
     parent: string,
-    faunaDocumentId?: number
+    faunaDocumentId?: string
 }

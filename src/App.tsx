@@ -30,7 +30,7 @@ import {
 import {CreateNewFolderModal} from "./application/modals/createNewFolderModal/CreateNewFolderModal";
 import {addFolder, SelectedFolderSelector, selectFolder} from "./store/projectSlice";
 import {Folder} from "./model/Folder";
-import {getProjectsFolderByOwner} from "./faunadb/api/projectsFolderAPIs";
+import {constructFolderStructure, getFoldersByOwner, getProjectsFolderByOwner} from "./faunadb/api/projectsFolderAPIs";
 
 
 function App() {
@@ -58,16 +58,12 @@ function App() {
     //USE EFFECT
     useEffect(() => {
         if (user.userName) {
-            execQuery(getProjectsFolderByOwner, user.userName).then(res => {
-                dispatch(setProjectsFolderToUser({
-                    ...res.data,
-                    faunaDocumentId: res.ref.value.id
-                }))
-                dispatch(selectFolder({
-                    ...res.data,
-                    faunaDocumentId: res.ref.value.id
-                }))
-            })
+            execQuery(getFoldersByOwner, user.userName)
+                .then(folders => {
+                    let folder = constructFolderStructure(folders)
+                    dispatch(setProjectsFolderToUser(folder))
+                    dispatch(selectFolder(folder))
+                })
         }
     }, [user.userName]);
 
