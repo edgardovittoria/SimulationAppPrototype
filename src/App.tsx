@@ -30,7 +30,7 @@ import {
 import {CreateNewFolderModal} from "./application/modals/createNewFolderModal/CreateNewFolderModal";
 import {addFolder, SelectedFolderSelector, selectFolder} from "./store/projectSlice";
 import {Folder} from "./model/Folder";
-import {constructFolderStructure, getFoldersByOwner, getProjectsFolderByOwner} from "./faunadb/api/projectsFolderAPIs";
+import {constructFolderStructure, getFoldersByOwner, getProjectsFolderByOwner, getSimulationProjectsByOwner} from "./faunadb/api/projectsFolderAPIs";
 
 
 function App() {
@@ -60,9 +60,11 @@ function App() {
         if (user.userName) {
             execQuery(getFoldersByOwner, user.userName)
                 .then(folders => {
-                    let folder = constructFolderStructure(folders)
-                    dispatch(setProjectsFolderToUser(folder))
-                    dispatch(selectFolder(folder))
+                    execQuery(getSimulationProjectsByOwner, user.userName).then(projects => {
+                        let folder = constructFolderStructure(folders, projects)
+                        dispatch(setProjectsFolderToUser(folder))
+                        dispatch(selectFolder(folder))
+                    })
                 })
         }
     }, [user.userName]);
