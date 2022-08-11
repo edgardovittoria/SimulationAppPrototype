@@ -8,23 +8,19 @@ import {store} from "../../../../../store/store";
 
 interface ProjectManagementIconsProps {
     project: Project,
-    removeProject: Function,
-    projectsTab: Project[],
-    setProjectsTab: Function,
-    execQuery: Function
 }
 
 export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
     {
-        project, removeProject, projectsTab, setProjectsTab, execQuery
+        project,
     }
 ) => {
 
-    const exportIcon = useRef(null);
-    const deleteIcon = useRef(null);
+    /*const exportIcon = useRef(null);
+    const deleteIcon = useRef(null);*/
     const shareIcon = useRef(null);
-    const [showExport, setShowExport] = useState(false);
-    const [showDelete, setShowDelete] = useState(false);
+    /*const [showExport, setShowExport] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);*/
     const [showShare, setShowShare] = useState(false);
 
     return(
@@ -47,7 +43,7 @@ export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
                     )}
                 </Overlay>
             </div>
-            <div ref={exportIcon}
+            {/*<div ref={exportIcon}
                  onMouseOver={() => setShowExport(true)}
                  onMouseOut={() => setShowExport(false)}
                  className="col-2">
@@ -85,7 +81,7 @@ export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
                         </Tooltip>
                     )}
                 </Overlay>
-            </div>
+            </div>*/}
         </div>
     )
 

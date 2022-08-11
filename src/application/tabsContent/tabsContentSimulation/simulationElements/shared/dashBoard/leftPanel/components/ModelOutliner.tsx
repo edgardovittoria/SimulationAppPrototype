@@ -4,18 +4,18 @@ import React from "react";
 import {FaCube, FaCubes} from "react-icons/fa";
 
 import css from "./style/modelOutliner.module.css";
+import {useSelector} from "react-redux";
+import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
 interface ModelOutlinerProps {
-    selectedProject: Project | undefined,
-    selectedComponent: ComponentEntity[],
-    selectComponent: Function,
-    unselectComponent: Function,
+
 }
 
-export const ModelOutliner: React.FC<ModelOutlinerProps> = (
-    {selectedProject, selectedComponent, selectComponent, unselectComponent}) => {
+export const ModelOutliner: React.FC<ModelOutlinerProps> = ({}) => {
 
     //TODO: remove selection of componenst
+
+    const selectedProject = useSelector(selectedProjectSelector)
 
     return (
         <>
@@ -32,15 +32,8 @@ export const ModelOutliner: React.FC<ModelOutlinerProps> = (
                     {selectedProject && selectedProject.model.components.map(component => {
                         return (
                             <div
-                                className={(selectedComponent.filter(c => c.keyComponent === component.keyComponent).length > 0) ? `row ${css.rowElements} ${css.rowActive}` : `row ${css.rowElements}`}
+                                className={`row ${css.rowElements}`}
                                 key={component.keyComponent}
-                                /*onClick={() => {
-                                    if (selectedComponent.filter(c => c.keyComponent === component.keyComponent).length > 0) {
-                                        unselectComponent(component)
-                                    } else {
-                                        selectComponent(component);
-                                    }
-                                }}*/
                             >
                                 <div className="col-2">
                                     <FaCube className={css.outlineComponentIcon} color={(component.material !== undefined) ? component.material.color : "gray"}/>

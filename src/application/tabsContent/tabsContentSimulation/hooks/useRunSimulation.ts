@@ -5,12 +5,17 @@ import {useFaunaQuery} from "cad-library";
 import {store} from "../../../../store/store";
 import {Project} from "../../../../model/Project";
 import {getMaterialListFrom} from "./auxiliaryFunctions/auxiliaryFunctions";
+import {useDispatch, useSelector} from "react-redux";
+import {createSimulation, simulationSelector, updateSimulation} from "../../../../store/projectSlice";
 
 export const useRunSimulation =
     (
-        showSimulationModel: boolean, createNewSimulation: Function, updateSimulation: Function,
-        simulationsDone: Simulation[], associatedProject: Project | undefined, mesherOutput: undefined
+        showSimulationModel: boolean, associatedProject: Project | undefined,
+        mesherOutput: undefined
     ) => {
+
+        const dispatch = useDispatch()
+        const simulations = useSelector(simulationSelector)
         const [simulationStarted, setSimulationStarted] = useState<"notStarted" | "started" | "Completed">("notStarted");
         const [meshApproved, setMeshApproved] = useState(false);
         const [newSimulation, setNewSimulation] = useState<Simulation>({} as Simulation);
@@ -22,14 +27,14 @@ export const useRunSimulation =
             if (showSimulationModel && meshApproved) {
                 setSimulationStarted("started");
                 let simulation: Simulation = {
-                    name: associatedProject?.name + ' - sim' + (simulationsDone.length + 1).toString(),
+                    name: associatedProject?.name + ' - sim' + ((simulations as Simulation[]).length + 1).toString(),
                     started: Date.now().toString(),
                     ended: "",
                     results: [],
                     status: "Queued",
                     associatedProject: associatedProject?.name as string
                 }
-                createNewSimulation(simulation)
+                dispatch(createSimulation(simulation))
                 setNewSimulation(simulation)
                 let dataToSendToSolver = {
                     mesherOutput: mesherOutput,
@@ -66,7 +71,7 @@ export const useRunSimulation =
                             ended: Date.now().toString(),
                             status: "Completed"
                         }
-                        updateSimulation(simulationUpdated)
+                        dispatch(updateSimulation(simulationUpdated))
                     })
                         .catch(() => {
                             //management of exceptions

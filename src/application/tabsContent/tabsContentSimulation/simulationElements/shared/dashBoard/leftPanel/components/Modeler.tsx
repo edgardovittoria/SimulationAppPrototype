@@ -2,12 +2,16 @@ import React from 'react';
 import {Project} from "../../../../../../../../model/Project";
 
 import css from "./style/modeler.module.css";
+import {useSelector} from "react-redux";
+import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
 interface ModelerProps {
-    selectedProject: Project | undefined
 }
 
-export const Modeler: React.FC<ModelerProps> = ({selectedProject, children}) => {
+export const Modeler: React.FC<ModelerProps> = ({children}) => {
+
+    const selectedProject = useSelector(selectedProjectSelector)
+
     return(
         <>
             {(selectedProject && selectedProject.model.components !== undefined)

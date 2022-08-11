@@ -1,18 +1,10 @@
-import React, {useMemo, useState} from 'react';
+import React from 'react';
 import {Project} from "../../../../model/Project";
 import RightPanel from "../projectsManagementElements/components/rightPanel/RightPanel";
 import {Overview} from "../projectsManagementElements/components/overview/Overview";
 import {Projects} from "../projectsManagementElements/components/projects/Projects";
 import {Simulations} from "../projectsManagementElements/components/simulations/Simulations";
-import {Folder} from "../../../../model/Folder";
-import {useDispatch, useSelector} from "react-redux";
-import {
-    allProjectFoldersSelector, FolderStateSelector,
-    mainFolderSelector,
-    moveObject,
-    projectsSelector,
-    removeFolder, removeProject
-} from "../../../../store/projectSlice";
+
 
 interface TabsContentProjectManagementFactoryProps {
     menuItem: string,
@@ -21,54 +13,32 @@ interface TabsContentProjectManagementFactoryProps {
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
-    selectedFolder: Folder,
-    selectFolder: Function,
-    selectProject: Function,
     setSimulationCoreMenuItemSelected: Function,
     setSelectedSimulation: Function,
     setMenuItem: Function,
-    execQuery: Function,
 }
 
 export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectManagementFactoryProps> = (
     {
         menuItem, setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab,
-        selectedFolder, selectFolder, selectProject,
-        setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem, execQuery
+        setSimulationCoreMenuItemSelected, setSelectedSimulation, setMenuItem
     }
 ) => {
-
-    const dispatch = useDispatch()
-
-    //SELECTORS
-    const projects = useSelector(projectsSelector)
-    const mainFolder = useSelector(mainFolderSelector)
-    const folders = useSelector(FolderStateSelector)
-    const allProjectFolders = useSelector(allProjectFoldersSelector)
-
-
-    //MEMOIZED COMPONENTS
-    const memoizedOverview: JSX.Element = useMemo(() => <Overview
-        setShowModal={setShowModal}
-        projectsTab={projectsTab}
-        setProjectsTab={setProjectsTab}
-        selectTab={selectTab}
-        projects={projects}
-        selectProject={selectProject}
-        removeProject={removeProject}
-        setMenuItem={setMenuItem}
-        execQuery={execQuery}
-        setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
-        setSelectedSimulation={setSelectedSimulation}
-        mainFolder={mainFolder}
-    />, [projects]);
 
     switch (menuItem) {
         case 'Overview' :
             return (
                 <div className="container d-flex">
                     <div className="row w-75 me-4 justify-content-between">
-                        {memoizedOverview}
+                        <Overview
+                            setShowModal={setShowModal}
+                            projectsTab={projectsTab}
+                            setProjectsTab={setProjectsTab}
+                            selectTab={selectTab}
+                            setMenuItem={setMenuItem}
+                            setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
+                            setSelectedSimulation={setSelectedSimulation}
+                        />
                     </div>
                     <RightPanel/>
                 </div>
@@ -84,16 +54,6 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
                             projectsTab={projectsTab}
                             setProjectsTab={setProjectsTab}
                             selectTab={selectTab}
-                            projects={projects}
-                            folders={folders}
-                            selectedFolder={selectedFolder}
-                            selectFolder={selectFolder}
-                            selectProject={selectProject}
-                            removeProject={(projectName: string) => dispatch(removeProject(projectName))}
-                            execQuery={execQuery}
-                            moveObject={(obj: { objectToMove: Project | Folder, targetFolder: string }) => dispatch(moveObject(obj))}
-                            removeFolder={(folder: Folder) => dispatch(removeFolder(folder))}
-                            allProjectFolders={allProjectFolders}
                         />
                     </div>
                     <RightPanel/>
@@ -107,12 +67,9 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
                         <Simulations
                             selectTab={selectTab}
                             setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
-                            selectProject={selectProject}
                             setSelectedSimulation={setSelectedSimulation}
                             setProjectsTab={setProjectsTab}
                             projectsTab={projectsTab}
-                            mainFolder={mainFolder}
-                            projects={projects}
                         />
                     </div>
                     <RightPanel/>

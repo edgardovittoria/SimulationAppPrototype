@@ -3,19 +3,23 @@ import {Modal} from "react-bootstrap";
 import {Port, Probe} from "../../../../../../../../../../model/Port";
 
 import css from "./style/modalSelectPortType.module.css";
+import {useDispatch} from "react-redux";
+import {setPortType} from "../../../../../../../../../../store/projectSlice";
 
 interface ModalSelectPortTypeProps {
     show: boolean,
     setShow: Function,
     selectedPort: Port | Probe,
-    setPortType: Function
 }
 
 export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
     {
-        show, setShow, selectedPort, setPortType
+        show, setShow, selectedPort
     }
 ) => {
+
+    const dispatch = useDispatch()
+
     return(
         <Modal show={show} onHide={() => setShow(false)} size="lg" >
             <Modal.Header closeButton>
@@ -26,7 +30,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                     <div
                         className={`col-4 text-center ${css.portTypeBox}`}
                         onClick={() => {
-                            setPortType({name: selectedPort.name, type: 1})
+                            dispatch(setPortType({name: selectedPort.name, type: 1}))
                             setShow(false)
                         }}
                     >
@@ -36,7 +40,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                     <div
                         className={`col-4 text-center ${css.portTypeBox}`}
                         onClick={() => {
-                            setPortType({name: selectedPort.name, type: 2})
+                            dispatch(setPortType({name: selectedPort.name, type: 2}))
                             setShow(false)
                         }}
                     >
@@ -46,7 +50,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                     <div
                         className={`col-4 text-center ${css.portTypeBox}`}
                         onClick={() => {
-                            setPortType({name: selectedPort.name, type: 3})
+                            dispatch(setPortType({name: selectedPort.name, type: 3}))
                             setShow(false)
                         }}
                     >
@@ -58,7 +62,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                     <div
                         className={`col-6 text-center ${css.portTypeBox}`}
                         onClick={() => {
-                            setPortType({name: selectedPort.name, type: 4})
+                            dispatch(setPortType({name: selectedPort.name, type: 4}))
                             setShow(false)
                         }}
                     >
@@ -68,7 +72,7 @@ export const ModalSelectPortType: React.FC<ModalSelectPortTypeProps> = (
                     <div
                         className={`col-6 text-center ${css.portTypeBox}`}
                         onClick={() => {
-                            setPortType({name: selectedPort.name, type: 5})
+                            dispatch(setPortType({name: selectedPort.name, type: 5}))
                             setShow(false)
                         }}
                     >

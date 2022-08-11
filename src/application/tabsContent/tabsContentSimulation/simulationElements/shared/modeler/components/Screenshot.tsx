@@ -11,7 +11,6 @@ interface ScreenshotProps{
 
 export const Screenshot: FC<ScreenshotProps> = ({selectedProject, setScreenshot}) => {
 
-
     useEffect(() => {
         screenShot()
     }, [selectedProject?.model.components]);

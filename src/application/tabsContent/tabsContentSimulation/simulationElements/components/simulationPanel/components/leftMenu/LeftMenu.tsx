@@ -3,13 +3,17 @@ import React from 'react';
 import {Accordion} from "react-bootstrap";
 
 import css from "./leftMenu.module.css";
+import {useSelector} from "react-redux";
+import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
 interface LeftMenuProps {
-    components?: ComponentEntity[]
     physics: string[]
 }
 
-export const LeftMenu: React.FC<LeftMenuProps> = ({components, physics}) => {
+export const LeftMenu: React.FC<LeftMenuProps> = ({physics}) => {
+
+    const components = useSelector(selectedProjectSelector)?.model.components
+
     return(
         <div className={`col-3 ${css.simulationPanelMenu}`}>
             <Accordion>

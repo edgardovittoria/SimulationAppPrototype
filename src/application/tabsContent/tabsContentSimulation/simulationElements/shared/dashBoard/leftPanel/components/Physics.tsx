@@ -3,14 +3,17 @@ import {Project} from "../../../../../../../../model/Project";
 import {AiOutlineThunderbolt} from "react-icons/ai";
 import css from "./style/physics.module.css"
 import {IoTrashOutline} from "react-icons/io5";
+import {useDispatch, useSelector} from "react-redux";
+import {deletePort, selectedProjectSelector, selectPort} from "../../../../../../../../store/projectSlice";
 
 interface PhysicsProps {
-    selectedProject: Project | undefined,
-    selectPort: Function,
-    deletePort: Function
 }
 
-export const Physics: React.FC<PhysicsProps> = ({selectedProject, selectPort, deletePort}) => {
+export const Physics: React.FC<PhysicsProps> = ({}) => {
+
+    const dispatch = useDispatch()
+    const selectedProject = useSelector(selectedProjectSelector)
+
     return (
         <>
             {(selectedProject && selectedProject.ports.length !== 0)
@@ -27,7 +30,7 @@ export const Physics: React.FC<PhysicsProps> = ({selectedProject, selectPort, de
                             return (
                                 <li key={port.name}
                                     className={port.isSelected ? `${css.listItemPort} ${css.listItemPortSelected}` : css.listItemPort}
-                                    onClick={() => selectPort(port.name)}
+                                    onClick={() => dispatch(selectPort(port.name))}
                                 >
                                     <div className="row">
                                         <div className="col-2 pe-0 ps-0">
@@ -40,7 +43,7 @@ export const Physics: React.FC<PhysicsProps> = ({selectedProject, selectPort, de
                                         {port.isSelected &&
                                             <div
                                                 className="col-2 pe-0 ps-0"
-                                                onClick={() => deletePort(port.name)}
+                                                onClick={() => dispatch(deletePort(port.name))}
                                             >
                                                 <IoTrashOutline color={'#d80233'} style={{width: "20px", height: "20px"}}/>
                                             </div>

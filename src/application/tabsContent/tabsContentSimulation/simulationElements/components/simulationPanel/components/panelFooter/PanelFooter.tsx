@@ -1,6 +1,4 @@
-import React, {useState} from 'react';
-import {ComponentEntity} from "cad-library";
-import {Project} from "../../../../../../../../model/Project";
+import React from 'react';
 
 interface PanelFooterProps{
     simulationStarted: 'notStarted' | 'started' | 'Completed',
@@ -11,19 +9,15 @@ interface PanelFooterProps{
     setMenuItem: Function,
     setShowSimulationModel: Function,
     quantumDimensions: [number, number, number],
-    components: ComponentEntity[] | undefined,
-    project: Project | undefined
+
 }
 
 export const PanelFooter: React.FC<PanelFooterProps> = (
     {
         simulationStarted, meshGenerated, setMeshGenerated, meshApproved,setMeshApproved,
-        setMenuItem, setShowSimulationModel, quantumDimensions, components, project
+        setMenuItem, setShowSimulationModel, quantumDimensions
     }
 ) => {
-
-    const [mesherOutput, setMesherOutput] = useState(undefined);
-
 
     function checkQuantumDimensionsValidity(){
         let validity = true
@@ -34,9 +28,6 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
         })
         return validity
     }
-
-
-
 
     return(
         <div className="row w-100 my-0">

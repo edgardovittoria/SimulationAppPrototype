@@ -4,22 +4,23 @@ import css from "./inputSignal.module.css";
 import {ModalInputSignal} from "../../../modals/ModalInputSignal";
 import {saveSignal} from "../../../../../../../../../../../../faunadb/api/signalsAPIs";
 import { useFaunaQuery } from 'cad-library';
+import {useGetAvailableSignals} from "../../../../../../../../../hooks/useGetAvailableSignals";
+import {useDispatch} from "react-redux";
+import {setAssociatedSignal} from "../../../../../../../../../../../../store/projectSlice";
 
 interface InputSignalProps {
     setShowModalSignal: Function,
-    setPortSignal: Function,
     selectedPort: Port,
-    availableSignals: Signal[],
-    setAvailableSignals: Function
-
 }
 
 export const InputSignal: React.FC<InputSignalProps> = (
     {
-        setShowModalSignal, setPortSignal, selectedPort, availableSignals, setAvailableSignals
+        setShowModalSignal, selectedPort
     }
 ) => {
 
+    const dispatch = useDispatch()
+    const {availableSignals, setAvailableSignals} = useGetAvailableSignals()
     const [show, setShow] = useState(false);
     const {execQuery} = useFaunaQuery()
 
@@ -27,11 +28,11 @@ export const InputSignal: React.FC<InputSignalProps> = (
         return availableSignals.filter(signal => signal.name === name)[0]
     }
 
-    function setAssociatedSignal(event: ChangeEvent<HTMLSelectElement>){
+    function setSignal(event: ChangeEvent<HTMLSelectElement>){
         if (event.currentTarget.value === 'undefined') {
-            setPortSignal(undefined)
+            dispatch(setAssociatedSignal({} as Signal))
         } else {
-            setPortSignal(getSignalByName(event.currentTarget.value))
+            dispatch(setAssociatedSignal(getSignalByName(event.currentTarget.value)))
         }
     }
 
@@ -81,7 +82,7 @@ export const InputSignal: React.FC<InputSignalProps> = (
                     <div className="col-4">
                         <select className={`w-100 ${css.selectSignal}`}
                                 value={selectedPort.associatedSignal?.name}
-                                onChange={event => setAssociatedSignal(event)}>
+                                onChange={event => setSignal(event)}>
                             <option value="undefined">UNDEFINED</option>
                             {availableSignals.map((signal, index) => {
                                 return <option key={index} value={signal.name}>{signal.name}</option>

@@ -7,7 +7,7 @@ import {SetUserInfo, UsersState} from 'cad-library';
 import {IoIosSettings} from "react-icons/io";
 import {HiOutlineLogout} from "react-icons/hi";
 import { useDispatch, useSelector } from 'react-redux';
-import { mainFolderSelector, selectFolder } from '../../store/projectSlice';
+import {mainFolderSelector, selectFolder, selectProject} from '../../store/projectSlice';
 
 interface TabsContainerProps {
     selectTab: Function,
@@ -15,17 +15,17 @@ interface TabsContainerProps {
     projectsTab: Project[]
     setProjectsTab: Function,
     setShowModal: Function,
-    selectProject: Function,
-    resetSelectedComponentsArray: Function,
     user: UsersState
 }
 
 export const TabsContainer: React.FC<TabsContainerProps> = (
     {
         selectTab, selectedTab, projectsTab, setProjectsTab, setShowModal,
-        selectProject, resetSelectedComponentsArray, user
+        user
     }
 ) => {
+
+    const dispatch = useDispatch()
 
     const closeProjectTab = (projectLabel: string) => {
         setProjectsTab(projectsTab.filter(projectTab => projectTab.name !== projectLabel))
@@ -49,8 +49,7 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                         <ul className="nav nav-tabs">
                             <li className={`nav-item ${css.navItemTabs}`} onClick={() => {
                                 selectTab("DASHBOARD")
-                                selectProject(undefined)
-                                resetSelectedComponentsArray()
+                                dispatch(selectProject(undefined))
                             }}>
                                 <div
                                     className={(selectedTab === 'DASHBOARD') ? `nav-link active ${css.projectTab}` : `nav-link ${css.projectTabNotActive}`}
@@ -66,14 +65,12 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                                             className={(selectedTab === projectTab.name) ? css.projectTab : css.projectTabNotActive}
                                             aria-current="page" onClick={() => {
                                                 selectTab(projectTab.name)
-                                                selectProject(projectTab.name)
-                                                resetSelectedComponentsArray()
+                                                dispatch(selectProject(projectTab.name))
                                             }}>{projectTab.name}
                                         </div>
                                         <div className={css.closeIconContainer} onClick={() => {
                                             closeProjectTab(projectTab.name)
-                                            selectProject(undefined)
-                                            resetSelectedComponentsArray()
+                                            dispatch(selectProject(undefined))
                                         }}>
                                             <FaTimes className={css.closeIcon} />
                                         </div>
@@ -113,11 +110,6 @@ export const TabsContainer: React.FC<TabsContainerProps> = (
                                     onClick={loginWithRedirect}>
                                 Login
                             </button>}
-                        {/*{isAuthenticated ? <FaUser className={css.userIcon} onClick={() => logout({ returnTo: window.location.origin })} /> :
-                            <RiLoginBoxFill className={css.userIcon} onClick={() => {
-                                loginWithRedirect()
-                            }} />
-                        }*/}
                     </div>
                 </div>
             </nav>

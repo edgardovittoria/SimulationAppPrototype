@@ -20,7 +20,6 @@ import {store} from "../../../../../../store/store";
 interface ModelerProps {
     selectedProject: Project | undefined,
     importModel: (params: ImportActionParamsObject) => any,
-    selectComponent: Function,
     selectPort: Function,
     updatePortPosition: Function,
     setScreenshot: Function, 
@@ -29,15 +28,13 @@ interface ModelerProps {
 
 export const Modeler: React.FC<ModelerProps> = (
     {
-        selectedProject, importModel, selectComponent, selectPort, updatePortPosition,
+        selectedProject, importModel, selectPort, updatePortPosition,
         setScreenshot, setShowLoadFromDBModal
     }
 ) => {
 
     const [previousColor, setPreviousColor] = useState<Color>({} as Color);
     let selectedPort = findSelectedPort(selectedProject)
-
-    const {execQuery} = useFaunaQuery()
 
     return (
         <div className="d-flex justify-content-center">

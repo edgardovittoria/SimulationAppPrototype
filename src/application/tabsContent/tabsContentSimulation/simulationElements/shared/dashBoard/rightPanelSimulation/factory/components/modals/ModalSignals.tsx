@@ -4,17 +4,16 @@ import css from './style/modalSignals.module.css';
 import {Signal, SignalValues} from "../../../../../../../../../../model/Port";
 import {saveSignal} from "../../../../../../../../../../faunadb/api/signalsAPIs";
 import { useFaunaQuery } from 'cad-library';
+import {useGetAvailableSignals} from "../../../../../../../hooks/useGetAvailableSignals";
 
 interface ModalSignalsProps {
     showModalSignal: boolean,
     setShowModalSignal: Function,
-    setAvailableSignals: Function,
-    availableSignals: Signal[]
 }
 
 export const ModalSignals: React.FC<ModalSignalsProps> = (
     {
-        showModalSignal, setShowModalSignal, setAvailableSignals, availableSignals
+        showModalSignal, setShowModalSignal
     }
 ) => {
 
@@ -25,6 +24,7 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
     const [signalRe, setSignalRe] = useState<number | string>('');
     const [signalIm, setSignalIm] = useState<number | string>('');
     const [signalValuesArray, setSignalValuesArray] = useState<SignalValues[]>([]);
+    const {availableSignals, setAvailableSignals} = useGetAvailableSignals()
     const {execQuery} = useFaunaQuery()
 
     function onModalClose() {

@@ -6,14 +6,17 @@ import {Project} from "../../../../../../../model/Project";
 import {Port, Probe, RLCParams} from "../../../../../../../model/Port";
 import {CircleGeometryAttributes, ComponentEntity, TransformationParams} from 'cad-library';
 import {store} from "../../../../../../../store/store";
+import {useDispatch} from "react-redux";
+import {addPorts} from "../../../../../../../store/projectSlice";
 
 interface SelectPortsProps {
-    addPorts: Function,
     selectedProject: Project,
-    execQuery: Function
 }
 
-export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProject, execQuery}) => {
+export const SelectPorts: React.FC<SelectPortsProps> = ({selectedProject}) => {
+
+    const dispatch = useDispatch()
+
     const [keyPort, setKeyPort] = useState(selectedProject.ports.length)
     const generateNewKeyPort = (key: number) => {
         setKeyPort(key + 1)
@@ -85,7 +88,7 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 rlcParams: {} as RLCParams,
                                 associatedSignal: undefined
                             }
-                            addPorts(port)
+                            dispatch(addPorts(port))
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Port</span>
@@ -140,7 +143,7 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 rlcParams: {} as RLCParams,
                                 associatedSignal: undefined
                             }
-                            addPorts(lumped)
+                            dispatch(addPorts(lumped))
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Lumped</span>
@@ -336,7 +339,7 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
 
                                 ]
                             }
-                            addPorts(probe)
+                            dispatch(addPorts(probe))
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Probe</span>

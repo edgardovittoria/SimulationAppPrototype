@@ -1,34 +1,34 @@
 import React, {useState} from 'react';
 import {Project} from "../../../model/Project";
 import {Modal} from "react-bootstrap";
-import {CanvasState, UsersState} from 'cad-library';
-import {store} from "../../../store/store";
+import {CanvasState, useFaunaQuery, UsersState, usersStateSelector} from 'cad-library';
 import {addIDInFolderProjectsList, createSimulationProjectInFauna} from "../../../faunadb/api/projectsFolderAPIs";
-import { SelectedFolderSelector } from '../../../store/projectSlice';
-import { useSelector } from 'react-redux';
+import {addProject, SelectedFolderSelector, selectProject} from '../../../store/projectSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
 interface CreateNewProjectModalProps {
     setShow: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
-    addNewProject: Function,
-    selectProject: Function,
-    user: UsersState,
-    selectFolder: Function,
-    execQuery: Function,
 }
 
 export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
     {
-        setShow, projectsTab, setProjectsTab, selectTab, addNewProject, selectProject, user,
-        selectFolder, execQuery
+        setShow, projectsTab, setProjectsTab, selectTab,
     }
 ) => {
 
+    const dispatch = useDispatch()
+
+    const user = useSelector(usersStateSelector)
+    const selectedFolder = useSelector(SelectedFolderSelector)
+
+    const {execQuery} = useFaunaQuery()
+
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
-    const selectedFolder = useSelector(SelectedFolderSelector)
+
 
     const handleClose = () => setShow(false);
     const handleCreate = () => {
@@ -49,13 +49,12 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
                     faunaDocumentId: res.ref.value.id
                 } as Project
                 execQuery(addIDInFolderProjectsList, newProject.faunaDocumentId, selectedFolder)
-                addNewProject(newProject)
+                dispatch(addProject(newProject))
             })
-            selectProject(newProject.name)
+            dispatch(selectProject(newProject.name))
             setProjectsTab(projectsTab.concat(newProject))
             selectTab(newProject.name)
             setShow(false)
-            // selectFolder(store.getState().projects.projects)
         }else{
             alert("Project's name is required!")
         }

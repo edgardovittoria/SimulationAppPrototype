@@ -5,30 +5,28 @@ import { ImportSimProjectButton } from '../../../../../../importExport/importSim
 import {ProjectManagementIcons} from "../../shared/ProjectManagementIcons";
 import {Simulations} from "../simulations/Simulations";
 import {Folder} from "../../../../../../model/Folder";
+import {useDispatch, useSelector} from "react-redux";
+import {projectsSelector, selectProject} from "../../../../../../store/projectSlice";
 
 interface OverviewProps {
     setShowModal: Function,
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
-    projects: Project[],
-    selectProject: Function,
-    removeProject: Function,
     setMenuItem: Function,
-    execQuery: Function,
     setSimulationCoreMenuItemSelected: Function,
     setSelectedSimulation: Function,
-    mainFolder: Folder
-
 }
 
 export const Overview: React.FC<OverviewProps> = (
     {
-        setShowModal, projectsTab, setProjectsTab, selectTab, projects,
-        selectProject, removeProject, setMenuItem, execQuery, setSimulationCoreMenuItemSelected,
-        setSelectedSimulation, mainFolder
+        setShowModal, projectsTab, setProjectsTab, selectTab,setMenuItem,setSimulationCoreMenuItemSelected,
+        setSelectedSimulation
     }
 ) => {
+
+    const dispatch = useDispatch()
+    const projects = useSelector(projectsSelector)
     const [cardMenuHovered, setCardMenuHovered] = useState(false);
 
 
@@ -37,7 +35,7 @@ export const Overview: React.FC<OverviewProps> = (
             if (!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)) {
                 setProjectsTab(projectsTab.concat(project))
             }
-            selectProject(project.name)
+            dispatch(selectProject(project.name))
             selectTab(project.name)
         }
 
@@ -80,13 +78,7 @@ export const Overview: React.FC<OverviewProps> = (
                                                 {(project.name.length > 15) ? project.name.substr(0,15) + '...' : project.name}
                                             </div>
                                             <div className="col-6" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
-                                                <ProjectManagementIcons
-                                                    project={project}
-                                                    removeProject={removeProject}
-                                                    projectsTab={projectsTab}
-                                                    setProjectsTab={setProjectsTab}
-                                                    execQuery={execQuery}
-                                                />
+                                                <ProjectManagementIcons project={project}/>
                                             </div>
                                         </div>
                                         <h6 className="card-subtitle mb-2 text-muted">{project.description.substr(0, 50)}</h6>
@@ -123,10 +115,7 @@ export const Overview: React.FC<OverviewProps> = (
                 <Simulations
                     selectTab={selectTab}
                     setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}
-                    selectProject={selectProject}
                     setSelectedSimulation={setSelectedSimulation}
-                    mainFolder={mainFolder}
-                    projects={projects}
                     setProjectsTab={setProjectsTab}
                     projectsTab={projectsTab}
                 />

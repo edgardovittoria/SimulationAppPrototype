@@ -1,24 +1,27 @@
 import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
-import {UsersState} from "cad-library";
+import {useFaunaQuery, usersStateSelector} from "cad-library";
 import {Folder} from "../../../model/Folder";
 import {createFolderInFauna, addIDInSubFoldersList} from "../../../faunadb/api/projectsFolderAPIs";
-import {store} from "../../../store/store";
+import {useDispatch, useSelector} from "react-redux";
+import {addFolder, SelectedFolderSelector} from "../../../store/projectSlice";
 
 interface CreateNewFolderModalProps {
     setShowNewFolderModal: Function,
-    addNewFolder: Function,
-    user: UsersState,
-    selectedFolder: Folder,
-    selectFolder: Function,
-    execQuery: Function,
 }
 
 export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
     {
-        setShowNewFolderModal, addNewFolder, user, selectedFolder, selectFolder, execQuery
+        setShowNewFolderModal
     }
 ) => {
+
+    const dispatch = useDispatch()
+
+    const user = useSelector(usersStateSelector)
+    const selectedFolder = useSelector(SelectedFolderSelector)
+
+    const {execQuery} = useFaunaQuery()
 
     const [folderName, setFolderName] = useState("");
 
@@ -37,7 +40,7 @@ export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
             }
             execQuery(createFolderInFauna, newFolder).then((ret: any) => {
                 newFolder = {...newFolder, faunaDocumentId: ret.ref.value.id}
-                addNewFolder(newFolder)
+                dispatch(addFolder(newFolder))
                 execQuery(addIDInSubFoldersList, newFolder.faunaDocumentId, selectedFolder)
             })
             setShowNewFolderModal(false)

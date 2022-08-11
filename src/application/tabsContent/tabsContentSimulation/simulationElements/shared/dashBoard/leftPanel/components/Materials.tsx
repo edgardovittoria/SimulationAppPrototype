@@ -3,12 +3,16 @@ import { FaCircle } from "react-icons/fa";
 import { Project } from "../../../../../../../../model/Project";
 
 import css from "./style/materials.module.css"
+import {useSelector} from "react-redux";
+import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
 interface MaterialsProps {
-    selectedProject: Project | undefined
 }
 
-export const Materials: React.FC<MaterialsProps> = ({ selectedProject }) => {
+export const Materials: React.FC<MaterialsProps> = ({}) => {
+
+    const selectedProject = useSelector(selectedProjectSelector)
+
     return (
         <>
             {(selectedProject) &&

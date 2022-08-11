@@ -4,15 +4,19 @@ import {GiPowerButton} from "react-icons/gi";
 import {Simulation} from "../../../../../../../../model/Simulation";
 
 import css from "./style/results.module.css";
+import {useSelector} from "react-redux";
+import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
 interface ResultsProps {
-    selectedProject: Project | undefined,
     setSelectedSimulation: Function,
     selectedSimulation: Simulation | undefined
 }
 
-export const Results: React.FC<ResultsProps> = ({selectedProject, setSelectedSimulation, selectedSimulation}) => {
+export const Results: React.FC<ResultsProps> = ({setSelectedSimulation, selectedSimulation}) => {
+
+    const selectedProject = useSelector(selectedProjectSelector);
     (selectedProject && !selectedSimulation) && setSelectedSimulation(selectedProject.simulations[0])
+
     return(
         <>
             {(selectedProject && selectedProject.simulations.length > 0)

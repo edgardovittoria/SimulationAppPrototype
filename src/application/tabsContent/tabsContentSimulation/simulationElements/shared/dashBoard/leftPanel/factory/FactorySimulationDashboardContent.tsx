@@ -11,41 +11,28 @@ import {Simulation} from "../../../../../../../../model/Simulation";
 
 interface FactorySimulationDashboardContentProps {
     selectedTab: string,
-    selectedProject: Project | undefined,
-    selectedComponent: ComponentEntity[],
-    selectComponent: Function,
-    unselectComponent: Function,
-    // updateComponentColor: Function,
     setSelectedSimulation: Function,
     selectedSimulation: Simulation | undefined,
-    selectPort: Function,
-    deletePort: Function
 }
 
 export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashboardContentProps> = (
     {
-        selectedTab, selectedProject, selectedComponent, selectComponent,
-        unselectComponent, setSelectedSimulation, selectedSimulation,selectPort, deletePort
+        selectedTab, setSelectedSimulation, selectedSimulation
     }
 ) => {
     switch (selectedTab) {
         case 'Materials' :
-            return <Materials selectedProject={selectedProject}/>
+            return <Materials/>
         case 'Physics' :
-            return <Physics selectedProject={selectedProject} selectPort={selectPort} deletePort={deletePort}/>
+            return <Physics/>
         case 'Simulator' :
-            return <Simulator selectedProject={selectedProject}/>
+            return <Simulator/>
         case 'Results' :
-            return <Results selectedProject={selectedProject} setSelectedSimulation={setSelectedSimulation} selectedSimulation={selectedSimulation}/>
+            return <Results setSelectedSimulation={setSelectedSimulation} selectedSimulation={selectedSimulation}/>
         default :
             return (
-                <Modeler selectedProject={selectedProject}>
-                    <ModelOutliner
-                        selectedProject={selectedProject}
-                        selectedComponent={selectedComponent}
-                        selectComponent={selectComponent}
-                        unselectComponent={unselectComponent}
-                    />
+                <Modeler>
+                    <ModelOutliner/>
                 </Modeler>
             )
 

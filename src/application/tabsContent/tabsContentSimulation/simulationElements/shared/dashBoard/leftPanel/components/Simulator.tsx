@@ -2,12 +2,16 @@ import React from 'react';
 import {Project} from "../../../../../../../../model/Project";
 
 import css from "./style/simulator.module.css";
+import {useSelector} from "react-redux";
+import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
 interface SimulatorProps {
-    selectedProject: Project | undefined
 }
 
-export const Simulator: React.FC<SimulatorProps> = ({selectedProject}) => {
+export const Simulator: React.FC<SimulatorProps> = ({}) => {
+
+    const selectedProject = useSelector(selectedProjectSelector)
+
     return(
         <>
             {(selectedProject && selectedProject.model.components.filter(comp => comp.material !== undefined).length > 0 && selectedProject.ports.length !== 0)

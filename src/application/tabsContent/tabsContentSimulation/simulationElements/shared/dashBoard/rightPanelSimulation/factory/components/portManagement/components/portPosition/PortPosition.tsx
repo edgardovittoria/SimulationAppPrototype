@@ -2,13 +2,17 @@ import React from 'react';
 import {Port, Probe} from "../../../../../../../../../../../../model/Port";
 
 import css from "./portPosition.module.css";
+import {useDispatch} from "react-redux";
+import {updatePortPosition} from "../../../../../../../../../../../../store/projectSlice";
 
 interface PortPositionProps {
     selectedPort : Port | Probe,
-    updatePortPosition: Function
 }
 
-export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updatePortPosition}) => {
+export const PortPosition: React.FC<PortPositionProps> = ({selectedPort}) => {
+
+    const dispatch = useDispatch()
+
     return(
         <>
             {(selectedPort.category === 'port' || selectedPort.category === 'lumped') ?
@@ -29,7 +33,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             selectedPort.inputElement.transformationParams.position[1],
                                             selectedPort.inputElement.transformationParams.position[2]
                                         ]
-                                        updatePortPosition({type: 'first', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'first', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>
@@ -45,7 +49,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             parseFloat(event.currentTarget.value),
                                             selectedPort.inputElement.transformationParams.position[2]
                                         ]
-                                        updatePortPosition({type: 'first', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'first', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>
@@ -61,7 +65,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             selectedPort.inputElement.transformationParams.position[1],
                                             parseFloat(event.currentTarget.value)
                                         ]
-                                        updatePortPosition({type: 'first', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'first', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>
@@ -83,7 +87,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             selectedPort.outputElement.transformationParams.position[1],
                                             selectedPort.outputElement.transformationParams.position[2]
                                         ]
-                                        updatePortPosition({type: 'last', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'last', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>
@@ -99,7 +103,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             parseFloat(event.currentTarget.value),
                                             selectedPort.outputElement.transformationParams.position[2]
                                         ]
-                                        updatePortPosition({type: 'last', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'last', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>
@@ -115,7 +119,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             selectedPort.outputElement.transformationParams.position[1],
                                             parseFloat(event.currentTarget.value)
                                         ]
-                                        updatePortPosition({type: 'last', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'last', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>
@@ -140,7 +144,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             (selectedPort as Probe).groupPosition[1],
                                             (selectedPort as Probe).groupPosition[2]
                                         ]
-                                        updatePortPosition({type: 'probe', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'probe', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>
@@ -156,7 +160,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             parseFloat(event.currentTarget.value),
                                             (selectedPort as Probe).groupPosition[2]
                                         ]
-                                        updatePortPosition({type: 'probe', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'probe', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>
@@ -172,7 +176,7 @@ export const PortPosition: React.FC<PortPositionProps> = ({selectedPort, updateP
                                             (selectedPort as Probe).groupPosition[1],
                                             parseFloat(event.currentTarget.value)
                                         ]
-                                        updatePortPosition({type: 'probe', position: newPosition})
+                                        dispatch(updatePortPosition({type: 'probe', position: newPosition as [number, number, number]}))
                                     }}
                                 />
                             </div>

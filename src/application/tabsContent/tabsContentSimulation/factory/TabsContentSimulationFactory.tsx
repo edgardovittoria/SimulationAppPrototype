@@ -19,25 +19,14 @@ import {
 import {SelectPorts} from "../simulationElements/shared/dashBoard/selectPorts/SelectPorts";
 import {useDispatch, useSelector} from 'react-redux';
 import {
-    addPorts,
-    createSimulation,
-    deletePort,
     importModel,
-    selectComponent,
     selectedComponentSelector,
-    selectedProjectSelector,
-    selectPort,
-    setAssociatedSignal,
-    setPortType,
-    setRLCParams, setScreenshot,
-    simulationSelector,
-    unselectComponent,
-    updatePortPosition,
-    updateSimulation
+    selectedProjectSelector, selectPort, setScreenshot,
+    simulationSelector, updatePortPosition
 } from '../../../../store/projectSlice';
 import {useGenerateMesh} from '../hooks/useGenerateMesh';
 import {useRunSimulation} from '../hooks/useRunSimulation';
-import {ComponentEntity, Material} from 'cad-library';
+import {ComponentEntity} from 'cad-library';
 import {useGetAvailableSignals} from "../hooks/useGetAvailableSignals";
 
 interface TabsContentSimulationFactoryProps {
@@ -46,25 +35,15 @@ interface TabsContentSimulationFactoryProps {
     selectedSimulation: Simulation | undefined,
     setSelectedSimulation: Function,
     setShowLoadFromDBModal: Function,
-    execQuery: Function
 }
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
     {
         menuItem, setMenuItem, selectedSimulation, setSelectedSimulation, setShowLoadFromDBModal,
-        execQuery
     }
 ) => {
+
     const dispatch = useDispatch()
-    const portSelection = (name: string) => dispatch(selectPort(name))
-    const portDeletion = (name: string) => dispatch(deletePort(name))
-    const portAdding = (port: Port) => dispatch(addPorts(port))
-    const rlcParamsSetting = (rlcParams: RLCParams) => dispatch(setRLCParams(rlcParams))
-    const portPositionUpdate = (obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))
-    const portTypeSetting = (obj: { name: string, type: number }) => dispatch(setPortType(obj))
-    const portSignalSetting = (signal: Signal) => dispatch(setAssociatedSignal(signal))
-    const componentSelection = (component: ComponentEntity) => dispatch(selectComponent(component))
-    const componentDeselection = (component: ComponentEntity) => dispatch(unselectComponent(component))
 
     const selectedProject = useSelector(selectedProjectSelector)
     const selectedComponent = useSelector(selectedComponentSelector)
@@ -80,31 +59,19 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
         meshGenerated,
         setMeshGenerated,
         mesherOutput
-    } = useGenerateMesh(
-        showSimulationModel,
-        selectedProject?.model.components as ComponentEntity[],
-        quantumDimensions
-    );
+    } = useGenerateMesh(showSimulationModel, selectedProject?.model.components as ComponentEntity[], quantumDimensions);
 
     const {
         simulationStarted,
         meshApproved,
         setMeshApproved,
         newSimulation
-    } = useRunSimulation(
-        showSimulationModel,
-        (newSimulation: Simulation) => dispatch(createSimulation(newSimulation)),
-        (simulation: Simulation) => dispatch(updateSimulation(simulation)),
-        simulations as Simulation[],
-        selectedProject,
-        mesherOutput
-    );
+    } = useRunSimulation(showSimulationModel, selectedProject, mesherOutput);
 
     let simulation = simulations?.filter(s => s.name === newSimulation.name)[0] as Simulation
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
 
-    const {availableSignals, setAvailableSignals} = useGetAvailableSignals()
 
 
     switch (menuItem) {
@@ -112,41 +79,27 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
             return (
                 <>
                     <Modeler
-                        selectedProject={selectedProject}
                         importModel={importModel}
-                        selectComponent={componentSelection}
-                        selectPort={portSelection}
-                        updatePortPosition={portPositionUpdate}
-                        setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
+                        selectPort={(name: string) => dispatch(selectPort(name))}
+                        selectedProject={selectedProject}
+                        setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
+                        updatePortPosition={(obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))}
                     />
                     <LeftPanel tabs={['Modeler', 'Materials']} selectedTab={selectedTabLeftPanel}
                                setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
                             selectedTab={selectedTabLeftPanel}
-                            selectedProject={selectedProject}
-                            selectedComponent={selectedComponent}
-                            selectComponent={componentSelection}
-                            unselectComponent={componentDeselection}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
-                            selectPort={portSelection}
-                            deletePort={portDeletion}
                         />
                     </LeftPanel>
                     {selectedComponent.length > 0 &&
-                        <RightPanelSimulation ports={selectedProject?.ports}>
+                        <RightPanelSimulation>
                             <FactoryRightPanelContent
                                 section="Modeler"
                                 components={selectedProject?.model.components}
                                 setShowSimulationModel={setShowSimulationModel}
-                                ports={selectedProject?.ports}
-                                setPortType={portTypeSetting}
-                                updatePortPosition={portPositionUpdate}
-                                setRLCParams={rlcParamsSetting}
-                                setPortSignal={portSignalSetting}
-                                availableSignals={availableSignals}
-                                setAvailableSignals={setAvailableSignals}
                                 setMeshGenerated={setMeshGenerated}
                             />
                         </RightPanelSimulation>}
@@ -157,42 +110,28 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
             return (
                 <>
                     <Modeler
-                        selectedProject={selectedProject}
                         importModel={importModel}
-                        selectComponent={componentSelection}
-                        selectPort={portSelection}
-                        updatePortPosition={portPositionUpdate}
-                        setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
+                        selectPort={(name: string) => dispatch(selectPort(name))}
+                        selectedProject={selectedProject}
+                        setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
+                        updatePortPosition={(obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))}
                     />
                     <LeftPanel tabs={['Modeler', 'Physics']} selectedTab={selectedTabLeftPanel}
                                setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
                             selectedTab={selectedTabLeftPanel}
-                            selectedProject={selectedProject}
-                            selectedComponent={selectedComponent}
-                            selectComponent={componentSelection}
-                            unselectComponent={componentDeselection}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
-                            selectPort={portSelection}
-                            deletePort={portDeletion}
                         />
                     </LeftPanel>
                     {selectedProject?.model.components &&
-                        <SelectPorts addPorts={portAdding} selectedProject={selectedProject} execQuery={execQuery}/>}
-                    <RightPanelSimulation ports={selectedProject?.ports}>
+                        <SelectPorts selectedProject={selectedProject}/>}
+                    <RightPanelSimulation>
                         <FactoryRightPanelContent
                             section="Physics"
                             components={selectedProject?.model.components}
                             setShowSimulationModel={setShowSimulationModel}
-                            ports={selectedProject?.ports}
-                            setPortType={portTypeSetting}
-                            updatePortPosition={portPositionUpdate}
-                            setRLCParams={rlcParamsSetting}
-                            setPortSignal={portSignalSetting}
-                            availableSignals={availableSignals}
-                            setAvailableSignals={setAvailableSignals}
                             setMeshGenerated={setMeshGenerated}
                         />
                     </RightPanelSimulation>
@@ -202,40 +141,26 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
             return (
                 <>
                     <Modeler
-                        selectedProject={selectedProject}
                         importModel={importModel}
-                        selectComponent={componentSelection}
-                        selectPort={portSelection}
-                        updatePortPosition={portPositionUpdate}
-                        setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
+                        selectPort={(name: string) => dispatch(selectPort(name))}
+                        selectedProject={selectedProject}
+                        setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
+                        updatePortPosition={(obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))}
                     />
                     <LeftPanel tabs={['Modeler', 'Simulator']} selectedTab={selectedTabLeftPanel}
                                setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
                             selectedTab={selectedTabLeftPanel}
-                            selectedProject={selectedProject}
-                            selectedComponent={selectedComponent}
-                            selectComponent={componentSelection}
-                            unselectComponent={componentDeselection}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
-                            selectPort={portSelection}
-                            deletePort={portDeletion}
                         />
                     </LeftPanel>
-                    <RightPanelSimulation ports={selectedProject?.ports}>
+                    <RightPanelSimulation>
                         <FactoryRightPanelContent
                             section="Simulator"
                             components={selectedProject?.model.components}
                             setShowSimulationModel={setShowSimulationModel}
-                            ports={selectedProject?.ports}
-                            setPortType={portTypeSetting}
-                            updatePortPosition={portPositionUpdate}
-                            setRLCParams={rlcParamsSetting}
-                            setPortSignal={portSignalSetting}
-                            availableSignals={availableSignals}
-                            setAvailableSignals={setAvailableSignals}
                             setMeshGenerated={setMeshGenerated}
                         />
                     </RightPanelSimulation>
@@ -243,10 +168,9 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         showSimulationModel={showSimulationModel}
                         setShowSimulationModel={setShowSimulationModel}
                     >
-                        <LeftMenu components={selectedProject?.model.components}
-                                  physics={['physic1']}/>
+                        <LeftMenu physics={['physic1']}/>
                         <PanelContent simulationStarted={simulationStarted} meshGenerated={meshGenerated}
-                                      simulation={simulation} selectedProject={selectedProject}
+                                      simulation={simulation}
                                       setQuantumDimensions={setQuantumDimensions}
                                       quantumDimensions={quantumDimensions}
                         />
@@ -255,8 +179,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                      setMeshApproved={setMeshApproved} setMenuItem={setMenuItem}
                                      setShowSimulationModel={setShowSimulationModel}
                                      quantumDimensions={quantumDimensions}
-                                     components={selectedProject?.model.components}
-                                     project={selectedProject}
                         />
                     </SimulationPanel>
                 </>
@@ -268,14 +190,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                setSelectedTab={setSelectedTabLeftPanel}>
                         <FactorySimulationDashboardContent
                             selectedTab={selectedTabLeftPanel}
-                            selectedProject={selectedProject}
-                            selectedComponent={selectedComponent}
-                            selectComponent={componentSelection}
-                            unselectComponent={componentDeselection}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
-                            selectPort={portSelection}
-                            deletePort={portDeletion}
                         />
                     </LeftPanel>
                     {(selectedSimulation && selectedProject && selectedProject.simulations.length > 0) &&

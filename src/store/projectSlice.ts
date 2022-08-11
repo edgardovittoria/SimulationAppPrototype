@@ -10,9 +10,8 @@ import {
     addProjectToStore,
     moveFolder,
     moveProject,
-    projectAlreadyExists,
-    recursiveFindFolders, recursiveFolderRemove, recursiveProjectAdd, recursiveProjectRemove,
-    recursiveSelectFolder, recursiveFoldersAdd, removeFolderFromStore, removeProjectFromStore,
+
+    recursiveFindFolders, recursiveSelectFolder, removeFolderFromStore, removeProjectFromStore,
     takeAllProjectsIn
 } from "./auxiliaryFunctions/managementProjectsAndFoldersFunction";
 
@@ -88,25 +87,6 @@ export const ProjectSlice = createSlice({
             if (selectedProject) {
                 selectedProject.model = action.payload.canvas
             }
-        },
-        selectComponent(state: ProjectState, action: PayloadAction<ComponentEntity>) {
-            if (state.selectedComponent.length === 0) {
-                state.selectedComponent.push(action.payload)
-            } else {
-                state.selectedComponent.forEach(component => {
-                    if (component.keyComponent !== action.payload.keyComponent) {
-                        state.selectedComponent.push(action.payload)
-                    }
-                })
-            }
-        },
-        unselectComponent(state: ProjectState, action: PayloadAction<ComponentEntity>) {
-            if (state.selectedComponent.length !== 0) {
-                state.selectedComponent = state.selectedComponent.filter(component => component.keyComponent !== action.payload.keyComponent)
-            }
-        },
-        resetSelectedComponents(state: ProjectState) {
-            state.selectedComponent = []
         },
         createSimulation(state: ProjectState, action: PayloadAction<Simulation>) {
             let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)
@@ -198,10 +178,9 @@ export const ProjectSlice = createSlice({
 
 export const {
     //qui vanno inserite tutte le azioni che vogliamo esporatare
-    addProject, removeProject, importModel, selectProject, selectComponent, unselectComponent,
-    resetSelectedComponents, createSimulation, updateSimulation, addPorts, selectPort, deletePort,
-    setPortType, updatePortPosition, setRLCParams, setAssociatedSignal, setScreenshot, addFolder, selectFolder,
-    setProjectsFolderToUser, setFaunaDocumentId, moveObject, removeFolder
+    addProject, removeProject, importModel, selectProject, createSimulation, updateSimulation, addPorts,
+    selectPort, deletePort, setPortType, updatePortPosition, setRLCParams, setAssociatedSignal, setScreenshot, addFolder, selectFolder,
+    setProjectsFolderToUser, moveObject, removeFolder
 } = ProjectSlice.actions
 
 
@@ -210,7 +189,6 @@ export const folderByIDSelector = (state: {projects: ProjectState}, id: string) 
     return recursiveFindFolders(state.projects.projects, [] as Folder[]).filter(f => f.faunaDocumentId === id)[0]
 }
 export const mainFolderSelector = (state: {projects: ProjectState}) => state.projects.projects
-export const FolderStateSelector = (state: { projects: ProjectState }) => state.projects.projects.subFolders;
 export const SelectedFolderSelector = (state: { projects: ProjectState }) => state.projects.selectedFolder;
 export const selectedProjectSelector = (state: { projects: ProjectState }) => findProjectByName(takeAllProjectsIn(state.projects.projects), state.projects.selectedProject);
 export const selectedComponentSelector = (state: { projects: ProjectState }) => state.projects.selectedComponent;

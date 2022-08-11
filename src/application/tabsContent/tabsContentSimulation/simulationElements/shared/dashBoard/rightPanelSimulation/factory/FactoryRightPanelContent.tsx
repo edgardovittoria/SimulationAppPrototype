@@ -9,30 +9,24 @@ import {InputSignal} from "./components/portManagement/components/inputSignal/In
 import {ModalSelectPortType} from "./components/modals/ModalSelectPortType";
 import {ModalSignals} from "./components/modals/ModalSignals";
 import {SimulatorLauncher} from "./components/simulatorLauncher/SimulatorLauncher";
+import {useSelector} from "react-redux";
+import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
 interface FactoryRightPanelContentProps {
     section: string,
     components?: ComponentEntity[],
     setShowSimulationModel: Function,
-    ports: (Port | Probe)[] | undefined,
-    setPortType: Function,
-    updatePortPosition: Function,
-    setRLCParams: Function,
-    setPortSignal: Function,
-    availableSignals: Signal[],
-    setAvailableSignals: Function,
     setMeshGenerated: Function
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
-        section, components, setShowSimulationModel, ports,
-        setPortType, updatePortPosition, setRLCParams, setPortSignal, availableSignals, setAvailableSignals,
-        setMeshGenerated
+        section, components, setShowSimulationModel, setMeshGenerated
     }
 ) => {
 
-    let selectedPort = ports?.filter(port => port.isSelected)[0];
+    const selectedProject = useSelector(selectedProjectSelector)
+    let selectedPort = selectedProject?.ports.filter(port => port.isSelected)[0];
     const [showModalSelectPortType, setShowModalSelectPortType] = useState(false);
     const [showModalSignal, setShowModalSignal] = useState(false);
 
@@ -46,31 +40,15 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                     {(selectedPort && (selectedPort?.category === 'port' || selectedPort?.category === 'lumped')) ?
                         <PortManagement selectedPort={selectedPort}>
                             <PortType setShow={setShowModalSelectPortType} selectedPort={selectedPort}/>
-                            <PortPosition selectedPort={selectedPort}
-                                          updatePortPosition={updatePortPosition}/>
-                            <RLCParamsComponent selectedPort={selectedPort} setRLCParams={setRLCParams}/>
-                            <InputSignal
-                                setShowModalSignal={setShowModalSignal}
-                                setPortSignal={setPortSignal}
-                                selectedPort={selectedPort}
-                                availableSignals={availableSignals}
-                                setAvailableSignals={setAvailableSignals}
-                            />
-
-                            <ModalSelectPortType show={showModalSelectPortType} setShow={setShowModalSelectPortType}
-                                                 selectedPort={selectedPort} setPortType={setPortType}
-                            />
-                            <ModalSignals
-                                showModalSignal={showModalSignal}
-                                setShowModalSignal={setShowModalSignal}
-                                setAvailableSignals={setAvailableSignals}
-                                availableSignals={availableSignals}
-                            />
+                            <PortPosition selectedPort={selectedPort}/>
+                            <RLCParamsComponent selectedPort={selectedPort}/>
+                            <InputSignal setShowModalSignal={setShowModalSignal} selectedPort={selectedPort}/>
+                            <ModalSelectPortType show={showModalSelectPortType} setShow={setShowModalSelectPortType} selectedPort={selectedPort}/>
+                            <ModalSignals showModalSignal={showModalSignal} setShowModalSignal={setShowModalSignal}/>
                         </PortManagement>
                         :
                         <PortManagement selectedPort={selectedPort}>
-                            <PortPosition selectedPort={selectedPort ?? {} as Probe}
-                                          updatePortPosition={updatePortPosition}/>
+                            <PortPosition selectedPort={selectedPort ?? {} as Probe}/>
                         </PortManagement>
                     }
                 </>

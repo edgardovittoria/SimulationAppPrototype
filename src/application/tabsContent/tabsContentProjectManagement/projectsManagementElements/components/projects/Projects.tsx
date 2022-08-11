@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
 import {Project} from "../../../../../../model/Project";
 import css from './projects.module.css';
-import {ProjectManagementIcons} from "../../shared/ProjectManagementIcons";
-import {Folder} from "../../../../../../model/Folder";
-import {IoMdFolder} from "react-icons/io";
 import {DraggableProjectCard} from "./components/DraggableProjectCard";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from 'react-dnd-html5-backend'
 import {DroppableAndDraggableFolder} from "./components/DroppableAndDraggableFolder";
-import { useSelector } from 'react-redux';
-import { mainFolderSelector } from '../../../../../../store/projectSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+    mainFolderSelector,
+    SelectedFolderSelector, selectFolder,
+    selectProject
+} from '../../../../../../store/projectSlice';
 
 interface ProjectsProps {
     setShowModal: Function,
@@ -17,39 +18,29 @@ interface ProjectsProps {
     projectsTab: Project[],
     setProjectsTab: Function,
     selectTab: Function,
-    projects: Project[],
-    folders: Folder[],
-    selectedFolder: Folder,
-    selectFolder: Function,
-    selectProject: Function,
-    removeProject: Function,
-    execQuery: Function,
-    moveObject: Function,
-    removeFolder: Function,
-    allProjectFolders: Folder[],
 }
 
 export const Projects: React.FC<ProjectsProps> = (
     {
-        setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab, projects,
-        folders, selectedFolder, selectFolder, removeProject, selectProject, execQuery, moveObject,
-        removeFolder, allProjectFolders
+        setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab
     }
 ) => {
 
+    const dispatch = useDispatch()
     const mainFolder = useSelector(mainFolderSelector)
+    const selectedFolder = useSelector(SelectedFolderSelector)
     const [path, setPath] = useState([mainFolder]);
 
     const handleCardClick = (project: Project) => {
         if (!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)) {
             setProjectsTab(projectsTab.concat(project))
         }
-        selectProject(project.name)
+        dispatch(selectProject(project.name))
         selectTab(project.name)
     }
 
-    projects = selectedFolder.projectList;
-    folders = selectedFolder.subFolders
+    let projects = selectedFolder.projectList;
+    let folders = selectedFolder.subFolders
 
 
     return (
@@ -83,7 +74,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                             onClick={() => {
                                                 let newPath = path.filter((p, i) => i <= index);
                                                 setPath(newPath);
-                                                selectFolder(p.faunaDocumentId as string);
+                                                dispatch(selectFolder(p.faunaDocumentId as string));
                                             }}>
                                                 {p.name}
                                         </span>
@@ -106,14 +97,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                 {folders.length > 0 && <h5>Folders</h5>}
                                 {folders.map((folder) => {
                                     return (
-                                        <DroppableAndDraggableFolder selectFolder={selectFolder}
-                                                                     folder={folder} moveObject={moveObject}
-                                                                     selectedFolder={selectedFolder}
-                                                                     execQuery={execQuery}
-                                                                     removeFolder={removeFolder}
-                                                                     path={path} setPath={setPath}
-                                                                     allProjectFolders={allProjectFolders}
-                                        />
+                                        <DroppableAndDraggableFolder folder={folder} path={path} setPath={setPath}/>
                                     )
                                 })}
                             </div>
@@ -123,10 +107,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                     return (
                                         <DraggableProjectCard project={project} projectsTab={projectsTab}
                                                               setProjectsTab={setProjectsTab}
-                                                              removeProject={removeProject}
-                                                              execQuery={execQuery} handleCardClick={handleCardClick}
-                                                              selectedFolder={selectedFolder} moveObject={moveObject}
-                                                              allProjectFolders={allProjectFolders}
+                                                              handleCardClick={handleCardClick}
                                         />
                                     )
                                 })}

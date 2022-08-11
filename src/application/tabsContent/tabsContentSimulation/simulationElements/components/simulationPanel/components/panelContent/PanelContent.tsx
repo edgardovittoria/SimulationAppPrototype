@@ -7,22 +7,25 @@ import {FactoryShapes} from "cad-library";
 import {Project} from "../../../../../../../../model/Project";
 import css
     from "../../../../shared/dashBoard/rightPanelSimulation/factory/components/portManagement/components/portPosition/portPosition.module.css";
+import {useSelector} from "react-redux";
+import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
 interface PanelContentProps {
     simulationStarted: 'notStarted' | 'started' | 'Completed',
     meshGenerated: "Not Generated" | "Generating" | "Generated",
     simulation: Simulation,
-    selectedProject: Project | undefined,
     setQuantumDimensions: Function,
     quantumDimensions: [number, number, number]
 }
 
 export const PanelContent: React.FC<PanelContentProps> = (
     {
-        simulationStarted, meshGenerated, simulation, selectedProject,
+        simulationStarted, meshGenerated, simulation,
         setQuantumDimensions, quantumDimensions
     }
 ) => {
+
+    const selectedProject = useSelector(selectedProjectSelector)
 
     return (
         <div className="col-9 simulationPanelContent p-4">

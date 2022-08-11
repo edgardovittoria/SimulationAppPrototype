@@ -7,29 +7,34 @@ import {Folder} from "../../../../../../../model/Folder";
 import {useDrag, useDragDropManager, useDrop} from "react-dnd";
 import {Project} from "../../../../../../../model/Project";
 import {addIDInFolderProjectsList, addIDInSubFoldersList, deleteFolderFromFauna, deleteSimulationProjectFromFauna, getAllProjectsWithinThisFolder, getAllSubFoldersOfThisOne, removeIDInFolderProjectsList, removeIDInSubFoldersList} from "../../../../../../../faunadb/api/projectsFolderAPIs";
-import {store} from "../../../../../../../store/store";
-import {Menu, Item, Separator, useContextMenu, TriggerEvent, Submenu} from 'react-contexify';
+import {Menu, Item, Separator, useContextMenu, Submenu} from 'react-contexify';
 import {BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
 import {BsFillFolderSymlinkFill} from "react-icons/bs"
+import {useDispatch, useSelector} from "react-redux";
+import {
+    allProjectFoldersSelector,
+    moveObject, removeFolder,
+    SelectedFolderSelector,
+    selectFolder
+} from "../../../../../../../store/projectSlice";
+import {useFaunaQuery} from "cad-library";
 
 interface DroppableAndDraggableFolderProps {
-    selectFolder: Function,
-    selectedFolder: Folder,
     folder: Folder,
-    moveObject: Function,
-    execQuery: Function,
-    removeFolder: Function,
     path: Folder[],
     setPath: Function,
-    allProjectFolders: Folder[]
 }
 
 export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderProps> = (
     {
-        selectFolder, selectedFolder, folder, moveObject, execQuery, removeFolder,
-        path, setPath, allProjectFolders
+        folder, path, setPath
     }
 ) => {
+
+    const dispatch = useDispatch()
+    const {execQuery} = useFaunaQuery()
+    const selectedFolder = useSelector(SelectedFolderSelector)
+    const allProjectFolders = useSelector(allProjectFoldersSelector)
 
     const [dragDone, setDragDone] = useState(false);
     const [dropTargetFolder, setDropTargetFolder] = useState({} as Folder);
@@ -59,10 +64,10 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
 
         if (dragDone) {
             let objectToMove: Project | Folder = dragAndDropManager.getMonitor().getItem()
-            moveObject({
+            dispatch(moveObject({
                 objectToMove: objectToMove,
-                targetFolder: dropTargetFolder.faunaDocumentId
-            })
+                targetFolder: dropTargetFolder.faunaDocumentId as string
+            }))
             if("model" in objectToMove){
                 execQuery(removeIDInFolderProjectsList, objectToMove.faunaDocumentId, selectedFolder)
                 execQuery(addIDInFolderProjectsList, objectToMove.faunaDocumentId, dropTargetFolder)
@@ -95,7 +100,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                  style={{backgroundColor: isOver ? '#e6e6e6' : 'white', opacity: isDragging ? 0.5 : 1}}
                  onDoubleClick={() => {
                      setPath([...path, folder])
-                     selectFolder(folder.faunaDocumentId as string)
+                     dispatch(selectFolder(folder.faunaDocumentId as string))
                  }}>
                 <IoMdFolder className="me-2"
                             style={{width: "35px", height: "35px"}}
@@ -118,14 +123,12 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                             return (
                                 <div key={f.faunaDocumentId}>
                                     <Item onClick={() => {
-                                        moveObject({
+                                        dispatch(moveObject({
                                             objectToMove: folder,
-                                            targetFolder: f.faunaDocumentId
-                                        })
+                                            targetFolder: f.faunaDocumentId as string
+                                        }))
                                         execQuery(removeIDInSubFoldersList, folder.faunaDocumentId, selectedFolder)
                                         execQuery(addIDInSubFoldersList, folder.faunaDocumentId, f)
-                                        // execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-                                        // })
                                     }}>{f.name}</Item>
                                 </div>
                             )
@@ -157,9 +160,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                         folderIDsToDelete.forEach(f => execQuery(deleteFolderFromFauna, f))
                         projectsIDsToDelete.forEach(p => execQuery(deleteSimulationProjectFromFauna, p))
                         execQuery(removeIDInSubFoldersList, folder.faunaDocumentId, selectedFolder)
-                        removeFolder(folder)
-                        // execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-                        // })
+                        dispatch(removeFolder(folder))
                     }}>
                         <BiTrash
                             className={`${iconCss.deleteIcon} me-3`}

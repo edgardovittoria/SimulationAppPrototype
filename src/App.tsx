@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'react-contexify/dist/ReactContexify.css';
 import {TabsContainer} from "./application/tabsContainer/TabsContainer";
 import {
-    addProject, importModel, mainFolderSelector, resetSelectedComponents, selectedProjectSelector, selectProject,
+    addProject, importModel, mainFolderSelector, selectedProjectSelector, selectProject,
     setProjectsFolderToUser
 } from "./store/projectSlice";
 import {Project} from "./model/Project";
@@ -87,8 +87,6 @@ function App() {
         projectsTab={projectsTab}
         setProjectsTab={setProjectsTab}
         setShowModal={setShowCreateNewProjectModal}
-        selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
-        resetSelectedComponentsArray={() => dispatch(resetSelectedComponents())}
         user={user}
     />, [tabSelected, projectsTab, user]);
 
@@ -105,13 +103,9 @@ function App() {
                     projectsTab={projectsTab}
                     setProjectsTab={setProjectsTab}
                     selectTab={setTabSelected}
-                    selectedFolder={selectedFolder}
-                    selectFolder={(folderID: string) => dispatch(selectFolder(folderID))}
-                    selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
                     setSimulationCoreMenuItemSelected={setMenuItemSelected}
                     setSelectedSimulation={setSelectedSimulation}
                     setMenuItem={setMenuItemSelected}
-                    execQuery={execQuery}
                 />
                 :
                 <TabsContentSimulationFactory
@@ -120,7 +114,6 @@ function App() {
                     selectedSimulation={selectedSimulation}
                     setSelectedSimulation={setSelectedSimulation}
                     setShowLoadFromDBModal={setShowModalLoadFromDB}
-                    execQuery={execQuery}
                 />
             }
             {(showCreateNewProjectModal) && <CreateNewProjectModal
@@ -128,20 +121,8 @@ function App() {
                 projectsTab={projectsTab}
                 setProjectsTab={setProjectsTab}
                 selectTab={setTabSelected}
-                addNewProject={(project: Project) => dispatch(addProject(project))}
-                selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
-                user={user}
-                selectFolder={(folderID: string) => dispatch(selectFolder(folderID))}
-                execQuery={execQuery}
             />}
-            {(showCreateNewFolderModal) && <CreateNewFolderModal
-                setShowNewFolderModal={setShowCreateNewFolderModal}
-                addNewFolder={(folder: Folder) => dispatch(addFolder(folder))}
-                user={user}
-                selectedFolder={selectedFolder}
-                selectFolder={(folderID: string) => dispatch(selectFolder(folderID))}
-                execQuery={execQuery}
-            />}
+            {(showCreateNewFolderModal) && <CreateNewFolderModal setShowNewFolderModal={setShowCreateNewFolderModal}/>}
             {(showModalLoadFromDB) && <ImportModelFromDBModal
                 showModalLoad={setShowModalLoadFromDB}
                 importAction={importModel}

@@ -11,25 +11,32 @@ import {BiExport, BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
 import iconCss from "../../../shared/projectManagementIcon.module.css";
 import {BsFillFolderSymlinkFill} from "react-icons/bs";
 import {exportSimulationProject} from "../../../../../../../importExport/exportFunctions";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    allProjectFoldersSelector,
+    moveObject,
+    removeProject,
+    SelectedFolderSelector
+} from "../../../../../../../store/projectSlice";
+import {useFaunaQuery} from "cad-library";
 
 interface DraggableProjectCardProps {
     project: Project,
     projectsTab: Project[],
     setProjectsTab: Function,
-    removeProject: Function,
-    moveObject: Function,
-    execQuery: Function,
     handleCardClick: Function,
-    selectedFolder: Folder,
-    allProjectFolders: Folder[]
 }
 
 export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
     {
-        project, setProjectsTab, removeProject, projectsTab, moveObject, execQuery,
-        handleCardClick, selectedFolder, allProjectFolders
+        project, setProjectsTab, projectsTab, handleCardClick
     }
 ) => {
+
+    const dispatch = useDispatch()
+    const {execQuery} = useFaunaQuery()
+    const selectedFolder = useSelector(SelectedFolderSelector)
+    const allProjectFolders = useSelector(allProjectFoldersSelector)
 
     const [{isDragging}, drag, dragPreview] = useDrag(() => ({
         // "type" is required. It is used by the "accept" specification of drop targets.
@@ -83,10 +90,10 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                             return (
                                 <div key={f.faunaDocumentId}>
                                     <Item onClick={() => {
-                                        moveObject({
+                                        dispatch(moveObject({
                                             objectToMove: project,
-                                            targetFolder: f.faunaDocumentId
-                                        })
+                                            targetFolder: f.faunaDocumentId as string
+                                        }))
                                         execQuery(removeIDInFolderProjectsList, project.faunaDocumentId, selectedFolder)
                                         execQuery(addIDInFolderProjectsList, project.faunaDocumentId, f)
                                     }}>{f.name}</Item>
@@ -122,7 +129,7 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                     </Item>
                     <Separator />
                     <Item  onClick={() => {
-                        removeProject(project.faunaDocumentId as string)
+                        dispatch(removeProject(project.faunaDocumentId as string))
                         setProjectsTab(projectsTab.filter(p => p.name !== project.name))
                         execQuery(deleteSimulationProjectFromFauna, project.faunaDocumentId)
                         execQuery(removeIDInFolderProjectsList, project.faunaDocumentId, selectedFolder)

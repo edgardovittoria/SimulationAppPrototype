@@ -6,26 +6,32 @@ import {TiDelete} from "react-icons/ti";
 import {MdWatchLater} from "react-icons/md";
 import {AiOutlineBarChart} from "react-icons/ai";
 import {Folder} from "../../../../../../model/Folder";
-import {findProjectByName} from "../../../../../../store/projectSlice";
+import {
+    findProjectByName,
+    mainFolderSelector,
+    projectsSelector,
+    selectProject
+} from "../../../../../../store/projectSlice";
 import {Project} from "../../../../../../model/Project";
+import {useDispatch, useSelector} from "react-redux";
 
 interface SimulationsProps {
     selectTab: Function,
     setSimulationCoreMenuItemSelected: Function,
-    selectProject: Function,
     setSelectedSimulation: Function,
-    mainFolder: Folder,
-    projects: Project[],
     setProjectsTab: Function,
     projectsTab: Project[]
 }
 
 export const Simulations: React.FC<SimulationsProps> = (
     {
-        selectTab, setSimulationCoreMenuItemSelected, selectProject, setSelectedSimulation,
-        mainFolder, projects, setProjectsTab, projectsTab
+        selectTab, setSimulationCoreMenuItemSelected, setSelectedSimulation,
+        setProjectsTab, projectsTab
     }
 ) => {
+    const dispatch = useDispatch()
+    const mainFolder = useSelector(mainFolderSelector)
+    const projects = useSelector(projectsSelector)
 
     let simulations: Simulation[] = []
 
@@ -102,7 +108,7 @@ export const Simulations: React.FC<SimulationsProps> = (
                                             <AiOutlineBarChart color={'#00ae52'} style={{width: "30px", height: "30px"}}
                                                 onClick={() => {
                                                     selectTab(simulation.associatedProject)
-                                                    selectProject(simulation.associatedProject)
+                                                    dispatch(selectProject(simulation.associatedProject))
                                                     setSelectedSimulation(simulation)
                                                     setProjectsTab([...projectsTab, findProjectByName(projects, simulation.associatedProject)])
                                                     setSimulationCoreMenuItemSelected('Results')
