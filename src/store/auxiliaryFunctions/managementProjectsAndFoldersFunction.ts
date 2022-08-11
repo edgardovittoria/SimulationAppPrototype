@@ -42,11 +42,11 @@ export const removeFolderFromStore = (state: ProjectState, folderToRemove: Folde
 
 export const moveProject = (state: ProjectState, projectToMove: Project, targetFolder: string) => {
     if (state.selectedFolder.name === "My Files") {
-        state.projects.projectList = state.projects.projectList.filter(p => p.name !== projectToMove.name)
+        state.projects.projectList = state.projects.projectList.filter(p => p.faunaDocumentId !== projectToMove.faunaDocumentId)
     } else {
-        recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.faunaDocumentId as string, projectToMove.name)
+        recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.faunaDocumentId as string, projectToMove.faunaDocumentId as string)
     }
-    state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.name !== projectToMove.name)
+    state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.faunaDocumentId !== projectToMove.faunaDocumentId)
     if(targetFolder === "My Files"){
         state.projects.projectList.push(projectToMove)
     }else{

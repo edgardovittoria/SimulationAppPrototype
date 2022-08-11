@@ -5,7 +5,7 @@ import {ProjectManagementIcons} from "../../../shared/ProjectManagementIcons";
 import {Project} from "../../../../../../../model/Project";
 import {Folder} from "../../../../../../../model/Folder";
 import {Item, Menu, Separator, Submenu, useContextMenu} from "react-contexify";
-import {deleteSimulationProjectFromFauna, removeIDInFolderProjectsList} from "../../../../../../../faunadb/api/projectsFolderAPIs";
+import {addIDInFolderProjectsList, deleteSimulationProjectFromFauna, removeIDInFolderProjectsList} from "../../../../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../../../../store/store";
 import {BiExport, BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
 import iconCss from "../../../shared/projectManagementIcon.module.css";
@@ -87,8 +87,8 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                                             objectToMove: project,
                                             targetFolder: f.faunaDocumentId
                                         })
-                                        // execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-                                        // })
+                                        execQuery(removeIDInFolderProjectsList, project.faunaDocumentId, selectedFolder)
+                                        execQuery(addIDInFolderProjectsList, project.faunaDocumentId, f)
                                     }}>{f.name}</Item>
                                 </div>
 

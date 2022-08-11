@@ -6,7 +6,7 @@ import {IoMdFolder} from "react-icons/io";
 import {Folder} from "../../../../../../../model/Folder";
 import {useDrag, useDragDropManager, useDrop} from "react-dnd";
 import {Project} from "../../../../../../../model/Project";
-import {addIDInSubFoldersList, deleteFolderFromFauna, deleteSimulationProjectFromFauna, getAllProjectsWithinThisFolder, getAllSubFoldersOfThisOne, removeIDInSubFoldersList} from "../../../../../../../faunadb/api/projectsFolderAPIs";
+import {addIDInFolderProjectsList, addIDInSubFoldersList, deleteFolderFromFauna, deleteSimulationProjectFromFauna, getAllProjectsWithinThisFolder, getAllSubFoldersOfThisOne, removeIDInFolderProjectsList, removeIDInSubFoldersList} from "../../../../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../../../../store/store";
 import {Menu, Item, Separator, useContextMenu, TriggerEvent, Submenu} from 'react-contexify';
 import {BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
@@ -64,13 +64,12 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                 targetFolder: dropTargetFolder.faunaDocumentId
             })
             if("model" in objectToMove){
-
+                execQuery(removeIDInFolderProjectsList, objectToMove.faunaDocumentId, selectedFolder)
+                execQuery(addIDInFolderProjectsList, objectToMove.faunaDocumentId, dropTargetFolder)
             }else{
                 execQuery(removeIDInSubFoldersList, objectToMove.faunaDocumentId, selectedFolder)
                 execQuery(addIDInSubFoldersList, objectToMove.faunaDocumentId, dropTargetFolder)
             }
-            // execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-            // })
         }
         setDragDone(false)
     }, [dragDone]);
