@@ -6,7 +6,7 @@ import {IoMdFolder} from "react-icons/io";
 import {Folder} from "../../../../../../../model/Folder";
 import {useDrag, useDragDropManager, useDrop} from "react-dnd";
 import {Project} from "../../../../../../../model/Project";
-import {addIDInSubFoldersList, deleteFolderFromFauna, deleteSimulationProjectFromFauna, getAllProjectsWithinThisFolder, getAllSubFoldersOfThisOne, removeIDInSubFoldersList, updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
+import {addIDInSubFoldersList, deleteFolderFromFauna, deleteSimulationProjectFromFauna, getAllProjectsWithinThisFolder, getAllSubFoldersOfThisOne, removeIDInSubFoldersList} from "../../../../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../../../../store/store";
 import {Menu, Item, Separator, useContextMenu, TriggerEvent, Submenu} from 'react-contexify';
 import {BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
@@ -19,7 +19,7 @@ interface DroppableAndDraggableFolderProps {
     moveObject: Function,
     execQuery: Function,
     removeFolder: Function,
-    path: string[],
+    path: Folder[],
     setPath: Function,
     allProjectFolders: Folder[]
 }
@@ -95,8 +95,8 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                  role='Dustbin'
                  style={{backgroundColor: isOver ? '#e6e6e6' : 'white', opacity: isDragging ? 0.5 : 1}}
                  onDoubleClick={() => {
-                     setPath([...path, folder.name])
-                     selectFolder(folder.name)
+                     setPath([...path, folder])
+                     selectFolder(folder.faunaDocumentId as string)
                  }}>
                 <IoMdFolder className="me-2"
                             style={{width: "35px", height: "35px"}}

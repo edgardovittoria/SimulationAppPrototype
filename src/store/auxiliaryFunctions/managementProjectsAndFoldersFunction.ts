@@ -8,17 +8,17 @@ export const addProjectToStore = (state: ProjectState, projectToAdd: Project) =>
         state.selectedFolder.projectList.push(projectToAdd)
     } else {
         state.selectedFolder.projectList.push(projectToAdd)
-        recursiveProjectAdd(state.projects.subFolders, state.selectedFolder?.name, projectToAdd)
+        recursiveProjectAdd(state.projects.subFolders, (state.selectedFolder?.faunaDocumentId) as string, projectToAdd)
     }
 }
 
 export const removeProjectFromStore = (state: ProjectState, projectToRemove: string) => {
     if (state.selectedFolder.name === "My Files") {
-        state.projects.projectList = state.projects.projectList.filter(p => p.name !== projectToRemove)
-        state.selectedFolder.projectList = state.projects.projectList.filter(p => p.name !== projectToRemove)
+        state.projects.projectList = state.projects.projectList.filter(p => p.faunaDocumentId !== projectToRemove)
+        state.selectedFolder.projectList = state.projects.projectList.filter(p => p.faunaDocumentId !== projectToRemove)
     } else {
-        state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.name !== projectToRemove)
-        recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.name, projectToRemove)
+        state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.faunaDocumentId !== projectToRemove)
+        recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.faunaDocumentId as string, projectToRemove)
     }
 }
 
@@ -26,7 +26,7 @@ export const addFolderToStore = (state: ProjectState, folderToAdd: Folder) => {
     if (state.selectedFolder.name === "My Files") {
         state.projects.subFolders.push(folderToAdd)
     } else {
-        recursiveFoldersAdd(state.projects.subFolders, state.selectedFolder?.name, folderToAdd)
+        recursiveFoldersAdd(state.projects.subFolders, (state.selectedFolder?.faunaDocumentId) as string, folderToAdd)
     }
     state.selectedFolder.subFolders.push(folderToAdd)
 }
@@ -35,7 +35,7 @@ export const removeFolderFromStore = (state: ProjectState, folderToRemove: Folde
     if (state.selectedFolder.name === "My Files") {
         state.projects.subFolders = state.projects.subFolders.filter(sf => sf.name !== folderToRemove.name)
     } else {
-        recursiveFolderRemove(state.projects.subFolders, state.selectedFolder.name, folderToRemove)
+        recursiveFolderRemove(state.projects.subFolders, state.selectedFolder.faunaDocumentId as string, folderToRemove)
     }
     state.selectedFolder.subFolders = state.selectedFolder.subFolders.filter(sf => sf.name !== folderToRemove.name)
 }
@@ -44,7 +44,7 @@ export const moveProject = (state: ProjectState, projectToMove: Project, targetF
     if (state.selectedFolder.name === "My Files") {
         state.projects.projectList = state.projects.projectList.filter(p => p.name !== projectToMove.name)
     } else {
-        recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.name, projectToMove.name)
+        recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.faunaDocumentId as string, projectToMove.name)
     }
     state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.name !== projectToMove.name)
     if(targetFolder === "My Files"){
@@ -69,9 +69,9 @@ export const moveFolder = (state: ProjectState, folderToMove: Folder, targetFold
     }
 }
 
-export const recursiveFindFaunaFolderIDs = (folder: Folder, allFolders: Folder[]): Folder[] => {
+export const recursiveFindFolders = (folder: Folder, allFolders: Folder[]): Folder[] => {
     allFolders.push(folder)
-    folder.subFolders.forEach(sb => recursiveFindFaunaFolderIDs(sb, allFolders))
+    folder.subFolders.forEach(sb => recursiveFindFolders(sb, allFolders))
     return allFolders
 }
 
@@ -106,7 +106,7 @@ export const recursiveFolderRemove = (subFolders: Folder[], parent: string, fold
 
 export const recursiveProjectAdd = (subFolders: Folder[], parent: string, projectToAdd: Project) => {
     subFolders.forEach(sf => {
-        if (sf.name === parent && (!projectAlreadyExists(sf.projectList, projectToAdd))) {
+        if (sf.faunaDocumentId === parent && (!projectAlreadyExists(sf.projectList, projectToAdd))) {
             sf.projectList.push(projectToAdd)
         } else {
             recursiveProjectAdd(sf.subFolders, parent, projectToAdd)
@@ -116,8 +116,8 @@ export const recursiveProjectAdd = (subFolders: Folder[], parent: string, projec
 
 export const recursiveProjectRemove = (subFolders: Folder[], parent: string, projectToRemove: string) => {
     subFolders.forEach(sf => {
-        if (sf.name === parent) {
-            sf.projectList = sf.projectList.filter(p => p.name !== projectToRemove)
+        if (sf.faunaDocumentId === parent) {
+            sf.projectList = sf.projectList.filter(p => p.faunaDocumentId !== projectToRemove)
         } else {
             recursiveProjectRemove(sf.subFolders, parent, projectToRemove)
         }
@@ -125,11 +125,11 @@ export const recursiveProjectRemove = (subFolders: Folder[], parent: string, pro
 }
 
 export const recursiveSelectFolder = (state: ProjectState, folders: Folder[], folderToSelect: string) => {
-    if (state.projects.name === folderToSelect) {
+    if (state.projects.faunaDocumentId === folderToSelect) {
         state.selectedFolder = state.projects
     }
     folders.forEach(f => {
-        if (f.name === folderToSelect) {
+        if (f.faunaDocumentId === folderToSelect) {
             state.selectedFolder = f
         } else {
             recursiveSelectFolder(state, f.subFolders, folderToSelect)

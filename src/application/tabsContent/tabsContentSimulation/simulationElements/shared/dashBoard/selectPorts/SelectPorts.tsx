@@ -5,7 +5,6 @@ import {AiOutlineThunderbolt} from "react-icons/ai";
 import {Project} from "../../../../../../../model/Project";
 import {Port, Probe, RLCParams} from "../../../../../../../model/Port";
 import {CircleGeometryAttributes, ComponentEntity, TransformationParams} from 'cad-library';
-import {updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../../../../store/store";
 
 interface SelectPortsProps {
@@ -87,7 +86,6 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 associatedSignal: undefined
                             }
                             addPorts(port)
-                            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Port</span>
@@ -143,7 +141,6 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 associatedSignal: undefined
                             }
                             addPorts(lumped)
-                            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Lumped</span>
@@ -340,7 +337,6 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({addPorts, selectedProje
                                 ]
                             }
                             addPorts(probe)
-                            execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
                         }}>
                             <div className={css.dropdownItem}>
                                 <span>Probe</span>

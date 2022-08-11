@@ -5,31 +5,6 @@ import { Port, Probe } from "../../model/Port";
 import { Project } from "../../model/Project";
 import { Simulation } from "../../model/Simulation";
 
-export const getProjectsFolderByOwner = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, owner: string) => {
-    const response = await faunaClient.query(
-        faunaQuery.Get(faunaQuery.Match(faunaQuery.Index('projectsFolder_by_owner'), owner))
-    )
-        .catch((err) => console.error(
-            'Error: [%s] %s: %s',
-            err.name,
-            err.message,
-            err.errors()[0].description,
-        ));
-    return response as Folder
-
-}
-
-export const updateFolderOrProject = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, newFolder: Folder) => {
-    const response = await faunaClient.query(
-        faunaQuery.Update(faunaQuery.Ref(faunaQuery.Collection('ProjectsFolder'), newFolder.faunaDocumentId), {
-            data: {
-                ...newFolder
-            }
-        })
-    )
-
-    return response
-}
 
 
 export const getFoldersByOwner = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, owner: string) => {
@@ -90,14 +65,16 @@ type FaunaProject = {
 
 type FaunaFolder = {
     id: string,
-    folder: {
-        name: string,
-        owner: UsersState,
-        sharedWith: UsersState[],
-        projectList: string[],
-        subFolders: string[],
-        parent: string,
-    }
+    folder: FaunaFolderDetails
+}
+
+type FaunaFolderDetails = {
+    name: string,
+    owner: UsersState,
+    sharedWith: UsersState[],
+    projectList: string[],
+    subFolders: string[],
+    parent: string,
 }
 
 export const constructFolderStructure = (folders: FaunaFolder[], all_projects: FaunaProject[]) => {
@@ -153,7 +130,13 @@ const recursiveSubFoldersRetrieving = (subFolders: string[], all_folders: FaunaF
 
 export const createFolderInFauna = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, folderToSave: Folder) => {
     const response = await faunaClient.query(
-        faunaQuery.Create(faunaQuery.Collection("Folders"), { data: { ...folderToSave } }
+        faunaQuery.Create(faunaQuery.Collection("Folders"), {
+            data: {
+                ...folderToSave,
+                projectList: [],
+                subFolders: []
+            } as FaunaFolderDetails
+        }
         )
     )
         .catch((err) => console.error(
@@ -181,15 +164,12 @@ export const deleteFolderFromFauna = async (faunaClient: faunadb.Client, faunaQu
 }
 
 export const addIDInSubFoldersList = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, folderFaunaID: string, selectedFolder: Folder) => {
+    let folder = convertFolderInFaunaFolderDetails(selectedFolder)
     const response = await faunaClient.query(
         faunaQuery.Update(faunaQuery.Ref(faunaQuery.Collection('Folders'), selectedFolder.faunaDocumentId), {
             data: {
-                ...selectedFolder,
-                subFolders: [...selectedFolder.subFolders.reduce((subIDs, sb) => {
-                    subIDs.push(sb.faunaDocumentId as string)
-                    return subIDs
-                }, [] as string[]), folderFaunaID]
-
+                ...folder,
+                subFolders: [...folder.subFolders, folderFaunaID]
             }
         })
     )
@@ -204,14 +184,12 @@ export const addIDInSubFoldersList = async (faunaClient: faunadb.Client, faunaQu
 }
 
 export const removeIDInSubFoldersList = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, folderFaunaID: string, selectedFolder: Folder) => {
+    let folder = convertFolderInFaunaFolderDetails(selectedFolder)
     const response = await faunaClient.query(
         faunaQuery.Update(faunaQuery.Ref(faunaQuery.Collection('Folders'), selectedFolder.faunaDocumentId), {
             data: {
-                ...selectedFolder,
-                subFolders: [...selectedFolder.subFolders.reduce((subIDs, sb) => {
-                    subIDs.push(sb.faunaDocumentId as string)
-                    return subIDs
-                }, [] as string[]).filter(id => id !== folderFaunaID)]
+                ...folder,
+                subFolders: [...folder.subFolders.filter(id => id !== folderFaunaID)]
 
             }
         })
@@ -243,14 +221,12 @@ export const deleteSimulationProjectFromFauna = async (faunaClient: faunadb.Clie
 
 
 export const removeIDInFolderProjectsList = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, projectFaunaID: string, selectedFolder: Folder) => {
+    let folder = convertFolderInFaunaFolderDetails(selectedFolder)
     const response = await faunaClient.query(
-        faunaQuery.Update(faunaQuery.Ref(faunaQuery.Collection('Folder'), selectedFolder.faunaDocumentId), {
+        faunaQuery.Update(faunaQuery.Ref(faunaQuery.Collection('Folders'), selectedFolder.faunaDocumentId), {
             data: {
-                ...selectedFolder,
-                projectList: [...selectedFolder.projectList.reduce((pIDs, p) => {
-                    pIDs.push(p.faunaDocumentId as string)
-                    return pIDs
-                }, [] as string[]).filter(id => id !== projectFaunaID)]
+                ...folder,
+                projectList: [...folder.projectList.filter(id => id !== projectFaunaID)]
 
             }
         })
@@ -267,41 +243,41 @@ export const removeIDInFolderProjectsList = async (faunaClient: faunadb.Client, 
 
 
 
-export const getAllSubFoldersOfThisOne = (folder: Folder) : string[] => {
-    if(folder.subFolders.length > 0){
+export const getAllSubFoldersOfThisOne = (folder: Folder): string[] => {
+    if (folder.subFolders.length > 0) {
         return folder.subFolders.reduce((IDs, sb) => {
             IDs.push(sb.faunaDocumentId as string)
             IDs.push(...getAllSubFoldersOfThisOne(sb))
             return IDs
         }, [] as string[])
     }
-    else{
+    else {
         return []
     }
-    
+
 }
 
-export const getAllProjectsWithinThisFolder = (folder: Folder) : string[] => {
+export const getAllProjectsWithinThisFolder = (folder: Folder): string[] => {
     let projectIDs: string[] = []
-    if (folder.projectList.length > 0){
+    if (folder.projectList.length > 0) {
         projectIDs.push(...folder.projectList.reduce((IDs, p) => {
             IDs.push(p.faunaDocumentId as string)
             return IDs
-        }, [] as string[]) )   
+        }, [] as string[]))
     }
-    if(folder.subFolders.length > 0){
-         projectIDs.push(...folder.subFolders.reduce((IDs, sb) => {
+    if (folder.subFolders.length > 0) {
+        projectIDs.push(...folder.subFolders.reduce((IDs, sb) => {
             IDs.push(...getAllProjectsWithinThisFolder(sb))
             return IDs
         }, [] as string[]))
     }
     return projectIDs
-    
+
 }
 
 export const createSimulationProjectInFauna = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, projectToSave: Project) => {
     const response = await faunaClient.query(
-        faunaQuery.Create(faunaQuery.Collection("SimulationProjects"), { data: { ...projectToSave } }
+        faunaQuery.Create(faunaQuery.Collection("SimulationProjects"), { data: { ...projectToSave } as FaunaProjectDetails }
         )
     )
         .catch((err) => console.error(
@@ -314,15 +290,24 @@ export const createSimulationProjectInFauna = async (faunaClient: faunadb.Client
 
 }
 
+type FaunaProjectDetails = {
+    name: string,
+    description: string,
+    model: CanvasState,
+    ports: (Port | Probe)[],
+    simulations: Simulation[],
+    screenshot: string | undefined,
+    owner: UsersState
+    sharedWidth?: UsersState[]
+}
+
 export const addIDInFolderProjectsList = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, projectFaunaID: string, selectedFolder: Folder) => {
+    let folder = convertFolderInFaunaFolderDetails(selectedFolder)
     const response = await faunaClient.query(
         faunaQuery.Update(faunaQuery.Ref(faunaQuery.Collection('Folders'), selectedFolder.faunaDocumentId), {
             data: {
-                ...selectedFolder,
-                projectList: [...selectedFolder.projectList.reduce((pIDs, p) => {
-                    pIDs.push(p.faunaDocumentId as string)
-                    return pIDs
-                }, [] as string[]), projectFaunaID]
+                ...folder,
+                projectList: [...folder.projectList, projectFaunaID]
 
             }
         })
@@ -335,4 +320,19 @@ export const addIDInFolderProjectsList = async (faunaClient: faunadb.Client, fau
         ));
     return response
 
+}
+
+const convertFolderInFaunaFolderDetails = (folder: Folder): FaunaFolderDetails => {
+    let faunaFolder = {
+        ...folder,
+        subFolders: [...folder.subFolders.reduce((subIDs, sb) => {
+            subIDs.push(sb.faunaDocumentId as string)
+            return subIDs
+        }, [] as string[])],
+        projectList: [...folder.projectList.reduce((pIDs, p) => {
+            pIDs.push(p.faunaDocumentId as string)
+            return pIDs
+        }, [] as string[])]
+    } as FaunaFolderDetails
+    return faunaFolder
 }

@@ -6,6 +6,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {SetUserInfo, UsersState} from 'cad-library';
 import {IoIosSettings} from "react-icons/io";
 import {HiOutlineLogout} from "react-icons/hi";
+import { useDispatch, useSelector } from 'react-redux';
+import { mainFolderSelector, selectFolder } from '../../store/projectSlice';
 
 interface TabsContainerProps {
     selectTab: Function,

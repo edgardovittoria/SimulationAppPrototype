@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'react-contexify/dist/ReactContexify.css';
 import {TabsContainer} from "./application/tabsContainer/TabsContainer";
 import {
-    addProject, importModel, resetSelectedComponents, selectedProjectSelector, selectProject,
+    addProject, importModel, mainFolderSelector, resetSelectedComponents, selectedProjectSelector, selectProject,
     setProjectsFolderToUser
 } from "./store/projectSlice";
 import {Project} from "./model/Project";
@@ -30,7 +30,7 @@ import {
 import {CreateNewFolderModal} from "./application/modals/createNewFolderModal/CreateNewFolderModal";
 import {addFolder, SelectedFolderSelector, selectFolder} from "./store/projectSlice";
 import {Folder} from "./model/Folder";
-import {constructFolderStructure, getFoldersByOwner, getProjectsFolderByOwner, getSimulationProjectsByOwner} from "./faunadb/api/projectsFolderAPIs";
+import {constructFolderStructure, getFoldersByOwner, getSimulationProjectsByOwner} from "./faunadb/api/projectsFolderAPIs";
 
 
 function App() {
@@ -51,7 +51,8 @@ function App() {
     const menuItems = getMenuItemsArrayBasedOnTabType(tabSelected)
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
     const [selectedSimulation, setSelectedSimulation] = useState<Simulation | undefined>(undefined);
-    const [path, setPath] = useState(["My Files"]);
+    const mainFolder = useSelector(mainFolderSelector)
+    
 
     const {execQuery} = useFaunaQuery()
 
@@ -63,7 +64,7 @@ function App() {
                     execQuery(getSimulationProjectsByOwner, user.userName).then(projects => {
                         let folder = constructFolderStructure(folders, projects)
                         dispatch(setProjectsFolderToUser(folder))
-                        dispatch(selectFolder(folder))
+                        dispatch(selectFolder(folder.faunaDocumentId as string))
                     })
                 })
         }
@@ -72,6 +73,7 @@ function App() {
     useEffect(() => {
         if (tabSelected === "DASHBOARD") {
             setMenuItemSelected(menuItems[0])
+            dispatch(selectFolder(mainFolder.faunaDocumentId as string))
         } else if (menuItemSelected !== 'Results') {
             setMenuItemSelected(menuItems[0])
         }
@@ -104,14 +106,12 @@ function App() {
                     setProjectsTab={setProjectsTab}
                     selectTab={setTabSelected}
                     selectedFolder={selectedFolder}
-                    selectFolder={(folder: Folder) => dispatch(selectFolder(folder))}
+                    selectFolder={(folderID: string) => dispatch(selectFolder(folderID))}
                     selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
                     setSimulationCoreMenuItemSelected={setMenuItemSelected}
                     setSelectedSimulation={setSelectedSimulation}
                     setMenuItem={setMenuItemSelected}
                     execQuery={execQuery}
-                    path={path}
-                    setPath={setPath}
                 />
                 :
                 <TabsContentSimulationFactory
@@ -131,7 +131,7 @@ function App() {
                 addNewProject={(project: Project) => dispatch(addProject(project))}
                 selectProject={(projectName: string | undefined) => dispatch(selectProject(projectName))}
                 user={user}
-                selectFolder={(folder: Folder) => dispatch(selectFolder(folder))}
+                selectFolder={(folderID: string) => dispatch(selectFolder(folderID))}
                 execQuery={execQuery}
             />}
             {(showCreateNewFolderModal) && <CreateNewFolderModal
@@ -139,7 +139,7 @@ function App() {
                 addNewFolder={(folder: Folder) => dispatch(addFolder(folder))}
                 user={user}
                 selectedFolder={selectedFolder}
-                selectFolder={(folder: Folder) => dispatch(selectFolder(folder))}
+                selectFolder={(folderID: string) => dispatch(selectFolder(folderID))}
                 execQuery={execQuery}
             />}
             {(showModalLoadFromDB) && <ImportModelFromDBModal

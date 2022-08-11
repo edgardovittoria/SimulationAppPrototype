@@ -5,7 +5,7 @@ import {ProjectManagementIcons} from "../../../shared/ProjectManagementIcons";
 import {Project} from "../../../../../../../model/Project";
 import {Folder} from "../../../../../../../model/Folder";
 import {Item, Menu, Separator, Submenu, useContextMenu} from "react-contexify";
-import {deleteSimulationProjectFromFauna, removeIDInFolderProjectsList, updateFolderOrProject} from "../../../../../../../faunadb/api/projectsFolderAPIs";
+import {deleteSimulationProjectFromFauna, removeIDInFolderProjectsList} from "../../../../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../../../../store/store";
 import {BiExport, BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
 import iconCss from "../../../shared/projectManagementIcon.module.css";
@@ -121,11 +121,11 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                         Share
                     </Item>
                     <Separator />
-                    <Item data={project} onClick={(data) => {
-                        removeProject(data.data.name)
+                    <Item  onClick={() => {
+                        removeProject(project.faunaDocumentId as string)
                         setProjectsTab(projectsTab.filter(p => p.name !== project.name))
-                        execQuery(deleteSimulationProjectFromFauna, data.data.faunaDocumentId)
-                        execQuery(removeIDInFolderProjectsList, data.data.faunaDocumentId, selectedFolder)
+                        execQuery(deleteSimulationProjectFromFauna, project.faunaDocumentId)
+                        execQuery(removeIDInFolderProjectsList, project.faunaDocumentId, selectedFolder)
                     }}>
                         <BiTrash
                             className="me-3"

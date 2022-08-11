@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
 import {UsersState} from "cad-library";
 import {Folder} from "../../../model/Folder";
-import {createFolderInFauna, updateFolderOrProject, addIDInSubFoldersList} from "../../../faunadb/api/projectsFolderAPIs";
+import {createFolderInFauna, addIDInSubFoldersList} from "../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../store/store";
 
 interface CreateNewFolderModalProps {
@@ -34,7 +34,6 @@ export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
                 projectList: [],
                 subFolders: [],
                 parent: selectedFolder.faunaDocumentId as string,
-                // faunaDocumentId: selectedFolder.faunaDocumentId
             }
             execQuery(createFolderInFauna, newFolder).then((ret: any) => {
                 newFolder = {...newFolder, faunaDocumentId: ret.ref.value.id}
@@ -42,7 +41,6 @@ export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
                 execQuery(addIDInSubFoldersList, newFolder.faunaDocumentId, selectedFolder)
             })
             setShowNewFolderModal(false)
-            // execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
         }else{
             alert("Folder's name is required!")
         }

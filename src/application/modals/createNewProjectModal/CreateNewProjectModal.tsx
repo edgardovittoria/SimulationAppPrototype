@@ -3,7 +3,7 @@ import {Project} from "../../../model/Project";
 import {Modal} from "react-bootstrap";
 import {CanvasState, UsersState} from 'cad-library';
 import {store} from "../../../store/store";
-import {addIDInFolderProjectsList, createSimulationProjectInFauna, updateFolderOrProject} from "../../../faunadb/api/projectsFolderAPIs";
+import {addIDInFolderProjectsList, createSimulationProjectInFauna} from "../../../faunadb/api/projectsFolderAPIs";
 import { SelectedFolderSelector } from '../../../store/projectSlice';
 import { useSelector } from 'react-redux';
 
@@ -55,7 +55,7 @@ export const CreateNewProjectModal: React.FC<CreateNewProjectModalProps> = (
             setProjectsTab(projectsTab.concat(newProject))
             selectTab(newProject.name)
             setShow(false)
-            selectFolder(store.getState().projects.projects)
+            // selectFolder(store.getState().projects.projects)
         }else{
             alert("Project's name is required!")
         }

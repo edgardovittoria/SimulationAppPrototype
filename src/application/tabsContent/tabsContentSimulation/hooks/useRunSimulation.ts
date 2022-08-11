@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {Simulation} from "../../../../model/Simulation";
 import {getSimulationByName} from "../../../../faunadb/api/simulationAPIs";
 import {useFaunaQuery} from "cad-library";
-import {updateFolderOrProject} from "../../../../faunadb/api/projectsFolderAPIs";
 import {store} from "../../../../store/store";
 import {Project} from "../../../../model/Project";
 import {getMaterialListFrom} from "./auxiliaryFunctions/auxiliaryFunctions";
@@ -67,9 +66,7 @@ export const useRunSimulation =
                             ended: Date.now().toString(),
                             status: "Completed"
                         }
-                        updateSimulation(simulationUpdated);
-                        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {
-                        })
+                        updateSimulation(simulationUpdated)
                     })
                         .catch(() => {
                             //management of exceptions

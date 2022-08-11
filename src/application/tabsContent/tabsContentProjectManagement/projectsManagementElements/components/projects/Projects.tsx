@@ -8,6 +8,8 @@ import {DraggableProjectCard} from "./components/DraggableProjectCard";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from 'react-dnd-html5-backend'
 import {DroppableAndDraggableFolder} from "./components/DroppableAndDraggableFolder";
+import { useSelector } from 'react-redux';
+import { mainFolderSelector } from '../../../../../../store/projectSlice';
 
 interface ProjectsProps {
     setShowModal: Function,
@@ -25,17 +27,18 @@ interface ProjectsProps {
     moveObject: Function,
     removeFolder: Function,
     allProjectFolders: Folder[],
-    path: string[]
-    setPath: Function
 }
 
 export const Projects: React.FC<ProjectsProps> = (
     {
         setShowModal, setShowNewFolderModal, projectsTab, setProjectsTab, selectTab, projects,
         folders, selectedFolder, selectFolder, removeProject, selectProject, execQuery, moveObject,
-        removeFolder, allProjectFolders, path, setPath
+        removeFolder, allProjectFolders
     }
 ) => {
+
+    const mainFolder = useSelector(mainFolderSelector)
+    const [path, setPath] = useState([mainFolder]);
 
     const handleCardClick = (project: Project) => {
         if (!(projectsTab.filter(projectTab => projectTab.name === project.name).length > 0)) {
@@ -74,19 +77,19 @@ export const Projects: React.FC<ProjectsProps> = (
                         return (
                             <>
                                 {index !== path.length - 1 ?
-                                    <div className="d-inline" key={p}>
+                                    <div className="d-inline" key={p.faunaDocumentId}>
                                         <span
                                             className={css.folderHistoryItem}
                                             onClick={() => {
                                                 let newPath = path.filter((p, i) => i <= index);
                                                 setPath(newPath);
-                                                selectFolder(p);
+                                                selectFolder(p.faunaDocumentId as string);
                                             }}>
-                                                {p}
+                                                {p.name}
                                         </span>
                                         <span>{' '}&gt;{' '}</span>
                                     </div> :
-                                    <span className="fw-bold" key={p}>{p}</span>
+                                    <span className="fw-bold" key={p.faunaDocumentId}>{p.name}</span>
                                 }
                             </>
 

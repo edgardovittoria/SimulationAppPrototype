@@ -16,7 +16,6 @@ import {Screenshot} from "./components/Screenshot";
 import {PortControls} from "./components/PortControls";
 import {ProbeControls} from "./components/ProbeControls";
 import {store} from "../../../../../../store/store";
-import {updateFolderOrProject} from "../../../../../../faunadb/api/projectsFolderAPIs";
 
 interface ModelerProps {
     selectedProject: Project | undefined,
@@ -39,16 +38,6 @@ export const Modeler: React.FC<ModelerProps> = (
     let selectedPort = findSelectedPort(selectedProject)
 
     const {execQuery} = useFaunaQuery()
-
-    /*
-    * TODO: review this solution
-    * problem: too many query to fauna db
-    * */
-    useEffect(() => {
-        execQuery(updateFolderOrProject, store.getState().projects.projects).then(() => {})
-    }, [(selectedProject) && selectedProject.model]);
-
-
 
     return (
         <div className="d-flex justify-content-center">
