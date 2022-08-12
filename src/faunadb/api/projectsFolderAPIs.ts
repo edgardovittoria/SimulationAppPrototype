@@ -1,9 +1,7 @@
-import { CanvasState, UsersState } from "cad-library";
 import faunadb from "faunadb";
+import { FaunaFolder, FaunaFolderDetails, FaunaProject, FaunaProjectDetails } from "../../model/FaunaModels";
 import { Folder } from "../../model/Folder";
-import { Port, Probe } from "../../model/Port";
 import { Project } from "../../model/Project";
-import { Simulation } from "../../model/Simulation";
 
 
 
@@ -47,36 +45,6 @@ export const getSimulationProjectsByOwner = async (faunaClient: faunadb.Client, 
             err.errors()[0].description,
         ));
     return response as FaunaProject[]
-}
-
-type FaunaProject = {
-    id: string,
-    project: FaunaProjectDetails
-}
-
-type FaunaProjectDetails = {
-    name: string,
-    description: string,
-    model: CanvasState,
-    ports: (Port | Probe)[],
-    simulations: Simulation[],
-    screenshot: string | undefined,
-    owner: UsersState
-    sharedWidth?: UsersState[]
-}
-
-type FaunaFolder = {
-    id: string,
-    folder: FaunaFolderDetails
-}
-
-type FaunaFolderDetails = {
-    name: string,
-    owner: UsersState,
-    sharedWith: UsersState[],
-    projectList: string[],
-    subFolders: string[],
-    parent: string,
 }
 
 export const constructFolderStructure = (folders: FaunaFolder[], all_projects: FaunaProject[]) => {
