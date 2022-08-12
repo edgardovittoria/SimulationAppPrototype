@@ -51,16 +51,18 @@ export const getSimulationProjectsByOwner = async (faunaClient: faunadb.Client, 
 
 type FaunaProject = {
     id: string,
-    project: {
-        name: string,
-        description: string,
-        model: CanvasState,
-        ports: (Port | Probe)[],
-        simulations: Simulation[],
-        screenshot: string | undefined,
-        owner: UsersState
-        sharedWidth?: UsersState[]
-    }
+    project: FaunaProjectDetails
+}
+
+type FaunaProjectDetails = {
+    name: string,
+    description: string,
+    model: CanvasState,
+    ports: (Port | Probe)[],
+    simulations: Simulation[],
+    screenshot: string | undefined,
+    owner: UsersState
+    sharedWidth?: UsersState[]
 }
 
 type FaunaFolder = {
@@ -290,17 +292,6 @@ export const createSimulationProjectInFauna = async (faunaClient: faunadb.Client
 
 }
 
-type FaunaProjectDetails = {
-    name: string,
-    description: string,
-    model: CanvasState,
-    ports: (Port | Probe)[],
-    simulations: Simulation[],
-    screenshot: string | undefined,
-    owner: UsersState
-    sharedWidth?: UsersState[]
-}
-
 export const addIDInFolderProjectsList = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, projectFaunaID: string, selectedFolder: Folder) => {
     let folder = convertFolderInFaunaFolderDetails(selectedFolder)
     const response = await faunaClient.query(
@@ -335,4 +326,23 @@ const convertFolderInFaunaFolderDetails = (folder: Folder): FaunaFolderDetails =
         }, [] as string[])]
     } as FaunaFolderDetails
     return faunaFolder
+}
+
+
+export const updateProjectInFauna = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, projectToUpdate: Project) => {
+    const response = await faunaClient.query(
+        faunaQuery.Update(faunaQuery.Ref(faunaQuery.Collection('SimulationProjects'), projectToUpdate.faunaDocumentId), {
+            data: {
+                ...projectToUpdate
+            } as FaunaProjectDetails
+        })
+    )
+        .catch((err) => console.error(
+            'Error: [%s] %s: %s',
+            err.name,
+            err.message,
+            err.errors()[0].description,
+        ));
+    return response
+
 }

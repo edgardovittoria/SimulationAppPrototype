@@ -9,13 +9,13 @@ import {Probe} from "../../../../../../model/Port";
 import {
     FactoryShapes,
     ImportActionParamsObject,
-    ImportCadProjectButton, useFaunaQuery
-} from 'cad-library'
+    ImportCadProjectButton,
+    useFaunaQuery} from 'cad-library'
 import {findSelectedPort} from '../../../../../../store/projectSlice';
 import {Screenshot} from "./components/Screenshot";
 import {PortControls} from "./components/PortControls";
 import {ProbeControls} from "./components/ProbeControls";
-import {store} from "../../../../../../store/store";
+import { updateProjectInFauna } from '../../../../../../faunadb/api/projectsFolderAPIs';
 
 interface ModelerProps {
     selectedProject: Project | undefined,
@@ -32,9 +32,14 @@ export const Modeler: React.FC<ModelerProps> = (
         setScreenshot, setShowLoadFromDBModal
     }
 ) => {
-
+    const {execQuery} = useFaunaQuery()
     const [previousColor, setPreviousColor] = useState<Color>({} as Color);
     let selectedPort = findSelectedPort(selectedProject)
+
+    useEffect(() => {
+        execQuery(updateProjectInFauna, selectedProject)
+    }, [selectedProject?.model, selectedProject?.ports])
+    
 
     return (
         <div className="d-flex justify-content-center">
@@ -96,12 +101,14 @@ export const Modeler: React.FC<ModelerProps> = (
                                             <FactoryShapes entity={port.outputElement}/>
                                         </mesh>
                                         <Line
+                                            key={port.name}
                                             points={[port.inputElement.transformationParams.position, port.outputElement.transformationParams.position]}
                                             color={(port.category === 'port') ? 'red' : 'violet'}
                                             lineWidth={1} alphaWrite={undefined}                                      />
                                     </> :
                                     <>
                                         <group
+                                            key={port.name}
                                             name={port.name}
                                             onClick={() => selectPort(port.name)}
                                             position={(port as Probe).groupPosition}
