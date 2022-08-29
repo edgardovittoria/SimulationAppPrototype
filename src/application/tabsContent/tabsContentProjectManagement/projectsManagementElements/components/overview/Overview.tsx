@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import css from './overview.module.css';
 import { Project } from "../../../../../../model/Project";
 import { ImportSimProjectButton } from '../../../../../../importExport/importSimProjectButton';
 import {ProjectManagementIcons} from "../../shared/ProjectManagementIcons";
 import {Simulations} from "../simulations/Simulations";
-import {Folder} from "../../../../../../model/Folder";
 import {useDispatch, useSelector} from "react-redux";
 import {projectsSelector, selectProject} from "../../../../../../store/projectSlice";
 
@@ -44,44 +42,44 @@ export const Overview: React.FC<OverviewProps> = (
 
     return (
         <>
-            <div className={`box ${css.boxProjects}`}>
-                <div className={css.titleContainer}>
+            <div className={`box h-[316px] w-[48.5%]`}>
+                <div className="flex flex-row justify-between items-start">
                     <h5>My Recent Projects</h5>
-                    <button className={css.newProjectLink}
+                    <button className="text-primaryColor bg-transparent border-none hover:underline hover:text-black"
                         onClick={() => {
                             setShowModal(true)
                         }}>
                         + New Project</button>
-                    <ImportSimProjectButton className={css.newProjectLink} setMenuItem={setMenuItem}>
+                    <ImportSimProjectButton className="text-primaryColor bg-transparent border-none hover:underline hover:text-black" setMenuItem={setMenuItem}>
                         Import Project
                     </ImportSimProjectButton>
                 </div>
 
                 {projects.length === 0 ?
-                    <div className={css.noProjectsContainer}>
-                        <img src="/noProjectsIcon2.png" className={css.noProjectsIcon} alt="No Projects Icon" />
+                    <div className="text-center p-[20px]">
+                        <img src="/noProjectsIcon2.png" className="m-auto" alt="No Projects Icon" />
                         <p>No projects for now.</p>
-                        <button className="btn button-primary" data-toggle="modal" data-target="#createNewProjectModal"
+                        <button className="button buttonPrimary" data-toggle="modal" data-target="#createNewProjectModal"
                             onClick={() => {
                                 setShowModal(true)
                             }}>CREATE YOUR FIRST PROJECT
                         </button>
                     </div>
                     :
-                    <div className={css.projectsContainer}>
+                    <div className="p-[15px] h-[265px] overflow-scroll">
                         {projects.map(project => {
                             return (
-                                <div key={project.name} className={css.card} onClick={() => handleCardClick(project)}>
+                                <div key={project.name} className="w-100 rounded border-[1px] border-gray-400 mb-[15px] hover:cursor-pointer" onClick={() => handleCardClick(project)}>
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className={`col-6 ${css.overviewProjectName}`}>
+                                            <div className={`col-6 text-[20px] mb-[10px]`}>
                                                 {(project.name.length > 15) ? project.name.substr(0,15) + '...' : project.name}
                                             </div>
                                             <div className="col-6" onMouseOver={() => setCardMenuHovered(!cardMenuHovered)}>
                                                 <ProjectManagementIcons project={project}/>
                                             </div>
                                         </div>
-                                        <h6 className="card-subtitle mb-2 text-muted">{project.description.substr(0, 50)}</h6>
+                                        <h6 className="mb-2 text-gray-500">{project.description.substr(0, 50)}</h6>
                                     </div>
                                 </div>
                             )
@@ -89,29 +87,29 @@ export const Overview: React.FC<OverviewProps> = (
                     </div>
                 }
             </div>
-            <div className={`box ${css.boxYourPlan}`}>
+            <div className={`box h-[316px] w-[48.5%] bg-gradient-to-br from-primaryColor to-secondaryColor text-white`}>
                 <h5>Your Plan</h5>
-                <div className={css.yourPlanContent}>
-                    <h2 className={css.yourPlanTitle}>Upgrade to a Pro <br /> Account</h2>
+                <div className="pl-[20px]">
+                    <h2 className="mt-[10px]">Upgrade to a Pro <br /> Account</h2>
                     <div className="row">
                         <div className="col-7">
                             <ul>
-                                <li className={css.liYourPlan}>
+                                <li className="mt-[10px] text-[20px]">
                                     text list item 1
                                 </li>
-                                <li className={css.liYourPlan}>
+                                <li className="mt-[10px] text-[20px]">
                                     text list item 2
                                 </li>
                             </ul>
-                            <button className={`btn ${css.btnSeeMore}`}>See More</button>
+                            <button className={`button mt-[20px] text-[18px] uppercase text-secondaryColor bg-white`}>See More</button>
                         </div>
                     </div>
                 </div>
 
 
             </div>
-            <div className="mt-3 justify-content-between box h-50">
-                <h5 className="">Simulations</h5>
+            <div className="mt-3 justify-between box h-50">
+                <h5>Simulations</h5>
                 <Simulations
                     selectTab={selectTab}
                     setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}

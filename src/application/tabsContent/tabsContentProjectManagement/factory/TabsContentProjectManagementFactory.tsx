@@ -28,8 +28,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
     switch (menuItem) {
         case 'Overview' :
             return (
-                <div className="container d-flex">
-                    <div className="row w-75 me-4 justify-content-between">
+                <div className="container flex">
+                    <div className="row w-4/5 mr-7 justify-between">
                         <Overview
                             setShowModal={setShowModal}
                             projectsTab={projectsTab}

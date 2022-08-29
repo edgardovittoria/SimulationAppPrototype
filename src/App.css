@@ -29,30 +29,6 @@ a.dropdown-toggle.nav-link{
   border: none !important;
 }
 
-
-
-.box{
-  border-radius: 5px;
-  background-color: var(--boxBackgroundColor);
-  padding: 10px;
-  box-shadow: 2px 2px 10px var(--shadowColor);
-  height: 93%;
-}
-
-.container{
-  margin-top: 30px;
-  max-width: 85.375rem !important;
-}
-
-.button-primary{
-  background-color: var(--secondaryColor) !important;
-  color: var(--boxBackgroundColor) !important;
-}
-
-.button-primary:hover{
-  opacity: 0.9;
-}
-
 .form-control:focus{
   border-color: var(--primaryColor) !important;
   box-shadow: 2px 2px 10px var(--primaryColor) !important;

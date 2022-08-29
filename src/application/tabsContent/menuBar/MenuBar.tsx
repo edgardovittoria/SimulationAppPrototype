@@ -1,5 +1,4 @@
 import React from 'react';
-import css from './menuBar.module.css'
 
 interface MenuBarProps {
     setMenuItem: Function,
@@ -9,9 +8,9 @@ interface MenuBarProps {
 
 export const MenuBar: React.FC<MenuBarProps> = ({menuItems, setMenuItem, activeMenuItem}) => {
     return (
-        <div className={css.menuBarContainer}>
-            <ul className={`nav ${css.menuBar}`}>
-                {(menuItems as string[]).map(item => <li key={item} className="nav-item" onClick={() => setMenuItem(item)}>
+        <div className="flex justify-center">
+            <ul className={`relative flex items-center bg-white p-[10px] w-[96%] rounded-xl`}>
+                {(menuItems as string[]).map(item => <li key={item} onClick={() => setMenuItem(item)}>
                     <a className={(activeMenuItem === item) ? 'nav-link active' : 'nav-link'} aria-current="page"
                        href="/#">{item}</a>
                 </li>)}

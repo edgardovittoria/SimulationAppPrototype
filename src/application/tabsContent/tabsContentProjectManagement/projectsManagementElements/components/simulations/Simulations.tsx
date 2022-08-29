@@ -124,8 +124,8 @@ export const Simulations: React.FC<SimulationsProps> = (
 
                 :
                 <>
-                    <div className={css.simulationsNoResultsContainer}>
-                        <img src="/noresultfound.png" className={css.simulationsNoResultsIcon} alt="No Results Icon"/>
+                    <div className="text-center p-[20px]">
+                        <img src="/noresultfound.png" className="my-[50px] mx-auto" alt="No Results Icon"/>
                         <p>No results found</p>
                     </div>
                 </>
