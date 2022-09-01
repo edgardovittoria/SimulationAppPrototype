@@ -1,31 +1,71 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Canvas} from "@react-three/fiber";
-import * as THREE from "three";
-import {OrbitControls} from "@react-three/drei";
+import {GizmoHelper, GizmoViewport, OrbitControls, TransformControls} from "@react-three/drei";
 import {Simulation} from "../../../../../../../../model/Simulation";
-import {FactoryShapes} from "cad-library";
-import {Project} from "../../../../../../../../model/Project";
+import {Material} from "cad-library";
 import css
     from "../../../../shared/dashBoard/rightPanelSimulation/factory/components/portManagement/components/portPosition/portPosition.module.css";
 import {useSelector} from "react-redux";
 import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
+import {MesherOutput} from "../../../../../../../../model/MesherInputOutput";
+import {MyInstancedMesh} from "./components/MyInstancedMesh";
 
 interface PanelContentProps {
     simulationStarted: 'notStarted' | 'started' | 'Completed',
     meshGenerated: "Not Generated" | "Generating" | "Generated",
     simulation: Simulation,
     setQuantumDimensions: Function,
-    quantumDimensions: [number, number, number]
+    quantumDimensions: [number, number, number],
+    mesherOutput: MesherOutput | undefined
 }
 
 export const PanelContent: React.FC<PanelContentProps> = (
     {
         simulationStarted, meshGenerated, simulation,
-        setQuantumDimensions, quantumDimensions
+        setQuantumDimensions, quantumDimensions, mesherOutput
     }
 ) => {
 
     const selectedProject = useSelector(selectedProjectSelector)
+
+    let materialsList: Material[] = []
+    selectedProject?.model?.components.forEach(c => materialsList.push(c.material as Material))
+
+    const [mesherMatrices, setMesherMatrices] = useState<boolean[][][][]>([]);
+    const [numberOfCells, setNumberOfCells] = useState<number[]>([]);
+
+
+
+    useEffect(() => {
+        if (mesherOutput) {
+            let matrices: boolean[][][][] = []
+            Object.values(mesherOutput.mesher_matrices).forEach(matrix => {
+                matrices.push(matrix)
+            })
+            setMesherMatrices(matrices)
+            setQuantumDimensions([
+                mesherOutput.cell_size.cell_size_x,
+                mesherOutput.cell_size.cell_size_y,
+                mesherOutput.cell_size.cell_size_z
+            ])
+            let cellsNumber: number[] = []
+            mesherMatrices.forEach(matrix => {
+                let cells = 0
+                matrix.forEach(m => {
+                    m.forEach(m => {
+                        m.forEach(m => {
+                            if (m) {
+                                cells += 1
+                            }
+                        })
+                    })
+                })
+                cellsNumber.push(cells)
+            })
+            setNumberOfCells(cellsNumber)
+        }
+    }, [mesherOutput, meshGenerated]);
+
 
     return (
         <div className="col-9 simulationPanelContent p-4">
@@ -85,30 +125,32 @@ export const PanelContent: React.FC<PanelContentProps> = (
                     </div>
                 </div>
                 {(meshGenerated === "Generated" && simulationStarted !== 'started') &&
-                <Canvas style={{height: "400px"}}>
-                    <pointLight position={[100, 100, 100]} intensity={0.8}/>
-                    <hemisphereLight color={'#3a3a3a'}  position={[0, 25, 13]} intensity={0.6}/>
-                    {/*TODO: show mesh that return the server*/}
-                    {selectedProject && selectedProject.model.components.map(component => {
-                        return (
-                            <mesh
-                                key={component.keyComponent}
-                                onUpdate={(mesh) => {
-                                    mesh.material = new THREE.MeshPhongMaterial({
-                                        color: component.material?.color,
-                                        //wireframe: true
-                                    })
-                                }}
-                                position={component.transformationParams.position}
-                                scale={component.transformationParams.scale}
-                                rotation={component.transformationParams.rotation}
-                            >
-                                <FactoryShapes entity={component}/>
-                            </mesh>
-                        )
-                    })}
-                    <OrbitControls/>
-                </Canvas>
+                    <Canvas style={{height: "500px"}}>
+                        <pointLight position={[100, 100, 100]} intensity={0.8}/>
+                        <hemisphereLight color={'#3a3a3a'} position={[0, 25, 13]} intensity={0.6}/>
+                        {/*TODO: show mesh that return the server*/}
+                        <TransformControls>
+                            <group>
+                                {mesherOutput && mesherMatrices.map((matrix, index) => {
+                                    if (numberOfCells[index] > 0) {
+                                        return (
+                                            <MyInstancedMesh
+                                                mesherOutput={mesherOutput}
+                                                mesherMatrices={mesherMatrices}
+                                                index={index}
+                                                numberOfCells={numberOfCells}
+                                                materialsList={materialsList}
+                                            />
+                                        )
+                                    }
+                                })}
+                            </group>
+                        </TransformControls>
+                        <OrbitControls makeDefault/>
+                        <GizmoHelper alignment="bottom-right" margin={[150, 80]}>
+                            <GizmoViewport axisColors={['red', '#40ff00', 'blue']} labelColor="white"/>
+                        </GizmoHelper>
+                    </Canvas>
                 }
             </div>
         </div>

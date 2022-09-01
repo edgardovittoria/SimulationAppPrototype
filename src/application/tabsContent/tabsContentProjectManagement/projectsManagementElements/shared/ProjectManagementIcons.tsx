@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
 import {BiExport, BiShareAlt, BiTrash} from "react-icons/bi";
-import css from "./projectManagementIcon.module.css";
 import {exportSimulationProject} from "../../../../../importExport/exportFunctions";
 import {Overlay, Tooltip} from "react-bootstrap";
 import {Project} from "../../../../../model/Project";
@@ -30,7 +29,7 @@ export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
                  onMouseOut={() => setShowShare(false)}
                  className="col-2">
                 <BiShareAlt
-                    className={css.exportIcon}
+                    className="hover:cursor-pointer hover:bg-green-200 hover:rounded-2xl"
                     color={'#1C494D'}
                     size="20px"
                     onClick={() => {}}

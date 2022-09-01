@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Project} from "../../../../../../model/Project";
-import css from './projects.module.css';
 import {DraggableProjectCard} from "./components/DraggableProjectCard";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from 'react-dnd-html5-backend'
@@ -45,32 +44,32 @@ export const Projects: React.FC<ProjectsProps> = (
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className={`box`}>
-                <div className="row pt-2">
-                    <div className="col-8">
+            <div className="box">
+                <div className="flex pt-2">
+                    <div className="w-3/5">
                         <h5>Files</h5>
                     </div>
                     <div
-                        className={`col-2 text-end ${css.projectsNewProject}`}
+                        className={`w-1/5 text-end text-primaryColor hover:text-secondaryColor hover:cursor-pointer hover:underline`}
                         onClick={() => setShowModal(true)}
                     >+ New Project
                     </div>
                     <div
-                        className={`col-2 text-center ${css.projectsNewProject}`}
+                        className={`w-1/5 text-center text-primaryColor hover:text-secondaryColor hover:cursor-pointer hover:underline`}
                         onClick={() => setShowNewFolderModal(true)}
                     >+ New Folder
                     </div>
                 </div>
 
-                <div className={css.folderHistory}>
+                <div className="p-[12px] text-[18px]">
                     <hr/>
                     {path.map((p, index) => {
                         return (
                             <>
                                 {index !== path.length - 1 ?
-                                    <div className="d-inline" key={p.faunaDocumentId}>
+                                    <div className="inline" key={p.faunaDocumentId}>
                                         <span
-                                            className={css.folderHistoryItem}
+                                            className="hover:underline hover:cursor-pointer"
                                             onClick={() => {
                                                 let newPath = path.filter((p, i) => i <= index);
                                                 setPath(newPath);
@@ -80,7 +79,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                         </span>
                                         <span>{' '}&gt;{' '}</span>
                                     </div> :
-                                    <span className="fw-bold" key={p.faunaDocumentId}>{p.name}</span>
+                                    <span className="font-bold" key={p.faunaDocumentId}>{p.name}</span>
                                 }
                             </>
 
@@ -89,20 +88,20 @@ export const Projects: React.FC<ProjectsProps> = (
                     <hr/>
                 </div>
 
-                <div className={css.projectsBox}>
+                <div className="h-[600px] w-100 text-left overflow-scroll overflow-x-hidden p-[20px]">
                     {projects.length > 0 || folders.length > 0
                         ?
                         <>
-                            <div className="row">
-                                {folders.length > 0 && <h5>Folders</h5>}
+                            <div className="flex flex-wrap ">
+                                {folders.length > 0 && <h5 className="w-[100%]">Folders</h5>}
                                 {folders.map((folder) => {
                                     return (
                                         <DroppableAndDraggableFolder folder={folder} path={path} setPath={setPath}/>
                                     )
                                 })}
                             </div>
-                            <div className={`row mt-4`}>
-                                {projects.length > 0 && <h5>Projects</h5>}
+                            <div className={`flex flex-wrap mt-4`}>
+                                {projects.length > 0 && <h5 className="w-[100%]">Projects</h5>}
                                 {projects.map(project => {
                                     return (
                                         <DraggableProjectCard project={project} projectsTab={projectsTab}
@@ -111,17 +110,16 @@ export const Projects: React.FC<ProjectsProps> = (
                                         />
                                     )
                                 })}
-
                             </div>
                         </>
 
                         :
                         <>
-                            <div className={css.projectsNoProjectsContainer}>
-                                <img src="/noProjectsIcon2.png" className={css.projectsNoProjectsIcon}
+                            <div className="text-center p-[20px]">
+                                <img src="/noProjectsIcon2.png" className="my-[50px] mx-auto"
                                      alt="No Projects Icon"/>
                                 <p>No projects for now.</p>
-                                <button className="btn button-primary" data-toggle="modal"
+                                <button className="button buttonPrimary" data-toggle="modal"
                                         data-target="#createNewProjectModal"
                                         onClick={() => {
                                             setShowModal(true)

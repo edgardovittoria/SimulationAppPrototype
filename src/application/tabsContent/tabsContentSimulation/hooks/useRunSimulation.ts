@@ -1,17 +1,17 @@
 import {useEffect, useState} from "react";
 import {Simulation} from "../../../../model/Simulation";
 import {getSimulationByName} from "../../../../faunadb/api/simulationAPIs";
-import {useFaunaQuery} from "cad-library";
-import {store} from "../../../../store/store";
+import {ComponentEntity, useFaunaQuery} from "cad-library";
 import {Project} from "../../../../model/Project";
 import {getMaterialListFrom} from "./auxiliaryFunctions/auxiliaryFunctions";
 import {useDispatch, useSelector} from "react-redux";
 import {createSimulation, simulationSelector, updateSimulation} from "../../../../store/projectSlice";
+import {MesherOutput} from "../../../../model/MesherInputOutput";
 
 export const useRunSimulation =
     (
         showSimulationModel: boolean, associatedProject: Project | undefined,
-        mesherOutput: undefined
+        mesherOutput: MesherOutput | undefined
     ) => {
 
         const dispatch = useDispatch()
@@ -39,7 +39,7 @@ export const useRunSimulation =
                 let dataToSendToSolver = {
                     mesherOutput: mesherOutput,
                     ports: (associatedProject) && associatedProject.ports,
-                    materials: (associatedProject?.model.components) && getMaterialListFrom(associatedProject?.model.components),
+                    materials: getMaterialListFrom(associatedProject?.model.components as ComponentEntity[]),
                     //frequencies: (project) && project.ports[0]
                     /*
                     * ogni porta ha il suo segnale associato dato da una lista di valori così fatti:
@@ -62,6 +62,7 @@ export const useRunSimulation =
                 * */
 
                 console.log(dataToSendToSolver)
+                //exportSolverJson(dataToSendToSolver)
                 setTimeout(() => {
                     setSimulationStarted("Completed")
                     execQuery(getSimulationByName, 'simulation1').then(res => {

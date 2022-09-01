@@ -46,8 +46,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
 
         case 'Projects' :
             return (
-                <div className="container d-flex">
-                    <div className="row w-75 me-4 justify-content-between">
+                <div className="container flex">
+                    <div className="row w-75 mr-7 justify-between">
                         <Projects
                             setShowModal={setShowModal}
                             setShowNewFolderModal={setShowNewFolderModal}

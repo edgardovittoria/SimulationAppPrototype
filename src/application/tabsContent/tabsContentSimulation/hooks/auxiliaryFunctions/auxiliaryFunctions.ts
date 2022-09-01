@@ -10,7 +10,7 @@ export function generateSTLListFromComponents(materialList: Material[], componen
         (components) && filteredComponents.push(components.filter(c => c.material?.name === m.name))
     })
 
-    let STLList: string[] = []
+    let STLList: { material: string, STL: string }[] = []
 
     let exporter = new STLExporter();
 
@@ -18,9 +18,13 @@ export function generateSTLListFromComponents(materialList: Material[], componen
         let scene = new THREE.Scene()
         fc.forEach(c => {
             scene.add(meshFrom(c))
+            scene.updateWorldMatrix(true, true)
         })
-        let STLToPush  = exporter.parse(scene).replace("exported", fc[0].material?.name as string)
-        STLList.push(STLToPush)
+
+        const re = new RegExp('exported', 'g')
+
+        let STLToPush  = exporter.parse(scene).replace(re, fc[0].material?.name as string)
+        STLList.push({material: fc[0].material?.name as string, STL: STLToPush})
     })
 
     return STLList

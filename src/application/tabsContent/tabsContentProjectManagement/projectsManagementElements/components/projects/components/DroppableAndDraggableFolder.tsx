@@ -90,7 +90,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
 
 
     return (
-            <div className={`${css.folderBox} col-3`}
+            <div className={`flex items-center py-[5px] px-[10px] border-2 border-gray-300 mt-[10px] ml-[10px] rounded-lg hover:cursor-pointer hover:border-gray-600 w-1/4`}
                  ref={ref => {
                      drag(drop(ref))
                  }}
@@ -102,19 +102,14 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                      setPath([...path, folder])
                      dispatch(selectFolder(folder.faunaDocumentId as string))
                  }}>
-                <IoMdFolder className="me-2"
-                            style={{width: "35px", height: "35px"}}
-                            color={"#7a7b7d"}
-                />
-                <span className="fw-bold fs-6 text-black-50">{folder.name}</span>
+                <IoMdFolder className="mr-2 w-[35px] h-[35px] text-gray-500"/>
+                <span className="font-bold text-base text-gray-500">{folder.name}</span>
 
                 <Menu id={folder.name}>
                     <Submenu label={
                         <>
                             <BsFillFolderSymlinkFill
-                                className={`${iconCss.deleteIcon} me-3`}
-                                color={'#29686EFF'}
-                                size="20px"
+                                className="mr-4 text-primaryColor w-[20px] h-[20px]"
                             />
                             Move
                         </>
@@ -137,9 +132,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                     <Item onClick={() => {
                     }} disabled>
                         <BiRename
-                            className="me-3"
-                            color={'#29686EFF'}
-                            size="20px"
+                            className="mr-4 text-primaryColor w-[20px] h-[20px]"
                         />
                         Rename
                     </Item>
@@ -147,9 +140,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                     <Item onClick={() => {
                     }} disabled>
                         <BiShareAlt
-                            className="me-3"
-                            color={'#29686EFF'}
-                            size="20px"
+                            className="mr-4 text-primaryColor w-[20px] h-[20px]"
                         />
                         Share
                     </Item>
@@ -163,9 +154,7 @@ export const DroppableAndDraggableFolder: React.FC<DroppableAndDraggableFolderPr
                         dispatch(removeFolder(folder))
                     }}>
                         <BiTrash
-                            className={`${iconCss.deleteIcon} me-3`}
-                            color={'#29686EFF'}
-                            size="20px"
+                            className="mr-4 text-primaryColor w-[20px] h-[20px]"
                         />
                         Delete
                     </Item>

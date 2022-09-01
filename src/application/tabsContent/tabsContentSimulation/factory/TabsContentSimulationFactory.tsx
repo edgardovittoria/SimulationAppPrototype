@@ -173,6 +173,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                       simulation={simulation}
                                       setQuantumDimensions={setQuantumDimensions}
                                       quantumDimensions={quantumDimensions}
+                                      mesherOutput={mesherOutput}
                         />
                         <PanelFooter simulationStarted={simulationStarted} meshGenerated={meshGenerated}
                                      meshApproved={meshApproved} setMeshGenerated={setMeshGenerated}
