@@ -2,7 +2,6 @@ import React from 'react';
 import { FaCircle } from "react-icons/fa";
 import { Project } from "../../../../../../../../model/Project";
 
-import css from "./style/materials.module.css"
 import {useSelector} from "react-redux";
 import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
@@ -16,17 +15,17 @@ export const Materials: React.FC<MaterialsProps> = ({}) => {
     return (
         <>
             {(selectedProject) &&
-                <div className={`${css.leftPanel} ${css.modelContainer} py-4 h-auto`}>
-                    <ul className="list-unstyled mb-0">
+                <div className="rounded bg-white p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+                    <ul className="ml-0 pl-3">
                         {selectedProject.model.components && selectedProject.model.components.map((component) => {
                             return (
                                 <li key={component.name} className="mt-2">
-                                    <div className="row">
-                                        <div className="col-2 pe-0 ps-0">
+                                    <div className="flex">
+                                        <div className="flex w-[10%] items-center">
                                             <FaCircle color={(component.material !== undefined) ? component.material.color : "gray"} />
                                         </div>
-                                        <div className="col-6 text-start ps-0">
-                                            <h5 className="fw-normal mb-0">{(component.material !== undefined) ? component.material.name : "No material"}</h5>
+                                        <div className="w-[80%] text-left flex items-center">
+                                            <h6 className="mb-0 text-[18px] font-normal">{(component.material !== undefined) ? component.material.name : "No material"}</h6>
                                         </div>
                                     </div>
                                 </li>

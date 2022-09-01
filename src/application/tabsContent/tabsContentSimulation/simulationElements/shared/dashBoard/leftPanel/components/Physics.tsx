@@ -1,7 +1,5 @@
 import React from 'react';
-import {Project} from "../../../../../../../../model/Project";
 import {AiOutlineThunderbolt} from "react-icons/ai";
-import css from "./style/physics.module.css"
 import {IoTrashOutline} from "react-icons/io5";
 import {useDispatch, useSelector} from "react-redux";
 import {deletePort, selectedProjectSelector, selectPort} from "../../../../../../../../store/projectSlice";
@@ -18,8 +16,8 @@ export const Physics: React.FC<PhysicsProps> = ({}) => {
         <>
             {(selectedProject && selectedProject.ports.length !== 0)
                 ?
-                <div className={`${css.leftPanel} ${css.modelContainer} py-4 h-auto`}>
-                    <ul className="list-unstyled mb-0">
+                <div className="rounded bg-white p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+                    <ul className="list-none pl-3 mb-0">
                         {selectedProject.ports && selectedProject.ports.map((port) => {
                             let portColor = 'orange';
                             if(port.category === 'lumped'){
@@ -29,20 +27,20 @@ export const Physics: React.FC<PhysicsProps> = ({}) => {
                             }
                             return (
                                 <li key={port.name}
-                                    className={port.isSelected ? `${css.listItemPort} ${css.listItemPortSelected}` : css.listItemPort}
+                                    className={port.isSelected ? "mt-[5px] pt-[5px] rounded bg-gray-200 hover:bg-gray-200 hover:cursor-pointer hover:rounded" : "mt-[5px] pt-[5px] hover:bg-gray-200 hover:cursor-pointer hover:rounded"}
                                     onClick={() => dispatch(selectPort(port.name))}
                                 >
-                                    <div className="row">
-                                        <div className="col-2 pe-0 ps-0">
+                                    <div className="flex">
+                                        <div className="w-[15%]">
                                             <AiOutlineThunderbolt color={portColor}
                                                                   style={{width: "25px", height: "25px"}}/>
                                         </div>
-                                        <div className="col-8 text-start ps-0">
-                                            <h5 className="fw-normal mb-0">{port.name}</h5>
+                                        <div className="w-[75%] text-start">
+                                            <h5 className="text-[18px] font-normal">{port.name}</h5>
                                         </div>
                                         {port.isSelected &&
                                             <div
-                                                className="col-2 pe-0 ps-0"
+                                                className="w-[15%]"
                                                 onClick={() => dispatch(deletePort(port.name))}
                                             >
                                                 <IoTrashOutline color={'#d80233'} style={{width: "20px", height: "20px"}}/>
@@ -54,10 +52,10 @@ export const Physics: React.FC<PhysicsProps> = ({}) => {
                         })}
                     </ul>
                 </div>
-                : <div className={`${css.leftPanel} ${css.modelContainer}`}>
-                    <img src="/noPhysicsIcon.png" className={css.noPhysicsIcon}/>
+                : <div className="rounded bg-white p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+                    <img src="/noPhysicsIcon.png" className="mx-auto mt-[50px]"/>
                     <h5>No Physics applied</h5>
-                    <p className={css.noPhysicsText}>Select a tool from the Physics Toolbar and apply it to
+                    <p className="mt-[50px]">Select a tool from the Physics Toolbar and apply it to
                         geometry in the 3D View.</p>
                 </div>
             }

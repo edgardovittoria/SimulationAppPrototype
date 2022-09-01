@@ -2,30 +2,30 @@ import {GiAtom, GiAtomicSlashes, GiCubeforce, GiPowerButton} from "react-icons/g
 import {AiOutlineBarChart} from "react-icons/ai";
 import React from "react";
 
-const modelerTabTitle = <div className="row">
-    <div className="col-3"><GiCubeforce color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
-    <div className="col-8">Modeler</div>
+const modelerTabTitle = <div className="flex">
+    <div className="w-[35%]"><GiCubeforce color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
+    <div className="w-[65%]">Modeler</div>
 </div>
 
 
-const materialTabTitle = <div className="row">
-    <div className="col-3"><GiAtomicSlashes color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
-    <div className="col-8">Materials</div>
+const materialTabTitle = <div className="flex">
+    <div className="w-[35%]"><GiAtomicSlashes color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
+    <div className="w-[65%]">Materials</div>
 </div>
 
-const physicsTabTitle = <div className="row">
-    <div className="col-3"><GiAtom color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
-    <div className="col-8">Physics</div>
+const physicsTabTitle = <div className="flex">
+    <div className="w-[35%]"><GiAtom color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
+    <div className="w-[65%]">Physics</div>
 </div>
 
-const simulatorTabTitle = <div className="row">
-    <div className="col-3"><GiPowerButton color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
-    <div className="col-8">Simulator</div>
+const simulatorTabTitle = <div className="flex">
+    <div className="w-[35%]"><GiPowerButton color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
+    <div className="w-[65%]">Simulator</div>
 </div>
 
-const resultsTabTitle = <div className="row">
-    <div className="col-3"><AiOutlineBarChart color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
-    <div className="col-8">Results</div>
+const resultsTabTitle = <div className="flex">
+    <div className="w-[35%]"><AiOutlineBarChart color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
+    <div className="w-[65%]">Results</div>
 </div>
 
 export const tabTitles = [

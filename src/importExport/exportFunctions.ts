@@ -1,6 +1,7 @@
 import { Project } from "../model/Project";
 import {Material} from "cad-library";
 import {Port, Probe} from "../model/Port";
+import {MesherOutput} from "../model/MesherInputOutput";
 
 export const exportSimulationProject = (project: Project) => {
     const link = document.createElement('a');
@@ -24,8 +25,8 @@ export const exportJson = (obj: { STLList: { material: string; STL: string; }[];
     link.click();
     document.body.removeChild(link);
 }
-/*
-export const exportSolverJson = (obj: {mesherOutput: undefined, ports: (Port | Probe)[] | undefined, materials: Material[]}) => {
+
+export const exportSolverJson = (obj: { mesherOutput: MesherOutput | undefined; materials: Material[]; ports: undefined | (Port | Probe )[] }) => {
     const link = document.createElement('a');
     link.href = `data:application/json;charset=utf-8,${encodeURIComponent(
         JSON.stringify(obj)
@@ -34,4 +35,4 @@ export const exportSolverJson = (obj: {mesherOutput: undefined, ports: (Port | P
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-}*/
+}

@@ -16,7 +16,7 @@ export const SimulatorLauncher: React.FC<SimulatorLauncherProps> = ({components,
             <hr/>
             {((components !== undefined) && (components.filter(component => component.material === undefined).length === 0)) ?
                 <button
-                    className="btn button-primary flex-column w-100"
+                    className="button buttonPrimary flex-col w-[100%]"
                     onClick={() => {
                         setMeshGenerated("Not Generated")
                         setShowSimulationModel(true)

@@ -42,7 +42,7 @@ export const Modeler: React.FC<ModelerProps> = (
     
 
     return (
-        <div className="d-flex justify-content-center">
+        <div className="flex justify-center">
             {(selectedProject && selectedProject.model.components) ?
                 <Canvas style={{width: "1156px", height: "800px"}}>
                     <pointLight position={[100, 100, 100]} intensity={0.8}/>
@@ -145,14 +145,14 @@ export const Modeler: React.FC<ModelerProps> = (
                     <Screenshot selectedProject={selectedProject} setScreenshot={setScreenshot}/>
                 </Canvas>
                 :
-                <div className="position-absolute top-50 w-25 d-flex justify-content-between">
-                    <ImportCadProjectButton className='btn button-primary '
+                <div className="position-absolute top-50 w-25 flex justify-between">
+                    <ImportCadProjectButton className='button buttonPrimary flex items-center'
                                             importAction={importModel}
                                             actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>
                         <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import From FS
                     </ImportCadProjectButton>
                     <span className="border-start border-dark"/>
-                    <button className='btn button-primary' onClick={() => setShowLoadFromDBModal(true)}>
+                    <button className='button buttonPrimary flex items-center' onClick={() => setShowLoadFromDBModal(true)}>
                         <GiCubeforce style={{width: "25px", height: "25px", marginRight: "5px"}}/> Import From DB
                     </button>
                 </div>

@@ -1,9 +1,6 @@
-import {Project} from "../../../../../../../../model/Project";
-import {ComponentEntity} from "cad-library";
 import React from "react";
 import {FaCube, FaCubes} from "react-icons/fa";
 
-import css from "./style/modelOutliner.module.css";
 import {useSelector} from "react-redux";
 import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 
@@ -20,26 +17,26 @@ export const ModelOutliner: React.FC<ModelOutlinerProps> = ({}) => {
     return (
         <>
             <div className='col mt-4'>
-                <div className="row ps-2">
-                    <div className="col-2">
-                        <FaCubes className={css.outlineGroupIcon}/>
+                <div className="flex pl-2">
+                    <div className="w-[13%]">
+                        <FaCubes className="w-[33px] h-[33px]"/>
                     </div>
-                    <div className="col-10 text-start ps-0">
-                        <h5 className={css.outlineGroupTitle}>Components</h5>
+                    <div className="w-[80%] text-left">
+                        <h5 className="ml-[5px] text-[20px] font-normal">Components</h5>
                     </div>
                 </div>
-                <div className="row p-1 ps-5">
+                <div className="flex-col ml-10 mt-1">
                     {selectedProject && selectedProject.model.components.map(component => {
                         return (
                             <div
-                                className={`row ${css.rowElements}`}
+                                className="flex items-center"
                                 key={component.keyComponent}
                             >
-                                <div className="col-2">
-                                    <FaCube className={css.outlineComponentIcon} color={(component.material !== undefined) ? component.material.color : "gray"}/>
+                                <div className="w-[10%]">
+                                    <FaCube className="w-[22px] h-[22px]" color={(component.material !== undefined) ? component.material.color : "gray"}/>
                                 </div>
-                                <div className="col-10 text-start ps-0">
-                                    <h6 className={`${css.outlineGroupTitle} text-lowercase`}>{component.name}</h6>
+                                <div className="w-[90%] text-start">
+                                    <h6 className="lowercase text-[18px] pl-2 font-[400]">{component.name}</h6>
                                 </div>
                             </div>
                         )

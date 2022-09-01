@@ -7,6 +7,7 @@ import {getMaterialListFrom} from "./auxiliaryFunctions/auxiliaryFunctions";
 import {useDispatch, useSelector} from "react-redux";
 import {createSimulation, simulationSelector, updateSimulation} from "../../../../store/projectSlice";
 import {MesherOutput} from "../../../../model/MesherInputOutput";
+import {exportSolverJson} from "../../../../importExport/exportFunctions";
 
 export const useRunSimulation =
     (
@@ -62,7 +63,7 @@ export const useRunSimulation =
                 * */
 
                 console.log(dataToSendToSolver)
-                //exportSolverJson(dataToSendToSolver)
+                exportSolverJson(dataToSendToSolver)
                 setTimeout(() => {
                     setSimulationStarted("Completed")
                     execQuery(getSimulationByName, 'simulation1').then(res => {

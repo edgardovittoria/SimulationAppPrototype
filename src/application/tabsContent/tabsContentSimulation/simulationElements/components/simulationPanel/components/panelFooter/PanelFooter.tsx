@@ -49,7 +49,7 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
                     {(meshGenerated === "Not Generated") &&
                     <div>
                         <button
-                            className="btn button-primary"
+                            className="button buttonPrimary"
                             disabled={!checkQuantumDimensionsValidity()}
                             onClick={() => setMeshGenerated("Generating")}
                         >Generate Mesh
@@ -66,7 +66,7 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
                     <div className="row">
                         <div className="col-6">
                             <button
-                                className="btn button-primary"
+                                className="button buttonPrimary"
                                 disabled={!checkQuantumDimensionsValidity()}
                                 onClick={() => setMeshGenerated("Generating")}
                             >Regenerate
@@ -74,7 +74,7 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
                         </div>
                         <div className="col-6">
                             <button
-                                className="btn button-primary"
+                                className="button buttonPrimary"
                                 onClick={() => setMeshApproved(true)}
                             >Start Simulation
                             </button>
@@ -83,7 +83,7 @@ export const PanelFooter: React.FC<PanelFooterProps> = (
                     }
                     {simulationStarted === 'Completed' &&
                     <button
-                        className="btn button-primary"
+                        className="button buttonPrimary"
                         onClick={() => {
                             setMenuItem('Results')
                             setShowSimulationModel(false)

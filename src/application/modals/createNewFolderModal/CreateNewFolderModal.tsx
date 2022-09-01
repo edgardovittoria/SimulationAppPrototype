@@ -69,10 +69,10 @@ export const CreateNewFolderModal: React.FC<CreateNewFolderModalProps> = (
 
             </Modal.Body>
             <Modal.Footer>
-                <button className="btn btn-secondary" onClick={handleClose}>
+                <button className="button btn-secondary" onClick={handleClose}>
                     CLOSE
                 </button>
-                <button className="btn button-primary" onClick={handleCreate}>
+                <button className="button buttonPrimary" onClick={handleCreate}>
                     CREATE FOLDER
                 </button>
             </Modal.Footer>

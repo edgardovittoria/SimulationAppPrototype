@@ -33,9 +33,9 @@ export const MyInstancedMesh: React.FC<InstancedMeshProps> = (
                             if (matrix[i][j][k]) {
                                 const id = y++
                                 tempObject.position.set(
-                                    (i!==0) ? ((i-1) * mesherOutput.cell_size.cell_size_x + mesherOutput.cell_size.cell_size_x)*1000 : 0,
-                                    (j!==0) ? ((j-1) * mesherOutput.cell_size.cell_size_y + mesherOutput.cell_size.cell_size_y)*1000: 0,
-                                    (k!==0) ? ((k-1) * mesherOutput.cell_size.cell_size_z + mesherOutput.cell_size.cell_size_z)*1000: 0
+                                    (i!==0) ? ((i-1) * mesherOutput.cell_size.cell_size_x + mesherOutput.cell_size.cell_size_x)*1000 : mesherOutput.origin.origin_x,
+                                    (j!==0) ? ((j-1) * mesherOutput.cell_size.cell_size_y + mesherOutput.cell_size.cell_size_y)*1000: mesherOutput.origin.origin_y,
+                                    (k!==0) ? ((k-1) * mesherOutput.cell_size.cell_size_z + mesherOutput.cell_size.cell_size_z)*1000: mesherOutput.origin.origin_z
                                 )
                                 tempObject.updateMatrix();
                                 meshRef.current[index].setMatrixAt(id, tempObject.matrix)
