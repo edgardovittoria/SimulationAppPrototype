@@ -155,12 +155,14 @@ export const ProjectSlice = createSlice({
             }
         },
         setAssociatedSignal(state: ProjectState, action: PayloadAction<Signal>) {
-            let selectedPort = findSelectedPort(findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject));
+            /*let selectedPort = findSelectedPort(findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject));
             if (selectedPort) {
                 if (selectedPort.category === 'port' || selectedPort.category === 'lumped') {
                     selectedPort.associatedSignal = action.payload
                 }
-            }
+            }*/
+            let project = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject);
+            if(project) project.signal = action.payload
         },
         setScreenshot(state: ProjectState, action: PayloadAction<string>) {
             let selectedProject = findProjectByName(takeAllProjectsIn(state.projects), state.selectedProject)

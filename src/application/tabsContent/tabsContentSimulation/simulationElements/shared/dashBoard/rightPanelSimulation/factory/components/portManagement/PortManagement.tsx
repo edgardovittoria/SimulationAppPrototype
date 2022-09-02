@@ -24,7 +24,7 @@ export const PortManagement: React.FC<PortManagementProps> = (
             {
                 selectedPort ?
                     <>
-                        <div className={`d-flex ${css.portManagementContainerTitle}`}>
+                        <div className="flex absolute right-[2%] top-[160px] w-[22%] rounded-tl rounded-tr bg-white p-[10px] shadow-2xl border-b border-secondaryColor">
                             <div className="col-1 pe-0 ps-0">
                                 <AiOutlineThunderbolt color={portColor}
                                                       style={{width: "25px", height: "25px"}}/>
@@ -33,11 +33,11 @@ export const PortManagement: React.FC<PortManagementProps> = (
                                 <h5 className="mb-0">{selectedPort.name}</h5>
                             </div>
                         </div>
-                        < div className={css.portManagementContainer}>
+                        < div className="flex-col absolute right-[2%] top-[207px] w-[22%] rounded-tl rounded-tr bg-white p-[20px] shadow-2xl max-h-[400px] overflow-y-scroll overflow-x-hidden">
                             {children}
                         </div>
                     </>
-                    : <div className={`d-flex ${css.portManagementContainerTitle}`}>
+                    : <div className="flex absolute right-[2%] top-[160px] w-[22%] rounded-tl rounded-tr bg-white p-[10px] shadow-2xl border-b border-secondaryColor">
                         <span>No Port Selected</span>
                     </div>
 

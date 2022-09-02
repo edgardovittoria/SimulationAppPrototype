@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createSimulation, simulationSelector, updateSimulation} from "../../../../store/projectSlice";
 import {MesherOutput} from "../../../../model/MesherInputOutput";
 import {exportSolverJson} from "../../../../importExport/exportFunctions";
+import {SignalValues} from "../../../../model/Port";
 
 export const useRunSimulation =
     (
@@ -37,11 +38,20 @@ export const useRunSimulation =
                 }
                 dispatch(createSimulation(simulation))
                 setNewSimulation(simulation)
+
+                let frequencyArray: number[] = []
+                if(associatedProject) associatedProject.signal?.signalValues.forEach(sv => frequencyArray.push(sv.freq))
+
+                let signalsValuesArray: { Re: number; Im: number; }[] = []
+                if(associatedProject) associatedProject.signal?.signalValues.forEach(sv => signalsValuesArray.push(sv.signal))
+
                 let dataToSendToSolver = {
                     mesherOutput: mesherOutput,
                     ports: (associatedProject) && associatedProject.ports,
                     materials: getMaterialListFrom(associatedProject?.model.components as ComponentEntity[]),
-                    //frequencies: (project) && project.ports[0]
+                    frequencies: frequencyArray,
+                    signals: signalsValuesArray,
+                    powerPort: (associatedProject) && associatedProject.signal?.powerPort
                     /*
                     * ogni porta ha il suo segnale associato dato da una lista di valori così fatti:
                     * {

@@ -158,7 +158,8 @@ export const ModalSignals: React.FC<ModalSignalsProps> = (
                                             id: signalName,
                                             name: signalName,
                                             type: signalType,
-                                            signalValues: signalValuesArray
+                                            signalValues: signalValuesArray,
+                                            powerPort: undefined
                                         }
                                         let confirm = window.confirm('Are you sure to save the signal?');
                                         if(confirm){

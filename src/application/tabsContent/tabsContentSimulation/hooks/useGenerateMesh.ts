@@ -22,8 +22,6 @@ export const useGenerateMesh = (
                 setMesherOutput(res.data)
             })
             //exportJson(objToSendToMesher)
-            //console.log(objToSendToMesher)
-
             setTimeout(() => {
                 setMeshGenerated("Generated")
             }, 5000)

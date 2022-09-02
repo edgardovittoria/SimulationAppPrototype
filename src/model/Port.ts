@@ -8,7 +8,6 @@ export type Port = {
     outputElement: ComponentEntity,
     isSelected: boolean,
     rlcParams: RLCParams,
-    associatedSignal: Signal | undefined
 }
 
 export type RLCParams = {
@@ -22,6 +21,7 @@ export interface Signal {
     name: string,
     type: string,
     signalValues: SignalValues[]
+    powerPort: string | undefined
 }
 
 export interface SignalValues {

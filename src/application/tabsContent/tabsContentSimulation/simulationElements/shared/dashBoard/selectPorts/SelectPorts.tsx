@@ -86,7 +86,6 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({selectedProject}) => {
                                 } as ComponentEntity,
                                 isSelected: false,
                                 rlcParams: {} as RLCParams,
-                                associatedSignal: undefined
                             }
                             dispatch(addPorts(port))
                         }}>
@@ -141,7 +140,6 @@ export const SelectPorts: React.FC<SelectPortsProps> = ({selectedProject}) => {
                                 } as ComponentEntity,
                                 isSelected: false,
                                 rlcParams: {} as RLCParams,
-                                associatedSignal: undefined
                             }
                             dispatch(addPorts(lumped))
                         }}>
