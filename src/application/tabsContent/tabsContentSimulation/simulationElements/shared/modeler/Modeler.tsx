@@ -61,7 +61,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                 <hemisphereLight color={'#ffffff'} groundColor={new THREE.Color('#b9b9b9')}
                                                  position={[-7, 25, 13]}
                                                  intensity={0.85}/>
-                                {(!mesherOutput || section !== 'Mesher') && selectedProject.model.components.map(component => {
+                                {(!mesherOutput || section !== 'Simulator') && selectedProject.model.components.map(component => {
                                     return (
                                         <mesh
                                             userData={{keyComponent: component.keyComponent, isSelected: false}}
@@ -87,7 +87,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                         </mesh>
                                     )
                                 })}
-                                {(!mesherOutput || section !== 'Mesher') && selectedProject.ports.map(port => {
+                                {(!mesherOutput || section !== 'Simulator') && selectedProject.ports.map(port => {
                                     return (
                                         <>
                                             {(port.category === 'port' || port.category === 'lumped') ?
@@ -152,7 +152,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                     <ProbeControls selectedProbe={selectedPort as Probe}
                                                    updateProbePosition={updatePortPosition}/>
                                 }
-                                {(section === 'Mesher' && mesherOutput) &&
+                                {(section === 'Simulator' && mesherOutput) &&
                                     <MeshedElement mesherOutput={mesherOutput}/>
                                 }
                                 <OrbitControls makeDefault/>

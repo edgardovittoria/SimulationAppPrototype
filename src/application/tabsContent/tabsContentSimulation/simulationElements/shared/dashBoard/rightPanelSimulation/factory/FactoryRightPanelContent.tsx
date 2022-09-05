@@ -66,10 +66,7 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
             )
         case 'Simulator':
             return (
-                <SimulatorLauncher components={components} setMenuItem={setMenuItem}/>
-            )
-        case 'Mesher':
-            return (
+                /*<SimulatorLauncher components={components} setMenuItem={setMenuItem}/>*/
                 <GenerateMesh
                     quantumDimensions={quantumDimensions}
                     setQuantumDimensions={setQuantumDimensions}

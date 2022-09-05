@@ -126,7 +126,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     </RightPanelSimulation>
                 </>
             )
-        case 'Simulator':
+        /*case 'Simulator':
             return (
                 <>
                     <Modeler
@@ -157,8 +157,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         />
                     </RightPanelSimulation>
                 </>
-            )
-        case 'Mesher':
+            )*/
+        case 'Simulator':
             return (
                 <>
                     {/*<div className={`row simulationPanelContainer mx-0 w-100`}>
@@ -170,7 +170,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     </div>*/}
                     <Modeler
                         importModel={importModel}
-                        section="Mesher"
+                        section="Simulator"
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
                         selectPort={(name: string) => dispatch(selectPort(name))}
                         selectedProject={selectedProject}
@@ -179,7 +179,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     />
                     <RightPanelSimulation>
                         <FactoryRightPanelContent
-                            section="Mesher"
+                            section="Simulator"
                             components={selectedProject?.model.components}
                             setMenuItem={setMenuItem}
                             quantumDimensions={quantumDimensions}
