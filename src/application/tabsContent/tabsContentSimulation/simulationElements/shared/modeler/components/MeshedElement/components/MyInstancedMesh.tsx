@@ -2,21 +2,25 @@ import React, {useEffect, useRef} from 'react';
 import {InstancedMesh, Object3D} from "three";
 import {MesherOutput} from "../../../../../../../../../model/MesherInputOutput";
 import {Material} from "cad-library";
+import {useSelector} from "react-redux";
+import {MeshGeneratedSelector, NumberOfCellsSelector} from "../../../../../../../../../store/mesherSlice";
 
 
 interface InstancedMeshProps {
     mesherOutput: MesherOutput,
     mesherMatrices: boolean[][][][],
     index: number,
-    numberOfCells: number[],
-    materialsList: Material[]
+    materialsList: Material[],
 }
 
 export const MyInstancedMesh: React.FC<InstancedMeshProps> = (
     {
-        mesherOutput, mesherMatrices, index, numberOfCells, materialsList
+        mesherOutput, mesherMatrices, index, materialsList
     }
 ) => {
+
+    const meshGenerated = useSelector(MeshGeneratedSelector)
+    const numberOfCells = useSelector(NumberOfCellsSelector)
 
     const meshRef = useRef<InstancedMesh[]>([]);
     const tempObject = new Object3D();
@@ -47,7 +51,8 @@ export const MyInstancedMesh: React.FC<InstancedMeshProps> = (
             }
 
         })
-    }, []);
+    }, [meshGenerated]);
+
 
     return(
         <instancedMesh

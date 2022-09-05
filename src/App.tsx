@@ -149,7 +149,7 @@ const getMenuItemsArrayBasedOnTabType = (tabType: string) => {
         case "DASHBOARD":
             return ['Overview', 'Projects', 'Simulations']
         default:
-            return ['Modeler', 'Physics', 'Simulator', 'Results']
+            return ['Modeler', 'Physics', 'Simulator', 'Mesher', 'Results']
     }
 }
 

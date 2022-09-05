@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ComponentEntity} from "cad-library";
-import {Port, Probe, Signal} from "../../../../../../../../model/Port";
+import {Probe} from "../../../../../../../../model/Port";
 import {PortManagement} from "./components/portManagement/PortManagement";
 import {PortType} from "./components/portManagement/components/portType/PortType";
 import {PortPosition} from "./components/portManagement/components/portPosition/PortPosition";
@@ -13,17 +13,21 @@ import {useSelector} from "react-redux";
 import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 import {Project} from "../../../../../../../../model/Project";
 import {InputSignalManagement} from "./components/inputSignalManagement/InputSignalManagement";
+import {GenerateMesh} from "./components/GenerateMesh";
 
 interface FactoryRightPanelContentProps {
     section: string,
     components?: ComponentEntity[],
-    setShowSimulationModel: Function,
-    setMeshGenerated: Function
+    setMenuItem: Function,
+    quantumDimensions: [number, number, number],
+    setQuantumDimensions: Function,
+    simulationStarted: 'notStarted' | 'started' | 'Completed',
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
-        section, components, setShowSimulationModel, setMeshGenerated
+        section, components, setMenuItem, quantumDimensions,
+        setQuantumDimensions, simulationStarted
     }
 ) => {
 
@@ -62,9 +66,15 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
             )
         case 'Simulator':
             return (
-                <SimulatorLauncher components={components}
-                                   setShowSimulationModel={setShowSimulationModel}
-                                   setMeshGenerated={setMeshGenerated}
+                <SimulatorLauncher components={components} setMenuItem={setMenuItem}/>
+            )
+        case 'Mesher':
+            return (
+                <GenerateMesh
+                    quantumDimensions={quantumDimensions}
+                    setQuantumDimensions={setQuantumDimensions}
+                    simulationStarted={simulationStarted}
+                    setMenuItem={setMenuItem}
                 />
             )
         case 'Results':

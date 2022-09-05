@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Port, RLCParams, Signal} from "../../../../model/Port";
 import {ResultsContent} from "../simulationElements/components/resultsContent/ResultsContent";
 import {Modeler} from "../simulationElements/shared/modeler/Modeler";
 import {LeftPanel} from "../simulationElements/shared/dashBoard/leftPanel/LeftPanel";
@@ -7,10 +6,6 @@ import {RightPanelSimulation} from "../simulationElements/shared/dashBoard/right
 import {
     FactoryRightPanelContent
 } from "../simulationElements/shared/dashBoard/rightPanelSimulation/factory/FactoryRightPanelContent";
-import {SimulationPanel} from "../simulationElements/components/simulationPanel/SimulationPanel";
-import {LeftMenu} from "../simulationElements/components/simulationPanel/components/leftMenu/LeftMenu";
-import {PanelContent} from "../simulationElements/components/simulationPanel/components/panelContent/PanelContent";
-import {PanelFooter} from "../simulationElements/components/simulationPanel/components/panelFooter/PanelFooter";
 import {LineChart} from "../simulationElements/components/resultsContent/components/LineChart";
 import {Simulation} from "../../../../model/Simulation";
 import {
@@ -27,7 +22,6 @@ import {
 import {useGenerateMesh} from '../hooks/useGenerateMesh';
 import {useRunSimulation} from '../hooks/useRunSimulation';
 import {ComponentEntity} from 'cad-library';
-import {useGetAvailableSignals} from "../hooks/useGetAvailableSignals";
 
 interface TabsContentSimulationFactoryProps {
     menuItem: string,
@@ -39,7 +33,7 @@ interface TabsContentSimulationFactoryProps {
 
 export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactoryProps> = (
     {
-        menuItem, setMenuItem, selectedSimulation, setSelectedSimulation, setShowLoadFromDBModal,
+        menuItem, setMenuItem, selectedSimulation, setSelectedSimulation, setShowLoadFromDBModal
     }
 ) => {
 
@@ -48,30 +42,19 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     const selectedProject = useSelector(selectedProjectSelector)
     const selectedComponent = useSelector(selectedComponentSelector)
 
-    const [showSimulationModel, setShowSimulationModel] = useState(false);
 
     const simulations = useSelector(simulationSelector);
 
     const [quantumDimensions, setQuantumDimensions] = useState<[number, number, number]>([0.00000, 0.000000, 0.000000]);
 
 
-    const {
-        meshGenerated,
-        setMeshGenerated,
-        mesherOutput
-    } = useGenerateMesh(showSimulationModel, selectedProject?.model.components as ComponentEntity[], quantumDimensions);
+    useGenerateMesh(selectedProject?.model.components as ComponentEntity[], quantumDimensions);
 
-    const {
-        simulationStarted,
-        meshApproved,
-        setMeshApproved,
-        newSimulation
-    } = useRunSimulation(showSimulationModel, selectedProject, mesherOutput);
+    const {simulationStarted,newSimulation} = useRunSimulation(selectedProject);
 
     let simulation = simulations?.filter(s => s.name === newSimulation.name)[0] as Simulation
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
-
 
 
     switch (menuItem) {
@@ -80,6 +63,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                 <>
                     <Modeler
                         importModel={importModel}
+                        section="Modeler"
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
                         selectPort={(name: string) => dispatch(selectPort(name))}
                         selectedProject={selectedProject}
@@ -99,8 +83,10 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             <FactoryRightPanelContent
                                 section="Modeler"
                                 components={selectedProject?.model.components}
-                                setShowSimulationModel={setShowSimulationModel}
-                                setMeshGenerated={setMeshGenerated}
+                                setMenuItem={setMenuItem}
+                                quantumDimensions={quantumDimensions}
+                                setQuantumDimensions={setQuantumDimensions}
+                                simulationStarted={simulationStarted}
                             />
                         </RightPanelSimulation>}
                 </>
@@ -111,6 +97,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                 <>
                     <Modeler
                         importModel={importModel}
+                        section="Physics"
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
                         selectPort={(name: string) => dispatch(selectPort(name))}
                         selectedProject={selectedProject}
@@ -131,8 +118,10 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <FactoryRightPanelContent
                             section="Physics"
                             components={selectedProject?.model.components}
-                            setShowSimulationModel={setShowSimulationModel}
-                            setMeshGenerated={setMeshGenerated}
+                            setMenuItem={setMenuItem}
+                            quantumDimensions={quantumDimensions}
+                            setQuantumDimensions={setQuantumDimensions}
+                            simulationStarted={simulationStarted}
                         />
                     </RightPanelSimulation>
                 </>
@@ -142,6 +131,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                 <>
                     <Modeler
                         importModel={importModel}
+                        section="Simulator"
                         setShowLoadFromDBModal={setShowLoadFromDBModal}
                         selectPort={(name: string) => dispatch(selectPort(name))}
                         selectedProject={selectedProject}
@@ -160,28 +150,43 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <FactoryRightPanelContent
                             section="Simulator"
                             components={selectedProject?.model.components}
-                            setShowSimulationModel={setShowSimulationModel}
-                            setMeshGenerated={setMeshGenerated}
+                            setMenuItem={setMenuItem}
+                            quantumDimensions={quantumDimensions}
+                            setQuantumDimensions={setQuantumDimensions}
+                            simulationStarted={simulationStarted}
                         />
                     </RightPanelSimulation>
-                    <SimulationPanel
-                        showSimulationModel={showSimulationModel}
-                        setShowSimulationModel={setShowSimulationModel}
-                    >
-                        <LeftMenu physics={['physic1']}/>
+                </>
+            )
+        case 'Mesher':
+            return (
+                <>
+                    {/*<div className={`row simulationPanelContainer mx-0 w-100`}>
                         <PanelContent simulationStarted={simulationStarted} meshGenerated={meshGenerated}
                                       simulation={simulation}
                                       setQuantumDimensions={setQuantumDimensions}
                                       quantumDimensions={quantumDimensions}
-                                      mesherOutput={mesherOutput}
                         />
-                        <PanelFooter simulationStarted={simulationStarted} meshGenerated={meshGenerated}
-                                     meshApproved={meshApproved} setMeshGenerated={setMeshGenerated}
-                                     setMeshApproved={setMeshApproved} setMenuItem={setMenuItem}
-                                     setShowSimulationModel={setShowSimulationModel}
-                                     quantumDimensions={quantumDimensions}
+                    </div>*/}
+                    <Modeler
+                        importModel={importModel}
+                        section="Mesher"
+                        setShowLoadFromDBModal={setShowLoadFromDBModal}
+                        selectPort={(name: string) => dispatch(selectPort(name))}
+                        selectedProject={selectedProject}
+                        setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
+                        updatePortPosition={(obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))}
+                    />
+                    <RightPanelSimulation>
+                        <FactoryRightPanelContent
+                            section="Mesher"
+                            components={selectedProject?.model.components}
+                            setMenuItem={setMenuItem}
+                            quantumDimensions={quantumDimensions}
+                            setQuantumDimensions={setQuantumDimensions}
+                            simulationStarted={simulationStarted}
                         />
-                    </SimulationPanel>
+                    </RightPanelSimulation>
                 </>
             )
         case 'Results':

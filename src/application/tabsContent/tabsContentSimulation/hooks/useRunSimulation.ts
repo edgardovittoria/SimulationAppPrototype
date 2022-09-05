@@ -6,27 +6,27 @@ import {Project} from "../../../../model/Project";
 import {getMaterialListFrom} from "./auxiliaryFunctions/auxiliaryFunctions";
 import {useDispatch, useSelector} from "react-redux";
 import {createSimulation, simulationSelector, updateSimulation} from "../../../../store/projectSlice";
-import {MesherOutput} from "../../../../model/MesherInputOutput";
 import {exportSolverJson} from "../../../../importExport/exportFunctions";
-import {SignalValues} from "../../../../model/Port";
+import {MeshApprovedSelector, MesherOutputSelector} from "../../../../store/mesherSlice";
 
 export const useRunSimulation =
     (
-        showSimulationModel: boolean, associatedProject: Project | undefined,
-        mesherOutput: MesherOutput | undefined
+        associatedProject: Project | undefined
     ) => {
 
         const dispatch = useDispatch()
         const simulations = useSelector(simulationSelector)
+        const mesherOutput = useSelector(MesherOutputSelector)
+        const meshApproved = useSelector(MeshApprovedSelector)
         const [simulationStarted, setSimulationStarted] = useState<"notStarted" | "started" | "Completed">("notStarted");
-        const [meshApproved, setMeshApproved] = useState(false);
+        //const [meshApproved, setMeshApproved] = useState(false);
         const [newSimulation, setNewSimulation] = useState<Simulation>({} as Simulation);
         const {execQuery} = useFaunaQuery()
 
 
 
         useEffect(() => {
-            if (showSimulationModel && meshApproved) {
+            if (meshApproved) {
                 setSimulationStarted("started");
                 let simulation: Simulation = {
                     name: associatedProject?.name + ' - sim' + ((simulations as Simulation[]).length + 1).toString(),
@@ -72,8 +72,8 @@ export const useRunSimulation =
                 * })
                 * */
 
-                console.log(dataToSendToSolver)
-                exportSolverJson(dataToSendToSolver)
+
+                //exportSolverJson(dataToSendToSolver)
                 setTimeout(() => {
                     setSimulationStarted("Completed")
                     execQuery(getSimulationByName, 'simulation1').then(res => {
@@ -91,7 +91,7 @@ export const useRunSimulation =
 
                 }, 5000)
             }
-        }, [showSimulationModel, meshApproved]);
+        }, [meshApproved]);
 
-        return {simulationStarted, meshApproved, setMeshApproved, newSimulation}
+        return {simulationStarted, newSimulation}
     }
