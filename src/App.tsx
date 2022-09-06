@@ -6,8 +6,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'react-contexify/dist/ReactContexify.css';
 import {TabsContainer} from "./application/tabsContainer/TabsContainer";
 import {
-    addProject, importModel, mainFolderSelector, selectedProjectSelector, selectProject,
-    setProjectsFolderToUser
+    importModel, mainFolderSelector, selectedProjectSelector, setProjectsFolderToUser
 } from "./store/projectSlice";
 import {Project} from "./model/Project";
 import {useDispatch, useSelector} from "react-redux";
@@ -28,8 +27,7 @@ import {
     useFaunaQuery
 } from "cad-library";
 import {CreateNewFolderModal} from "./application/modals/createNewFolderModal/CreateNewFolderModal";
-import {addFolder, SelectedFolderSelector, selectFolder} from "./store/projectSlice";
-import {Folder} from "./model/Folder";
+import {selectFolder} from "./store/projectSlice";
 import {constructFolderStructure, getFoldersByOwner, getSimulationProjectsByOwner} from "./faunadb/api/projectsFolderAPIs";
 
 
@@ -39,7 +37,6 @@ function App() {
 
     //SELECTORS
     const selectedProject = useSelector(selectedProjectSelector)
-    const selectedFolder = useSelector(SelectedFolderSelector)
     const user = useSelector(usersStateSelector)
 
     //STATE VARIABLES

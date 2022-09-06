@@ -1,4 +1,4 @@
-import {ComponentEntity, Material, meshFrom} from "cad-library";
+import {ComponentEntity, exportToSTL, Material, meshFrom} from "cad-library";
 import {STLExporter} from "three/examples/jsm/exporters/STLExporter";
 import * as THREE from "three";
 
@@ -12,18 +12,8 @@ export function generateSTLListFromComponents(materialList: Material[], componen
 
     let STLList: { material: string, STL: string }[] = []
 
-    let exporter = new STLExporter();
-
     filteredComponents.forEach(fc => {
-        let scene = new THREE.Scene()
-        fc.forEach(c => {
-            scene.add(meshFrom(c))
-            scene.updateWorldMatrix(true, true)
-        })
-
-        const re = new RegExp('exported', 'g')
-
-        let STLToPush  = exporter.parse(scene).replace(re, fc[0].material?.name as string)
+        let STLToPush = exportToSTL(fc)
         STLList.push({material: fc[0].material?.name as string, STL: STLToPush})
     })
 
