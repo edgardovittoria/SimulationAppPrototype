@@ -45,25 +45,18 @@ export const useRunSimulation =
                 let signalsValuesArray: { Re: number; Im: number; }[] = []
                 if(associatedProject) associatedProject.signal?.signalValues.forEach(sv => signalsValuesArray.push(sv.signal))
 
+                let ports = (associatedProject) && associatedProject.ports.filter(port => port.category === 'port')
+                let lumped_elements = (associatedProject) && associatedProject.ports.filter(port => port.category === 'lumped')
+
                 let dataToSendToSolver = {
                     mesherOutput: mesherOutput,
-                    ports: (associatedProject) && associatedProject.ports,
+                    ports: ports,
+                    lumped_elements: lumped_elements,
                     materials: getMaterialListFrom(associatedProject?.model.components as ComponentEntity[]),
                     frequencies: frequencyArray,
                     signals: signalsValuesArray,
                     powerPort: (associatedProject) && associatedProject.signal?.powerPort
-                    /*
-                    * ogni porta ha il suo segnale associato dato da una lista di valori così fatti:
-                    * {
-                    *   freq: valore,
-                    *   signal: {
-                    *       Re: valore,
-                    *       Im: valore
-                    *   }
-                    * }
-                    * il dubbio è: bisogna passare esplicitamente il vettore delle frequenze ed i segnali,
-                    * oppure basta passare le porte che hanno già l'informazione su frequenze e segnali?
-                    * */
+
                 }
                 //TODO: add http request to execute the simulation
                 /*
@@ -71,8 +64,7 @@ export const useRunSimulation =
                 *   save results on the store to visualize relative charts
                 * })
                 * */
-
-
+                console.log(dataToSendToSolver)
                 //exportSolverJson(dataToSendToSolver)
                 setTimeout(() => {
                     setSimulationStarted("Completed")

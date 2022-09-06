@@ -13,11 +13,13 @@ interface FactorySimulationDashboardContentProps {
     selectedTab: string,
     setSelectedSimulation: Function,
     selectedSimulation: Simulation | undefined,
+    selectedMaterials: string[],
+    setSelectedMaterials: Function
 }
 
 export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashboardContentProps> = (
     {
-        selectedTab, setSelectedSimulation, selectedSimulation
+        selectedTab, setSelectedSimulation, selectedSimulation, selectedMaterials, setSelectedMaterials
     }
 ) => {
     switch (selectedTab) {
@@ -26,7 +28,7 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
         case 'Physics' :
             return <Physics/>
         case 'Simulator' :
-            return <Simulator/>
+            return <Simulator selectedMaterials={selectedMaterials} setSelectedMaterials={setSelectedMaterials}/>
         case 'Results' :
             return <Results setSelectedSimulation={setSelectedSimulation} selectedSimulation={selectedSimulation}/>
         default :

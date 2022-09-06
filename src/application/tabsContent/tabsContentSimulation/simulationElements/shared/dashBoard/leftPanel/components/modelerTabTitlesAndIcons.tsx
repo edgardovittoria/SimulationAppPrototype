@@ -19,8 +19,8 @@ const physicsTabTitle = <div className="flex">
 </div>
 
 const simulatorTabTitle = <div className="flex">
-    <div className="w-[35%]"><GiPowerButton color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
-    <div className="w-[65%]">Simulator</div>
+    <div className="w-[35%]"><GiAtomicSlashes color={'#00ae52'} style={{width: "25px", height: "25px"}}/></div>
+    <div className="w-[65%]">Materials</div>
 </div>
 
 const resultsTabTitle = <div className="flex">
@@ -47,7 +47,7 @@ export const tabTitles = [
     {
         key: 'Simulator',
         object: simulatorTabTitle,
-        icon: <GiPowerButton color={'#00ae52'} style={{width: "25px", height: "25px"}}/>
+        icon: <GiAtomicSlashes color={'#00ae52'} style={{width: "25px", height: "25px"}}/>
     },
     {
         key: 'Results',

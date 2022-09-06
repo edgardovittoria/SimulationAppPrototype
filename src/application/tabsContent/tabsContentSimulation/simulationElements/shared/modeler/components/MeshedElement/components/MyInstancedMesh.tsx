@@ -51,7 +51,7 @@ export const MyInstancedMesh: React.FC<InstancedMeshProps> = (
             }
 
         })
-    }, [meshGenerated]);
+    }, [meshGenerated, materialsList]);
 
 
     return(
@@ -64,7 +64,7 @@ export const MyInstancedMesh: React.FC<InstancedMeshProps> = (
             key={index}
             args={[null as any, null as any, numberOfCells[index]]}>
             <boxGeometry args={[.08,.08,.08]}/>
-            <meshPhongMaterial color={materialsList[index].color}/>
+            <meshPhongMaterial color={(materialsList[index]) && materialsList[index].color}/>
         </instancedMesh>
     )
 

@@ -1,53 +1,64 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {Canvas} from "@react-three/fiber";
-import {GizmoHelper, GizmoViewport, OrbitControls, TransformControls} from "@react-three/drei";
-import {Simulation} from "../../../../../../../../model/Simulation";
+import React, {useEffect, useState} from 'react';
+import {TransformControls} from "@react-three/drei";
 import {Material} from "cad-library";
-import css
-    from "../../../dashBoard/rightPanelSimulation/factory/components/portManagement/components/portPosition/portPosition.module.css";
 import {useSelector} from "react-redux";
 import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 import {MesherOutput} from "../../../../../../../../model/MesherInputOutput";
 import {MyInstancedMesh} from "./components/MyInstancedMesh";
-import * as THREE from "three";
-import {TabsContainer} from "../../../../../../../tabsContainer/TabsContainer";
-import {MesherOutputSelector, MeshGeneratedSelector} from "../../../../../../../../store/mesherSlice";
+import {MeshGeneratedSelector} from "../../../../../../../../store/mesherSlice";
 
 interface PanelContentProps {
-    mesherOutput: MesherOutput
+    mesherOutput: MesherOutput,
+    selectedMaterials: string[]
 }
 
 export const MeshedElement: React.FC<PanelContentProps> = (
     {
-        mesherOutput
+        mesherOutput, selectedMaterials
     }
 ) => {
 
     const selectedProject = useSelector(selectedProjectSelector)
     const meshGenerated = useSelector(MeshGeneratedSelector)
 
-
-
     let materialsList: Material[] = []
     selectedProject?.model?.components.forEach(c => materialsList.push(c.material as Material))
 
     const [mesherMatrices, setMesherMatrices] = useState<boolean[][][][]>([]);
+    const [modelMaterials, setModelMaterials] = useState<Material[]>([]);
 
 
     useEffect(() => {
         if (mesherOutput) {
             let matrices: boolean[][][][] = []
-            Object.values(mesherOutput.mesher_matrices).forEach(matrix => {
-                matrices.push(matrix)
-            })
+            let entries = Object.entries(mesherOutput.mesher_matrices)
+            let selectedEntries: [string, any][] = []
+            let materials: Material[] = []
+            let finalMaterialList: Material[] = []
+
+            if (selectedMaterials.length > 0) {
+                selectedMaterials.forEach(sm => {
+                    selectedEntries = [...selectedEntries, ...entries.filter(e => e[0] === sm)]
+                    materials = [...materials, ...materialsList.filter(m => m.name === sm)]
+                })
+            } else {
+                selectedEntries = entries
+                materials = materialsList
+            }
+
+
+            selectedEntries.forEach(e => matrices.push(e[1]))
+            materials.forEach(m => finalMaterialList.push(m))
+
+            setModelMaterials(finalMaterialList)
             setMesherMatrices(matrices)
 
 
         }
-    }, [mesherOutput, meshGenerated]);
+    }, [mesherOutput, meshGenerated, selectedMaterials]);
 
 
-    if(meshGenerated === "Generated"){
+    if (meshGenerated === "Generated") {
         return (
             <TransformControls>
                 <group>
@@ -57,17 +68,16 @@ export const MeshedElement: React.FC<PanelContentProps> = (
                                 mesherOutput={mesherOutput}
                                 mesherMatrices={mesherMatrices}
                                 index={index}
-                                materialsList={materialsList}
+                                materialsList={modelMaterials}
                             />
                         )
                     })}
                 </group>
             </TransformControls>
         )
-    }else{
+    } else {
         return <></>
     }
-
 
 
 }

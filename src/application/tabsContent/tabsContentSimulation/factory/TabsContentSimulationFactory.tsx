@@ -46,7 +46,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     const simulations = useSelector(simulationSelector);
 
     const [quantumDimensions, setQuantumDimensions] = useState<[number, number, number]>([0.00000, 0.000000, 0.000000]);
-
+    const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
 
     useGenerateMesh(selectedProject?.model.components as ComponentEntity[], quantumDimensions);
 
@@ -69,6 +69,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectedProject={selectedProject}
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         updatePortPosition={(obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))}
+                        selectedMaterials={selectedMaterials}
                     />
                     <LeftPanel tabs={['Modeler', 'Materials']} selectedTab={selectedTabLeftPanel}
                                setSelectedTab={setSelectedTabLeftPanel}>
@@ -76,6 +77,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedTab={selectedTabLeftPanel}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
+                            selectedMaterials={selectedMaterials}
+                            setSelectedMaterials={setSelectedMaterials}
                         />
                     </LeftPanel>
                     {selectedComponent.length > 0 &&
@@ -103,6 +106,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectedProject={selectedProject}
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         updatePortPosition={(obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))}
+                        selectedMaterials={selectedMaterials}
                     />
                     <LeftPanel tabs={['Modeler', 'Physics']} selectedTab={selectedTabLeftPanel}
                                setSelectedTab={setSelectedTabLeftPanel}>
@@ -110,6 +114,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedTab={selectedTabLeftPanel}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
+                            selectedMaterials={selectedMaterials}
+                            setSelectedMaterials={setSelectedMaterials}
                         />
                     </LeftPanel>
                     {selectedProject?.model.components &&
@@ -126,7 +132,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     </RightPanelSimulation>
                 </>
             )
-        /*case 'Simulator':
+        case 'Simulator':
             return (
                 <>
                     <Modeler
@@ -137,6 +143,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         selectedProject={selectedProject}
                         setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
                         updatePortPosition={(obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))}
+                        selectedMaterials={selectedMaterials}
                     />
                     <LeftPanel tabs={['Modeler', 'Simulator']} selectedTab={selectedTabLeftPanel}
                                setSelectedTab={setSelectedTabLeftPanel}>
@@ -144,39 +151,10 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedTab={selectedTabLeftPanel}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
+                            selectedMaterials={selectedMaterials}
+                            setSelectedMaterials={setSelectedMaterials}
                         />
                     </LeftPanel>
-                    <RightPanelSimulation>
-                        <FactoryRightPanelContent
-                            section="Simulator"
-                            components={selectedProject?.model.components}
-                            setMenuItem={setMenuItem}
-                            quantumDimensions={quantumDimensions}
-                            setQuantumDimensions={setQuantumDimensions}
-                            simulationStarted={simulationStarted}
-                        />
-                    </RightPanelSimulation>
-                </>
-            )*/
-        case 'Simulator':
-            return (
-                <>
-                    {/*<div className={`row simulationPanelContainer mx-0 w-100`}>
-                        <PanelContent simulationStarted={simulationStarted} meshGenerated={meshGenerated}
-                                      simulation={simulation}
-                                      setQuantumDimensions={setQuantumDimensions}
-                                      quantumDimensions={quantumDimensions}
-                        />
-                    </div>*/}
-                    <Modeler
-                        importModel={importModel}
-                        section="Simulator"
-                        setShowLoadFromDBModal={setShowLoadFromDBModal}
-                        selectPort={(name: string) => dispatch(selectPort(name))}
-                        selectedProject={selectedProject}
-                        setScreenshot={(imageBase64: string) => dispatch(setScreenshot(imageBase64))}
-                        updatePortPosition={(obj: { type: 'first' | 'last', position: [number, number, number] }) => dispatch(updatePortPosition(obj))}
-                    />
                     <RightPanelSimulation>
                         <FactoryRightPanelContent
                             section="Simulator"
@@ -198,6 +176,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedTab={selectedTabLeftPanel}
                             setSelectedSimulation={setSelectedSimulation}
                             selectedSimulation={selectedSimulation}
+                            selectedMaterials={selectedMaterials}
+                            setSelectedMaterials={setSelectedMaterials}
                         />
                     </LeftPanel>
                     {(selectedSimulation && selectedProject && selectedProject.simulations.length > 0) &&

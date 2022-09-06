@@ -30,12 +30,13 @@ interface ModelerProps {
     updatePortPosition: Function,
     setScreenshot: Function,
     setShowLoadFromDBModal: Function
+    selectedMaterials: string[]
 }
 
 export const Modeler: React.FC<ModelerProps> = (
     {
         selectedProject, importModel, section, selectPort, updatePortPosition,
-        setScreenshot, setShowLoadFromDBModal
+        setScreenshot, setShowLoadFromDBModal, selectedMaterials
     }
 ) => {
 
@@ -153,7 +154,7 @@ export const Modeler: React.FC<ModelerProps> = (
                                                    updateProbePosition={updatePortPosition}/>
                                 }
                                 {(section === 'Simulator' && mesherOutput) &&
-                                    <MeshedElement mesherOutput={mesherOutput}/>
+                                    <MeshedElement mesherOutput={mesherOutput} selectedMaterials={selectedMaterials}/>
                                 }
                                 <OrbitControls makeDefault/>
                                 <GizmoHelper alignment="bottom-left" margin={[150, 80]}>
