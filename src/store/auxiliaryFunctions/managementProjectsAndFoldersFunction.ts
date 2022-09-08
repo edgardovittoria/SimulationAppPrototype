@@ -47,7 +47,7 @@ export const moveProject = (state: ProjectState, projectToMove: Project, targetF
         recursiveProjectRemove(state.projects.subFolders, state.selectedFolder.faunaDocumentId as string, projectToMove.faunaDocumentId as string)
     }
     state.selectedFolder.projectList = state.selectedFolder.projectList.filter(p => p.faunaDocumentId !== projectToMove.faunaDocumentId)
-    if(targetFolder === "My Files"){
+    if(targetFolder === state.projects.faunaDocumentId){
         state.projects.projectList.push(projectToMove)
     }else{
         recursiveProjectAdd(state.projects.subFolders, targetFolder, projectToMove)

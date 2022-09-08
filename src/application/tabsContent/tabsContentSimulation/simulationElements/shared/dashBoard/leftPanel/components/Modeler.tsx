@@ -13,10 +13,10 @@ export const Modeler: React.FC<ModelerProps> = ({children}) => {
     return(
         <>
             {(selectedProject && selectedProject.model.components !== undefined)
-                ? <div className="rounded bg-white p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+                ? <div>
                     {children}
                 </div>
-                : <div className="rounded bg-white text-center p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max">
+                : <div className="text-center ">
                     <img src="/noModelsIcon.png" className="mt-[50px] mx-auto"/>
                     <h5>No Model</h5>
                     <p className="mt-[50px]">Use the icon from the Tool Bar <br/> to import a 3D CAD File.

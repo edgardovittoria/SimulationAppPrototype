@@ -1,18 +1,13 @@
 import React from 'react';
 import {useDrag} from "react-dnd";
-import css from "../projects.module.css";
-import {ProjectManagementIcons} from "../../../shared/ProjectManagementIcons";
 import {Project} from "../../../../../../../model/Project";
-import {Folder} from "../../../../../../../model/Folder";
 import {Item, Menu, Separator, Submenu, useContextMenu} from "react-contexify";
 import {
     addIDInFolderProjectsList,
     deleteSimulationProjectFromFauna,
     removeIDInFolderProjectsList
 } from "../../../../../../../faunadb/api/projectsFolderAPIs";
-import {store} from "../../../../../../../store/store";
 import {BiExport, BiRename, BiShareAlt, BiTrash} from "react-icons/bi";
-import iconCss from "../../../shared/projectManagementIcon.module.css";
 import {BsFillFolderSymlinkFill} from "react-icons/bs";
 import {exportSimulationProject} from "../../../../../../../importExport/exportFunctions";
 import {useDispatch, useSelector} from "react-redux";
@@ -63,20 +58,21 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
     return (
         <>
             <div
-                className="box w-[25%] p-[15px] border-2 border-green-200 mr-6 mt-4 rounded-lg hover:cursor-pointer hover:border-secondaryColor"
+                className="w-[25%] p-[15px] flex flex-col justify-between h-[250px] border-2 border-green-200 mr-6 mt-4 rounded-lg hover:cursor-pointer hover:border-secondaryColor"
                 key={project.name} ref={dragPreview}
                 onClick={() => handleCardClick(project)}
                 style={{opacity: isDragging ? 0.5 : 1}} onContextMenu={handleContextMenu}>
-                <div className="font-[500] text-center" role="Handle" ref={drag}>
+                <h5 className="text-center" role="Handle" ref={drag}>
                     {(project.name.length > 11) ? project.name.substr(0, 11) + '...' : project.name}
-                </div>
+                </h5>
                 <div>
-                    <img className="w-[100%] scale-150" alt="project_screenshot"
+                    <img className="w-[100%] scale-[2]" alt="project_screenshot"
                          src={(project.screenshot) ? project.screenshot : "/noResultsIconForProject.png"}
                     />
                 </div>
-                <hr className="mt-0"/>
+
                 <div>
+                    <hr className="mb-3"/>
                     {(project.description.length > 20) ? project.description.substr(0, 20) + '...' : project.description}
                 </div>
                 <Menu id={project.name}>
@@ -91,7 +87,8 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                         {allProjectFolders.filter(n => n.faunaDocumentId !== selectedFolder.faunaDocumentId).map(f => {
                             return (
                                 <div key={f.faunaDocumentId}>
-                                    <Item onClick={() => {
+                                    <Item onClick={(p) => {
+                                        p.event.stopPropagation()
                                         dispatch(moveObject({
                                             objectToMove: project,
                                             targetFolder: f.faunaDocumentId as string
@@ -100,11 +97,11 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                                         execQuery(addIDInFolderProjectsList, project.faunaDocumentId, f)
                                     }}>{f.name}</Item>
                                 </div>
-
                             )
                         })}
                     </Submenu>
-                    <Item onClick={() => {
+                    <Item onClick={(p) => {
+                        p.event.stopPropagation()
                     }} disabled>
                         <BiRename
                             className="mr-4 text-primaryColor w-[20px] h-[20px]"
@@ -112,13 +109,17 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                         Rename
                     </Item>
                     <Separator/>
-                    <Item onClick={() => exportSimulationProject(project)}>
+                    <Item onClick={(p) => {
+                        p.event.stopPropagation()
+                        exportSimulationProject(project)
+                    }}>
                         <BiExport
                             className="mr-4 text-primaryColor w-[20px] h-[20px]"
                         />
                         Export
                     </Item>
-                    <Item onClick={() => {
+                    <Item onClick={(p) => {
+                        p.event.stopPropagation()
                     }} disabled>
                         <BiShareAlt
                             className="mr-4 text-primaryColor w-[20px] h-[20px]"
@@ -126,7 +127,8 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
                         Share
                     </Item>
                     <Separator/>
-                    <Item onClick={() => {
+                    <Item onClick={(p) => {
+                        p.event.stopPropagation()
                         dispatch(removeProject(project.faunaDocumentId as string))
                         setProjectsTab(projectsTab.filter(p => p.name !== project.name))
                         execQuery(deleteSimulationProjectFromFauna, project.faunaDocumentId)

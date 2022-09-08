@@ -5,7 +5,7 @@ interface RightPanelProps {
 
 const RightPanel: React.FC<RightPanelProps> = ({}) => {
     return (
-        <div className={`box h-[720px] w-[22%]`}>
+        <div className={`box w-[22%]`}>
             <h5>Right Panel</h5>
         </div>
     )

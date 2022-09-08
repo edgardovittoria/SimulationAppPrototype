@@ -44,7 +44,7 @@ export const Projects: React.FC<ProjectsProps> = (
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className="box">
+            <div className="box w-full h-full">
                 <div className="flex pt-2">
                     <div className="w-3/5">
                         <h5>Files</h5>
@@ -65,9 +65,9 @@ export const Projects: React.FC<ProjectsProps> = (
                     <hr/>
                     {path.map((p, index) => {
                         return (
-                            <>
+                            <div className="inline-block ml-2" key={index}>
                                 {index !== path.length - 1 ?
-                                    <div className="inline" key={p.faunaDocumentId}>
+                                    <div>
                                         <span
                                             className="hover:underline hover:cursor-pointer"
                                             onClick={() => {
@@ -79,16 +79,16 @@ export const Projects: React.FC<ProjectsProps> = (
                                         </span>
                                         <span>{' '}&gt;{' '}</span>
                                     </div> :
-                                    <span className="font-bold" key={p.faunaDocumentId}>{p.name}</span>
+                                    <span className="font-bold">{p.name}</span>
                                 }
-                            </>
+                            </div>
 
                         )
                     })}
                     <hr/>
                 </div>
 
-                <div className="h-[600px] w-100 text-left overflow-scroll overflow-x-hidden p-[20px]">
+                <div className="w-full text-left overflow-scroll overflow-x-hidden p-[20px]">
                     {projects.length > 0 || folders.length > 0
                         ?
                         <>
@@ -96,7 +96,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                 {folders.length > 0 && <h5 className="w-[100%]">Folders</h5>}
                                 {folders.map((folder) => {
                                     return (
-                                        <DroppableAndDraggableFolder folder={folder} path={path} setPath={setPath}/>
+                                        <DroppableAndDraggableFolder key={folder.faunaDocumentId} folder={folder} path={path} setPath={setPath}/>
                                     )
                                 })}
                             </div>
@@ -107,6 +107,7 @@ export const Projects: React.FC<ProjectsProps> = (
                                         <DraggableProjectCard project={project} projectsTab={projectsTab}
                                                               setProjectsTab={setProjectsTab}
                                                               handleCardClick={handleCardClick}
+                                                              key={project.faunaDocumentId}
                                         />
                                     )
                                 })}

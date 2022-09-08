@@ -75,11 +75,11 @@ export const InputSignal: React.FC<InputSignalProps> = (
 
     return (
         <>
-            <div className=" p-[10px] border-1 border-secondaryColor rounded bg-[#f6f6f6] text-left">
+            <div className=" p-[10px] border-[1px] border-secondaryColor rounded bg-[#f6f6f6] text-left">
                 <div className="flex flex-wrap">
                     <h6 className="w-[100%]">Input Signal</h6>
                     <div className="w-[28%]">
-                        <select className=" bg-transparent pt-[3px] pb-[3px] border-1 border-[#a3a3a3] rounded-xl text-[12px] font-[500]"
+                        <select className=" bg-transparent pt-[3px] pb-[3px] border-[1px] border-[#a3a3a3] rounded-xl text-[12px] font-[500]"
                                 value={selectedSignal}
                                 onChange={event => {
                                     setSelectedSignal(event.currentTarget.value)
@@ -108,7 +108,7 @@ export const InputSignal: React.FC<InputSignalProps> = (
                     </div>
                     {selectedProject.signal &&
                         <div className="w-[100%] mt-2 flex">
-                            <select className=" bg-transparent pt-[3px] pb-[3px] border-1 border-[#a3a3a3] rounded-xl text-[12px] font-[500]"
+                            <select className=" bg-transparent pt-[3px] pb-[3px] border-[1px] border-[#a3a3a3] rounded-xl text-[12px] font-[500]"
                                     value={(selectedProject.signal) ? selectedProject.signal.powerPort : 'UNDEFINED'}
                                     onChange={event => {
                                         let port = getPortByName(event.currentTarget.value) as Port

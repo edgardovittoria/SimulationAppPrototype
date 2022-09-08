@@ -16,7 +16,7 @@ export const ModelOutliner: React.FC<ModelOutlinerProps> = ({}) => {
 
     return (
         <>
-            <div className='col mt-4'>
+            <div className='mt-2'>
                 <div className="flex pl-2">
                     <div className="w-[13%]">
                         <FaCubes className="w-[33px] h-[33px]"/>

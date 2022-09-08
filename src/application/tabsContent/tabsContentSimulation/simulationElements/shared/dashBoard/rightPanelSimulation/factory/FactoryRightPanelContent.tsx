@@ -2,18 +2,17 @@ import React, {useState} from 'react';
 import {ComponentEntity} from "cad-library";
 import {Probe} from "../../../../../../../../model/Port";
 import {PortManagement} from "./components/portManagement/PortManagement";
-import {PortType} from "./components/portManagement/components/portType/PortType";
-import {PortPosition} from "./components/portManagement/components/portPosition/PortPosition";
-import {RLCParamsComponent} from "./components/portManagement/components/RLCParams/RLCParamsComponent";
+import {PortType} from "./components/portManagement/components/PortType";
+import {PortPosition} from "./components/portManagement/components/PortPosition";
+import {RLCParamsComponent} from "./components/portManagement/components/RLCParamsComponent";
 import {InputSignal} from "./components/inputSignalManagement/components/inputSignal/InputSignal";
 import {ModalSelectPortType} from "./components/modals/ModalSelectPortType";
 import {ModalSignals} from "./components/modals/ModalSignals";
-import {SimulatorLauncher} from "./components/simulatorLauncher/SimulatorLauncher";
 import {useSelector} from "react-redux";
 import {selectedProjectSelector} from "../../../../../../../../store/projectSlice";
 import {Project} from "../../../../../../../../model/Project";
 import {InputSignalManagement} from "./components/inputSignalManagement/InputSignalManagement";
-import {GenerateMesh} from "./components/GenerateMesh";
+import {GenerateMesh} from "./components/generateMesh/GenerateMesh";
 
 interface FactoryRightPanelContentProps {
     section: string,

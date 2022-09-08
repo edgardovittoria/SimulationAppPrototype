@@ -88,63 +88,58 @@ export const Modeler: React.FC<ModelerProps> = (
                                         </mesh>
                                     )
                                 })}
-                                {(!mesherOutput || section !== 'Simulator') && selectedProject.ports.map(port => {
-                                    return (
-                                        <>
-                                            {(port.category === 'port' || port.category === 'lumped') ?
-                                                <>
-                                                    <mesh
-                                                        key={port.inputElement.name}
-                                                        name={port.inputElement.name}
-                                                        position={port.inputElement.transformationParams.position}
-                                                        scale={port.inputElement.transformationParams.scale}
-                                                        rotation={port.inputElement.transformationParams.rotation}
-                                                        onClick={() => selectPort(port.name)}
-                                                    >
-                                                        <FactoryShapes entity={port.inputElement} color="#00ff00"/>
-                                                    </mesh>
+                                {(!mesherOutput || section !== 'Simulator') && selectedProject.ports.map((port, index) => {
+                                    if(port.category === 'port' || port.category === 'lumped'){
+                                        return(
+                                            <group key={index}>
+                                                <mesh
+                                                    name={port.inputElement.name}
+                                                    position={port.inputElement.transformationParams.position}
+                                                    scale={port.inputElement.transformationParams.scale}
+                                                    rotation={port.inputElement.transformationParams.rotation}
+                                                    onClick={() => selectPort(port.name)}
+                                                >
+                                                    <FactoryShapes entity={port.inputElement} color="#00ff00"/>
+                                                </mesh>
 
-                                                    <mesh
-                                                        key={port.outputElement.name}
-                                                        name={port.outputElement.name}
-                                                        position={port.outputElement.transformationParams.position}
-                                                        scale={port.outputElement.transformationParams.scale}
-                                                        rotation={port.outputElement.transformationParams.rotation}
-                                                        onClick={() => selectPort(port.name)}
-                                                    >
-                                                        <FactoryShapes entity={port.outputElement}/>
-                                                    </mesh>
-                                                    <Line
-                                                        key={port.name}
-                                                        points={[port.inputElement.transformationParams.position, port.outputElement.transformationParams.position]}
-                                                        color={(port.category === 'port') ? 'red' : 'violet'}
-                                                        lineWidth={1} alphaWrite={undefined}/>
-                                                </> :
-                                                <>
-                                                    <group
-                                                        key={port.name}
-                                                        name={port.name}
-                                                        onClick={() => selectPort(port.name)}
-                                                        position={(port as Probe).groupPosition}
-                                                    >
-                                                        {(port as Probe).elements.map((element, index) => {
-                                                            return (
-                                                                <mesh
-                                                                    key={index}
-                                                                    position={element.transformationParams.position}
-                                                                    scale={element.transformationParams.scale}
-                                                                    rotation={element.transformationParams.rotation}
-                                                                >
-                                                                    <FactoryShapes entity={element} color="orange"/>
-                                                                </mesh>
-                                                            )
-                                                        })}
-                                                    </group>
-                                                </>
-                                            }
-
-                                        </>
-                                    )
+                                                <mesh
+                                                    name={port.outputElement.name}
+                                                    position={port.outputElement.transformationParams.position}
+                                                    scale={port.outputElement.transformationParams.scale}
+                                                    rotation={port.outputElement.transformationParams.rotation}
+                                                    onClick={() => selectPort(port.name)}
+                                                >
+                                                    <FactoryShapes entity={port.outputElement}/>
+                                                </mesh>
+                                                <Line
+                                                    points={[port.inputElement.transformationParams.position, port.outputElement.transformationParams.position]}
+                                                    color={(port.category === 'port') ? 'red' : 'violet'}
+                                                    lineWidth={1} alphaWrite={undefined}/>
+                                            </group>
+                                        )
+                                    }else{
+                                        return (
+                                            <group
+                                                key={port.name}
+                                                name={port.name}
+                                                onClick={() => selectPort(port.name)}
+                                                position={(port as Probe).groupPosition}
+                                            >
+                                                {(port as Probe).elements.map((element, index) => {
+                                                    return (
+                                                        <mesh
+                                                            key={index}
+                                                            position={element.transformationParams.position}
+                                                            scale={element.transformationParams.scale}
+                                                            rotation={element.transformationParams.rotation}
+                                                        >
+                                                            <FactoryShapes entity={element} color="orange"/>
+                                                        </mesh>
+                                                    )
+                                                })}
+                                            </group>
+                                        )
+                                    }
                                 })}
                                 {(section === 'Physics' && selectedPort && (selectedPort.category === 'port' || selectedPort.category === 'lumped')) &&
                                     <PortControls selectedPort={selectedPort} updatePortPosition={updatePortPosition}/>
@@ -167,7 +162,7 @@ export const Modeler: React.FC<ModelerProps> = (
                 </ReactReduxContext.Consumer>
 
                 :
-                <div className="position-absolute top-50 w-25 flex justify-between">
+                <div className="absolute top-1/2 w-1/5 flex justify-between">
                     <ImportCadProjectButton className='button buttonPrimary flex items-center'
                                             importAction={importModel}
                                             actionParams={{id: selectedProject?.name} as ImportActionParamsObject}>

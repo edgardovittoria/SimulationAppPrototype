@@ -1,5 +1,5 @@
 import React from 'react';
-import {Port} from "../../../../../../../../../../../../model/Port";
+import {Port} from "../../../../../../../../../../../model/Port";
 
 
 interface PortTypeProps {

@@ -1,5 +1,4 @@
 import React from 'react';
-import css from "./simulations.module.css";
 import {FaCheck, FaPauseCircle} from "react-icons/fa";
 import {Simulation} from "../../../../../../model/Simulation";
 import {TiDelete} from "react-icons/ti";
@@ -35,7 +34,7 @@ export const Simulations: React.FC<SimulationsProps> = (
 
     let simulations: Simulation[] = []
 
-    function getAllSimulation(folder: Folder){
+    function getAllSimulation(folder: Folder) {
         folder.projectList.forEach(p => {
             p.simulations.forEach(s => simulations.push(s))
         })
@@ -47,11 +46,11 @@ export const Simulations: React.FC<SimulationsProps> = (
     getAllSimulation(mainFolder)
 
 
-
-    function showResultsIcon (id: string) {
+    function showResultsIcon(id: string) {
         document.getElementById(id)?.setAttribute('style', 'visibility: visible')
     }
-    function hideResultsIcon (id: string) {
+
+    function hideResultsIcon(id: string) {
         document.getElementById(id)?.setAttribute('style', 'visibility: hidden')
     }
 
@@ -64,73 +63,78 @@ export const Simulations: React.FC<SimulationsProps> = (
             case "Paused":
                 return <FaPauseCircle color={'#ec0c0c'}/>
             case "Queued":
-                return <MdWatchLater color={'#ffcc00'} />
+                return <MdWatchLater color={'#ffcc00'}/>
             default :
                 return <></>
         }
     }
 
     return (
-        <>
+        <div className="text-center p-[20px] box w-full flex flex-col">
+            <h5 className="text-left">Simulations</h5>
             {simulations.length > 0
                 ?
-                <div className={css.tableFixHead}>
-                        <table className="table mt-4">
-                            <thead className="w-100">
-                                <tr>
-                                    <th scope="col"/>
-                                    <th scope="col">Project - Name</th>
-                                    <th scope="col">Started</th>
-                                    <th scope="col">Ended</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col"/>
+                <div className="overflow-auto h-full w-full mt-5">
+                    <table className="table mt-4 w-full">
+                        <thead className="sticky top-0 bg-[#f4f4f4]">
+                        <tr>
+                            <th className="py-4" scope="col"/>
+                            <th className="py-4" scope="col">Project - Name</th>
+                            <th className="py-4" scope="col">Started</th>
+                            <th className="py-4" scope="col">Ended</th>
+                            <th className="py-4" scope="col">Status</th>
+                            <th className="py-4" scope="col"/>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {simulations.map((simulation, index) => {
+                            let statusIcon: JSX.Element = factoryStatusIcon(simulation.status)
+                            let started = new Date(parseInt(simulation.started))
+                            let ended = new Date(parseInt(simulation.ended))
+                            return (
+                                <tr key={simulation.name}
+                                    onMouseOver={() => showResultsIcon(index.toString())}
+                                    onMouseOut={() => hideResultsIcon(index.toString())}
+                                    className="hover:bg-[#f1f1f1]"
+                                >
+                                    <th scope="row" className="pl-8">
+                                        {statusIcon}
+                                    </th>
+                                    <td className="fw-bold py-4">{simulation.name}</td>
+                                    <td className="py-4">{`${started.toLocaleString()}`}</td>
+                                    <td className="py-4">{`${ended.toLocaleString()}`}</td>
+                                    <td className="py-4">{simulation.status}</td>
+                                    <td id={index.toString()} className={`py-4 hover:cursor-pointer`}
+                                        style={{visibility: "hidden"}}>
+                                        <AiOutlineBarChart color={'#00ae52'} style={{width: "30px", height: "30px"}}
+                                                           onClick={() => {
+                                                               let proj = findProjectByName(projects, simulation.associatedProject)
+                                                               if(proj && projectsTab.includes(proj)){
+                                                                   selectTab(simulation.associatedProject)
+                                                               }else{
+                                                                   setProjectsTab([...projectsTab, proj])
+                                                                   selectTab(simulation.associatedProject)
+                                                               }
+                                                               dispatch(selectProject(simulation.associatedProject))
+                                                               setSelectedSimulation(simulation)
+                                                               setSimulationCoreMenuItemSelected('Results')
+                                                           }}
+                                        />
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            {simulations.map((simulation, index) => {
-                                let statusIcon: JSX.Element = factoryStatusIcon(simulation.status)
-                                let started = new Date(parseInt(simulation.started))
-                                let ended = new Date(parseInt(simulation.ended))
-                                return (
-                                    <tr key={simulation.name}
-                                        onMouseOver={() => showResultsIcon(index.toString())}
-                                        onMouseOut={() => hideResultsIcon(index.toString())}
-                                        className={css.simulationsTableRow}
-                                    >
-                                        <th scope="row" className="py-4">
-                                            {statusIcon}
-                                        </th>
-                                        <td className="fw-bold py-4">{simulation.name}</td>
-                                        <td className="py-4">{`${started.toLocaleString()}`}</td>
-                                        <td className="py-4">{`${ended.toLocaleString()}`}</td>
-                                        <td className="py-4">{simulation.status}</td>
-                                        <td id={index.toString()} className={`py-4 ${css.simulationsResultIcon}`} style={{visibility: "hidden"}}>
-                                            <AiOutlineBarChart color={'#00ae52'} style={{width: "30px", height: "30px"}}
-                                                onClick={() => {
-                                                    selectTab(simulation.associatedProject)
-                                                    dispatch(selectProject(simulation.associatedProject))
-                                                    setSelectedSimulation(simulation)
-                                                    setProjectsTab([...projectsTab, findProjectByName(projects, simulation.associatedProject)])
-                                                    setSimulationCoreMenuItemSelected('Results')
-                                                }}
-                                            />
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                            </tbody>
-                        </table>
+                            )
+                        })}
+                        </tbody>
+                    </table>
                 </div>
 
                 :
-                <>
-                    <div className="text-center p-[20px]">
-                        <img src="/noresultfound.png" className="my-[50px] mx-auto" alt="No Results Icon"/>
-                        <p>No results found</p>
-                    </div>
-                </>
+                <div>
+                    <img src="/noresultfound.png" className="my-[46px] mx-auto" alt="No Results Icon"/>
+                    <p>No results found</p>
+                </div>
 
             }
-        </>
+        </div>
     )
 }

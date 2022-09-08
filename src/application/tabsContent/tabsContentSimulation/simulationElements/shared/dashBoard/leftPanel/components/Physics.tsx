@@ -16,7 +16,7 @@ export const Physics: React.FC<PhysicsProps> = ({}) => {
         <>
             {(selectedProject && selectedProject.ports.length !== 0)
                 ?
-                <div className="rounded bg-white p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+                <div>
                     <ul className="list-none pl-3 mb-0">
                         {selectedProject.ports && selectedProject.ports.map((port) => {
                             let portColor = 'orange';
@@ -52,7 +52,7 @@ export const Physics: React.FC<PhysicsProps> = ({}) => {
                         })}
                     </ul>
                 </div>
-                : <div className="rounded bg-white p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+                : <div className="text-center">
                     <img src="/noPhysicsIcon.png" className="mx-auto mt-[50px]"/>
                     <h5>No Physics applied</h5>
                     <p className="mt-[50px]">Select a tool from the Physics Toolbar and apply it to

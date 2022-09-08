@@ -1,7 +1,6 @@
 import React from 'react';
 import {AiOutlineThunderbolt} from "react-icons/ai";
 import {Port, Probe} from "../../../../../../../../../../model/Port";
-import css from "./portManagementContainer.module.css";
 
 
 interface PortManagementProps {

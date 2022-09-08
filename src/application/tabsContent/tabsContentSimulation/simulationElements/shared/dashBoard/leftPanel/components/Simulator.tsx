@@ -19,8 +19,8 @@ export const Simulator: React.FC<SimulatorProps> = (
 
     return (
         <>
-            {(selectedProject) &&
-                <div className="rounded bg-white p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+            {(selectedProject && selectedProject.model.components !== undefined) ?
+                <div>
                     <ul className="ml-0 pl-3">
                         {selectedProject.model.components && selectedProject.model.components.map((component) => {
                             return (
@@ -46,6 +46,11 @@ export const Simulator: React.FC<SimulatorProps> = (
                             )
                         })}
                     </ul>
+                </div> :
+                <div className="text-center">
+                    <img src="/noMaterialsIcon.png" className="mx-auto mt-[50px]"/>
+                    <h5>No Materials</h5>
+                    <p className="mt-[50px]">apply the materials on the model directly in the CAD</p>
                 </div>
             }
         </>

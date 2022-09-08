@@ -12,11 +12,11 @@ export const ResultsContent: React.FC<ResultsContentProps> = (
     const [leftPanel, lineChart] = children as ReactNode[]
 
     return (
-        <div className="row">
-            <div className="col-2">
+        <div className="flex">
+            <div className="w-[20%]">
                 {leftPanel}
             </div>
-            <div className="col-10 p-5">
+            <div className="w-[78%] ">
                 {lineChart}
             </div>
         </div>

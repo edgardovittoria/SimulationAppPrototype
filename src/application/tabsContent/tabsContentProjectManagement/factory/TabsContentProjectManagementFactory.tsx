@@ -28,8 +28,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
     switch (menuItem) {
         case 'Overview' :
             return (
-                <div className="container flex">
-                    <div className="row w-4/5 mr-7 justify-between">
+                <div className="container flex mx-auto pt-8">
+                    <div className="flex flex-wrap w-4/5 mr-7 justify-between h-[650px]">
                         <Overview
                             setShowModal={setShowModal}
                             projectsTab={projectsTab}
@@ -46,8 +46,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
 
         case 'Projects' :
             return (
-                <div className="container flex">
-                    <div className="row w-75 mr-7 justify-between">
+                <div className="container flex mx-auto pt-8">
+                    <div className="flex flex-wrap w-4/5 mr-7 justify-between h-[650px]">
                         <Projects
                             setShowModal={setShowModal}
                             setShowNewFolderModal={setShowNewFolderModal}
@@ -61,9 +61,8 @@ export const TabsContentProjectManagementFactory: React.FC<TabsContentProjectMan
             )
         case 'Simulations' :
             return (
-                <div className="container d-flex">
-                    <div className="row w-75 me-4 justify-content-between box">
-                        <h4 className="">Simulations</h4>
+                <div className="container flex mx-auto pt-8">
+                    <div className="flex flex-wrap w-4/5 mr-7 justify-between h-[650px]">
                         <Simulations
                             selectTab={selectTab}
                             setSimulationCoreMenuItemSelected={setSimulationCoreMenuItemSelected}

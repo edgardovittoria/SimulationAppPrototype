@@ -1,9 +1,6 @@
-import React, {useRef, useState} from 'react';
-import {BiExport, BiShareAlt, BiTrash} from "react-icons/bi";
-import {exportSimulationProject} from "../../../../../importExport/exportFunctions";
-import {Overlay, Tooltip} from "react-bootstrap";
+import React, {useRef} from 'react';
+import {BiShareAlt} from "react-icons/bi";
 import {Project} from "../../../../../model/Project";
-import {store} from "../../../../../store/store";
 
 interface ProjectManagementIconsProps {
     project: Project,
@@ -15,18 +12,11 @@ export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
     }
 ) => {
 
-    /*const exportIcon = useRef(null);
-    const deleteIcon = useRef(null);*/
     const shareIcon = useRef(null);
-    /*const [showExport, setShowExport] = useState(false);
-    const [showDelete, setShowDelete] = useState(false);*/
-    const [showShare, setShowShare] = useState(false);
 
     return(
         <div className="row justify-content-end">
             <div ref={shareIcon}
-                 onMouseOver={() => setShowShare(true)}
-                 onMouseOut={() => setShowShare(false)}
                  className="col-2">
                 <BiShareAlt
                     className="hover:cursor-pointer hover:bg-green-200 hover:rounded-2xl"
@@ -34,53 +24,7 @@ export const ProjectManagementIcons: React.FC<ProjectManagementIconsProps> = (
                     size="20px"
                     onClick={() => {}}
                 />
-                <Overlay target={shareIcon.current} show={showShare} placement="top">
-                    {(props) => (
-                        <Tooltip {...props}>
-                            Share Project
-                        </Tooltip>
-                    )}
-                </Overlay>
             </div>
-            {/*<div ref={exportIcon}
-                 onMouseOver={() => setShowExport(true)}
-                 onMouseOut={() => setShowExport(false)}
-                 className="col-2">
-                <BiExport
-                    className={css.exportIcon}
-                    color={'#1C494D'}
-                    size="20px"
-                    onClick={() => exportSimulationProject(project)}
-                />
-                <Overlay target={exportIcon.current} show={showExport} placement="top">
-                    {(props) => (
-                        <Tooltip {...props}>
-                            Export Project
-                        </Tooltip>
-                    )}
-                </Overlay>
-            </div>
-            <div ref={deleteIcon}
-                 onMouseOver={() => setShowDelete(true)}
-                 onMouseOut={() => setShowDelete(false)}
-                 className="col-2">
-                <BiTrash
-                    className={css.deleteIcon}
-                    color="red"
-                    size="20px"
-                    onClick={() => {
-                        removeProject(project.name)
-                        setProjectsTab(projectsTab.filter(p => p.name !== project.name))
-                    }}
-                />
-                <Overlay target={deleteIcon.current} show={showDelete} placement="top">
-                    {(props) => (
-                        <Tooltip {...props}>
-                            Delete Project
-                        </Tooltip>
-                    )}
-                </Overlay>
-            </div>*/}
         </div>
     )
 

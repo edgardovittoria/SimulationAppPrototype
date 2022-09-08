@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import css from "./portManagement/components/portPosition/portPosition.module.css";
 import {AiOutlineThunderbolt} from "react-icons/ai";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -7,7 +6,7 @@ import {
     MeshApprovedSelector, MesherOutputSelector,
     MeshGeneratedSelector, setDownloadPercentage, setMeshApproved,
     setMeshGenerated
-} from "../../../../../../../../../store/mesherSlice";
+} from "../../../../../../../../../../store/mesherSlice";
 
 interface GenerateMeshProps {
     quantumDimensions: [number, number, number],
@@ -67,35 +66,35 @@ export const GenerateMesh: React.FC<GenerateMeshProps> = (
                     <h5 className="ml-2">Mesh Generation</h5>
                 </div>
                 <hr className="mt-1"/>
-                <div className={`mt-3 ${css.portPositionBox}`}>
+                <div className={`mt-3 p-[10px] text-left border-[1px] border-secondaryColor rounded bg-[#f6f6f6]`}>
                     <h6>Set quantum's dimensions</h6>
                     <div className="mt-2">
                         <span>X,Y,Z</span>
-                        <div className="row mt-2">
-                            <div className="col-4">
+                        <div className="flex justify-between mt-2">
+                            <div className="w-[30%]">
                                 <input
                                     min={0}
-                                    className={`w-100 ${css.inputPortManagement} form-control`}
+                                    className={`w-full p-[4px] border-[1px] border-[#a3a3a3] text-[15px] font-bold rounded formControl`}
                                     type="number"
                                     step={.000001}
                                     value={quantumDimensions[0]}
                                     onChange={(event) => setQuantumDimensions([parseFloat(event.target.value), quantumDimensions[1], quantumDimensions[2]])}
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="w-[30%]">
                                 <input
                                     min={0.000000}
-                                    className={`w-100 ${css.inputPortManagement} form-control`}
+                                    className={`w-full p-[4px] border-[1px] border-[#a3a3a3] text-[15px] font-bold rounded formControl`}
                                     type="number"
                                     step={.000001}
                                     value={quantumDimensions[1]}
                                     onChange={(event) => setQuantumDimensions([quantumDimensions[0], parseFloat(event.target.value), quantumDimensions[2]])}
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="w-[30%]">
                                 <input
                                     min={0}
-                                    className={`w-100 ${css.inputPortManagement} form-control`}
+                                    className={`w-full p-[4px] border-[1px] border-[#a3a3a3] text-[15px] font-bold rounded formControl`}
                                     type="number"
                                     step={.000001}
                                     value={quantumDimensions[2]}
@@ -131,7 +130,7 @@ export const GenerateMesh: React.FC<GenerateMeshProps> = (
                         {(meshGenerated === "Not Generated") &&
                             <div>
                                 <button
-                                    className={checkQuantumDimensionsValidity() ? "button buttonPrimary w-[100%]" : "button bg-gray-400 w-[100%]"}
+                                    className={checkQuantumDimensionsValidity() ? "button buttonPrimary w-[100%]" : "button bg-gray-300 text-gray-600 opacity-70 w-[100%]"}
                                     disabled={!checkQuantumDimensionsValidity()}
                                     onClick={() => dispatch(setMeshGenerated("Generating"))}
                                 >Generate Mesh

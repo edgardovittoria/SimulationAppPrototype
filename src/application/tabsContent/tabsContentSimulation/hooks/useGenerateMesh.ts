@@ -30,6 +30,7 @@ export const useGenerateMesh = (
                 STLList: (components) && generateSTLListFromComponents(getMaterialListFrom(components), components),
                 quantum: quantumDimensions
             }
+            console.log(objToSendToMesher)
             //TODO: add http request to generate mesh and set mesherOutput
             axios.get('http://localhost:3001/mesherOutput', {
                 /*onDownloadProgress: progressEvent => {

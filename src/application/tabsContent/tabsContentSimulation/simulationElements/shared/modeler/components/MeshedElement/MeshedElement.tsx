@@ -65,6 +65,7 @@ export const MeshedElement: React.FC<PanelContentProps> = (
                     {mesherOutput && mesherMatrices.map((matrix, index) => {
                         return (
                             <MyInstancedMesh
+                                key={index}
                                 mesherOutput={mesherOutput}
                                 mesherMatrices={mesherMatrices}
                                 index={index}

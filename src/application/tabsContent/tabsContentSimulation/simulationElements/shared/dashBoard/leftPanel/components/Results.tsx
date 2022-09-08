@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {GiPowerButton} from "react-icons/gi";
 import {Simulation} from "../../../../../../../../model/Simulation";
 import {useSelector} from "react-redux";
@@ -12,16 +12,20 @@ interface ResultsProps {
 export const Results: React.FC<ResultsProps> = ({setSelectedSimulation, selectedSimulation}) => {
 
     const selectedProject = useSelector(selectedProjectSelector);
-    (selectedProject && !selectedSimulation) && setSelectedSimulation(selectedProject.simulations[0])
+    useEffect(() => {
+        (selectedProject && !selectedSimulation) && setSelectedSimulation(selectedProject.simulations[0])
+    }, []);
+
 
     return(
         <>
             {(selectedProject && selectedProject.simulations.length > 0)
-                ? <div className="rounded bg-white p-[15px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+                ? <div>
                     {selectedProject.simulations.map(sim => {
                         return(
                             <div
-                                className={(selectedSimulation && sim.name === selectedSimulation.name) ? `flex mb-2 p-[5px] hover:cursor-pointer hover:bg-gray-200 bg-gray-200`: `flex mb-2 p-[5px]  hover:cursor-pointer hover:bg-gray-200`} key={sim.name}
+                                className={(selectedSimulation && sim.name === selectedSimulation.name) ? `flex mb-2 p-[5px] hover:cursor-pointer hover:bg-gray-200 bg-gray-200`: `flex mb-2 p-[5px]  hover:cursor-pointer hover:bg-gray-200`}
+                                key={sim.name}
                                 onClick={() => {setSelectedSimulation(sim)}}
                             >
                                 <div className="w-[12%] flex items-center">
@@ -34,7 +38,7 @@ export const Results: React.FC<ResultsProps> = ({setSelectedSimulation, selected
                         )
                     })}
                 </div>
-                : <div className="rounded bg-white p-[10px] shadow-2xl absolute left-[2%] top-[200px] w-[300px] h-max text-center">
+                : <div className="text-center">
                     <img src="/noResultsIcon.png" className="mx-auto mt-[50px]"/>
                     <h5>No results to view</h5>
                     <p className="mt-[50px]">Complete a study setup with CAD, materials, and physics, then Estimate and Run to generate results.</p>
