@@ -6,7 +6,7 @@ export type MesherState = {
     meshGenerated: 'Not Generated' | 'Generated' | 'Generating',
     meshApproved: boolean,
     numberOfCells: number[],
-    downloadPercentage: number
+    downloadPercentage: number,
 }
 
 export const MesherSlice = createSlice({

@@ -8,7 +8,7 @@ import {ComponentEntity, Material} from "cad-library";
 
 interface SimulatorProps {
     selectedMaterials: string[],
-    setSelectedMaterials: Function
+    setSelectedMaterials: Function,
 }
 
 export const Simulator: React.FC<SimulatorProps> = (
