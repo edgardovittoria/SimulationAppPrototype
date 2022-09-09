@@ -50,7 +50,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     useGenerateMesh(selectedProject?.model.components as ComponentEntity[], quantumDimensions);
 
-    const {simulationStarted,newSimulation} = useRunSimulation(selectedProject);
+    const {newSimulation} = useRunSimulation(selectedProject);
 
     let simulation = simulations?.filter(s => s.name === newSimulation.name)[0] as Simulation
 
@@ -89,7 +89,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                                 setMenuItem={setMenuItem}
                                 quantumDimensions={quantumDimensions}
                                 setQuantumDimensions={setQuantumDimensions}
-                                simulationStarted={simulationStarted}
                             />
                         </RightPanelSimulation>}
                 </>
@@ -127,7 +126,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setMenuItem={setMenuItem}
                             quantumDimensions={quantumDimensions}
                             setQuantumDimensions={setQuantumDimensions}
-                            simulationStarted={simulationStarted}
                         />
                     </RightPanelSimulation>
                 </>
@@ -162,7 +160,6 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setMenuItem={setMenuItem}
                             quantumDimensions={quantumDimensions}
                             setQuantumDimensions={setQuantumDimensions}
-                            simulationStarted={simulationStarted}
                         />
                     </RightPanelSimulation>
                 </>

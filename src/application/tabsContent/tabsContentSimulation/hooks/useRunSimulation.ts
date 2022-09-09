@@ -6,8 +6,8 @@ import {Project} from "../../../../model/Project";
 import {getMaterialListFrom} from "./auxiliaryFunctions/auxiliaryFunctions";
 import {useDispatch, useSelector} from "react-redux";
 import {createSimulation, simulationSelector, updateSimulation} from "../../../../store/projectSlice";
-import {exportSolverJson} from "../../../../importExport/exportFunctions";
 import {MeshApprovedSelector, MesherOutputSelector} from "../../../../store/mesherSlice";
+import {setSimulationStatus, SimulationStatusSelector} from "../../../../store/solverSlice";
 
 export const useRunSimulation =
     (
@@ -18,8 +18,7 @@ export const useRunSimulation =
         const simulations = useSelector(simulationSelector)
         const mesherOutput = useSelector(MesherOutputSelector)
         const meshApproved = useSelector(MeshApprovedSelector)
-        const [simulationStarted, setSimulationStarted] = useState<"notStarted" | "started" | "Completed">("notStarted");
-        //const [meshApproved, setMeshApproved] = useState(false);
+        const simulationStatus = useSelector(SimulationStatusSelector)
         const [newSimulation, setNewSimulation] = useState<Simulation>({} as Simulation);
         const {execQuery} = useFaunaQuery()
 
@@ -27,7 +26,7 @@ export const useRunSimulation =
 
         useEffect(() => {
             if (meshApproved) {
-                setSimulationStarted("started");
+                dispatch(setSimulationStatus("started"))
                 let simulation: Simulation = {
                     name: associatedProject?.name + ' - sim' + ((simulations as Simulation[]).length + 1).toString(),
                     started: Date.now().toString(),
@@ -67,7 +66,7 @@ export const useRunSimulation =
                 console.log(dataToSendToSolver)
                 //exportSolverJson(dataToSendToSolver)
                 setTimeout(() => {
-                    setSimulationStarted("Completed")
+                    dispatch(setSimulationStatus("completed"))
                     execQuery(getSimulationByName, 'simulation1').then(res => {
                         let simulationUpdated: Simulation = {
                             ...simulation,
@@ -85,5 +84,5 @@ export const useRunSimulation =
             }
         }, [meshApproved]);
 
-        return {simulationStarted, newSimulation}
+        return {newSimulation}
     }

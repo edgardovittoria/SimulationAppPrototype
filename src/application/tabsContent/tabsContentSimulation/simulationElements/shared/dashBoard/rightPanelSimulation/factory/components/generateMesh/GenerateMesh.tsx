@@ -7,24 +7,31 @@ import {
     MeshGeneratedSelector, setDownloadPercentage, setMeshApproved,
     setMeshGenerated
 } from "../../../../../../../../../../store/mesherSlice";
+import {
+    setSimulationStatus,
+    setSolverDownloadPercentage,
+    SimulationStatusSelector,
+    SolverDownloadPercentageSelector
+} from "../../../../../../../../../../store/solverSlice";
 
 interface GenerateMeshProps {
     quantumDimensions: [number, number, number],
     setQuantumDimensions: Function,
-    simulationStarted: 'notStarted' | 'started' | 'Completed',
     setMenuItem: Function
 }
 
 export const GenerateMesh: React.FC<GenerateMeshProps> = (
     {
-        quantumDimensions, setQuantumDimensions, simulationStarted, setMenuItem
+        quantumDimensions, setQuantumDimensions, setMenuItem
     }
 ) => {
 
     const meshApproved = useSelector(MeshApprovedSelector)
     const meshGenerated = useSelector(MeshGeneratedSelector)
     const mesherOutput = useSelector(MesherOutputSelector)
-    const downloadPercentage = useSelector(DownloadPercentageSelector)
+    const mesherDownloadPercentage = useSelector(DownloadPercentageSelector)
+    const solverDownloadPercentage = useSelector(SolverDownloadPercentageSelector)
+    const simulationStatus = useSelector(SimulationStatusSelector)
 
     const dispatch = useDispatch()
 
@@ -46,13 +53,18 @@ export const GenerateMesh: React.FC<GenerateMeshProps> = (
                 mesherOutput.cell_size.cell_size_z
             ])
         }
-        if(downloadPercentage < 10 && meshGenerated !== "Not Generated"){
+        if(mesherDownloadPercentage < 10 && meshGenerated !== "Not Generated"){
             setTimeout(() => {
-                dispatch(setDownloadPercentage(downloadPercentage+1))
+                dispatch(setDownloadPercentage(mesherDownloadPercentage+1))
             }, 500)
         }
-        if(downloadPercentage === 10) dispatch(setMeshGenerated('Generated'))
-    }, [meshGenerated, downloadPercentage]);
+        if(mesherDownloadPercentage === 10) dispatch(setMeshGenerated('Generated'))
+        if(solverDownloadPercentage < 10 && simulationStatus === "started"){
+            setTimeout(() => {
+                dispatch(setSolverDownloadPercentage(solverDownloadPercentage+1))
+            }, 500)
+        }
+    }, [meshGenerated, mesherDownloadPercentage, solverDownloadPercentage, simulationStatus]);
 
 
 
@@ -107,7 +119,7 @@ export const GenerateMesh: React.FC<GenerateMeshProps> = (
                 </div>
                 <div className="w-[100%] pt-4">
                     <div className="flex-column">
-                        {simulationStarted === 'started' &&
+                        {simulationStatus === 'started' &&
                             <div className="relative pt-1">
                                 <div className="flex mb-2 items-center justify-between">
                                     <div>
@@ -117,12 +129,12 @@ export const GenerateMesh: React.FC<GenerateMeshProps> = (
                                     </div>
                                     <div className="text-right">
                                       <span className="text-xs font-semibold inline-block text-primaryColor">
-                                        {downloadPercentage*10}%
+                                        {solverDownloadPercentage*10}%
                                       </span>
                                     </div>
                                 </div>
                                 <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                                    <div style={{width: `${downloadPercentage*10}%`}}
+                                    <div style={{width: `${solverDownloadPercentage*10}%`}}
                                          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-secondaryColor"></div>
                                 </div>
                             </div>
@@ -146,12 +158,12 @@ export const GenerateMesh: React.FC<GenerateMeshProps> = (
                                     </div>
                                     <div className="text-right">
                                       <span className="text-xs font-semibold inline-block text-primaryColor">
-                                        {downloadPercentage*10}%
+                                        {mesherDownloadPercentage*10}%
                                       </span>
                                     </div>
                                 </div>
                                 <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                                    <div style={{width: `${downloadPercentage*10}%`}}
+                                    <div style={{width: `${mesherDownloadPercentage*10}%`}}
                                          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-secondaryColor"></div>
                                 </div>
                             </div>
@@ -177,11 +189,13 @@ export const GenerateMesh: React.FC<GenerateMeshProps> = (
                                 </button>
                             </div>
                         }
-                        {simulationStarted === 'Completed' && meshApproved &&
+                        {simulationStatus === 'completed' && meshApproved &&
                             <button
                                 className="button buttonPrimary w-[100%]"
                                 onClick={() => {
                                     dispatch(setMeshApproved(false))
+                                    dispatch(setSimulationStatus("notStarted"))
+                                    dispatch(setSolverDownloadPercentage(0))
                                     setMenuItem('Results')
                                 }}
                             >Results</button>

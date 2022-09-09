@@ -33,8 +33,7 @@ export const Simulator: React.FC<SimulatorProps> = (
             setSelectedMaterials(materialsName)
         }
     }, []);
-
-
+    
     return (
         <>
             {(selectedProject && selectedProject.model.components !== undefined) ?

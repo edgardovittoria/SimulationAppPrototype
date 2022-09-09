@@ -20,13 +20,12 @@ interface FactoryRightPanelContentProps {
     setMenuItem: Function,
     quantumDimensions: [number, number, number],
     setQuantumDimensions: Function,
-    simulationStarted: 'notStarted' | 'started' | 'Completed',
 }
 
 export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> = (
     {
         section, components, setMenuItem, quantumDimensions,
-        setQuantumDimensions, simulationStarted
+        setQuantumDimensions
     }
 ) => {
 
@@ -69,7 +68,6 @@ export const FactoryRightPanelContent: React.FC<FactoryRightPanelContentProps> =
                 <GenerateMesh
                     quantumDimensions={quantumDimensions}
                     setQuantumDimensions={setQuantumDimensions}
-                    simulationStarted={simulationStarted}
                     setMenuItem={setMenuItem}
                 />
             )
