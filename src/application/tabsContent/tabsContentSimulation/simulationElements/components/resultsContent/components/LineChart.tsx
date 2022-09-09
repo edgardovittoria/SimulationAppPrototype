@@ -73,7 +73,7 @@ export const LineChart: React.FC<LineChartProps> = ({simulation}) => {
     }
 
     return (
-        <div className="box h-[100%] w-[100%]">
+        <div className="box h-[95%] w-[100%] mt-11">
             <Line options={options} data={data}/>
         </div>
     )

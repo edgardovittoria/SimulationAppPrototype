@@ -41,9 +41,6 @@ export const MeshedElement: React.FC<PanelContentProps> = (
                     selectedEntries = [...selectedEntries, ...entries.filter(e => e[0] === sm)]
                     materials = [...materials, ...materialsList.filter(m => m.name === sm)]
                 })
-            } else {
-                selectedEntries = entries
-                materials = materialsList
             }
 
 
