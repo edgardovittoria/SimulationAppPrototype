@@ -10,6 +10,10 @@ export type Port = {
     rlcParams: RLCParams,
 }
 
+export type TempLumped = {
+    value: number
+}&Port
+
 export type RLCParams = {
     inductance?: number,
     resistance?: number,

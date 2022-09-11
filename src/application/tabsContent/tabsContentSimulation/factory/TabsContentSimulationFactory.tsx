@@ -22,6 +22,7 @@ import {
 import {useGenerateMesh} from '../hooks/useGenerateMesh';
 import {useRunSimulation} from '../hooks/useRunSimulation';
 import {ComponentEntity} from 'cad-library';
+import {getMaterialListFrom} from "../hooks/auxiliaryFunctions/auxiliaryFunctions";
 
 interface TabsContentSimulationFactoryProps {
     menuItem: string,
@@ -41,12 +42,15 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     const selectedProject = useSelector(selectedProjectSelector)
     const selectedComponent = useSelector(selectedComponentSelector)
+    let allMaterials = getMaterialListFrom(selectedProject?.model.components as ComponentEntity[])
+    let materialsNames: string[] = []
+    allMaterials.forEach(m => materialsNames.push(m.name))
 
 
     const simulations = useSelector(simulationSelector);
 
     const [quantumDimensions, setQuantumDimensions] = useState<[number, number, number]>([0.00000, 0.000000, 0.000000]);
-    const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+    const [selectedMaterials, setSelectedMaterials] = useState<string[]>(materialsNames);
 
     useGenerateMesh(selectedProject?.model.components as ComponentEntity[], quantumDimensions);
 

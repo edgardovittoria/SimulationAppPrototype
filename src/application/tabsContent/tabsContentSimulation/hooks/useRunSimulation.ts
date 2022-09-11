@@ -8,6 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {createSimulation, simulationSelector, updateSimulation} from "../../../../store/projectSlice";
 import {MeshApprovedSelector, MesherOutputSelector} from "../../../../store/mesherSlice";
 import {setSimulationStatus, SimulationStatusSelector} from "../../../../store/solverSlice";
+import {Port, Probe, TempLumped} from "../../../../model/Port";
+import {exportSolverJson} from "../../../../importExport/exportFunctions";
 
 export const useRunSimulation =
     (
@@ -47,10 +49,17 @@ export const useRunSimulation =
                 let ports = (associatedProject) && associatedProject.ports.filter(port => port.category === 'port')
                 let lumped_elements = (associatedProject) && associatedProject.ports.filter(port => port.category === 'lumped')
 
+                let lumped_array: {type: number, value: number}[] = []
+                lumped_elements?.forEach(le => {
+                    let lumped: TempLumped = {...le as Port, value: (le as Port).rlcParams.resistance as number}
+                    lumped_array.push(lumped)
+                })
+
+
                 let dataToSendToSolver = {
                     mesherOutput: mesherOutput,
                     ports: ports,
-                    lumped_elements: lumped_elements,
+                    lumped_elements: lumped_array,
                     materials: getMaterialListFrom(associatedProject?.model.components as ComponentEntity[]),
                     frequencies: frequencyArray,
                     signals: signalsValuesArray,
