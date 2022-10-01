@@ -14,12 +14,15 @@ interface FactorySimulationDashboardContentProps {
     setSelectedSimulation: Function,
     selectedSimulation: Simulation | undefined,
     selectedMaterials: string[],
-    setSelectedMaterials: Function
+    setSelectedMaterials: Function,
+    chart: string,
+    setChart: Function
 }
 
 export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashboardContentProps> = (
     {
-        selectedTab, setSelectedSimulation, selectedSimulation, selectedMaterials, setSelectedMaterials
+        selectedTab, setSelectedSimulation, selectedSimulation, selectedMaterials,
+        setSelectedMaterials, chart, setChart
     }
 ) => {
     switch (selectedTab) {
@@ -30,7 +33,11 @@ export const FactorySimulationDashboardContent: React.FC<FactorySimulationDashbo
         case 'Simulator' :
             return <Simulator selectedMaterials={selectedMaterials} setSelectedMaterials={setSelectedMaterials}/>
         case 'Results' :
-            return <Results setSelectedSimulation={setSelectedSimulation} selectedSimulation={selectedSimulation}/>
+            return <Results setSelectedSimulation={setSelectedSimulation}
+                            selectedSimulation={selectedSimulation}
+                            chart={chart}
+                            setChart={setChart}
+            />
         default :
             return (
                 <Modeler>

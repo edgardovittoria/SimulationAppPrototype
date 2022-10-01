@@ -7,9 +7,11 @@ import {getMaterialListFrom} from "./auxiliaryFunctions/auxiliaryFunctions";
 import {useDispatch, useSelector} from "react-redux";
 import {createSimulation, simulationSelector, updateSimulation} from "../../../../store/projectSlice";
 import {MeshApprovedSelector, MesherOutputSelector} from "../../../../store/mesherSlice";
-import {setSimulationStatus, SimulationStatusSelector} from "../../../../store/solverSlice";
+import {setSimulationStatus, setSolverOutput, SimulationStatusSelector} from "../../../../store/solverSlice";
 import {Port, Probe, TempLumped} from "../../../../model/Port";
 import {exportSolverJson} from "../../../../importExport/exportFunctions";
+import axios from "axios";
+import {SolverOutput} from "../../../../model/SolverInputOutput";
 
 export const useRunSimulation =
     (
@@ -33,7 +35,7 @@ export const useRunSimulation =
                     name: associatedProject?.name + ' - sim' + ((simulations as Simulation[]).length + 1).toString(),
                     started: Date.now().toString(),
                     ended: "",
-                    results: [],
+                    results: {} as SolverOutput,
                     status: "Queued",
                     associatedProject: associatedProject?.name as string
                 }
@@ -57,7 +59,7 @@ export const useRunSimulation =
 
 
                 let dataToSendToSolver = {
-                    mesherOutput: mesherOutput,
+                    mesherOutput: undefined,
                     ports: ports,
                     lumped_elements: lumped_array,
                     materials: getMaterialListFrom(associatedProject?.model.components as ComponentEntity[]),
@@ -72,18 +74,23 @@ export const useRunSimulation =
                 *   save results on the store to visualize relative charts
                 * })
                 * */
-                console.log(dataToSendToSolver)
+                axios.get('http://localhost:3001/solverOutput').then(res => {
+                    dispatch(setSolverOutput(res.data))
+                    let simulationUpdated: Simulation = {
+                        ...simulation,
+                        results: res.data,
+                        ended: Date.now().toString(),
+                        status: "Completed"
+                    }
+                    console.log(simulationUpdated)
+                    dispatch(updateSimulation(simulationUpdated))
+                })
+                //console.log(dataToSendToSolver)
                 //exportSolverJson(dataToSendToSolver)
                 setTimeout(() => {
                     dispatch(setSimulationStatus("completed"))
                     execQuery(getSimulationByName, 'simulation1').then(res => {
-                        let simulationUpdated: Simulation = {
-                            ...simulation,
-                            results: [...(res.results)],
-                            ended: Date.now().toString(),
-                            status: "Completed"
-                        }
-                        dispatch(updateSimulation(simulationUpdated))
+
                     })
                         .catch(() => {
                             //management of exceptions

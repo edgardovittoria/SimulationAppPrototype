@@ -17,7 +17,8 @@ export const RLCParamsComponent: React.FC<RLCParamsProps> = ({selectedPort}) => 
             <div className="mt-2">
                 <span>Resistance</span>
                 <input className={`w-full p-[4px] border-[1px] border-[#a3a3a3] text-[15px] font-bold rounded formControl`} type="number"
-                       value={(selectedPort.rlcParams.resistance) ? selectedPort.rlcParams.resistance.toString() : ""}
+
+                       value={(selectedPort.rlcParams.resistance) ? selectedPort.rlcParams.resistance.toString() : "0"}
                        onChange={(event) => dispatch(setRLCParams({
                            ...selectedPort.rlcParams,
                            resistance: parseFloat(event.currentTarget.value)
@@ -26,7 +27,7 @@ export const RLCParamsComponent: React.FC<RLCParamsProps> = ({selectedPort}) => 
             <div className="mt-2">
                 <span>Inductance</span>
                 <input className={`w-full p-[4px] border-[1px] border-[#a3a3a3] text-[15px] font-bold rounded formControl`} type="number"
-                       value={(selectedPort.rlcParams.inductance) ? selectedPort.rlcParams.inductance.toString() : ""}
+                       value={(selectedPort.rlcParams.inductance) ? selectedPort.rlcParams.inductance.toString() : "0"}
                        onChange={(event) => dispatch(setRLCParams({
                            ...selectedPort.rlcParams,
                            inductance: parseFloat(event.currentTarget.value)
@@ -36,7 +37,7 @@ export const RLCParamsComponent: React.FC<RLCParamsProps> = ({selectedPort}) => 
             <div className="mt-2">
                 <span>Capacitance</span>
                 <input className={`w-full p-[4px] border-[1px] border-[#a3a3a3] text-[15px] font-bold rounded formControl`} type="number"
-                       value={(selectedPort.rlcParams.capacitance) ? selectedPort.rlcParams.capacitance.toString() : ""}
+                       value={(selectedPort.rlcParams.capacitance) ? selectedPort.rlcParams.capacitance.toString() : "0"}
                        onChange={(event) => dispatch(setRLCParams({
                            ...selectedPort.rlcParams,
                            capacitance: parseFloat(event.currentTarget.value)

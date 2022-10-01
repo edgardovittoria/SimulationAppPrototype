@@ -1,6 +1,4 @@
-import {ComponentEntity, exportToSTL, Material, meshFrom} from "cad-library";
-import {STLExporter} from "three/examples/jsm/exporters/STLExporter";
-import * as THREE from "three";
+import {ComponentEntity, exportToSTL, Material} from "cad-library";
 
 export function generateSTLListFromComponents(materialList: Material[], components: ComponentEntity[]){
 

@@ -6,7 +6,7 @@ import {RightPanelSimulation} from "../simulationElements/shared/dashBoard/right
 import {
     FactoryRightPanelContent
 } from "../simulationElements/shared/dashBoard/rightPanelSimulation/factory/FactoryRightPanelContent";
-import {LineChart} from "../simulationElements/components/resultsContent/components/LineChart";
+import {LineChartRomega} from "../simulationElements/components/resultsContent/components/factory/components/LineChartRomega";
 import {Simulation} from "../../../../model/Simulation";
 import {
     FactorySimulationDashboardContent
@@ -23,6 +23,7 @@ import {useGenerateMesh} from '../hooks/useGenerateMesh';
 import {useRunSimulation} from '../hooks/useRunSimulation';
 import {ComponentEntity} from 'cad-library';
 import {getMaterialListFrom} from "../hooks/auxiliaryFunctions/auxiliaryFunctions";
+import {LineChartFactory} from "../simulationElements/components/resultsContent/components/factory/LineChartFactory";
 
 interface TabsContentSimulationFactoryProps {
     menuItem: string,
@@ -39,6 +40,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 ) => {
 
     const dispatch = useDispatch()
+
+    const [chart, setChart] = useState("R(omega)");
 
     const selectedProject = useSelector(selectedProjectSelector)
     const selectedComponent = useSelector(selectedComponentSelector)
@@ -83,6 +86,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedSimulation={selectedSimulation}
                             selectedMaterials={selectedMaterials}
                             setSelectedMaterials={setSelectedMaterials}
+                            chart={chart}
+                            setChart={setChart}
                         />
                     </LeftPanel>
                     {selectedComponent.length > 0 &&
@@ -119,6 +124,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedSimulation={selectedSimulation}
                             selectedMaterials={selectedMaterials}
                             setSelectedMaterials={setSelectedMaterials}
+                            chart={chart}
+                            setChart={setChart}
                         />
                     </LeftPanel>
                     {selectedProject?.model.components &&
@@ -155,6 +162,8 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedSimulation={selectedSimulation}
                             selectedMaterials={selectedMaterials}
                             setSelectedMaterials={setSelectedMaterials}
+                            chart={chart}
+                            setChart={setChart}
                         />
                     </LeftPanel>
                     <RightPanelSimulation>
@@ -179,10 +188,12 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             selectedSimulation={selectedSimulation}
                             selectedMaterials={selectedMaterials}
                             setSelectedMaterials={setSelectedMaterials}
+                            chart={chart}
+                            setChart={setChart}
                         />
                     </LeftPanel>
                     {(selectedSimulation && selectedProject && selectedProject.simulations.length > 0) &&
-                        <LineChart simulation={selectedSimulation}/>
+                        <LineChartFactory chart={chart} simulation={simulation}/>
                     }
                 </ResultsContent>
             )

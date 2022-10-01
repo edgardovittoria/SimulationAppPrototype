@@ -26,14 +26,33 @@ export const getFoldersByOwner = async (faunaClient: faunadb.Client, faunaQuery:
     return response as FaunaFolder[]
 }
 
-export const getSimulationProjectsByOwner = async (faunaClient: faunadb.Client, faunaQuery: typeof faunadb.query, owner: string) => {
+export const getSimulationProjectsByOwner = async (
+    faunaClient: faunadb.Client,
+    faunaQuery: typeof faunadb.query,
+    owner: string
+) => {
     const response = await faunaClient.query(
         faunaQuery.Select("data",
             faunaQuery.Map(
-                faunaQuery.Paginate(faunaQuery.Match(faunaQuery.Index("simulationProjects_by_owner"), owner)),
+                faunaQuery.Paginate(
+                    faunaQuery.Match(
+                        faunaQuery.Index("simulationProjects_by_owner"),
+                        owner
+                    )
+                ),
                 faunaQuery.Lambda("project", {
-                    id: faunaQuery.Select(["ref", "id"], faunaQuery.Get(faunaQuery.Var("project"))),
-                    project: faunaQuery.Select(["data"], faunaQuery.Get(faunaQuery.Var("project")))
+                    id: faunaQuery.Select(
+                        ["ref", "id"],
+                        faunaQuery.Get(
+                            faunaQuery.Var("project")
+                        )
+                    ),
+                    project: faunaQuery.Select(
+                        ["data"],
+                        faunaQuery.Get(
+                            faunaQuery.Var("project")
+                        )
+                    )
                 })
             )
         )

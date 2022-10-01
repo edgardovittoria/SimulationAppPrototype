@@ -6,10 +6,16 @@ import {selectedProjectSelector} from "../../../../../../../../store/projectSlic
 
 interface ResultsProps {
     setSelectedSimulation: Function,
-    selectedSimulation: Simulation | undefined
+    selectedSimulation: Simulation | undefined,
+    chart: string,
+    setChart: Function
 }
 
-export const Results: React.FC<ResultsProps> = ({setSelectedSimulation, selectedSimulation}) => {
+export const Results: React.FC<ResultsProps> = (
+    {
+        setSelectedSimulation, selectedSimulation, chart, setChart
+    }
+) => {
 
     const selectedProject = useSelector(selectedProjectSelector);
     useEffect(() => {
@@ -17,31 +23,53 @@ export const Results: React.FC<ResultsProps> = ({setSelectedSimulation, selected
     }, []);
 
 
-    return(
+    return (
         <>
             {(selectedProject && selectedProject.simulations.length > 0)
                 ? <div>
                     {selectedProject.simulations.map(sim => {
-                        return(
-                            <div
-                                className={(selectedSimulation && sim.name === selectedSimulation.name) ? `flex mb-2 p-[5px] hover:cursor-pointer hover:bg-gray-200 bg-gray-200`: `flex mb-2 p-[5px]  hover:cursor-pointer hover:bg-gray-200`}
-                                key={sim.name}
-                                onClick={() => {setSelectedSimulation(sim)}}
-                            >
-                                <div className="w-[12%] flex items-center">
-                                    <GiPowerButton color={'#00ae52'} style={{width: "20px", height: "20px"}}/>
+                        return (
+                            <>
+                                <div
+                                    className={(selectedSimulation && sim.name === selectedSimulation.name) ? `flex mb-2 p-[5px] hover:cursor-pointer hover:bg-gray-200 bg-gray-200` : `flex mb-2 p-[5px]  hover:cursor-pointer hover:bg-gray-200`}
+                                    key={sim.name}
+                                    onClick={() => {
+                                        setSelectedSimulation(sim)
+                                    }}
+                                >
+                                    <div className="w-[12%] flex items-center">
+                                        <GiPowerButton color={'#00ae52'} style={{width: "20px", height: "20px"}}/>
+                                    </div>
+                                    <div className="w-[90%] text-left">
+                                        {sim.name}
+                                    </div>
                                 </div>
-                                <div className="w-[90%] text-left">
-                                    {sim.name}
-                                </div>
-                            </div>
+                                {selectedSimulation && selectedSimulation.name === sim.name &&
+                                    <>
+                                        <div
+                                            className={(chart === "R(omega)") ? "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 bg-gray-200 p-1 rounded" : "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 p-1 rounded"}
+                                            onClick={() => setChart("R(omega)")}
+                                        >
+                                            R(omega)
+                                        </div>
+                                        <div
+                                            className={(chart === "L(H)") ? "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 bg-gray-200 p-1 rounded" : "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 p-1 rounded"}
+                                            onClick={() => setChart("L(H)")}
+                                        >
+                                            L(H)
+                                        </div>
+                                    </>
+                                }
+
+                            </>
                         )
                     })}
                 </div>
                 : <div className="text-center">
                     <img src="/noResultsIcon.png" className="mx-auto mt-[50px]"/>
                     <h5>No results to view</h5>
-                    <p className="mt-[50px]">Complete a study setup with CAD, materials, and physics, then Estimate and Run to generate results.</p>
+                    <p className="mt-[50px]">Complete a study setup with CAD, materials, and physics, then Estimate and
+                        Run to generate results.</p>
                 </div>
             }
         </>
