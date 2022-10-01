@@ -22,8 +22,6 @@ export const Simulator: React.FC<SimulatorProps> = (
     let objArray: Map<string, boolean> = new Map<string, boolean>()
     const [enabled, setEnabled] = useState<Map<string, boolean>>(objArray)
 
-    console.log(selectedMaterials)
-
     useEffect(() => {
         if (selectedProject) {
             allMaterials.forEach(m => {

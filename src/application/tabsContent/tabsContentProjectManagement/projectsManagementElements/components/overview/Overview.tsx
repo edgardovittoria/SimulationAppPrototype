@@ -67,7 +67,7 @@ export const Overview: React.FC<OverviewProps> = (
                         </button>
                     </div>
                     :
-                    <div className="p-[15px] overflow-scroll">
+                    <div className="p-[15px] overflow-scroll max-h-[250px]">
                         {projects.map(project => {
                             return (
                                 <div key={project.name}
