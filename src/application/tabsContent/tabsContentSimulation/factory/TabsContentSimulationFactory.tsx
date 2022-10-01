@@ -49,17 +49,18 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     let materialsNames: string[] = []
     allMaterials.forEach(m => materialsNames.push(m.name))
 
-
-    const simulations = useSelector(simulationSelector);
-
     const [quantumDimensions, setQuantumDimensions] = useState<[number, number, number]>([0.00000, 0.000000, 0.000000]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>(materialsNames);
 
     useGenerateMesh(selectedProject?.model.components as ComponentEntity[], quantumDimensions);
 
     const {newSimulation} = useRunSimulation(selectedProject);
-
-    let simulation = simulations?.filter(s => s.name === newSimulation.name)[0] as Simulation
+    let simulation: Simulation
+    if(newSimulation.name){
+        simulation = selectedProject?.simulations?.filter(s => s.name === newSimulation?.name)[0] as Simulation
+    }else{
+        simulation = selectedProject?.simulations?.filter(s => s.name === selectedSimulation?.name)[0] as Simulation
+    }
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
 
