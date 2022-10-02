@@ -48,6 +48,7 @@ function App() {
     const [menuItemSelected, setMenuItemSelected] = useState(menuItems[0]);
     const [selectedSimulation, setSelectedSimulation] = useState<Simulation | undefined>(undefined);
     const mainFolder = useSelector(mainFolderSelector)
+    const [chartVisualizationMode, setChartVisualizationMode] = useState<'grid' | 'full'>("grid");
     
 
     const {execQuery} = useFaunaQuery()

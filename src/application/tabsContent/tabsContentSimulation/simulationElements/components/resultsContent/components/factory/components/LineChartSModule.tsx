@@ -38,28 +38,28 @@ interface Dataset {
 }
 
 
-export const LineChartRomega: React.FC<LineChartProps> = ({simulation}) => {
+export const LineChartSModule: React.FC<LineChartProps> = ({simulation}) => {
 
     const project = useSelector(selectedProjectSelector)
     const colorArray = ["red", "blue", "violet", "green", "orange", "yellow", "pink"]
 
-    let matrix_Z: any = eval(simulation.results.matrix_Z)
+    let matrix_S: any = eval(simulation.results.matrix_S)
 
     let labels: number[] = []
     project?.signal?.signalValues.forEach(sv => labels.push(sv.freq))
     const datasets: Dataset[] = [];
-    let matrices_Z_RE: number[][] = []
-    let matrix_Z_RE_value: number[] = []
-    matrix_Z.forEach((mz: any[][]) => {
-        matrices_Z_RE.push(matrix_Z_RE_value)
-        mz.forEach((mz2: any[]) => {
-            matrix_Z_RE_value.push(mz2[0] as number)
+    let matrices_S_RE: number[][] = []
+    let matrix_S_RE_value: number[] = []
+    matrix_S.forEach((mz: any[][]) => {
+        matrices_S_RE.push(matrix_S_RE_value)
+        mz.forEach((mz2: any[], index) => {
+            matrix_S_RE_value.push(Math.sqrt((mz2[0]*mz2[0]) + (mz2[1]*mz2[1])))
         })
     })
-    matrices_Z_RE.forEach((matrix, index) => {
+    matrices_S_RE.forEach((matrix, index) => {
         datasets.push(
             {
-                label: `Port ${index+1} - R(omega)`,
+                label: `Port ${index+1} - S Module`,
                 data: matrix,
                 borderColor: colorArray[index],
                 backgroundColor: "white"

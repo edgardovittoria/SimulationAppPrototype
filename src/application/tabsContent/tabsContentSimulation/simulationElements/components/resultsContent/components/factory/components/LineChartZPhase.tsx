@@ -38,7 +38,7 @@ interface Dataset {
 }
 
 
-export const LineChartRomega: React.FC<LineChartProps> = ({simulation}) => {
+export const LineChartZPhase: React.FC<LineChartProps> = ({simulation}) => {
 
     const project = useSelector(selectedProjectSelector)
     const colorArray = ["red", "blue", "violet", "green", "orange", "yellow", "pink"]
@@ -53,13 +53,13 @@ export const LineChartRomega: React.FC<LineChartProps> = ({simulation}) => {
     matrix_Z.forEach((mz: any[][]) => {
         matrices_Z_RE.push(matrix_Z_RE_value)
         mz.forEach((mz2: any[]) => {
-            matrix_Z_RE_value.push(mz2[0] as number)
+            matrix_Z_RE_value.push(Math.atan2(mz2[1], mz2[0]))
         })
     })
     matrices_Z_RE.forEach((matrix, index) => {
         datasets.push(
             {
-                label: `Port ${index+1} - R(omega)`,
+                label: `Port ${index+1} - Z Phase`,
                 data: matrix,
                 borderColor: colorArray[index],
                 backgroundColor: "white"

@@ -7,13 +7,13 @@ import {selectedProjectSelector} from "../../../../../../../../store/projectSlic
 interface ResultsProps {
     setSelectedSimulation: Function,
     selectedSimulation: Simulation | undefined,
-    chart: string,
-    setChart: Function
+    selectedPort: string,
+    setSelectedPort: Function
 }
 
 export const Results: React.FC<ResultsProps> = (
     {
-        setSelectedSimulation, selectedSimulation, chart, setChart
+        setSelectedSimulation, selectedSimulation, selectedPort, setSelectedPort
     }
 ) => {
 
@@ -46,18 +46,16 @@ export const Results: React.FC<ResultsProps> = (
                                 </div>
                                 {selectedSimulation && selectedSimulation.name === sim.name &&
                                     <>
-                                        <div
-                                            className={(chart === "R(omega)") ? "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 bg-gray-200 p-1 rounded" : "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 p-1 rounded"}
-                                            onClick={() => setChart("R(omega)")}
-                                        >
-                                            R(omega)
-                                        </div>
-                                        <div
-                                            className={(chart === "L(H)") ? "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 bg-gray-200 p-1 rounded" : "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 p-1 rounded"}
-                                            onClick={() => setChart("L(H)")}
-                                        >
-                                            L(H)
-                                        </div>
+                                        {selectedProject.ports.map(port => {
+                                            return (
+                                                <div
+                                                    className={(selectedPort === port.name) ? "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 bg-gray-200 p-1 rounded" : "w-[80%] ml-10 hover:cursor-pointer hover:bg-gray-200 p-1 rounded"}
+                                                    onClick={() => setSelectedPort(port.name)}
+                                                >
+                                                    {port.name}
+                                                </div>
+                                            )
+                                        })}
                                     </>
                                 }
 

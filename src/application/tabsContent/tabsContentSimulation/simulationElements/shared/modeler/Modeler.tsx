@@ -48,7 +48,7 @@ export const Modeler: React.FC<ModelerProps> = (
 
     useEffect(() => {
         execQuery(updateProjectInFauna, selectedProject)
-    }, [selectedProject?.model, selectedProject?.ports, selectedProject?.signal])
+    }, [selectedProject?.model, selectedProject?.ports, selectedProject?.signal, selectedProject?.simulations])
 
 
     return (

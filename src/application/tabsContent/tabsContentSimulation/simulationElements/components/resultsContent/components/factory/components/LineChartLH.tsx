@@ -41,29 +41,31 @@ interface Dataset {
 export const LineChartLH: React.FC<LineChartProps> = ({simulation}) => {
 
     const project = useSelector(selectedProjectSelector)
+    const colorArray = ["red", "blue", "violet", "green", "orange", "yellow", "pink"]
 
     let matrix_Z: any = eval(simulation.results.matrix_Z)
-    /*let matrix_S: any = eval(simulation.results.matrix_S)
-    let matrix_Y: any = eval(simulation.results.matrix_Y)*/
-
 
     let labels: number[] = []
     project?.signal?.signalValues.forEach(sv => labels.push(sv.freq))
     const datasets: Dataset[] = [];
-    let matrix_Z_RE: number[] = []
+    let matrices_Z_IM: number[][] = []
+    let matrix_Z_IM_value: number[] = []
     matrix_Z.forEach((mz: any[][]) => {
+        matrices_Z_IM.push(matrix_Z_IM_value)
         mz.forEach((mz2: any[], index) => {
-            matrix_Z_RE.push(mz2[1])
+            matrix_Z_IM_value.push((mz2[1]/(2*Math.PI*labels[index])) as number)
         })
     })
-    datasets.push(
-        {
-            label: "matrix_Z_RE",
-            data: matrix_Z_RE,
-            borderColor: "blue",
-            backgroundColor: "white"
-        }
-    )
+    matrices_Z_IM.forEach((matrix, index) => {
+        datasets.push(
+            {
+                label: `Port ${index+1} - L(H)`,
+                data: matrix,
+                borderColor: colorArray[index],
+                backgroundColor: "white"
+            }
+        )
+    })
     const options = {
         responsive: true,
         plugins: {
@@ -89,7 +91,7 @@ export const LineChartLH: React.FC<LineChartProps> = ({simulation}) => {
 
 
     return (
-        <div className="box h-[95%] w-[100%] mt-11">
+        <div className="box w-[100%] mt-11">
             <Line options={options} data={data}/>
         </div>
     )
