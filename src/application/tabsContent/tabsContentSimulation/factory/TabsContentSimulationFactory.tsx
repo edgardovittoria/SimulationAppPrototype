@@ -68,7 +68,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     const dispatch = useDispatch()
 
-    const [chartVisualizationMode, setChartVisualizationMode] = useState<'grid' | 'full'>("full");
+    const [chartVisualizationMode, setChartVisualizationMode] = useState<'grid' | 'full'>("grid");
 
     const selectedProject = useSelector(selectedProjectSelector)
     const selectedComponent = useSelector(selectedComponentSelector)
@@ -86,7 +86,12 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     if (newSimulation.name) {
         simulation = selectedProject?.simulations?.filter(s => s.name === newSimulation?.name)[0] as Simulation
     } else {
-        simulation = selectedProject?.simulations?.filter(s => s.name === selectedSimulation?.name)[0] as Simulation
+        if(selectedSimulation){
+            simulation = selectedProject?.simulations?.filter(s => s.name === selectedSimulation?.name)[0] as Simulation
+        }else{
+            simulation = selectedProject?.simulations[0] as Simulation
+        }
+
     }
 
     const [selectedTabLeftPanel, setSelectedTabLeftPanel] = useState("Modeler");
