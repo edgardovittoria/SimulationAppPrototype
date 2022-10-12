@@ -93,7 +93,7 @@ export const LineChartSPhase: React.FC<LineChartProps> = ({simulation}) => {
 
 
     return (
-        <div className="box w-[100%] mt-11">
+        <div className="box w-[100%]">
             <Line options={options} data={data}/>
         </div>
     )

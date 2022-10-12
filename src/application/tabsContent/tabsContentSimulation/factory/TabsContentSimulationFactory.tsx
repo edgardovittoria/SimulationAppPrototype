@@ -233,36 +233,41 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                             setSelectedPort={setSelectedPort}
                         />
                     </LeftPanel>
-                    {/*{(selectedProject && chartVisualizationMode === 'grid' && selectedProject.simulations.length > 0) &&
-
-                    }*/}
                     {(selectedProject && chartVisualizationMode === 'full' && selectedProject.simulations.length > 0) ?
-                        <div className="overflow-scroll max-h-[800px]">
-                            <LineChartRomega simulation={simulation}/>
-                            <LineChartLH simulation={simulation}/>
-                            <LineChartZModule simulation={simulation}/>
-                            <LineChartZPhase simulation={simulation}/>
-                            <LineChartGS simulation={simulation}/>
-                            <LineChartCF simulation={simulation}/>
-                            <LineChartYModule simulation={simulation}/>
-                            <LineChartYPhase simulation={simulation}/>
-                            <LineChartSModule simulation={simulation}/>
-                            <LineChartSPhase simulation={simulation}/>
-                            <LineChartSdB simulation={simulation}/>
-                        </div> :
-                        <div className="grid grid-cols-2 gap-4 overflow-scroll max-h-[800px]">
-                            <LineChartRomega simulation={simulation}/>
-                            <LineChartLH simulation={simulation}/>
-                            <LineChartZModule simulation={simulation}/>
-                            <LineChartZPhase simulation={simulation}/>
-                            <LineChartGS simulation={simulation}/>
-                            <LineChartCF simulation={simulation}/>
-                            <LineChartYModule simulation={simulation}/>
-                            <LineChartYPhase simulation={simulation}/>
-                            <LineChartSModule simulation={simulation}/>
-                            <LineChartSPhase simulation={simulation}/>
-                            <LineChartSdB simulation={simulation}/>
-                        </div>
+                        <>
+                            {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
+                            <div className="overflow-scroll grid grid-cols-1 gap-4 max-h-[800px]">
+                                <LineChartRomega simulation={simulation}/>
+                                <LineChartLH simulation={simulation}/>
+                                <LineChartZModule simulation={simulation}/>
+                                <LineChartZPhase simulation={simulation}/>
+                                <LineChartGS simulation={simulation}/>
+                                <LineChartCF simulation={simulation}/>
+                                <LineChartYModule simulation={simulation}/>
+                                <LineChartYPhase simulation={simulation}/>
+                                <LineChartSModule simulation={simulation}/>
+                                <LineChartSPhase simulation={simulation}/>
+                                <LineChartSdB simulation={simulation}/>
+                            </div>
+                        </>
+                         :
+                        <>
+                            {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
+                            <div className="grid grid-cols-2 gap-4 overflow-scroll max-h-[800px]">
+                                <LineChartRomega simulation={simulation}/>
+                                <LineChartLH simulation={simulation}/>
+                                <LineChartZModule simulation={simulation}/>
+                                <LineChartZPhase simulation={simulation}/>
+                                <LineChartGS simulation={simulation}/>
+                                <LineChartCF simulation={simulation}/>
+                                <LineChartYModule simulation={simulation}/>
+                                <LineChartYPhase simulation={simulation}/>
+                                <LineChartSModule simulation={simulation}/>
+                                <LineChartSPhase simulation={simulation}/>
+                                <LineChartSdB simulation={simulation}/>
+                            </div>
+                        </>
+
                     }
                 </ResultsContent>
             )

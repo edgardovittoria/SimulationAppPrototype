@@ -83,6 +83,14 @@ export const LineChartCF: React.FC<LineChartProps> = ({simulation}) => {
             padding: {
                 right: 20,
             },
+        },
+        scales: {
+            x: {
+                display: true
+            },
+            y:{
+                display: true
+            },
         }
     };
 
@@ -93,7 +101,7 @@ export const LineChartCF: React.FC<LineChartProps> = ({simulation}) => {
 
 
     return (
-        <div className="box w-[100%] mt-11">
+        <div className="box w-[100%]">
             <Line options={options} data={data}/>
         </div>
     )

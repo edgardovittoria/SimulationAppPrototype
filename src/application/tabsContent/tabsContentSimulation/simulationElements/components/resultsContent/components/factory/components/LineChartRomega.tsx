@@ -53,13 +53,13 @@ export const LineChartRomega: React.FC<LineChartProps> = ({simulation}) => {
     matrix_Z.forEach((mz: any[][]) => {
         matrices_Z_RE.push(matrix_Z_RE_value)
         mz.forEach((mz2: any[]) => {
-            matrix_Z_RE_value.push(mz2[0] as number)
+            matrix_Z_RE_value.push(mz2[0]*1000)
         })
     })
     matrices_Z_RE.forEach((matrix, index) => {
         datasets.push(
             {
-                label: `Port ${index+1} - R(omega)`,
+                label: `Port ${index+1} - R(mOhm)`,
                 data: matrix,
                 borderColor: colorArray[index],
                 backgroundColor: "white"
@@ -93,7 +93,7 @@ export const LineChartRomega: React.FC<LineChartProps> = ({simulation}) => {
 
 
     return (
-        <div className="box w-[100%] mt-11">
+        <div className="box w-[100%]">
             <Line options={options} data={data}/>
         </div>
     )

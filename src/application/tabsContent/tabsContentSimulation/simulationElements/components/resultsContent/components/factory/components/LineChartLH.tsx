@@ -53,13 +53,14 @@ export const LineChartLH: React.FC<LineChartProps> = ({simulation}) => {
     matrix_Z.forEach((mz: any[][]) => {
         matrices_Z_IM.push(matrix_Z_IM_value)
         mz.forEach((mz2: any[], index) => {
-            matrix_Z_IM_value.push((mz2[1]/(2*Math.PI*labels[index])) as number)
+            console.log(mz2[1], index)
+            matrix_Z_IM_value.push((mz2[1]/(2*Math.PI*labels[index]))*1000000000)
         })
     })
     matrices_Z_IM.forEach((matrix, index) => {
         datasets.push(
             {
-                label: `Port ${index+1} - L(H)`,
+                label: `Port ${index+1} - L(nH)`,
                 data: matrix,
                 borderColor: colorArray[index],
                 backgroundColor: "white"
@@ -91,7 +92,7 @@ export const LineChartLH: React.FC<LineChartProps> = ({simulation}) => {
 
 
     return (
-        <div className="box w-[100%] mt-11">
+        <div className="box w-[100%]">
             <Line options={options} data={data}/>
         </div>
     )

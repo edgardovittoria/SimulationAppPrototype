@@ -71,7 +71,6 @@ export const LeftPanel: React.FC<DashBoardProps> = (
                         ))}
                     </Tab.Panels>
                 </Tab.Group>
-                {selectedTab === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
             </div>
 
         </>

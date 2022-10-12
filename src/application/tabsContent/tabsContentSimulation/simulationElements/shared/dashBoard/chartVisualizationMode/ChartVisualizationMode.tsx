@@ -1,6 +1,6 @@
 import React from 'react';
-import {GoScreenFull} from "react-icons/go";
 import {BsGrid3X3Gap} from "react-icons/bs";
+import {GiHamburgerMenu} from "react-icons/gi";
 
 interface ChartVisualizationModeProps {
     chartVisualizationMode: 'grid' | 'full',
@@ -14,18 +14,16 @@ export const ChartVisualizationMode: React.FC<ChartVisualizationModeProps> = (
 ) => {
 
     return(
-        <div className="mt-8 justify-between w-[15%]">
-            <div className={`box mb-3 flex flex-col items-center ${chartVisualizationMode === 'grid' ? 'border-2 border-[#0fb25b]' : ''}`}
+        <div className="mt-11 flex justify-end">
+            <div className={`box p-[5px] mb-3 flex flex-col items-center ${chartVisualizationMode === 'grid' ? 'border-2 border-[#0fb25b]' : ''}`}
                  onClick={() => setChartVisualizationMode('grid')}
             >
-                <BsGrid3X3Gap size={25} color="#0fb25b"/>
-                <span className="text-[12px]">Grid</span>
+                <BsGrid3X3Gap size={20} color="#0fb25b"/>
             </div>
-            <div className={`box mb-3 flex flex-col items-center ${chartVisualizationMode === 'full' ? 'border-2 border-[#0fb25b]' : ''}`}
+            <div className={`box p-[5px] ml-2 mb-3 flex flex-col items-center ${chartVisualizationMode === 'full' ? 'border-2 border-[#0fb25b]' : ''}`}
                  onClick={() => setChartVisualizationMode('full')}
             >
-                <GoScreenFull size={25} color="#0fb25b"/>
-                <span className="text-[12px]">Full</span>
+                <GiHamburgerMenu size={20} color="#0fb25b"/>
             </div>
         </div>
     )
