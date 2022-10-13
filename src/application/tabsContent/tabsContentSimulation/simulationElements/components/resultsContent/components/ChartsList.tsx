@@ -60,24 +60,35 @@ export const ChartsList: React.FC<ChartsListProps> = ({
     chartsDataOptionsFactory(simulation, project, id)
   );
 
+  const optionsWithScaleMode = (options: any, scaleMode: string) => {
+    let updatedOptions;
+    switch (scaleMode) {
+      case "logarithmic":
+        updatedOptions = {
+          ...options,
+          scales: {
+            x: {
+              type: "logarithmic",
+              display: true,
+            },
+          },
+        };
+        break;
+      case "linear":
+        updatedOptions = options;
+        break;
+      default:
+        break;
+    }
+    return updatedOptions;
+  };
+
   return (
     <>
       {chartsDataOptionsList.map((chartData) => (
         <div className="box w-[100%]">
           <Line
-            options={
-              scaleMode === "logarithmic"
-                ? {
-                    ...chartData.options,
-                    scales: {
-                      x: {
-                        type: "logarithmic",
-                        display: true,
-                      },
-                    },
-                  }
-                : chartData.options
-            }
+            options={optionsWithScaleMode(chartData.options, scaleMode)}
             data={chartData.data}
           />
         </div>
