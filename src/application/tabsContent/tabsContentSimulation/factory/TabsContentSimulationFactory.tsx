@@ -45,6 +45,9 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
 
     const [chartVisualizationMode, setChartVisualizationMode] = useState<'grid' | 'full'>("grid");
 
+    // Variabile per modificare il tipo di scala dei grafici. Da usare per i due pulsanti da fare
+    const [chartsScaleMode, setChartsScaleMode] = useState<'logarithmic' | 'linear'>('logarithmic')
+
     const selectedProject = useSelector(selectedProjectSelector)
     const selectedComponent = useSelector(selectedComponentSelector)
     let allMaterials = getMaterialListFrom(selectedProject?.model.components as ComponentEntity[])
@@ -212,14 +215,14 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <>
                             {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
                             <div className="overflow-scroll grid grid-cols-1 gap-4 max-h-[800px]">
-                                <ChartsList simulation={simulation} project={selectedProject}/>
+                                <ChartsList simulation={simulation} project={selectedProject} scaleMode={chartsScaleMode}/>
                             </div>
                         </>
                          :
                         <>
                             {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
                             <div className="grid grid-cols-2 gap-4 overflow-scroll max-h-[800px]">
-                                <ChartsList simulation={simulation} project={selectedProject}/>
+                                <ChartsList simulation={simulation} project={selectedProject} scaleMode={chartsScaleMode}/>
                             </div>
                         </>
 

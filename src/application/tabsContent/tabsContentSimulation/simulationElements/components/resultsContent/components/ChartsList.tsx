@@ -28,6 +28,7 @@ ChartJS.register(
 interface ChartsListProps {
   simulation: Simulation;
   project: Project | undefined;
+  scaleMode: string;
 }
 
 interface Dataset {
@@ -40,6 +41,7 @@ interface Dataset {
 export const ChartsList: React.FC<ChartsListProps> = ({
   simulation,
   project,
+  scaleMode,
 }) => {
   const chartsOrderedIDs = [
     "R",
@@ -60,18 +62,22 @@ export const ChartsList: React.FC<ChartsListProps> = ({
 
   return (
     <>
-      {chartsDataOptionsList.map((chartData) => ( 
+      {chartsDataOptionsList.map((chartData) => (
         <div className="box w-[100%]">
           <Line
-            options={{
-              ...chartData.options,
-              scales: {
-                x: {
-                  type: "logarithmic",
-                  display: true,
-                },
-              },
-            }}
+            options={
+              scaleMode === "logarithmic"
+                ? {
+                    ...chartData.options,
+                    scales: {
+                      x: {
+                        type: "logarithmic",
+                        display: true,
+                      },
+                    },
+                  }
+                : chartData.options
+            }
             data={chartData.data}
           />
         </div>
