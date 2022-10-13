@@ -6,9 +6,6 @@ import {RightPanelSimulation} from "../simulationElements/shared/dashBoard/right
 import {
     FactoryRightPanelContent
 } from "../simulationElements/shared/dashBoard/rightPanelSimulation/factory/FactoryRightPanelContent";
-import {
-    LineChartRomega
-} from "../simulationElements/components/resultsContent/components/factory/components/LineChartRomega";
 import {Simulation} from "../../../../model/Simulation";
 import {
     FactorySimulationDashboardContent
@@ -19,38 +16,16 @@ import {
     importModel,
     selectedComponentSelector,
     selectedProjectSelector, selectPort, setScreenshot,
-    simulationSelector, updatePortPosition
+    updatePortPosition
 } from '../../../../store/projectSlice';
 import {useGenerateMesh} from '../hooks/useGenerateMesh';
 import {useRunSimulation} from '../hooks/useRunSimulation';
 import {ComponentEntity} from 'cad-library';
 import {getMaterialListFrom} from "../hooks/auxiliaryFunctions/auxiliaryFunctions";
-import {LineChartFactory} from "../simulationElements/components/resultsContent/components/factory/LineChartFactory";
-import {LineChartLH} from "../simulationElements/components/resultsContent/components/factory/components/LineChartLH";
+import {ChartsList} from "../simulationElements/components/resultsContent/components/ChartsList";
 import {
     ChartVisualizationMode
 } from "../simulationElements/shared/dashBoard/chartVisualizationMode/ChartVisualizationMode";
-import {LineChartGS} from "../simulationElements/components/resultsContent/components/factory/components/LineChartGS";
-import {LineChartCF} from "../simulationElements/components/resultsContent/components/factory/components/LineChartCF";
-import {
-    LineChartZModule
-} from "../simulationElements/components/resultsContent/components/factory/components/LineChartZModule";
-import {
-    LineChartZPhase
-} from "../simulationElements/components/resultsContent/components/factory/components/LineChartZPhase";
-import {
-    LineChartSModule
-} from "../simulationElements/components/resultsContent/components/factory/components/LineChartSModule";
-import {
-    LineChartSPhase
-} from "../simulationElements/components/resultsContent/components/factory/components/LineChartSPhase";
-import {LineChartSdB} from "../simulationElements/components/resultsContent/components/factory/components/LineChartSdB";
-import {
-    LineChartYModule
-} from "../simulationElements/components/resultsContent/components/factory/components/LineChartYModule";
-import {
-    LineChartYPhase
-} from "../simulationElements/components/resultsContent/components/factory/components/LineChartYPhase";
 
 interface TabsContentSimulationFactoryProps {
     menuItem: string,
@@ -237,34 +212,14 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                         <>
                             {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
                             <div className="overflow-scroll grid grid-cols-1 gap-4 max-h-[800px]">
-                                <LineChartRomega simulation={simulation}/>
-                                <LineChartLH simulation={simulation}/>
-                                <LineChartZModule simulation={simulation}/>
-                                <LineChartZPhase simulation={simulation}/>
-                                <LineChartGS simulation={simulation}/>
-                                <LineChartCF simulation={simulation}/>
-                                <LineChartYModule simulation={simulation}/>
-                                <LineChartYPhase simulation={simulation}/>
-                                <LineChartSModule simulation={simulation}/>
-                                <LineChartSPhase simulation={simulation}/>
-                                <LineChartSdB simulation={simulation}/>
+                                <ChartsList simulation={simulation} project={selectedProject}/>
                             </div>
                         </>
                          :
                         <>
                             {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
                             <div className="grid grid-cols-2 gap-4 overflow-scroll max-h-[800px]">
-                                <LineChartRomega simulation={simulation}/>
-                                <LineChartLH simulation={simulation}/>
-                                <LineChartZModule simulation={simulation}/>
-                                <LineChartZPhase simulation={simulation}/>
-                                <LineChartGS simulation={simulation}/>
-                                <LineChartCF simulation={simulation}/>
-                                <LineChartYModule simulation={simulation}/>
-                                <LineChartYPhase simulation={simulation}/>
-                                <LineChartSModule simulation={simulation}/>
-                                <LineChartSPhase simulation={simulation}/>
-                                <LineChartSdB simulation={simulation}/>
+                                <ChartsList simulation={simulation} project={selectedProject}/>
                             </div>
                         </>
 
