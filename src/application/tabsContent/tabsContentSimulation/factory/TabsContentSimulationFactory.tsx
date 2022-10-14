@@ -213,14 +213,14 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
                     </LeftPanel>
                     {(selectedProject && chartVisualizationMode === 'full' && selectedProject.simulations.length > 0) ?
                         <>
-                            {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
+                            {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode} chartsScaleMode={chartsScaleMode} setChartsScaleMode={setChartsScaleMode}/>}
                             <div className="overflow-scroll grid grid-cols-1 gap-4 max-h-[800px]">
                                 <ChartsList simulation={simulation} project={selectedProject} scaleMode={chartsScaleMode}/>
                             </div>
                         </>
                          :
                         <>
-                            {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode}/>}
+                            {selectedTabLeftPanel === "Results" && <ChartVisualizationMode chartVisualizationMode={chartVisualizationMode} setChartVisualizationMode={setChartVisualizationMode} chartsScaleMode={chartsScaleMode} setChartsScaleMode={setChartsScaleMode}/>}
                             <div className="grid grid-cols-2 gap-4 overflow-scroll max-h-[800px]">
                                 <ChartsList simulation={simulation} project={selectedProject} scaleMode={chartsScaleMode}/>
                             </div>
