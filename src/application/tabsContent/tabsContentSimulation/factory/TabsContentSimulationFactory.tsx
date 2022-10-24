@@ -53,7 +53,7 @@ export const TabsContentSimulationFactory: React.FC<TabsContentSimulationFactory
     let allMaterials = getMaterialListFrom(selectedProject?.model.components as ComponentEntity[])
     let materialsNames: string[] = []
     allMaterials.forEach(m => materialsNames.push(m.name))
-    const [selectedPort, setSelectedPort] = useState(selectedProject?.ports[0].name as string);
+    const [selectedPort, setSelectedPort] = useState((selectedProject?.ports[0]) ? selectedProject?.ports[0].name : 'undefined');
     const [quantumDimensions, setQuantumDimensions] = useState<[number, number, number]>([0.00000, 0.000000, 0.000000]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>(materialsNames);
 
