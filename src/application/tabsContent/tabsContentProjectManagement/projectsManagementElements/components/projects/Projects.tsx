@@ -88,7 +88,7 @@ export const Projects: React.FC<ProjectsProps> = (
                     <hr/>
                 </div>
 
-                <div className="w-full text-left overflow-scroll overflow-x-hidden p-[20px]">
+                <div className="w-full text-left overflow-scroll overflow-x-hidden p-[20px] h-[80%]">
                     {projects.length > 0 || folders.length > 0
                         ?
                         <>

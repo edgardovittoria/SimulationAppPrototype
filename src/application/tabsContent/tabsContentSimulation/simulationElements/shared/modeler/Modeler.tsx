@@ -47,7 +47,9 @@ export const Modeler: React.FC<ModelerProps> = (
     let selectedPort = findSelectedPort(selectedProject)
 
     useEffect(() => {
-        execQuery(updateProjectInFauna, selectedProject)
+        if(selectedProject){
+            execQuery(updateProjectInFauna, selectedProject)
+        }
     }, [selectedProject?.model, selectedProject?.ports, selectedProject?.signal, selectedProject?.simulations])
 
 

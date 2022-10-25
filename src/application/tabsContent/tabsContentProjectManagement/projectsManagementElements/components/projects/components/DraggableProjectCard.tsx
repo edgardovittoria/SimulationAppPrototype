@@ -59,10 +59,10 @@ export const DraggableProjectCard: React.FC<DraggableProjectCardProps> = (
         <>
             <div
                 className="w-[25%] p-[15px] flex flex-col justify-between h-[250px] border-2 border-green-200 mr-6 mt-4 rounded-lg hover:cursor-pointer hover:border-secondaryColor"
-                key={project.name} ref={dragPreview}
+                key={project.name} ref={drag}
                 onClick={() => handleCardClick(project)}
                 style={{opacity: isDragging ? 0.5 : 1}} onContextMenu={handleContextMenu}>
-                <h5 className="text-center" role="Handle" ref={drag}>
+                <h5 className="text-center" role="Handle" ref={dragPreview}>
                     {(project.name.length > 11) ? project.name.substr(0, 11) + '...' : project.name}
                 </h5>
                 <div>
